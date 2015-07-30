@@ -1,0 +1,77 @@
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+.stat {
+    width: 150px;
+    height: 150px;
+    background-image: url("/img/stat-bg.png");
+    background-repeat: no-repeat;
+}
+
+.stat .value {
+    padding-top: 8px;
+    height: 100px;
+    font-size: 5em;
+    margin-bottom: 20px;
+    font-family: 'Anton', sans-serif;
+}
+
+.stat .name {
+    padding-top: 0px;
+    color: white;
+    font-size: 18px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.soak {
+    width: 200px;
+    height: 115px;
+    background-image: url("/img/stat-soak.png");
+    background-repeat: no-repeat;
+}
+
+.soak .name {
+    padding-top: 8px;
+    height: 10px;
+    color: white;
+    font-size: 18px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.soak .value {
+    padding-top: 10px;
+    font-size: 4em;
+    font-family: 'Anton', sans-serif;
+}
+
+.strain {
+    width: 200px;
+    height: 115px;
+    background-image: url("/img/stat-strain.png");
+    background-repeat: no-repeat;
+}
+
+.strain .name {
+    padding-top: 8px;
+    height: 10px;
+    color: white;
+    font-size: 18px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.strain .subtitle {
+    padding-top: 5px;
+    padding-left: 10px;
+    height: 10px;
+    color: white;
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.strain .value {
+    padding-top: 10px;
+    font-size: 4em;
+    font-family: 'Anton', sans-serif;
+    height: 80px;
+}

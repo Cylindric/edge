@@ -76,4 +76,8 @@ class SpeciesBase
     {
         return $this->_species->base_strain + $this->getWillpower();
     }
-}
+
+    public function getSoak()
+    {
+        return $this->_species->base_strain + $this->getBrawn();
+    }}
