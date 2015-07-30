@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * Skill Entity.
@@ -18,4 +19,32 @@ class Skill extends Entity
         '*' => true,
         'id' => false,
     ];
+
+
+    public function dice($character)
+    {
+        $ability = 0;
+        $proficiency = 0;
+
+        $level = (int)$this->level;
+        $statname = strtolower($this->characteristic->name);
+
+        $stat = $character->$statname;
+
+        // Green dice
+        if ($level > $stat) {
+            $ability = ($level - $stat) % 2;
+        } else {
+            $ability = $stat - $level;
+        }
+
+        // Yellow dice
+        if ($level > $stat) {
+            $proficiency = (int)((float)($level - $stat) / 2) + $stat;
+        } else {
+            $proficiency = $level;
+        }
+
+        return array($proficiency, $ability);
+    }
 }

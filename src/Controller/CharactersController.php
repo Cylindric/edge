@@ -31,24 +31,32 @@ class CharactersController extends AppController
      */
     public function view($id = null)
     {
-        $character = $this->Characters->get($id);//, [            'contain' => ['Growth', 'Training']        ]);
-		
-		$this->loadModel('Growth');
-		$query = $this->Growth->find()->contain('Characteristics');
-		
-		//$stats = $this->Growth
-		//	->find()
-		//	->contain('Characteristics')
-			$query->select([
-			'name' => 'name',
-			'total' => $query->func()->sum('level'),
-			])
-			->group('characteristic_id')
-			->all();
-			
+        $character = $this->Characters->get($id, [
+            'contain' => ['Growth', 'Training']
+        ]);
+
+        $this->loadModel('Skills');
+        $skills = $this->Skills->find();
+        $skills->select([
+            'id', 'Skills.name', 'Skills.characteristic_id',
+            'Characteristics.name','Characteristics.code',
+            'level' => $skills->func()->sum('t.level')
+        ])
+            ->contain(['Characteristics'])
+            ->join([
+                'table' => 'training',
+                'alias' => 't',
+                'type' => 'LEFT',
+                'conditions' => [
+                    'skills.id = t.skill_id',
+                    't.character_id' => $id]
+            ])
+            ->group('Skills.id')
+            ->order('Skills.name');
+
         $this->set('character', $character);
-        $this->set('stats', $query);
-        //$this->set('_serialize', ['character']);
+        $this->set('skills', $skills);
+        $this->set('_serialize', ['character']);
     }
 
     /**

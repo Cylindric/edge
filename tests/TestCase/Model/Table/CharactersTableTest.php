@@ -19,6 +19,8 @@ class CharactersTableTest extends TestCase
     public $fixtures = [
         'app.characters',
         'app.growth',
+        'app.characteristics',
+        'app.skills',
         'app.training'
     ];
 

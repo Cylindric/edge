@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
 /**
  * Characters Model
  *
+ * @property \Cake\ORM\Association\BelongsTo $Species
  * @property \Cake\ORM\Association\HasMany $Growth
  * @property \Cake\ORM\Association\HasMany $Training
  */
@@ -29,6 +30,10 @@ class CharactersTable extends Table
         $this->table('characters');
         $this->displayField('name');
         $this->primaryKey('id');
+        $this->belongsTo('Species', [
+            'foreignKey' => 'species_id',
+            'joinType' => 'INNER'
+        ]);
         $this->hasMany('Growth', [
             'foreignKey' => 'character_id'
         ]);
@@ -54,5 +59,18 @@ class CharactersTable extends Table
             ->notEmpty('name');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['species_id'], 'Species'));
+        return $rules;
     }
 }
