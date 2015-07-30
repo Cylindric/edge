@@ -40,6 +40,7 @@ use Cake\Routing\Router;
  *
  */
 Router::defaultRouteClass('Route');
+Router::extensions(['json']);
 
 Router::scope('/', function ($routes) {
     /**

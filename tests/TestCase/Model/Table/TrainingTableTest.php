@@ -19,9 +19,11 @@ class TrainingTableTest extends TestCase
     public $fixtures = [
         'app.training',
         'app.characters',
+        'app.species',
         'app.growth',
         'app.characteristics',
-        'app.skills'
+        'app.skills',
+        'app.trainings'
     ];
 
     /**

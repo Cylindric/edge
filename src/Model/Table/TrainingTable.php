@@ -29,6 +29,7 @@ class TrainingTable extends Table
         $this->table('training');
         $this->displayField('id');
         $this->primaryKey('id');
+        $this->addBehavior('Timestamp');
         $this->belongsTo('Characters', [
             'foreignKey' => 'character_id',
             'joinType' => 'INNER'
@@ -53,7 +54,8 @@ class TrainingTable extends Table
 
         $validator
             ->add('level', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('level');
+            ->requirePresence('level', 'create')
+            ->notEmpty('level');
 
         return $validator;
     }

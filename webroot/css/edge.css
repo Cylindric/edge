@@ -24,10 +24,28 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
+.stat .value .stat_edit_button {
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+.btn-skill-adjust {
+    border: 0;
+    padding: 0;
+}
+
+.increase {
+    color: green;
+}
+
+.decrease {
+    color: red;
+}
+
 .soak {
     width: 200px;
     height: 115px;
-    background-image: url("/img/stat-soak.png");
+    background-image: url("/img/stat-single.png");
     background-repeat: no-repeat;
 }
 
@@ -48,7 +66,7 @@ body {
 .strain {
     width: 200px;
     height: 115px;
-    background-image: url("/img/stat-strain.png");
+    background-image: url("/img/stat-double.png");
     background-repeat: no-repeat;
 }
 

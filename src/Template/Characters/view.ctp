@@ -95,17 +95,25 @@
             </div>
         </div>
 
-        <h3>Skills</h3>
-
         <div class="row">
-            <?php foreach ($skills as $skill): ?>
-                <div class="row">
-                    <div class="col-md-4"><?= $skill->name ?> (<?= $skill->characteristic->code ?>)</div>
-                    <div class="col-md-1"><?= $skill->level ?></div>
-                    <div
-                        class="col-md-7"><?= str_repeat($this->Html->image('dice-proficiency.png'), $skill->dice($character)[0]) ?><?= str_repeat($this->Html->image('dice-ability.png'), $skill->dice($character)[1]) ?></div>
-                </div>
-            <?php endforeach; ?>
+            <div class="col-md-5">
+                <?= $this->element('skill_list', [
+                    'title' => 'General Skills',
+                    'skilltype_id' => 1
+                ]); ?>
+            </div>
+
+            <div class="col-md-5">
+                <?= $this->element('skill_list', [
+                    'title' => 'Combat Skills',
+                    'skilltype_id' => 2
+                ]); ?>
+
+                <?= $this->element('skill_list', [
+                    'title' => 'Knowledge Skills',
+                    'skilltype_id' => 3
+                ]); ?>
+            </div>
         </div>
     </div>
 
