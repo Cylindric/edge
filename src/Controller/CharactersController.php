@@ -183,24 +183,42 @@ class CharactersController extends AppController
         $this->set('_serialize', ['skills']);
     }
 
-    public function increase_skill($char_id = null, $skill_id = null)
+    public function change_skill($char_id = null, $skill_id = null, $delta = 1)
     {
+        $this->loadModel('Training');
+
         $response = ['result' => 'fail'];
         if (!is_null($char_id) && !is_null($skill_id)) {
+            $delta = (int)$delta;
+            $train = $this->Training
+                ->find()
+                ->where(['skill_id' => $skill_id])
+                ->first();
 
-            // get the current skill value
-            $character = $this->Characters->find()
-                ->contain(['Training'])
-                ;//->where(['id' => $char_id])
-                ;//->andWhere(['Training.skill_id' => $skill_id]);
+            if ($train === null && $delta > 0) {
+                // No skill trained yet, so create a new record
+                $train = $this->Training->newEntity();
+                $train->character_id = $char_id;
+                $train->skill_id = $skill_id;
+                $train->level = $delta;
 
-            debug($character);
-            //$this->loadModel('Skills');
-            //$skill = $this->Skills->get($skill_id);
-            //$skill->patchEntity($skill, ['is_done' => 1]);
-            //if ($skill->save($todo)) {
+                if ($this->Training->save($train)) {
+                    $id = $train->id;
+                }
+            } else {
+                if($train->level <= abs($delta) && $delta <= 0)
+                {
+                    //delete
+                    $result = $this->Training->delete($train);
+
+                } else {
+                    // Change the skill
+                    $train->level += $delta;
+                    $this->Training->save($train);
+                }
+            }
             $response = ['result' => 'success'];
-            //}
+
         }
         $this->set(compact('response'));
         $this->set('_serialize', ['response']);

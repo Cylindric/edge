@@ -7,14 +7,13 @@
             <td><?= $skill->name ?> (<?= $skill->characteristic->code ?>)</td>
             <td class="col-md-2 text-center">
                 <?php if ($skill->level > 0): ?>
-                    <a class="btn btn-sm btn-skill-adjust" href="#" id="decrease_<?= $skill->id ?>"><i class="stat_edit_button decrease fa fa-minus-square"></i> </a>
+                    <i class="stat_edit_button decrease fa fa-minus-square" id="decrease_<?= $skill->id ?>"></i>
                 <?php endif; ?>
                 <?= $skill->level ?>
-                <a class="btn btn-sm btn-skill-adjust" href="#" id="increase_<?= $skill->id ?>"><i class="increase fa fa-plus-square"></i> </a>
+                <i class="increase fa fa-plus-square" id="increase_<?= $skill->id ?>"></i>
             </td>
             <td class="col-md-3">
-                <?= str_repeat($this->Html->image('dice-proficiency.png'), $skill->dice($character)[0]) ?>
-                <?= str_repeat($this->Html->image('dice-ability.png'), $skill->dice($character)[1]) ?>
+                <?= str_repeat($this->Html->image('dice-proficiency.png'), $skill->dice($character)[0]) ?><?= str_repeat($this->Html->image('dice-ability.png'), $skill->dice($character)[1]) ?>
             </td>
         </tr>
     <?php endforeach; ?>

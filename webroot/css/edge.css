@@ -36,10 +36,12 @@ body {
 
 .increase {
     color: green;
+    cursor:pointer;
 }
 
 .decrease {
     color: red;
+    cursor:pointer;
 }
 
 .soak {

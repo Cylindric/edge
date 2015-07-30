@@ -13,8 +13,8 @@ var RpgApp = {};
         });
     };
 
-    RpgApp.increaseSkill = function (id) {
-        $.get('/characters/increase_skill/' + id + '.json',
+    RpgApp.changeSkill = function (id, delta) {
+        $.get('/characters/change_skill/1/' + id + '/' + delta + '.json',
             function (response) {
                 if (response.response.result == 'success') {
                     RpgApp.getSkills();
@@ -28,9 +28,13 @@ var RpgApp = {};
 })();
 
 (function ($) {
-    $(document).on('click', 'a', function () {
+    $(document).on('click', 'i[id*=increase_]', function () {
         var id = $(this).attr('id').replace('increase_', '');
-        RpgApp.increaseSkill(id);
+        RpgApp.changeSkill(id, 1);
+    });
+    $(document).on('click', 'i[id*=decrease_]', function () {
+        var id = $(this).attr('id').replace('decrease_', '');
+        RpgApp.changeSkill(id, -1);
     });
 
     RpgApp.getSkills();
