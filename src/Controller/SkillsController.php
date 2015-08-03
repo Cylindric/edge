@@ -19,7 +19,7 @@ class SkillsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Characteristics']
+            'contain' => ['Stats']
         ];
         $this->set('skills', $this->paginate($this->Skills));
         $this->set('_serialize', ['skills']);
@@ -35,7 +35,7 @@ class SkillsController extends AppController
     public function view($id = null)
     {
         $skill = $this->Skills->get($id, [
-            'contain' => ['Characteristics', 'Training']
+            'contain' => ['Stats', 'Training']
         ]);
         $this->set('skill', $skill);
         $this->set('_serialize', ['skill']);
@@ -58,8 +58,8 @@ class SkillsController extends AppController
                 $this->Flash->error(__('The skill could not be saved. Please, try again.'));
             }
         }
-        $characteristics = $this->Skills->Characteristics->find('list', ['limit' => 200]);
-        $this->set(compact('skill', 'characteristics'));
+        $Stats = $this->Skills->Stats->find('list', ['limit' => 200]);
+        $this->set(compact('skill', 'Stats'));
         $this->set('_serialize', ['skill']);
     }
 
@@ -84,8 +84,8 @@ class SkillsController extends AppController
                 $this->Flash->error(__('The skill could not be saved. Please, try again.'));
             }
         }
-        $characteristics = $this->Skills->Characteristics->find('list', ['limit' => 200]);
-        $this->set(compact('skill', 'characteristics'));
+        $Stats = $this->Skills->Stats->find('list', ['limit' => 200]);
+        $this->set(compact('skill', 'Stats'));
         $this->set('_serialize', ['skill']);
     }
 

@@ -34,9 +34,6 @@ class CharactersTable extends Table
             'foreignKey' => 'species_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('Growth', [
-            'foreignKey' => 'character_id'
-        ]);
         $this->hasMany('Training', [
             'foreignKey' => 'character_id'
         ]);

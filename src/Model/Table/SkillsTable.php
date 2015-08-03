@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
 /**
  * Skills Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Characteristics
+ * @property \Cake\ORM\Association\BelongsTo $Stats
  * @property \Cake\ORM\Association\HasMany $Training
  */
 class SkillsTable extends Table
@@ -29,8 +29,8 @@ class SkillsTable extends Table
         $this->table('skills');
         $this->displayField('name');
         $this->primaryKey('id');
-        $this->belongsTo('Characteristics', [
-            'foreignKey' => 'characteristic_id',
+        $this->belongsTo('Stats', [
+            'foreignKey' => 'stat_id',
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Training', [
@@ -66,7 +66,7 @@ class SkillsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['characteristic_id'], 'Characteristics'));
+        $rules->add($rules->existsIn(['stat_id'], 'Stats'));
         return $rules;
     }
 }

@@ -1,93 +1,88 @@
 <?php $this->assign('title', $character->name); ?>
 <div class="row">
-    <div class="col-md-2">
-        <h3><?= __('Actions') ?></h3>
-        <ul class="side-nav">
-            <li><?= $this->Html->link(__('Edit Character'), ['action' => 'edit', $character->id]) ?> </li>
-            <li><?= $this->Form->postLink(__('Delete Character'), ['action' => 'delete', $character->id], ['confirm' => __('Are you sure you want to delete # {0}?', $character->id)]) ?> </li>
-            <li><?= $this->Html->link(__('List Characters'), ['action' => 'index']) ?> </li>
-            <li><?= $this->Html->link(__('New Character'), ['action' => 'add']) ?> </li>
-            <li><?= $this->Html->link(__('List Growth'), ['controller' => 'Growth', 'action' => 'index']) ?> </li>
-            <li><?= $this->Html->link(__('New Growth'), ['controller' => 'Growth', 'action' => 'add']) ?> </li>
-            <li><?= $this->Html->link(__('List Training'), ['controller' => 'Training', 'action' => 'index']) ?> </li>
-            <li><?= $this->Html->link(__('New Training'), ['controller' => 'Training', 'action' => 'add']) ?> </li>
-        </ul>
-    </div>
-    <div class="col-md-10">
+    <div class="col-md-12">
 
         <div class="row">
-            <h2><?= h($character->name) ?></h2>
+            <div class="col-md-12">
+                <h2><?= h($character->name) ?></h2>
+            </div>
         </div>
 
-        <h3>Characteristics</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Characteristics</h3>
+            </div>
+        </div>
 
         <div class="row">
-            <div class="col-md-2 text-center soak">
-                <div class="row name">
-                    SOAK
+            <div class="col-md-12"></div>
+                <div class="col-md-2 text-center soak">
+                    <div class="row name">
+                        SOAK
+                    </div>
+                    <div class="row value">
+                        <span class="stat_edit_value"> <?= $character->soak ?></span>
+                    </div>
                 </div>
-                <div class="row value">
-                    <?= $character->soak ?>
-                </div>
-            </div>
-            <div class="col-md-2 text-center strain">
-                <div class="row name">
-                    STRAIN
-                </div>
-                <div class="row value">
-                    <?= $character->strain ?>
-                    <?= $character->strain ?>
-                </div>
-                <div class="row text-left subtitle">
-                    THRESHOLD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CURRENT
+                <div class="col-md-2 text-center strain">
+                    <div class="row name">
+                        STRAIN
+                    </div>
+                    <div class="row value">
+                        <span class="stat_edit_value"><?= $character->strain ?></span>
+                        <span class="stat_edit_value"><?= $character->strain ?></span>
+                    </div>
+                    <div class="row text-left subtitle">
+                        THRESHOLD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CURRENT
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-1 text-center stat">
+            <div class="col-md-2 text-center stat">
                 <div class="row value">
-                    <?= $character->brawn ?>
+                    <span class="stat_edit_value"><?= $character->stat_br ?></span>
                 </div>
                 <div class="row name">
                     BRAWN
                 </div>
             </div>
-            <div class="col-md-1 text-center stat">
+            <div class="col-md-2 text-center stat">
                 <div class="row value">
-                    <?= $character->agility ?>
+                    <span class="stat_edit_value"><?= $character->stat_ag ?></span>
                 </div>
                 <div class="row name">
                     AGILITY
                 </div>
             </div>
-            <div class="col-md-1 text-center stat">
+            <div class="col-md-2 text-center stat">
                 <div class="row value">
-                    <?= $character->intellect ?>
+                    <span class="stat_edit_value"><?= $character->stat_int ?></span>
                 </div>
                 <div class="row name">
                     INTELLECT
                 </div>
             </div>
-            <div class="col-md-1 text-center stat">
+            <div class="col-md-2 text-center stat">
                 <div class="row value">
-                    <?= $character->cunning ?>
+                    <span class="stat_edit_value"><?= $character->stat_cun ?></span>
                 </div>
                 <div class="row name">
                     CUNNING
                 </div>
             </div>
-            <div class="col-md-1 text-center stat">
+            <div class="col-md-2 text-center stat">
                 <div class="row value">
-                    <?= $character->willpower ?>
+                    <span class="stat_edit_value"><?= $character->stat_will ?></span>
                 </div>
                 <div class="row name">
                     WILLPOWER
                 </div>
             </div>
-            <div class="col-md-1 text-center stat">
+            <div class="col-md-2 text-center stat">
                 <div class="row value">
-                    <?= $character->presence ?>
+                    <span class="stat_edit_value"><?= $character->stat_pr ?></span>
                 </div>
                 <div class="row name">
                     PRESENCE

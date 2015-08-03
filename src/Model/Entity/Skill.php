@@ -27,7 +27,7 @@ class Skill extends Entity
         $proficiency = 0;
 
         $level = (int)$this->level;
-        $statname = strtolower($this->characteristic->name);
+        $statname = 'stat_' . strtolower($this->stat->code);
 
         $stat = $character->$statname;
 

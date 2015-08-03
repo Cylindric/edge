@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Utility\Inflector;
 
 /**
  * Characters Controller
@@ -38,17 +39,17 @@ class CharactersController extends AppController
     public function view($id = null)
     {
         $character = $this->Characters->get($id, [
-            'contain' => ['Growth', 'Training']
+            'contain' => ['Training']
         ]);
 
         $this->loadModel('Skills');
         $skills = $this->Skills->find();
         $skills->select([
-            'id', 'Skills.name', 'Skills.characteristic_id', 'Skills.skilltype_id',
-            'Characteristics.name', 'Characteristics.code',
+            'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
+            'Stats.name', 'Stats.code',
             'level' => $skills->func()->sum('t.level')
         ])
-            ->contain(['Characteristics'])
+            ->contain(['Stats'])
             ->join([
                 'table' => 'training',
                 'alias' => 't',
@@ -96,7 +97,7 @@ class CharactersController extends AppController
     public function edit($id = null)
     {
         $character = $this->Characters->get($id, [
-            'contain' => ['Growth', 'Training']
+            'contain' => ['Training']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -112,11 +113,11 @@ class CharactersController extends AppController
         $this->loadModel('Skills');
         $skills = $this->Skills->find();
         $skills->select([
-            'id', 'Skills.name', 'Skills.characteristic_id', 'Skills.skilltype_id',
-            'Characteristics.name', 'Characteristics.code',
+            'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
+            'Stats.name', 'Stats.code',
             'level' => $skills->func()->sum('t.level')
         ])
-            ->contain(['Characteristics'])
+            ->contain(['Stats'])
             ->join([
                 'table' => 'training',
                 'alias' => 't',
@@ -153,20 +154,28 @@ class CharactersController extends AppController
     }
 
 
-    public function get_skills($id = null)
+    public function edit_stats($id = null)
+    {
+        $character = $this->Characters->get($id);
+
+        $this->set('character', $character);
+        $this->set('_serialize', ['character']);
+    }
+
+    public function edit_skills($id = null)
     {
         $character = $this->Characters->get($id, [
-            'contain' => ['Growth', 'Training']
+            'contain' => ['Training']
         ]);
 
         $this->loadModel('Skills');
         $skills = $this->Skills->find();
         $skills->select([
-            'id', 'Skills.name', 'Skills.characteristic_id', 'Skills.skilltype_id',
-            'Characteristics.name', 'Characteristics.code',
+            'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
+            'Stats.name', 'Stats.code',
             'level' => $skills->func()->sum('t.level')
         ])
-            ->contain(['Characteristics'])
+            ->contain(['Stats'])
             ->join([
                 'table' => 'training',
                 'alias' => 't',
@@ -206,8 +215,7 @@ class CharactersController extends AppController
                     $id = $train->id;
                 }
             } else {
-                if($train->level <= abs($delta) && $delta <= 0)
-                {
+                if ($train->level <= abs($delta) && $delta <= 0) {
                     //delete
                     $result = $this->Training->delete($train);
 
@@ -220,6 +228,37 @@ class CharactersController extends AppController
             $response = ['result' => 'success'];
 
         }
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function change_stat($char_id = null, $stat_code = null, $delta = 1)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        $Char = $this->Characters->get($char_id);
+        if (!is_null($char_id) && !is_null($stat_code)) {
+            $delta = (int)$delta;
+
+            $stat_code = 'stat_' . $stat_code;
+            $value = $Char->$stat_code;
+
+            if ($value <= abs($delta) && $delta <= 1) {
+                // Cannot reduce to lower than one
+                $response = ['result' => 'success', 'data' => $Char->$stat_code];
+                $this->Flash->error(__('The Stat could not be reduced lower than one.'));
+            } else {
+                // Change the stat
+                $Char->$stat_code += $delta;
+                if ($this->Characters->save($Char)) {
+                    $response = ['result' => 'success', 'data' => $Char->$stat_code];
+                    $this->Flash->success(__('The Stat has been saved.'));
+                } else {
+                    $this->Flash->error(__('The Stat could not be saved. Please, try again.'));
+                }
+            }
+        }
+
         $this->set(compact('response'));
         $this->set('_serialize', ['response']);
     }

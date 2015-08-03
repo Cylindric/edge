@@ -3,16 +3,15 @@ body {
 }
 
 .stat {
-    width: 150px;
     height: 150px;
     background-image: url("/img/stat-bg.png");
     background-repeat: no-repeat;
+    background-position: 50% 0;
 }
 
 .stat .value {
     padding-top: 8px;
     height: 100px;
-    font-size: 5em;
     margin-bottom: 20px;
     font-family: 'Anton', sans-serif;
 }
@@ -26,6 +25,13 @@ body {
 
 .stat .value .stat_edit_button {
     font-size: 20px;
+    vertical-align: middle;
+	padding: 0;
+	margin: 0;
+}
+
+.stat .value .stat_edit_value {
+    font-size: 5em;
     vertical-align: middle;
 }
 
@@ -45,10 +51,10 @@ body {
 }
 
 .soak {
-    width: 200px;
     height: 115px;
     background-image: url("/img/stat-single.png");
     background-repeat: no-repeat;
+    background-position: 50% 0;
 }
 
 .soak .name {
@@ -66,10 +72,10 @@ body {
 }
 
 .strain {
-    width: 200px;
     height: 115px;
     background-image: url("/img/stat-double.png");
     background-repeat: no-repeat;
+    background-position: 50% 0;
 }
 
 .strain .name {

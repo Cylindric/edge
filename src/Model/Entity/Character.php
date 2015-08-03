@@ -35,7 +35,7 @@ class Character extends Entity
         if (!$this->_species)
             $this->_updateSpecies();
 
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getBrawn();
+        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_br;
     }
 
     public function _getAgility()
@@ -43,7 +43,7 @@ class Character extends Entity
         if (!$this->_species)
             $this->_updateSpecies();
 
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getAgility();
+        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_ag;
     }
 
     public function _getIntellect()
@@ -51,7 +51,7 @@ class Character extends Entity
         if (!$this->_species)
             $this->_updateSpecies();
 
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getIntellect();
+        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_int;
     }
 
     public function _getCunning()
@@ -59,7 +59,7 @@ class Character extends Entity
         if (!$this->_species)
             $this->_updateSpecies();
 
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getCunning();
+        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_cun;
     }
 
     public function _getWillpower()
@@ -67,7 +67,7 @@ class Character extends Entity
         if (!$this->_species)
             $this->_updateSpecies();
 
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getWillpower();
+        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_will;
     }
 
     public function _getPresence()
@@ -75,7 +75,7 @@ class Character extends Entity
         if (!$this->_species)
             $this->_updateSpecies();
 
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getPresence();
+        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_pr;
     }
 
     public function _getWounds()

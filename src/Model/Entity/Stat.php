@@ -6,7 +6,7 @@ use Cake\ORM\Entity;
 /**
  * Characteristic Entity.
  */
-class Characteristic extends Entity
+class Stat extends Entity
 {
 
     /**

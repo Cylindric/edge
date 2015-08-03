@@ -1,19 +1,19 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Characteristic;
+use App\Model\Entity\Stat;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Characteristics Model
+ * Stats Model
  *
  * @property \Cake\ORM\Association\HasMany $Growth
  * @property \Cake\ORM\Association\HasMany $Skills
  */
-class CharacteristicsTable extends Table
+class StatsTable extends Table
 {
 
     /**
@@ -26,14 +26,11 @@ class CharacteristicsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('characteristics');
+        $this->table('stats');
         $this->displayField('name');
         $this->primaryKey('id');
-        $this->hasMany('Growth', [
-            'foreignKey' => 'characteristic_id'
-        ]);
         $this->hasMany('Skills', [
-            'foreignKey' => 'characteristic_id'
+            'foreignKey' => 'stat_id'
         ]);
     }
 

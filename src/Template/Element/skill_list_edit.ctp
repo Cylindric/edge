@@ -6,7 +6,12 @@
         <tr>
             <td><?= $skill->name ?> (<?= $skill->stat->code ?>)</td>
             <td class="col-md-2 text-center">
+                <?php if ($skill->level > 0): ?>
+                    <i class="stat_edit_button decrease fa fa-minus-square"
+                       id="skilldecrease_<?= $skill->id ?>"></i>
+                <?php endif; ?>
                 <?= $skill->level ?>
+                <i class="increase fa fa-plus-square" id="skillincrease_<?= $skill->id ?>"></i>
             </td>
             <td class="col-md-3">
                 <?= str_repeat($this->Html->image('dice-proficiency.png'), $skill->dice($character)[0]) ?><?= str_repeat($this->Html->image('dice-ability.png'), $skill->dice($character)[1]) ?>
