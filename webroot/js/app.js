@@ -22,10 +22,11 @@ var RpgApp = {};
             function (response) {
                 if (response.response.result == 'success') {
                     // response now contains the new Skill values
-                    var newLevel = response.response.Skill.training[0].level;
+                    var newLevel = response.response.Level;
                     var level = $('#skill_' + skill_id).find('span.skill_level');
                     level.text(newLevel);
 
+					// Set the new value
                     $dice = $('#skill_' + skill_id).find('span.skill_dice');
                     $dice.empty();
                     var proficiencyDice = response.response.Dice["proficiency"];
@@ -37,7 +38,15 @@ var RpgApp = {};
                         $dice.append('<img src="/img/dice-ability.png" alt="Ability">');
                     }
 
-                    //RpgApp.getSkills(character_id);
+                    // Show or hide the buttons
+					if (newLevel >= 1) {
+						$('#skill_' + skill_id).find('i.decrease').fadeIn();
+						level.fadeIn();
+					} else {
+						$('#skill_' + skill_id).find('i.decrease').fadeOut();
+						level.fadeOut();
+					}
+					
                 } else if (response.response.result == 'fail') {
                     console.log('fail');
                 }

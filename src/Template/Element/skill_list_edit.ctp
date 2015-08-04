@@ -7,8 +7,7 @@
             <td><span class="skill_name"><?= $skill->name ?> (<?= $skill->stat->code ?>)</span></td>
             <td class="col-md-2 text-center">
                 <?php if ($skill->level > 0): ?>
-                    <i class="stat_edit_button decrease fa fa-minus-square"
-                       id="skilldecrease_<?= $skill->id ?>"></i>
+                    <i class="decrease fa fa-minus-square" id="skilldecrease_<?= $skill->id ?>" style="<?= ($skill->level > 0) ? "" : "display:none;"; ?>"></i>
                 <?php endif; ?>
                 <span class="skill_level"><?= $skill->level == 0 ? '' : $skill->level ?></span>
                 <i class="increase fa fa-plus-square" id="skillincrease_<?= $skill->id ?>"></i>

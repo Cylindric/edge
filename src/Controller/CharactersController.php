@@ -235,9 +235,9 @@ class CharactersController extends AppController
 
                 if ($Skill->training[0]->level <= abs($delta) && $delta <= 0) {
                     //delete the training record if it would take the level < 0
-                    unset($Skill->training[0]);
                     $this->Training->delete($Skill->training[0]);
-
+                    unset($Skill->training[0]);
+                    $response['result'] = 'success';
 
                 } else {
                     // Change the skill
@@ -252,6 +252,7 @@ class CharactersController extends AppController
         }
 
         $response['Dice'] = $Skill->dice($Character);
+		$response['Level'] = $Skill->level;
 
         $this->set('skill', $Skill);
         $this->set('response', $response);
