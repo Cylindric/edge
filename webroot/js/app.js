@@ -21,7 +21,23 @@ var RpgApp = {};
         $.get('/characters/change_skill/' + character_id + '/' + skill_id + '/' + delta + '.json',
             function (response) {
                 if (response.response.result == 'success') {
-                    RpgApp.getSkills(character_id);
+                    // response now contains the new Skill values
+                    var newLevel = response.response.Skill.training[0].level;
+                    var level = $('#skill_' + skill_id).find('span.skill_level');
+                    level.text(newLevel);
+
+                    $dice = $('#skill_' + skill_id).find('span.skill_dice');
+                    $dice.empty();
+                    var proficiencyDice = response.response.Dice["proficiency"];
+                    for (i = 0; i < proficiencyDice; i++) {
+                        $dice.append('<img src="/img/dice-proficiency.png" alt="Proficiency">');
+                    }
+                    var abilityDice = response.response.Dice["ability"];
+                    for (i = 0; i < abilityDice; i++) {
+                        $dice.append('<img src="/img/dice-ability.png" alt="Ability">');
+                    }
+
+                    //RpgApp.getSkills(character_id);
                 } else if (response.response.result == 'fail') {
                     console.log('fail');
                 }

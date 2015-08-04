@@ -21,30 +21,39 @@ class Skill extends Entity
     ];
 
 
+    public function _getLevel() {
+        if(count($this->training) > 0) {
+            return (int)$this->training[0]->level;
+        } else {
+            return 0;
+        }
+    }
+
     public function dice($character)
     {
-        $ability = 0;
-        $proficiency = 0;
-
-        $level = (int)$this->level;
         $statname = 'stat_' . strtolower($this->stat->code);
 
         $stat = $character->$statname;
 
         // Green dice
-        if ($level > $stat) {
-            $ability = ($level - $stat) % 2;
+        if ($this->level > $stat) {
+            $ability = ($this->level - $stat) % 2;
         } else {
-            $ability = $stat - $level;
+            $ability = $stat - $this->level;
         }
 
         // Yellow dice
-        if ($level > $stat) {
-            $proficiency = (int)((float)($level - $stat) / 2) + $stat;
+        if ($this->level > $stat) {
+            $proficiency = (int)((float)($this->level - $stat) / 2) + $stat;
         } else {
-            $proficiency = $level;
+            $proficiency = $this->level;
         }
 
-        return array($proficiency, $ability);
+        return array(
+            $proficiency,
+            $ability,
+            'proficiency' => $proficiency,
+            'ability' => $ability
+        );
     }
 }

@@ -169,66 +169,92 @@ class CharactersController extends AppController
         ]);
 
         $this->loadModel('Skills');
-        $skills = $this->Skills->find();
-        $skills->select([
-            'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
-            'Stats.name', 'Stats.code',
-            'level' => $skills->func()->sum('t.level')
-        ])
-            ->contain(['Stats'])
-            ->join([
-                'table' => 'training',
-                'alias' => 't',
-                'type' => 'LEFT',
-                'conditions' => [
-                    'skills.id = t.skill_id',
-                    't.character_id' => $id]
-            ])
-            ->group('Skills.id')
-            ->order('Skills.name');
+
+        $skills = $this->Skills
+            ->find()
+            ->contain([
+                'Stats',
+                'Training' => function ($q) use ($id) {
+                    return $q->where(['Training.character_id' => $id]);
+                }]);
 
         $this->set('character', $character);
         $this->set('skills', $skills);
         $this->set('_serialize', ['skills']);
     }
 
+    /***
+     * Modify the specified Character's skill by $delta.
+     * Returns the new skill data.
+     * @param null $char_id
+     * @param null $skill_id
+     * @param int $delta
+     */
     public function change_skill($char_id = null, $skill_id = null, $delta = 1)
     {
+        $this->loadModel('Skills');
         $this->loadModel('Training');
 
-        $response = ['result' => 'fail'];
+        $Character = $this->Characters->get($char_id, [
+            'contain' => ['Training']
+        ]);
+
+        $Skill = $this->Skills
+            ->find()
+            ->contain([
+                'Stats',
+                'Training' => function ($q) use ($char_id) {
+                    return $q->where(['Training.character_id' => $char_id]);
+                }])
+            ->where(['Skills.id' => $skill_id])
+            ->first();
+
+        $response = [
+            'result' => 'fail',
+            'Skill' => $Skill
+        ];
+
+
         if (!is_null($char_id) && !is_null($skill_id)) {
             $delta = (int)$delta;
-            $train = $this->Training
-                ->find()
-                ->where(['skill_id' => $skill_id])
-                ->first();
 
-            if ($train === null && $delta > 0) {
+            if (count($Skill->training) == 0 && $delta > 0) {
                 // No skill trained yet, so create a new record
                 $train = $this->Training->newEntity();
                 $train->character_id = $char_id;
                 $train->skill_id = $skill_id;
                 $train->level = $delta;
+                $Skill->training[] = $train;
+                $Skill->dirty('training', true);
 
-                if ($this->Training->save($train)) {
-                    $id = $train->id;
+                if ($this->Skills->save($Skill)) {
+                    $response['result'] = 'success';
                 }
+
             } else {
-                if ($train->level <= abs($delta) && $delta <= 0) {
-                    //delete
-                    $result = $this->Training->delete($train);
+
+                if ($Skill->training[0]->level <= abs($delta) && $delta <= 0) {
+                    //delete the training record if it would take the level < 0
+                    unset($Skill->training[0]);
+                    $this->Training->delete($Skill->training[0]);
+
 
                 } else {
                     // Change the skill
-                    $train->level += $delta;
-                    $this->Training->save($train);
+                    $Skill->training[0]->level += $delta;
+                    $Skill->dirty('training', true);
+
+                    if ($this->Skills->save($Skill)) {
+                        $response['result'] = 'success';
+                    }
                 }
             }
-            $response = ['result' => 'success'];
-
         }
-        $this->set(compact('response'));
+
+        $response['Dice'] = $Skill->dice($Character);
+
+        $this->set('skill', $Skill);
+        $this->set('response', $response);
         $this->set('_serialize', ['response']);
     }
 
