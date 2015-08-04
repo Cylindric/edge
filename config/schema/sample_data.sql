@@ -49,3 +49,9 @@ INSERT INTO `skills` (`id`, `stat_id`, `skilltype_id`, `name`) VALUES ('32', '3'
 INSERT INTO `skills` (`id`, `stat_id`, `skilltype_id`, `name`) VALUES ('33', '3', '3', 'Underworld');
 INSERT INTO `skills` (`id`, `stat_id`, `skilltype_id`, `name`) VALUES ('34', '3', '3', 'Warfare');
 INSERT INTO `skills` (`id`, `stat_id`, `skilltype_id`, `name`) VALUES ('35', '3', '3', 'Xenology');
+
+INSERT INTO `edge`.`characters`
+(`id`,`user_id`,`species_id`,`name`,`gender`,`age`,`height`,`weight`,`hair_colour`,`eye_colour`,`build`,`home_planet`,`notable_features`,`stat_br`,`stat_ag`,`stat_int`,`stat_cun`,`stat_will`,`stat_pr`) VALUES
+(1, 1, 1, 'Testing User', 'Male', 37, '6\' 2"', '90kg', 'Brown', 'Blue', 'Athletic', 'Corellia', 'Only has one eye', 2, 2, 2, 2, 2, 2);
+
+

@@ -18,6 +18,23 @@ class CharactersController extends AppController
         $this->loadComponent('RequestHandler');
     }
 
+	public function isAuthorized($user)
+	{
+		if ($this->request->action === 'add') {
+			return true;
+		}
+		
+		if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat'])) {
+			$characterId = (int)$this->request->params['pass'][0];
+			if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
+				return true;
+			}
+		}
+		
+		return parent::isAuthorized($user);
+	}
+	
+	
     /**
      * Index method
      *
@@ -76,6 +93,7 @@ class CharactersController extends AppController
         $character = $this->Characters->newEntity();
         if ($this->request->is('post')) {
             $character = $this->Characters->patchEntity($character, $this->request->data);
+			$character->user_id = $this->Auth->user('id');
             if ($this->Characters->save($character)) {
                 $this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'index']);

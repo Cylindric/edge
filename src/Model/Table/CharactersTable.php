@@ -70,4 +70,9 @@ class CharactersTable extends Table
         $rules->add($rules->existsIn(['species_id'], 'Species'));
         return $rules;
     }
+	
+	public function isOwnedBy($characterId, $userId)
+	{
+		return $this->exists(['id' => $characterId, 'user_id' => $userId]);
+	}
 }
