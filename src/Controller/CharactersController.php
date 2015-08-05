@@ -42,6 +42,9 @@ class CharactersController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Species']
+        ];
         $this->set('characters', $this->paginate($this->Characters));
         $this->set('_serialize', ['characters']);
     }
@@ -97,12 +100,15 @@ class CharactersController extends AppController
 			$character->user_id = $this->Auth->user('id');
             if ($this->Characters->save($character)) {
                 $this->Flash->success(__('The character has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'edit', $character->id]);
             } else {
                 $this->Flash->error(__('The character could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('character'));
+
+        $species = $this->Characters->Species->find('list', ['limit' => 200]);
+
+        $this->set(compact('character', 'species'));
         $this->set('_serialize', ['character']);
     }
 
