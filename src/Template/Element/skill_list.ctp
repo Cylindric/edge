@@ -6,7 +6,7 @@
         <tr>
             <td><?= $skill->name ?> (<?= $skill->stat->code ?>)</td>
             <td class="col-md-2 text-center">
-                <?= $skill->level ?>
+                <?= $skill->level == 0 ? '' : $skill->level ?>
             </td>
             <td class="col-md-3">
                 <?= str_repeat($this->Html->image('dice-proficiency.png'), $skill->dice($character)[0]) ?><?= str_repeat($this->Html->image('dice-ability.png'), $skill->dice($character)[1]) ?>

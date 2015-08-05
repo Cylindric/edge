@@ -4,7 +4,10 @@
 
         <div class="row">
             <div class="col-md-12">
-                <h2><?= h($character->name) ?></h2>
+                <h2><?= h($character->name) ?>
+				<?php if($canEdit):?> 
+				<?= $this->Html->link('<span class="glyphicon glyphicon-edit" aria-label="Edit"></span>', ['action' => 'edit', $character->id], ['escape' => false]) ?></h2>
+				<?php endif; ?>
             </div>
         </div>
 

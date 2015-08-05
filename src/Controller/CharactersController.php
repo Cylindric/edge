@@ -78,6 +78,7 @@ class CharactersController extends AppController
             ->group('Skills.id')
             ->order('Skills.name');
 
+		$this->Set('canEdit', $this->Characters->isOwnedBy($character->id, $this->Auth->User('id')));
         $this->set('character', $character);
         $this->set('skills', $skills);
         $this->set('_serialize', ['character']);
