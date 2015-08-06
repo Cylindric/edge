@@ -15,6 +15,9 @@ class SpeciesBase
         $this->_entity = $entity;
     }
 
+    public function applyCreationSkills()
+    {}
+
     /*
      * Core page 94
      * SpeciesWound + Brawn

@@ -31,7 +31,7 @@ class Initial extends AbstractMigration
             ->addColumn('stat_id', 'integer', ['default' => null, 'limit' => 10, 'null' => false])
             ->addColumn('skilltype_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
-            ->addForeignKey('stat_id', 'stats', 'id', ['update' => 'NO_ACTION', 'delete' => 'NO_ACTION'])
+            ->addForeignKey('stat_id', 'stats', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
 
         $table = TableRegistry::get('Skills');
@@ -113,13 +113,13 @@ class Initial extends AbstractMigration
         $table = TableRegistry::get('Species');
         $data = [
             ['name' => 'Human', 'class' => 'Human', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 2, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 2, 'stat_pr' => 2],
-            ['name' => 'Droid', 'class' => 'SpeciesBase', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 175, 'stat_br' => 1, 'stat_ag' => 1, 'stat_int' => 1, 'stat_cun' => 1, 'stat_will' => 1, 'stat_pr' => 1],
-            ['name' => 'Wookiee', 'class' => 'SpeciesBase', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 2, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 2, 'stat_pr' => 2],
-            ['name' => 'Twi\'Lek', 'class' => 'SpeciesBase', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 2, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 2, 'stat_pr' => 2],
-            ['name' => 'Bothan', 'class' => 'SpeciesBase', 'base_wound' => 10, 'base_strain' => 11, 'base_xp' => 100, 'stat_br' => 1, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 2, 'stat_pr' => 2],
-            ['name' => 'Rodian', 'class' => 'SpeciesBase', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 2, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 2, 'stat_pr' => 2],
-            ['name' => 'Trandoshan', 'class' => 'SpeciesBase', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 2, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 2, 'stat_pr' => 2],
-            ['name' => 'Gand', 'class' => 'SpeciesBase', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 2, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 3, 'stat_pr' => 2],
+            ['name' => 'Droid', 'class' => 'Droid', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 175, 'stat_br' => 1, 'stat_ag' => 1, 'stat_int' => 1, 'stat_cun' => 1, 'stat_will' => 1, 'stat_pr' => 1],
+            ['name' => 'Wookiee', 'class' => 'Wookiee', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 3, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 1, 'stat_pr' => 2],
+            ['name' => 'Twi\'Lek', 'class' => 'Twilek', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 1, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 2, 'stat_pr' => 3],
+            ['name' => 'Bothan', 'class' => 'Bothan', 'base_wound' => 10, 'base_strain' => 11, 'base_xp' => 100, 'stat_br' => 1, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 3, 'stat_will' => 2, 'stat_pr' => 2],
+            ['name' => 'Rodian', 'class' => 'Rodian', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 2, 'stat_ag' => 3, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 1, 'stat_pr' => 2],
+            ['name' => 'Trandoshan', 'class' => 'Trandoshan', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 3, 'stat_ag' => 1, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 2, 'stat_pr' => 2],
+            ['name' => 'Gand', 'class' => 'Gand', 'base_wound' => 10, 'base_strain' => 10, 'base_xp' => 100, 'stat_br' => 2, 'stat_ag' => 2, 'stat_int' => 2, 'stat_cun' => 2, 'stat_will' => 3, 'stat_pr' => 2],
         ];
         foreach ($table->newEntities($data) as $entity) {
             $table->save($entity);
@@ -145,8 +145,8 @@ class Initial extends AbstractMigration
             ->addColumn('stat_cun', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
             ->addColumn('stat_will', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
             ->addColumn('stat_pr', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addForeignKey('user_id', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'NO_ACTION'])
-            ->addForeignKey('species_id', 'species', 'id', ['update' => 'NO_ACTION', 'delete' => 'NO_ACTION'])
+            ->addForeignKey('user_id', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('species_id', 'species', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
 
         $table = $this->table('training');
@@ -156,8 +156,8 @@ class Initial extends AbstractMigration
             ->addColumn('level', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
-            ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'NO_ACTION'])
-            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'NO_ACTION'])
+            ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
     }
 }

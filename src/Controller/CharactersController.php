@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Rpg\CalculatorFactory;
 use Cake\Utility\Inflector;
 
 /**
@@ -23,18 +24,18 @@ class CharactersController extends AppController
 		if ($this->request->action === 'add') {
 			return true;
 		}
-		
+
 		if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat'])) {
 			$characterId = (int)$this->request->params['pass'][0];
 			if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
 				return true;
 			}
 		}
-		
+
 		return parent::isAuthorized($user);
 	}
-	
-	
+
+
     /**
      * Index method
      *
@@ -99,6 +100,13 @@ class CharactersController extends AppController
             $character = $this->Characters->patchEntity($character, $this->request->data);
 			$character->user_id = $this->Auth->user('id');
             if ($this->Characters->save($character)) {
+				// Get the new Character, with associations
+	            $character = $this->Characters->get($character->id, ['contain' => ['Species']]);
+
+                // Setup new skills based on the Species rules
+	            $species = CalculatorFactory::getSpecies($character->species, $character);
+	            $species->applyCreationSkills();
+
                 $this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'edit', $character->id]);
             } else {
