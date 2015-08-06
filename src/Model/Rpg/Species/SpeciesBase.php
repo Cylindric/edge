@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Model\Rpg\Species;
 
 use Cake\ORM\TableRegistry;

@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Model\Rpg\Species;
 
+use Cake\ORM\TableRegistry;
 
 class Human extends SpeciesBase
 {
@@ -9,5 +9,4 @@ class Human extends SpeciesBase
     {
         parent::__construct($species, $entity);
     }
-
 }
