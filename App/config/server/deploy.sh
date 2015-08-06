@@ -2,10 +2,11 @@
 sudo apt-get -y update
 sudo apt-get -y install awscli
 sudo apt-get -y install ruby2.0
+aws configure
 cd /home/ubuntu
 sudo aws s3 cp s3://aws-codedeploy-eu-west-1/latest/install . --region eu-west-1
 sudo chmod +x ./install
-sudo ./install auto
+sudo /home/ubuntu/install auto
 
 
 
@@ -74,10 +75,12 @@ sudo -u postgres psql -U postgres -d edge -c "ALTER USER edge WITH password '$ED
 
 
 sudo mkdir -p /var/www/
-sudo chown -R edge:edge /var/www/
+sudo chown -R ubuntu:ubuntu /var/www/
 
 cd /var/www/
 git clone -b master https://github.com/Cylindric/edge.git
+mkdir -p /var/www/edge/App/log
+mkdir -p /var/www/edge/App/tmp
 find /var/www/edge -type d -exec chmod 775 {} \;
 find /var/www/edge -type f -exec chmod 664 {} \;
 chmod a+x /var/www/edge/App/bin/cake
