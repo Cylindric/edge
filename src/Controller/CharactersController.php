@@ -79,7 +79,7 @@ class CharactersController extends AppController
                     'skills.id = t.skill_id',
                     't.character_id' => $id]
             ])
-            ->group('Skills.id')
+            ->group(['Skills.id', 'Stats.name', 'Stats.code'])
             ->order('Skills.name');
 
 		$this->Set('canEdit', $this->Characters->isOwnedBy($character->id, $this->Auth->User('id')));
