@@ -34,6 +34,7 @@
 				<a class="navbar-brand" href="/">Edge</a>
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
 				<ul class="nav navbar-nav">
 					<li class="dropdown <?php if ($this->request->params['controller'] == 'Characters'): ?>active<?php endif; ?>">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Characters <span class="caret"></span></a>
@@ -42,13 +43,23 @@
 							<li><?= $this->Html->link('New', '/characters/add') ?></li>
 						</ul>
 					</li>
+					<?php if ($user['role'] == 'admin'): ?>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><?= $this->Html->link('List', '/users/') ?></li>
+								<li><?= $this->Html->link('New', '/users/add') ?></li>
+							</ul>
+						</li>
+					<?php endif; ?>
 				</ul>
+
 				<ul class="nav navbar-nav navbar-right">
-					<?php if (is_null($this->request->session()->read('Auth.User.username'))): ?>
+					<?php if (is_null($user)): ?>
 						<li><?= $this->Html->link('Login', '/users/login') ?></li>
 					<?php else: ?>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $username ?> <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $user['username'] ?> <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><?= $this->Html->link('Logout', '/users/logout') ?></li>
 							</ul>

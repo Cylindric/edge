@@ -1,5 +1,5 @@
 <div class="users form">
-<?= $this->Form->create($user) ?>
+<?= $this->Form->create($newUser) ?>
     <fieldset>
         <legend><?= __('Add User') ?></legend>
         <?= $this->Form->input('username') ?>

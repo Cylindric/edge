@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Model\Rpg\Species;
 
+use Cake\ORM\TableRegistry;
 
 class Trandoshan extends SpeciesBase
 {

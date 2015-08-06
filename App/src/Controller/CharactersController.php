@@ -44,7 +44,8 @@ class CharactersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Species']
+            'contain' => ['Species'],
+			'conditions' => ['Characters.user_id' => $this->Auth->User('id')]
         ];
         $this->set('characters', $this->paginate($this->Characters));
         $this->set('_serialize', ['characters']);
@@ -79,7 +80,7 @@ class CharactersController extends AppController
                     'skills.id = t.skill_id',
                     't.character_id' => $id]
             ])
-            ->group('Skills.id')
+            ->group(['Skills.id', 'Stats.name', 'Stats.code'])
             ->order('Skills.name');
 
 		$this->Set('canEdit', $this->Characters->isOwnedBy($character->id, $this->Auth->User('id')));
@@ -99,12 +100,14 @@ class CharactersController extends AppController
         if ($this->request->is('post')) {
             $character = $this->Characters->patchEntity($character, $this->request->data);
 			$character->user_id = $this->Auth->user('id');
+
             if ($this->Characters->save($character)) {
 				// Get the new Character, with associations
 	            $character = $this->Characters->get($character->id, ['contain' => ['Species']]);
 
                 // Setup new skills based on the Species rules
 	            $species = CalculatorFactory::getSpecies($character->species, $character);
+	            $species->applyCreationStats();
 	            $species->applyCreationSkills();
 
                 $this->Flash->success(__('The character has been saved.'));
@@ -130,6 +133,7 @@ class CharactersController extends AppController
     public function edit($id = null)
     {
         $character = $this->Characters->get($id, [
+			'conditions' => ['Characters.user_id' => $this->Auth->User('id')],		
             'contain' => ['Training']
         ]);
 
@@ -177,8 +181,11 @@ class CharactersController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $character = $this->Characters->get($id);
-        if ($this->Characters->delete($character)) {
+        $character = $this->Characters->get($id, [
+			'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+		]);
+        
+		if ($this->Characters->delete($character)) {
             $this->Flash->success(__('The character has been deleted.'));
         } else {
             $this->Flash->error(__('The character could not be deleted. Please, try again.'));
@@ -189,7 +196,9 @@ class CharactersController extends AppController
 
     public function edit_stats($id = null)
     {
-        $character = $this->Characters->get($id);
+        $character = $this->Characters->get($id, [
+			'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+		]);
 
         $this->set('character', $character);
         $this->set('_serialize', ['character']);
@@ -198,7 +207,8 @@ class CharactersController extends AppController
     public function edit_skills($id = null)
     {
         $character = $this->Characters->get($id, [
-            'contain' => ['Training']
+ 			'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+           'contain' => ['Training']
         ]);
 
         $this->loadModel('Skills');
