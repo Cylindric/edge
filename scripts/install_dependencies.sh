@@ -1,15 +1,4 @@
 #!/bin/sh
-sudo apt-get -y update
-sudo apt-get -y install awscli
-sudo apt-get -y install ruby2.0
-cd /home/ubuntu
-sudo aws s3 cp s3://aws-codedeploy-eu-west-1/latest/install . --region eu-west-1
-sudo chmod +x ./install
-sudo ./install auto
-
-
-
-
 
 sudo apt-get -y update
 sudo apt-get -y install postgresql postgresql-contrib php5-cli php5-fpm php5-pgsql php5-intl nginx git expect
@@ -74,32 +63,29 @@ sudo -u postgres psql -U postgres -d edge -c "ALTER USER edge WITH password '$ED
 
 
 sudo mkdir -p /var/www/
-sudo chown -R edge:edge /var/www/
+sudo chown -R ubuntu:ubuntu /var/www/
 
 cd /var/www/
 git clone -b master https://github.com/Cylindric/edge.git
+mkdir -p /var/www/edge/App/log
+mkdir -p /var/www/edge/App/tmp
 find /var/www/edge -type d -exec chmod 775 {} \;
 find /var/www/edge -type f -exec chmod 664 {} \;
 chmod a+x /var/www/edge/App/bin/cake
-chmod -R a+w /var/www/edge/App/log
-chmod -R a+w /var/www/edge/App/tmp
+sudo chmod -R a+w /var/www/edge/App/log
+sudo chmod -R a+w /var/www/edge/App/tmp
 
 
 cd /var/www/edge/App/
-php ~/composer.phar install
+php ~/composer.phar -n install
 
-sed -i "s/'driver' => '.*'/'driver' => 'Cake\\\Database\\\Driver\\\Postgres'/g" /var/www/edge/config/app.php
-sed -i "s/'username' => '.*'/'username' => 'edge'/g" /var/www/edge/config/app.php
-sed -i "s/'password' => '.*'/'password' => '$EDGEPW'/g" /var/www/edge/config/app.php
-sed -i "s/'database' => '.*'/'database' => 'edge'/g" /var/www/edge/config/app.php
+sed -i "s/'driver' => '.*'/'driver' => 'Cake\\\Database\\\Driver\\\Postgres'/g" /var/www/edge/App/config/app.php
+sed -i "s/'username' => '.*'/'username' => 'edge'/g" /var/www/edge/App/config/app.php
+sed -i "s/'password' => '.*'/'password' => '$EDGEPW'/g" /var/www/edge/App/config/app.php
+sed -i "s/'database' => '.*'/'database' => 'edge'/g" /var/www/edge/App/config/app.php
 
 sudo ln -sf /etc/nginx/sites-available/edge -T /etc/nginx/sites-enabled/edge
 
-mkdir -p /var/www/edge/log
 
-
-cd /var/www/edge
+cd /var/www/edge/App
 bin/cake migrations migrate
-
-
-rm /tmp/chpw
