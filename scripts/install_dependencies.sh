@@ -37,25 +37,9 @@ EOF
 
 
 
-cat > /tmp/chpw <<EOF
-#!/bin/sh
-# \\
-exec expect -f "\$0" \${1+"\$@"}
-set password [lindex \$argv 1]
-spawn passwd [lindex \$argv 0]
-sleep 1
-expect "assword:"
-send "\$password\r"
-expect "assword:"
-send "\$password\r"
-expect eof
-EOF
-chmod a+x /tmp/chpw
+edgepass=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`
 
-
-EDGEPW=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`
-
-echo $EDGEPW > /var/www/edge/edgepw
+echo $edgepass > /var/www/edge/edgepw
 chown root:root /var/www/edge/edgepw
 chmod 400 /var/www/edge/edgepw
 
