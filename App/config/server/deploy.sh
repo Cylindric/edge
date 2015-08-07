@@ -1,3 +1,5 @@
+# UBUNTU Pre-setup
+##########################################
 #!/bin/sh
 sudo apt-get -y update
 sudo apt-get -y install awscli
@@ -10,6 +12,8 @@ sudo /home/ubuntu/install auto
 
 
 
+# AMAZON Pre-setup
+###########################################
 sudo su -
 yum -y update
 yum install -y aws-cli
@@ -25,8 +29,18 @@ service codedeploy-agent status
 
 
 
-#!/bin/sh
 
+
+
+
+
+
+
+
+
+
+
+#!/bin/sh
 sudo apt-get -y update
 sudo apt-get -y install postgresql postgresql-contrib php5-cli php5-fpm php5-pgsql php5-intl nginx git expect
 sudo mysql_install_db
