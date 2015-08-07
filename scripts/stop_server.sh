@@ -1,2 +1,2 @@
-#!/bin/sh
-/etc/init.d/nginx stop
+#!/bin/bash
+service httpd restart > /var/log/restartapache.out 2>&1

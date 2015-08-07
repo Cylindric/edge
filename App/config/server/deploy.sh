@@ -10,7 +10,22 @@ sudo /home/ubuntu/install auto
 
 
 
+sudo su -
+yum -y update
+yum install -y aws-cli
+cd /home/ec2-user
+aws configure
+aws s3 cp s3://aws-codedeploy-eu-west-1/latest/install . --region eu-west-1	
+chmod +x ./install
+sed -i "s/sleep(.*)/sleep(10)/" install
+./install auto
+service codedeploy-agent status
 
+
+
+
+
+#!/bin/sh
 
 sudo apt-get -y update
 sudo apt-get -y install postgresql postgresql-contrib php5-cli php5-fpm php5-pgsql php5-intl nginx git expect
@@ -84,25 +99,20 @@ mkdir -p /var/www/edge/App/tmp
 find /var/www/edge -type d -exec chmod 775 {} \;
 find /var/www/edge -type f -exec chmod 664 {} \;
 chmod a+x /var/www/edge/App/bin/cake
-chmod -R a+w /var/www/edge/App/log
-chmod -R a+w /var/www/edge/App/tmp
+sudo chmod -R a+w /var/www/edge/App/log
+sudo chmod -R a+w /var/www/edge/App/tmp
 
 
 cd /var/www/edge/App/
-php ~/composer.phar install
+php ~/composer.phar -n install
 
-sed -i "s/'driver' => '.*'/'driver' => 'Cake\\\Database\\\Driver\\\Postgres'/g" /var/www/edge/config/app.php
-sed -i "s/'username' => '.*'/'username' => 'edge'/g" /var/www/edge/config/app.php
-sed -i "s/'password' => '.*'/'password' => '$EDGEPW'/g" /var/www/edge/config/app.php
-sed -i "s/'database' => '.*'/'database' => 'edge'/g" /var/www/edge/config/app.php
+sed -i "s/'driver' => '.*'/'driver' => 'Cake\\\Database\\\Driver\\\Postgres'/g" /var/www/edge/App/config/app.php
+sed -i "s/'username' => '.*'/'username' => 'edge'/g" /var/www/edge/App/config/app.php
+sed -i "s/'password' => '.*'/'password' => '$EDGEPW'/g" /var/www/edge/App/config/app.php
+sed -i "s/'database' => '.*'/'database' => 'edge'/g" /var/www/edge/App/config/app.php
 
 sudo ln -sf /etc/nginx/sites-available/edge -T /etc/nginx/sites-enabled/edge
 
-mkdir -p /var/www/edge/log
 
-
-cd /var/www/edge
+cd /var/www/edge/App
 bin/cake migrations migrate
-
-
-rm /tmp/chpw
