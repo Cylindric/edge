@@ -13,8 +13,6 @@ permissions:
        - file
 hooks:
    BeforeInstall:
-    - location: scripts/install_dependencies.sh
-      runas: root
     - location: scripts/stop_server.sh
       runas: root
    AfterInstall:
