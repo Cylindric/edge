@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
    - source: /App
-     destination: /var/www/html
+     destination: /var/www/edge/htdocs
 permissions:
-   - object: /var/www/html
+   - object: /var/www/edge
      pattern: "**"
      owner: apache
      group: apache
