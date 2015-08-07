@@ -6,10 +6,10 @@ cd /var/www/edge/htdocs
 chmod u+x /var/www/edge/htdocs/bin/cake
 
 
-EDGEPW=`cat /var/www/edge/edgepw`
+edgepass=`cat /var/www/edge/edgepw`
 
 sed -i "s/'username' => '.*'/'username' => 'edge'/g" /var/www/edge/htdocs/config/app.php
-sed -i "s/'password' => '.*'/'password' => '$EDGEPW'/g" /var/www/edge/htdocs/config/app.php
+sed -i "s/'password' => '.*'/'password' => '$edgepass'/g" /var/www/edge/htdocs/config/app.php
 sed -i "s/'database' => '.*'/'database' => 'edge'/g" /var/www/edge/htdocs/config/app.php
 
 bin/cake migrations migrate
