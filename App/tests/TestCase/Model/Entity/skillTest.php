@@ -1,13 +1,13 @@
 <?php
 namespace App\Test\TestCase\Model\Entity;
 
-use App\Model\Entity\skill;
+use App\Model\Entity\Skill;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Entity\skill Test Case
+ * App\Model\Entity\Skill Test Case
  */
-class skillTest extends TestCase
+class SkillTest extends TestCase
 {
 
     /**
@@ -18,7 +18,7 @@ class skillTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->skill = new skill();
+        $this->Skill = new Skill();
     }
 
     /**
@@ -28,17 +28,27 @@ class skillTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->skill);
+        unset($this->Skill);
 
         parent::tearDown();
     }
 
     /**
-     * Test initial setup
+     * Test _getLevel method
      *
      * @return void
      */
-    public function testInitialization()
+    public function testGetLevel()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test dice method
+     *
+     * @return void
+     */
+    public function testDice()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
