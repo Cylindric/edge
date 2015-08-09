@@ -28,7 +28,7 @@ class Initial extends AbstractMigration
 
         $table = $this->table('skills');
         $table
-            ->addColumn('stat_id', 'integer', ['default' => null, 'limit' => 10, 'null' => false])
+            ->addColumn('stat_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('skilltype_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
             ->addForeignKey('stat_id', 'stats', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
@@ -99,15 +99,15 @@ class Initial extends AbstractMigration
         $table
             ->addColumn('name', 'string', ['default' => null, 'limit' => 32, 'null' => false])
             ->addColumn('class', 'string', ['default' => null, 'limit' => 45, 'null' => false])
-            ->addColumn('base_wound', 'integer', ['default' => 10, 'limit' => 10, 'null' => false])
-            ->addColumn('base_strain', 'integer', ['default' => 10, 'limit' => 10, 'null' => false])
-            ->addColumn('base_xp', 'integer', ['default' => 100, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_br', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_ag', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_int', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_cun', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_will', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_pr', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
+            ->addColumn('base_wound', 'integer', ['default' => 10, 'limit' => 11, 'null' => false])
+            ->addColumn('base_strain', 'integer', ['default' => 10, 'limit' => 11, 'null' => false])
+            ->addColumn('base_xp', 'integer', ['default' => 100, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_br', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_ag', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_int', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_cun', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_will', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_pr', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
             ->create();
 
         $table = TableRegistry::get('Species');
@@ -127,8 +127,8 @@ class Initial extends AbstractMigration
 
         $table = $this->table('characters');
         $table
-            ->addColumn('user_id', 'integer', ['default' => null, 'limit' => 10, 'null' => false])
-            ->addColumn('species_id', 'integer', ['default' => null, 'limit' => 10, 'null' => false])
+            ->addColumn('user_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('species_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
             ->addColumn('gender', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('age', 'string', ['default' => null, 'limit' => 45, 'null' => true])
@@ -139,20 +139,20 @@ class Initial extends AbstractMigration
             ->addColumn('build', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('home_planet', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('notable_features', 'string', ['default' => null, 'limit' => 45, 'null' => true])
-            ->addColumn('stat_br', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_ag', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_int', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_cun', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_will', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
-            ->addColumn('stat_pr', 'integer', ['default' => 2, 'limit' => 10, 'null' => false])
+            ->addColumn('stat_br', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_ag', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_int', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_cun', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_will', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
+            ->addColumn('stat_pr', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
             ->addForeignKey('user_id', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->addForeignKey('species_id', 'species', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
 
         $table = $this->table('training');
         $table
-            ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 10, 'null' => false])
-            ->addColumn('skill_id', 'integer', ['default' => null, 'limit' => 10, 'null' => false])
+            ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('skill_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('level', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])

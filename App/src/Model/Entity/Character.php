@@ -11,7 +11,6 @@ use App\Rpg;
  */
 class Character extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

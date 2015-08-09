@@ -43,6 +43,9 @@
 
         <div class="row" id="skills_list_edit">
         </div>
+
+        <div class="row" id="talents_list_edit">
+        </div>
     </div>
 
 </div>

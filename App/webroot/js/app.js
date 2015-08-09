@@ -9,6 +9,14 @@ var RpgApp = {};
         });
     };
 
+    RpgApp.getTalents = function (character_id) {
+        $.get('/characters/edit_talents/' + character_id, function (response) {
+            $incompleteDiv = $('#talents_list_edit');
+            $incompleteDiv.empty();
+            $incompleteDiv.append(response);
+        });
+    };
+
     RpgApp.getStats = function (character_id) {
         $.get('/characters/edit_stats/' + character_id, function (response) {
             $incompleteDiv = $('#stats_list_edit');
@@ -95,4 +103,5 @@ var RpgApp = {};
 
 	RpgApp.getStats(char_id);
     RpgApp.getSkills(char_id);
+    RpgApp.getTalents(char_id);
 })(jQuery);

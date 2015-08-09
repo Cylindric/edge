@@ -2,54 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="66ae6920-5406-4154-ab2a-b177e9fa1e53" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/Edge.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/tests/Fixture/StatsFixture.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/src/Template/Users/index.ctp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/php.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/webResources.xml" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\Fixture\CharactersSkillsFixture.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Controller\CharactersControllerTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Controller\CharactersSkillsControllerTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Controller\SkillsControllerTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Controller\SpeciesControllerTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Controller\TrainingControllerTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Entity\characterTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Entity\speciesTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Entity\trainingTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Table\CharactersSkillsTableTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Table\CharactersTableTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Table\SkillsTableTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Table\SpeciesTableTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Table\TrainingTableTest.php" afterPath="" />
-      <change type="DELETED" beforePath="D:\Edge\Edge\src\Template\Users\index.ctp" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/config/Migrations/20150809201559_talents.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/src/Model/Entity/CharactersTalent.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/src/Model/Table/CharactersTalentsTable.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/src/Model/Entity/Talent.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/src/Model/Table/TalentsTable.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/src/Template/Characters/edit_talents.ctp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/App/src/Template/Element/talent_list.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/config/Migrations/20150804100105_initial.php" afterPath="$PROJECT_DIR$/App/config/Migrations/20150804100105_initial.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/src/Model/Entity/Character.php" afterPath="$PROJECT_DIR$/App/src/Model/Entity/Character.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/tests/TestCase/Controller/CharacterControllerTest.php" afterPath="$PROJECT_DIR$/App/tests/TestCase/Controller/CharacterControllerTest.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/src/Controller/CharactersController.php" afterPath="$PROJECT_DIR$/App/src/Controller/CharactersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/tests/Fixture/CharactersFixture.php" afterPath="$PROJECT_DIR$/App/tests/Fixture/CharactersFixture.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/src/Model/Entity/Skill.php" afterPath="$PROJECT_DIR$/App/src/Model/Entity/Skill.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/tests/Fixture/SkillsFixture.php" afterPath="$PROJECT_DIR$/App/tests/Fixture/SkillsFixture.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/tests/Fixture/SpeciesFixture.php" afterPath="$PROJECT_DIR$/App/tests/Fixture/SpeciesFixture.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/tests/Fixture/TrainingFixture.php" afterPath="$PROJECT_DIR$/App/tests/Fixture/TrainingFixture.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/src/Template/Characters/index.ctp" afterPath="$PROJECT_DIR$/App/src/Template/Characters/index.ctp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/install_dependencies.sh" afterPath="$PROJECT_DIR$/scripts/install_dependencies.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/setup_edge.sh" afterPath="$PROJECT_DIR$/scripts/setup_edge.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/src/Template/Element/stat_block.ctp" afterPath="$PROJECT_DIR$/App/src/Template/Element/stat_block.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/src/Model/Table/CharactersTable.php" afterPath="$PROJECT_DIR$/App/src/Model/Table/CharactersTable.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/webroot/js/app.js" afterPath="$PROJECT_DIR$/App/webroot/js/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/src/Template/Characters/edit.ctp" afterPath="$PROJECT_DIR$/App/src/Template/Characters/edit.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/src/Template/Characters/view.ctp" afterPath="$PROJECT_DIR$/App/src/Template/Characters/view.ctp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\CalculatorFactory.php" afterPath="$PROJECT_DIR$/App/src/Rpg/CalculatorFactory.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\Bothan.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/Bothan.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\Droid.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/Droid.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\Gand.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/Gand.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\Human.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/Human.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\Rodian.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/Rodian.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\SpeciesBase.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/SpeciesBase.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\Trandoshan.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/Trandoshan.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\Twilek.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/Twilek.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\src\Model\Rpg\Species\Wookiee.php" afterPath="$PROJECT_DIR$/App/src/Rpg/Species/Wookiee.php" />
-      <change type="MOVED" beforePath="D:\Edge\Edge\App\tests\TestCase\Model\Entity\skillTest.php" afterPath="$PROJECT_DIR$/App/tests/TestCase/Model/Entity/SkillTest.php" />
     </list>
     <ignored path="Edge.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -71,46 +38,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CharactersController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/App/src/Controller/CharactersController.php">
+      <file leaf-file-name="edit_talents.ctp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/edit_talents.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.0">
-              <caret line="318" column="0" selection-start-line="318" selection-start-column="0" selection-end-line="318" selection-end-column="0" />
-              <folding>
-                <element signature="e#33#66#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="stat_block.ctp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/App/src/Template/Element/stat_block.ctp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.066019416">
-              <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.7262136">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Skill.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/App/src/Model/Entity/Skill.php">
+      <file leaf-file-name="edit.ctp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/edit.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-24.846153">
-              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CharacterControllerTest.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/App/tests/TestCase/Controller/CharacterControllerTest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.8461537">
-              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-              <folding>
-                <element signature="e#47#74#0#PHP" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -119,47 +62,59 @@
         <entry file="file://$PROJECT_DIR$/App/webroot/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+              <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="39" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SpeciesFixture.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/App/tests/Fixture/SpeciesFixture.php">
+      <file leaf-file-name="view.ctp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/view.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.153846">
-              <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+            <state vertical-scroll-proportion="-27.0">
+              <caret line="119" column="58" selection-start-line="119" selection-start-column="58" selection-end-line="119" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CharactersFixture.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/App/tests/Fixture/CharactersFixture.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.692307">
-              <caret line="24" column="0" selection-start-line="10" selection-start-column="1" selection-end-line="24" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SkillsFixture.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/App/tests/Fixture/SkillsFixture.php">
+      <file leaf-file-name="talent_list.ctp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/src/Template/Element/talent_list.ctp">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrainingFixture.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/App/tests/Fixture/TrainingFixture.php">
+      <file leaf-file-name="index.ctp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/index.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.8461537">
-              <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="43" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CharactersController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/src/Controller/CharactersController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.8076923">
+              <caret line="63" column="46" selection-start-line="63" selection-start-column="46" selection-end-line="63" selection-end-column="46" />
+              <folding>
+                <element signature="e#33#66#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TalentsTable.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/src/Model/Table/TalentsTable.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.961538">
+              <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -181,7 +136,6 @@
         <option value="$PROJECT_DIR$/src/Template/Users/add.ctp" />
         <option value="$PROJECT_DIR$/App/src/Template/Users/index.ctp" />
         <option value="$PROJECT_DIR$/App/src/Template/Characters/index.ctp" />
-        <option value="$PROJECT_DIR$/App/src/Model/Entity/Character.php" />
         <option value="$PROJECT_DIR$/App/src/Rpg/Species/Bothan.php" />
         <option value="$PROJECT_DIR$/App/logs/error.log" />
         <option value="$PROJECT_DIR$/App/src/Rpg/CalculatorFactory.php" />
@@ -195,8 +149,21 @@
         <option value="$PROJECT_DIR$/App/tests/Fixture/SkillsFixture.php" />
         <option value="$PROJECT_DIR$/App/cakeunit4phpstorm.php" />
         <option value="$PROJECT_DIR$/App/tests/TestCase/Controller/CharacterControllerTest.php" />
-        <option value="$PROJECT_DIR$/App/src/Controller/CharactersController.php" />
         <option value="$PROJECT_DIR$/App/src/Template/Element/stat_block.ctp" />
+        <option value="$PROJECT_DIR$/App/config/Migrations/20150804100105_initial.php" />
+        <option value="$PROJECT_DIR$/App/config/Migrations/20150809201559_create_talents.php" />
+        <option value="$PROJECT_DIR$/App/config/Migrations/20150809201559_talents.php" />
+        <option value="$PROJECT_DIR$/App/src/Model/Entity/Character.php" />
+        <option value="$PROJECT_DIR$/App/src/Model/Table/CharactersTalentsTable.php" />
+        <option value="$PROJECT_DIR$/App/src/Model/Table/CharactersTable.php" />
+        <option value="$PROJECT_DIR$/App/src/Model/Table/TalentsTable.php" />
+        <option value="$PROJECT_DIR$/App/src/Template/Characters/edit_talents.php" />
+        <option value="$PROJECT_DIR$/App/src/Template/Characters/view.ctp" />
+        <option value="$PROJECT_DIR$/App/src/Controller/CharactersController.php" />
+        <option value="$PROJECT_DIR$/App/src/Template/Element/talent_list.ctp" />
+        <option value="$PROJECT_DIR$/App/webroot/js/app.js" />
+        <option value="$PROJECT_DIR$/App/src/Template/Characters/edit.ctp" />
+        <option value="$PROJECT_DIR$/App/src/Template/Characters/edit_talents.ctp" />
       </list>
     </option>
   </component>
@@ -270,6 +237,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="webroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Edge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Edge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -328,29 +327,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Rpg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Edge" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="App" />
+              <option name="myItemId" value="Template" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Rpg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Species" />
+              <option name="myItemId" value="Characters" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -393,10 +374,6 @@
               <option name="myItemId" value="Model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -412,7 +389,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Model" />
+              <option name="myItemId" value="Controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Edge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Edge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Migrations" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -505,16 +514,17 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18072917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.49791667" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18072917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.49791667" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39915523" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -522,7 +532,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -553,26 +562,10 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/view.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23407917">
-          <caret line="8" column="163" selection-start-line="8" selection-start-column="142" selection-end-line="8" selection-end-column="163" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/App/src/Template/Users/index.ctp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/index.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.153846">
-          <caret line="20" column="78" selection-start-line="20" selection-start-column="78" selection-end-line="20" selection-end-column="78" />
           <folding />
         </state>
       </provider>
@@ -639,7 +632,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/tests/TestCase/Model/Entity/SkillTest.php">
+    <entry file="file://$PROJECT_DIR$/App/tests/TestCase/Model/Entity/skillTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.923077">
           <caret line="42" column="3" selection-start-line="42" selection-start-column="3" selection-end-line="42" selection-end-column="3" />
@@ -666,38 +659,6 @@
     <entry file="file://$PROJECT_DIR$/App/src/Model/Table/StatsTable.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.6385542">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/edit.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6385542">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/edit_skills.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/src/Template/Element/skill_list_edit.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/config/Migrations/20150804100105_initial.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.5989673">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -735,34 +696,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/src/Model/Entity/Skill.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.846153">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/App/config/bootstrap.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7607573">
           <caret line="187" column="2" selection-start-line="187" selection-start-column="2" selection-end-line="187" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/tests/Fixture/TrainingFixture.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.8461537">
-          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/tests/Fixture/SkillsFixture.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -775,22 +712,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/webroot/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/src/Model/Table/CharactersTable.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.7728156">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/App/src/Rpg/Species/SpeciesBase.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.075728156">
@@ -799,32 +720,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/src/Model/Entity/Character.php">
+    <entry file="file://$PROJECT_DIR$/App/config/Migrations/20150805215753_groups.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.792233">
-          <caret line="45" column="85" selection-start-line="45" selection-start-column="85" selection-end-line="45" selection-end-column="85" />
-          <folding>
-            <element signature="e#35#55#0#PHP" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="-0.29708737">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/tests/TestCase/Controller/CharacterControllerTest.php">
+    <entry file="file://$PROJECT_DIR$/App/config/Migrations/20150809201559_talents.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.8461537">
-          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.9339806">
+          <caret line="77" column="50" selection-start-line="77" selection-start-column="50" selection-end-line="77" selection-end-column="50" />
           <folding>
-            <element signature="e#47#74#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/src/Controller/CharactersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.0">
-          <caret line="318" column="0" selection-start-line="318" selection-start-column="0" selection-end-line="318" selection-end-column="0" />
-          <folding>
-            <element signature="e#33#66#0#PHP" expanded="true" />
+            <element signature="e#6#44#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -833,6 +742,194 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.066019416">
           <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/config/Migrations/20150804100105_initial.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.066019416">
+          <caret line="3" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Model/Entity/Skill.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2543689">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/tests/TestCase/Controller/CharacterControllerTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3961165">
+          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+          <folding>
+            <element signature="e#47#74#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/tests/Fixture/SkillsFixture.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/tests/Fixture/TrainingFixture.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3961165">
+          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Model/Entity/Training.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Model/Entity/CharactersTalent.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Model/Entity/Talent.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/config/bootstrap_cli.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/edit_stats.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Model/Table/TalentsTable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.961538">
+          <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/index.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="43" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Controller/CharactersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.8076923">
+          <caret line="63" column="46" selection-start-line="63" selection-start-column="46" selection-end-line="63" selection-end-column="46" />
+          <folding>
+            <element signature="e#33#66#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/view.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-27.0">
+          <caret line="119" column="58" selection-start-line="119" selection-start-column="58" selection-end-line="119" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Model/Entity/Character.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8524272">
+          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Model/Table/CharactersTable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3961165">
+          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Model/Table/CharactersTalentsTable.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3631068">
+          <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Template/Element/skill_list_edit.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/edit_skills.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Template/Element/talent_list.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/webroot/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/edit.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/src/Template/Characters/edit_talents.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7262136">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
