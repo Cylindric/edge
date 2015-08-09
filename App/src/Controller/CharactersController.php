@@ -61,7 +61,7 @@ class CharactersController extends AppController
     public function view($id = null)
     {
         $character = $this->Characters->get($id, [
-            'contain' => ['Training']
+            'contain' => ['Training', 'Talents']
         ]);
 
         $this->loadModel('Skills');
@@ -198,6 +198,17 @@ class CharactersController extends AppController
     {
         $character = $this->Characters->get($id, [
             'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+        ]);
+
+        $this->set('character', $character);
+        $this->set('_serialize', ['character']);
+    }
+
+    public function edit_talents($id = null)
+    {
+        $character = $this->Characters->get($id, [
+            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+            'contain' => ['Talents']
         ]);
 
         $this->set('character', $character);

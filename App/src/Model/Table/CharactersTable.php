@@ -37,6 +37,9 @@ class CharactersTable extends Table
 		$this->hasMany('Training', [
 			'foreignKey' => 'character_id'
 		]);
+		$this->BelongsToMany('Talents', [
+			'through' => 'CharactersTalents'
+		]);
 	}
 
 	/**
