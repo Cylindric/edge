@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use App\Model\Rpg\CalculatorFactory;
+use App\Rpg\CalculatorFactory;
 use Cake\Utility\Inflector;
 
 /**
@@ -19,21 +19,21 @@ class CharactersController extends AppController
         $this->loadComponent('RequestHandler');
     }
 
-	public function isAuthorized($user)
-	{
-		if ($this->request->action === 'add') {
-			return true;
-		}
+    public function isAuthorized($user)
+    {
+        if ($this->request->action === 'add') {
+            return true;
+        }
 
-		if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat'])) {
-			$characterId = (int)$this->request->params['pass'][0];
-			if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
-				return true;
-			}
-		}
+        if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat'])) {
+            $characterId = (int)$this->request->params['pass'][0];
+            if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
+                return true;
+            }
+        }
 
-		return parent::isAuthorized($user);
-	}
+        return parent::isAuthorized($user);
+    }
 
 
     /**
@@ -45,7 +45,7 @@ class CharactersController extends AppController
     {
         $this->paginate = [
             'contain' => ['Species'],
-			'conditions' => ['Characters.user_id' => $this->Auth->User('id')]
+            'conditions' => ['Characters.user_id' => $this->Auth->User('id')]
         ];
         $this->set('characters', $this->paginate($this->Characters));
         $this->set('_serialize', ['characters']);
@@ -83,7 +83,7 @@ class CharactersController extends AppController
             ->group(['Skills.id', 'Stats.name', 'Stats.code'])
             ->order('Skills.name');
 
-		$this->Set('canEdit', $this->Characters->isOwnedBy($character->id, $this->Auth->User('id')));
+        $this->Set('canEdit', $this->Characters->isOwnedBy($character->id, $this->Auth->User('id')));
         $this->set('character', $character);
         $this->set('skills', $skills);
         $this->set('_serialize', ['character']);
@@ -99,16 +99,16 @@ class CharactersController extends AppController
         $character = $this->Characters->newEntity();
         if ($this->request->is('post')) {
             $character = $this->Characters->patchEntity($character, $this->request->data);
-			$character->user_id = $this->Auth->user('id');
+            $character->user_id = $this->Auth->user('id');
 
             if ($this->Characters->save($character)) {
-				// Get the new Character, with associations
-	            $character = $this->Characters->get($character->id, ['contain' => ['Species']]);
+                // Get the new Character, with associations
+                $character = $this->Characters->get($character->id, ['contain' => ['Species']]);
 
                 // Setup new skills based on the Species rules
-	            $species = CalculatorFactory::getSpecies($character->species, $character);
-	            $species->applyCreationStats();
-	            $species->applyCreationSkills();
+                $species = CalculatorFactory::getSpecies($character->species, $character);
+                $species->applyCreationStats();
+                $species->applyCreationSkills();
 
                 $this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'edit', $character->id]);
@@ -133,7 +133,7 @@ class CharactersController extends AppController
     public function edit($id = null)
     {
         $character = $this->Characters->get($id, [
-			'conditions' => ['Characters.user_id' => $this->Auth->User('id')],		
+            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
             'contain' => ['Training']
         ]);
 
@@ -182,10 +182,10 @@ class CharactersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $character = $this->Characters->get($id, [
-			'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
-		]);
-        
-		if ($this->Characters->delete($character)) {
+            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+        ]);
+
+        if ($this->Characters->delete($character)) {
             $this->Flash->success(__('The character has been deleted.'));
         } else {
             $this->Flash->error(__('The character could not be deleted. Please, try again.'));
@@ -197,8 +197,8 @@ class CharactersController extends AppController
     public function edit_stats($id = null)
     {
         $character = $this->Characters->get($id, [
-			'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
-		]);
+            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+        ]);
 
         $this->set('character', $character);
         $this->set('_serialize', ['character']);
@@ -207,8 +207,8 @@ class CharactersController extends AppController
     public function edit_skills($id = null)
     {
         $character = $this->Characters->get($id, [
- 			'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
-           'contain' => ['Training']
+            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+            'contain' => ['Training']
         ]);
 
         $this->loadModel('Skills');
@@ -261,19 +261,19 @@ class CharactersController extends AppController
         if (!is_null($char_id) && !is_null($skill_id)) {
             $delta = (int)$delta;
 
-            if (count($Skill->training) == 0 && $delta > 0) {
-                // No skill trained yet, so create a new record
-                $train = $this->Training->newEntity();
-                $train->character_id = $char_id;
-                $train->skill_id = $skill_id;
-                $train->level = $delta;
-                $Skill->training[] = $train;
-                $Skill->dirty('training', true);
-
+            if (count($Skill->training) == 0) {
+                if ($delta > 0) {
+                    // No skill trained yet, so create a new record
+                    $train = $this->Training->newEntity();
+                    $train->character_id = $char_id;
+                    $train->skill_id = $skill_id;
+                    $train->level = $delta;
+                    $Skill->training[] = $train;
+                    $Skill->dirty('training', true);
+                }
                 if ($this->Skills->save($Skill)) {
                     $response['result'] = 'success';
                 }
-
             } else {
 
                 if ($Skill->training[0]->level <= abs($delta) && $delta <= 0) {
@@ -295,7 +295,7 @@ class CharactersController extends AppController
         }
 
         $response['Dice'] = $Skill->dice($Character);
-		$response['Level'] = $Skill->level;
+        $response['Level'] = $Skill->level;
 
         $this->set('skill', $Skill);
         $this->set('response', $response);
@@ -304,28 +304,23 @@ class CharactersController extends AppController
 
     public function change_stat($char_id = null, $stat_code = null, $delta = 1)
     {
+        $stat_code = 'stat_' . $stat_code;
         $response = ['result' => 'fail', 'data' => null];
 
-        $Char = $this->Characters->get($char_id);
         if (!is_null($char_id) && !is_null($stat_code)) {
             $delta = (int)$delta;
+            $Char = $this->Characters->get($char_id);
 
-            $stat_code = 'stat_' . $stat_code;
-            $value = $Char->$stat_code;
+            $new_value = $Char->$stat_code += $delta;
+            $new_value = max(0, $new_value); // Stats cannot go below zero.
 
-            if ($value <= abs($delta) && $delta <= 1) {
-                // Cannot reduce to lower than one
+            // Change the stat
+            $Char->$stat_code = $new_value;
+            if ($this->Characters->save($Char)) {
                 $response = ['result' => 'success', 'data' => $Char->$stat_code];
-                $this->Flash->error(__('The Stat could not be reduced lower than one.'));
+                $this->Flash->success(__('The Stat has been saved.'));
             } else {
-                // Change the stat
-                $Char->$stat_code += $delta;
-                if ($this->Characters->save($Char)) {
-                    $response = ['result' => 'success', 'data' => $Char->$stat_code];
-                    $this->Flash->success(__('The Stat has been saved.'));
-                } else {
-                    $this->Flash->error(__('The Stat could not be saved. Please, try again.'));
-                }
+                $this->Flash->error(__('The Stat could not be saved. Please, try again.'));
             }
         }
 

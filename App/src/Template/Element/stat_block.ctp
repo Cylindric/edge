@@ -1,6 +1,6 @@
 <div class="col-md-2 text-center stat">
 	<div class="row value">
-		<?php if ($value <= 1): ?>
+		<?php if ($value <= 0): ?>
 			<i class="stat_edit_button glyphicon glyphicon-minus"></i>
 		<?php else: ?>
 			<i class="stat_edit_button decrease glyphicon glyphicon-minus" id="statdecrease_<?= $name ?>"></i>

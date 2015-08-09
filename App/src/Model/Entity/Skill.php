@@ -31,10 +31,20 @@ class Skill extends Entity
 
     public function dice($character)
     {
-        $statname = 'stat_' . strtolower($this->stat->code);
+        $stat_name = 'stat_' . strtolower($this->stat->code);
 
-        $stat = $character->$statname;
+        $stat = $character->$stat_name;
 
+        // Total dice is the highest of the Characteristic or the Skill
+        $total_dice = max($this->level, $stat);
+
+        // Number of Proficiency dice is the lower of the Characteristic and the Skill
+        $proficiency_dice = min($this->level, $stat);
+
+        // Number of ability dice is the rest
+        $ability_dice = $total_dice - $proficiency_dice;
+
+        /* This is the logic to calculate additional dice from upgrades, not yet implemented.
         // Green dice
         if ($this->level > $stat) {
             $ability = ($this->level - $stat) % 2;
@@ -48,12 +58,13 @@ class Skill extends Entity
         } else {
             $proficiency = $this->level;
         }
+        */
 
         return array(
-            $proficiency,
-            $ability,
-            'proficiency' => $proficiency,
-            'ability' => $ability
+            $proficiency_dice,
+            $ability_dice,
+            'proficiency' => $proficiency_dice,
+            'ability' => $ability_dice
         );
     }
 }

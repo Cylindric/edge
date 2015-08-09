@@ -47,7 +47,11 @@ chmod 400 /var/www/edge/edgepw
 edgepass=`cat /var/www/edge/edgepw`
 rootpass=`cat /var/www/edge/mysqlpw`
 mysql -uroot -p$rootpass -e 'CREATE DATABASE IF NOT EXISTS edge;';
-mysql -uroot -p$rootpass -e  "GRANT ALL PRIVILEGES ON edge.* TO \"edge\"@\"localhost\" IDENTIFIED BY \"$edgepass\";"
+mysql -uroot -p$rootpass -e "GRANT ALL PRIVILEGES ON edge.* TO \"edge\"@\"localhost\" IDENTIFIED BY \"$edgepass\";"
+mysql -uroot -p$rootpass -e 'FLUSH PRIVILEGES;';
+
+mysql -uroot -p$rootpass -e 'CREATE DATABASE IF NOT EXISTS edgetest;';
+mysql -uroot -p$rootpass -e "GRANT ALL PRIVILEGES ON edgetest.* TO \"edge\"@\"localhost\" IDENTIFIED BY \"$edgepass\";"
 mysql -uroot -p$rootpass -e 'FLUSH PRIVILEGES;';
 
 

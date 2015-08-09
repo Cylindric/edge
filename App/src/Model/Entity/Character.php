@@ -3,7 +3,7 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use App\Model\Rpg;
+use App\Rpg;
 
 
 /**

@@ -1,9 +1,9 @@
 <?php
-namespace App\Model\Rpg\Species;
+namespace App\Rpg\Species;
 
 use Cake\ORM\TableRegistry;
 
-class Gand extends SpeciesBase
+class Rodian extends SpeciesBase
 {
 	function __construct($species, $entity)
 	{
@@ -13,7 +13,7 @@ class Gand extends SpeciesBase
 	public function applyCreationSkills()
 	{
 		$skills = TableRegistry::get('Skills');
-		$skill = $skills->findByName('Discipline')->first();
+		$skill = $skills->findByName('Survival')->first();
 
 		$training = TableRegistry::get('Training');
 		$t = $training->newEntity();
@@ -22,5 +22,4 @@ class Gand extends SpeciesBase
 		$t->level = 1;
 		$training->save($t);
 	}
-
 }

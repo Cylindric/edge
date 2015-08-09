@@ -2,3 +2,4 @@
 /App/config/app.php
 /App/tmp/*
 /App/logs/*
+App/webroot/coverage/
