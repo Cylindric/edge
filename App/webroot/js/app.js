@@ -104,4 +104,8 @@ var RpgApp = {};
 	RpgApp.getStats(char_id);
     RpgApp.getSkills(char_id);
     RpgApp.getTalents(char_id);
+
+    $( "#autocomplete" ).autocomplete({
+        source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]
+    });
 })(jQuery);
