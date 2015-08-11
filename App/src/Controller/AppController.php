@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\I18n\Time;
 
 class AppController extends Controller
 {
@@ -30,6 +31,8 @@ class AppController extends Controller
 				'home'
 			]
 		]);
+		Time::$defaultLocale = 'en-GB';
+
 	}
 	
 	public function isAuthorized($user)
