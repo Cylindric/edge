@@ -21,11 +21,27 @@ class CharactersController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($this->request->action === 'add') {
+        if (in_array($this->request->action, ['add', 'index'])) {
             return true;
         }
 
-        if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat', 'remove_talent', 'change_talent_rank'])) {
+		// These require a valid Character Id that the user owns
+        if (in_array($this->request->action, [
+			'edit', 
+			'delete', 
+			'edit_stats',
+			'edit_notes',
+			'edit_talents',
+			'edit_skills', 
+			'change_skill', 
+			'change_stat', 
+			'add_talent',
+			'remove_talent', 
+			'change_talent_rank',
+			'remove_note',
+			'add_note'
+			
+		])) {
             $characterId = (int)$this->request->params['pass'][0];
             if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
                 return true;
@@ -204,7 +220,6 @@ class CharactersController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
-
 
     public function edit_stats($id = null)
     {

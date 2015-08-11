@@ -26,9 +26,8 @@ class AppController extends Controller
 				'action' => 'index'
 			],
 			'logoutRedirect' => [
-				'controller' => 'Pages',
-				'action' => 'display',
-				'home'
+				'controller' => 'Users',
+				'action' => 'login'
 			]
 		]);
 		Time::$defaultLocale = 'en-GB';
