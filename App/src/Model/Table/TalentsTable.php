@@ -51,10 +51,6 @@ class TalentsTable extends Table
             ->notEmpty('name');
 
         $validator
-            ->requirePresence('description', 'create')
-            ->notEmpty('description');
-
-        $validator
             ->add('ranked', 'valid', ['rule' => 'boolean'])
             ->requirePresence('ranked', 'create')
             ->notEmpty('ranked');
