@@ -1,9 +1,18 @@
 var RpgApp = {};
 
 (function () {
+
     RpgApp.getSkills = function (character_id) {
         $.get('/characters/edit_skills/' + character_id, function (response) {
             $incompleteDiv = $('#skills_list_edit');
+            $incompleteDiv.empty();
+            $incompleteDiv.append(response);
+        });
+    };
+
+    RpgApp.getNotes = function (character_id) {
+        $.get('/characters/edit_notes/' + character_id, function (response) {
+            $incompleteDiv = $('#notes_list_edit');
             $incompleteDiv.empty();
             $incompleteDiv.append(response);
         });
@@ -126,6 +135,25 @@ var RpgApp = {};
             }
         );
     };
+	
+    RpgApp.removeNote= function (character_id, note_id) {
+        $.get('/characters/remove_note/' + character_id + '/' + note_id + '.json',
+            function (response) {
+                if (response.response.result == 'success') {
+                    $('tr[id=note_' + note_id).remove();
+                } else if (response.response.result == 'fail') {
+                    console.log('fail');
+                }
+            }
+        );
+    };
+	
+	RpgApp.addNote = function (character_id) {
+		$.post( "/characters/add_note/" + character_id + '.json', { note: $("#new_note").val(), private: $("#new_note_private").prop('checked') ? 1 : 0 }, function( data ) {
+			RpgApp.getNotes(character_id);
+		});
+	}
+
 
 })();
 
@@ -166,9 +194,18 @@ var RpgApp = {};
         var id = $(this).attr('id').replace('decrease_talent_', '');
         RpgApp.changeTalent(char_id, id, -1);
     });
-
-
-    RpgApp.getStats(char_id);
+	
+	// Note buttons
+	$(document).on('click', 'span[id*=remove_note_]', function () {
+        var id = $(this).attr('id').replace('remove_note_', '');
+        RpgApp.removeNote(char_id, id);
+    });
+	$(document).on('click', 'a[id*=new_note_submit]', function () {
+        RpgApp.addNote(char_id);
+    });
+	
+	RpgApp.getStats(char_id);
     RpgApp.getSkills(char_id);
     RpgApp.getTalents(char_id);
+	RpgApp.getNotes(char_id);
 })(jQuery);

@@ -45,6 +45,9 @@
 
         <div class="row" id="talents_list_edit">
         </div>
-    </div>
+
+        <div class="row" id="notes_list_edit">
+        </div>
+	</div>
 
 </div>
