@@ -43,6 +43,9 @@ class CharactersTable extends Table
 		$this->BelongsToMany('Talents', [
 			'through' => 'CharactersTalents'
 		]);
+		$this->BelongsToMany('Notes', [
+			'through' => 'CharactersNotes'
+		]);
 	}
 
 	/**

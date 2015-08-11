@@ -114,6 +114,7 @@
         </div>
     </div>
 
+	<?php if (count($character->talents) > 0) : ?>
     <div class="row">
         <div class="col-md-5">
             <?= $this->element('talent_list', [
@@ -121,6 +122,17 @@
             ]); ?>
         </div>
     </div>
+	<?php endif; ?>
+
+	<?php if (count($character->notes) > 0) : ?>
+    <div class="row">
+        <div class="col-md-5">
+            <?= $this->element('notes_list', [
+                'character_notes' => $character->notes
+            ]); ?>
+        </div>
+    </div>
+	<?php endif; ?>
 
 </div>
 

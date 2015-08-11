@@ -25,7 +25,7 @@ class CharactersController extends AppController
             return true;
         }
 
-        if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat'])) {
+        if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat', 'remove_talent', 'change_talent_rank'])) {
             $characterId = (int)$this->request->params['pass'][0];
             if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
                 return true;
@@ -60,10 +60,22 @@ class CharactersController extends AppController
      */
     public function view($id = null)
     {
-        $character = $this->Characters->get($id, [
-            'contain' => ['Training', 'Talents']
-        ]);
-
+		$query = $this->Characters
+			->find('all')
+			->contain(['Training', 'Talents'])
+			->where(['Characters.id' => $id])
+		;
+		
+		$char_is_owned = $this->Characters->isOwnedBy($id, $this->Auth->User('id'));
+		
+		if ($char_is_owned) {
+			$query->contain(['Notes']);
+		} else {
+			$query->contain(['Notes' => function ($q) { return $q->where(['Notes.private' => false]);}]);
+		}
+		
+		$character = $query->first();
+		
         $this->loadModel('Skills');
         $skills = $this->Skills->find();
         $skills->select([
