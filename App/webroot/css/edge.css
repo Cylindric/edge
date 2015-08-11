@@ -101,3 +101,11 @@ body {
     font-family: 'Anton', sans-serif;
     height: 80px;
 }
+
+.public {
+	color: green;
+}
+
+.private {
+	color: red;
+}

@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  *
  * @property \Cake\ORM\Association\BelongsToMany $Characters
  */
-class TalentsTable extends Table
+class NotesTable extends Table
 {
 
     /**
@@ -25,12 +25,12 @@ class TalentsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('talents');
-        $this->displayField('name');
+        $this->table('notes');
+        $this->displayField('note');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
         $this->BelongsToMany('Characters', [
-            'through' => 'CharactersTalents'
+            'through' => 'CharactersNotes'
         ]);
     }
 
@@ -47,13 +47,8 @@ class TalentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
-
-        $validator
-            ->add('ranked', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('ranked', 'create')
-            ->notEmpty('ranked');
+            ->requirePresence('note', 'create')
+            ->notEmpty('note');
 
         return $validator;
     }

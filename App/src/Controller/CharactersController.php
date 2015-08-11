@@ -25,7 +25,7 @@ class CharactersController extends AppController
             return true;
         }
 
-        if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat'])) {
+        if (in_array($this->request->action, ['edit', 'delete', 'edit_stats', 'edit_skills', 'change_skill', 'change_stat', 'remove_talent', 'change_talent_rank'])) {
             $characterId = (int)$this->request->params['pass'][0];
             if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
                 return true;
@@ -60,10 +60,22 @@ class CharactersController extends AppController
      */
     public function view($id = null)
     {
-        $character = $this->Characters->get($id, [
-            'contain' => ['Training', 'Talents']
-        ]);
-
+		$query = $this->Characters
+			->find('all')
+			->contain(['Training', 'Talents'])
+			->where(['Characters.id' => $id])
+		;
+		
+		$char_is_owned = $this->Characters->isOwnedBy($id, $this->Auth->User('id'));
+		
+		if ($char_is_owned) {
+			$query->contain(['Notes' => ['sort' => ['Notes.created DESC']]]);
+		} else {
+			$query->contain(['Notes' => function ($q) { return $q->where(['Notes.private' => false])->sort(['Notes.created']);}]);
+		}
+		
+		$character = $query->first();
+		
         $this->loadModel('Skills');
         $skills = $this->Skills->find();
         $skills->select([
@@ -198,6 +210,17 @@ class CharactersController extends AppController
     {
         $character = $this->Characters->get($id, [
             'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+        ]);
+
+        $this->set('character', $character);
+        $this->set('_serialize', ['character']);
+    }
+	
+	public function edit_notes($id = null)
+    {
+        $character = $this->Characters->get($id, [
+            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
+			'contain' => ['Notes' => ['sort' => ['Notes.created DESC']]],
         ]);
 
         $this->set('character', $character);
@@ -399,6 +422,42 @@ class CharactersController extends AppController
         }
 
         $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function remove_note($char_id, $note_id)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($note_id)) {
+			$this->loadModel('Notes');
+
+			if($this->Notes->delete($this->Notes->get($note_id))){
+                $response = ['result' => 'success', 'data' => null];
+            }
+        }
+
+        $this->set('response', $response);
+        $this->set('_serialize', ['response']);
+    }
+
+    public function add_note($char_id)
+    {
+		$Char = $this->Characters->get($char_id);
+
+		$this->loadModel('Notes');
+        $note = $this->Notes->newEntity();
+        if ($this->request->is('post')) {
+            $note = $this->Notes->patchEntity($note, $this->request->data);
+            if ($this->Notes->save($note)) {
+				$this->Characters->Notes->link($Char, [$note]);
+                $response = ['result' => 'success', 'data' => $note];
+            } else {
+                $response = ['result' => 'fail', 'data' => $note];
+            }
+        }
+
+        $this->set('response', $response);
         $this->set('_serialize', ['response']);
     }
 
