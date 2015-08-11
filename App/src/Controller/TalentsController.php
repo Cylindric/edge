@@ -32,14 +32,21 @@ class TalentsController extends AppController
      */
     public function index()
     {
-        $term = trim($this->request->query('term'));
-        if (!empty($term)) {
-            $talents = $this->Talents->find('list')->where(['name LIKE' => $term . '%']);
-        } else {
+        if(true||$this->request->is('ajax')) {
+            $term = trim($this->request->query('term'));
+            if (!empty($term)) {
+                $talents = $this->Talents
+                    ->find('all')
+                    ->select(['value' => 'id', 'label' => 'name'])
+                    ->where(['name LIKE' => $term . '%']);
+            } else {
+                $talents = array();
+            }
+        } else{
             $talents = $this->paginate($this->Talents);
         }
         $this->set('talents', $talents);
-        $this->set('_serialize', ['talents']);
+        $this->set('_serialize', 'talents');
     }
 
 }

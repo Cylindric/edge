@@ -10,11 +10,39 @@ var RpgApp = {};
     };
 
     RpgApp.getTalents = function (character_id) {
-        $.get('/characters/edit_talents/' + character_id, function (response) {
-            $incompleteDiv = $('#talents_list_edit');
-            $incompleteDiv.empty();
-            $incompleteDiv.append(response);
+        $.ajax({
+            async: false,
+            type: 'GET',
+            url: '/characters/edit_talents/' + character_id,
+            success: function (response) {
+                $incompleteDiv = $('#talents_list_edit');
+                $incompleteDiv.empty();
+                $incompleteDiv.append(response);
+
+                $("#autocomplete").autocomplete({
+                    source: "/talents.json",
+                    focus: function (event, ui) {
+                        $("#autocomplete").val(ui.item.label);
+                        return false;
+                    },
+                    select: function (event, ui) {
+                        $("#autocomplete").val(ui.item.label);
+
+                        $.get('/characters/add_talent/' + character_id + '/' + ui.item.value + '.json', function (response) {
+                            if (response.response.result == 'success') {
+
+                                // reload the talent screen
+                                RpgApp.getTalents(character_id);
+                            }
+                        });
+
+                        return false;
+                    }
+                });
+            }
         });
+
+
     };
 
     RpgApp.getStats = function (character_id) {
@@ -34,7 +62,7 @@ var RpgApp = {};
                     var level = $('#skill_' + skill_id).find('span.skill_level');
                     level.text(newLevel);
 
-					// Set the new value
+                    // Set the new value
                     $dice = $('#skill_' + skill_id).find('span.skill_dice');
                     $dice.empty();
                     var proficiencyDice = response.response.Dice["proficiency"];
@@ -47,14 +75,14 @@ var RpgApp = {};
                     }
 
                     // Show or hide the buttons
-					if (newLevel >= 1) {
-						$('#skill_' + skill_id).find('i.decrease').fadeIn();
-						level.fadeIn();
-					} else {
-						$('#skill_' + skill_id).find('i.decrease').fadeOut();
-						level.fadeOut();
-					}
-					
+                    if (newLevel >= 1) {
+                        $('#skill_' + skill_id).find('i.decrease').fadeIn();
+                        level.fadeIn();
+                    } else {
+                        $('#skill_' + skill_id).find('i.decrease').fadeOut();
+                        level.fadeOut();
+                    }
+
                 } else if (response.response.result == 'fail') {
                     console.log('fail');
                 }
@@ -75,13 +103,37 @@ var RpgApp = {};
         );
     };
 
+    RpgApp.removeTalent = function (character_id, link_id) {
+        $.get('/characters/remove_talent/' + character_id + '/' + link_id + '.json',
+            function (response) {
+                if (response.response.result == 'success') {
+                    $('tr[id=talent_' + link_id).remove();
+                } else if (response.response.result == 'fail') {
+                    console.log('fail');
+                }
+            }
+        );
+    };
+
+    RpgApp.changeTalent = function (character_id, talent_id, delta) {
+        $.get('/characters/change_talent_rank/' + character_id + '/' + talent_id + '/' + delta + '.json',
+            function (response) {
+                if (response.response.result == 'success') {
+                    RpgApp.getTalents(character_id);
+                } else if (response.response.result == 'fail') {
+                    console.log('fail');
+                }
+            }
+        );
+    };
+
 })();
 
 (function ($) {
     // Get the Character ID
     var char_id = $(document).find('input[name="id"]').val();
 
-	// Stat +/- buttons
+    // Stat +/- buttons
     $(document).on('click', 'i[id*=statincrease_]', function () {
         var id = $(this).attr('id').replace('statincrease_', '');
         RpgApp.changeStat(char_id, id, 1);
@@ -90,8 +142,8 @@ var RpgApp = {};
         var id = $(this).attr('id').replace('statdecrease_', '');
         RpgApp.changeStat(char_id, id, -1);
     });
-    
-	// Skill +/- buttons
+
+    // Skill +/- buttons
     $(document).on('click', 'i[id*=skillincrease_]', function () {
         var id = $(this).attr('id').replace('skillincrease_', '');
         RpgApp.changeSkill(char_id, id, 1);
@@ -101,11 +153,22 @@ var RpgApp = {};
         RpgApp.changeSkill(char_id, id, -1);
     });
 
-	RpgApp.getStats(char_id);
+    // Talent buttons
+    $(document).on('click', 'span[id*=remove_talent_]', function () {
+        var id = $(this).attr('id').replace('remove_talent_', '');
+        RpgApp.removeTalent(char_id, id);
+    });
+    $(document).on('click', 'span[id*=increase_talent_]', function () {
+        var id = $(this).attr('id').replace('increase_talent_', '');
+        RpgApp.changeTalent(char_id, id, 1);
+    });
+    $(document).on('click', 'span[id*=decrease_talent_]', function () {
+        var id = $(this).attr('id').replace('decrease_talent_', '');
+        RpgApp.changeTalent(char_id, id, -1);
+    });
+
+
+    RpgApp.getStats(char_id);
     RpgApp.getSkills(char_id);
     RpgApp.getTalents(char_id);
-
-    $( "#autocomplete" ).autocomplete({
-        source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ]
-    });
 })(jQuery);

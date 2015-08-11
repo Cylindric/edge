@@ -7,7 +7,15 @@ use Cake\Routing\Router;
 
 class CharactersControllerTest extends IntegrationTestCase
 {
-    public $fixtures = ['app.characters', 'app.skills', 'app.stats', 'app.species', 'app.training'];
+    public $fixtures = [
+        'app.characters',
+        'app.characters_talents',
+        'app.skills',
+        'app.stats',
+        'app.species',
+        'app.training',
+        'app.talents',
+    ];
 
     public function setUp()
     {
@@ -32,7 +40,7 @@ class CharactersControllerTest extends IntegrationTestCase
     {
         $char_id = 1;
         $stat = 'ag';
-        $stat_code = 'stat_'.$stat;
+        $stat_code = 'stat_' . $stat;
 
         $Characters = TableRegistry::get('Characters');
         $char = $Characters->get($char_id);
@@ -54,7 +62,7 @@ class CharactersControllerTest extends IntegrationTestCase
         $this->assertResponseOk();
 
         $expected = [
-            'response' => ['result' => 'success', 'data' =>  $expected_value],
+            'response' => ['result' => 'success', 'data' => $expected_value],
         ];
         $expected = json_encode($expected, JSON_PRETTY_PRINT);
 
@@ -66,7 +74,7 @@ class CharactersControllerTest extends IntegrationTestCase
     {
         $char_id = 1;
         $stat = 'ag';
-        $stat_code = 'stat_'.$stat;
+        $stat_code = 'stat_' . $stat;
 
         $Characters = TableRegistry::get('Characters');
         $char = $Characters->get($char_id);
@@ -88,7 +96,7 @@ class CharactersControllerTest extends IntegrationTestCase
         $this->assertResponseOk();
 
         $expected = [
-            'response' => ['result' => 'success', 'data' =>  $expected_value],
+            'response' => ['result' => 'success', 'data' => $expected_value],
         ];
         $expected = json_encode($expected, JSON_PRETTY_PRINT);
 
@@ -100,7 +108,7 @@ class CharactersControllerTest extends IntegrationTestCase
     {
         $char_id = 1;
         $stat = 'ag';
-        $stat_code = 'stat_'.$stat;
+        $stat_code = 'stat_' . $stat;
 
         $Characters = TableRegistry::get('Characters');
         $char = $Characters->get($char_id);
@@ -121,7 +129,7 @@ class CharactersControllerTest extends IntegrationTestCase
         $this->assertResponseOk();
 
         $expected = [
-            'response' => ['result' => 'success', 'data' =>  $expected_value],
+            'response' => ['result' => 'success', 'data' => $expected_value],
         ];
         $expected = json_encode($expected, JSON_PRETTY_PRINT);
 
@@ -185,4 +193,82 @@ class CharactersControllerTest extends IntegrationTestCase
         $this->assertEquals($expected_value, $this->viewVariable('skill')->level);
     }
 
+    public function testAddingTalent()
+    {
+        $char_id = 1;
+        $talent_id = 1;
+
+        $Characters = TableRegistry::get('Characters');
+        $C = $Characters
+            ->get($char_id, ['contain' => 'Talents']);
+
+        // Clear any existing talents
+        $this->assertEquals(0, count($C->talents));
+
+        $this->configRequest([
+            'headers' => ['Accept' => 'application/json']
+        ]);
+        $this->get(Router::url(
+            ['controller' => 'characters',
+                'action' => 'add_talent',
+                '_ext' => '.json',
+                $char_id, $talent_id
+            ]));
+
+        // Confirm basic response is okay
+        $this->assertResponseOk();
+
+        // Check Character now contains the talent
+        $C = $Characters
+            ->get($char_id, ['contain' => 'Talents']);
+
+        $this->assertEquals(1, count($C->talents));
+    }
+
+    public function testRemovingTalent()
+    {
+        $char_id = 1;
+        $talent_it = 1;
+
+        $Characters = TableRegistry::get('Characters');
+        $C = $Characters
+            ->get($char_id, ['contain' => 'Talents']);
+
+        // Clear any existing talents
+        $this->assertEquals(0, count($C->talents));
+
+        // First add a talent to later remove
+        $this->configRequest([
+            'headers' => ['Accept' => 'application/json']
+        ]);
+        $this->get(Router::url(
+            ['controller' => 'characters',
+                'action' => 'add_talent',
+                '_ext' => '.json',
+                $char_id, $talent_it
+            ]));
+        $this->assertResponseOk();
+
+        $C = $Characters
+            ->get($char_id, ['contain' => 'Talents']);
+
+        $join_id = $C->talents[0]->_joinData->id;
+
+        // Now remove it
+        $this->configRequest([
+            'headers' => ['Accept' => 'application/json']
+        ]);
+        $this->get(Router::url(
+            ['controller' => 'characters',
+                'action' => 'remove_talent',
+                '_ext' => '.json',
+                $char_id, $join_id
+            ]));
+        $this->assertResponseOk();
+
+        $C = $Characters
+            ->get($char_id, ['contain' => 'Talents']);
+
+        $this->assertEquals(0, count($C->talents));
+    }
 }

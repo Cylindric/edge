@@ -339,5 +339,68 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
+    public function add_talent($char_id, $talent_id)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($talent_id)) {
+
+            $C = $this->Characters->get($char_id, [
+                'contain' => ['Talents']
+            ]);
+
+            $this->loadModel('Talents');
+            $T = $this->Talents->get($talent_id);
+            $T->_joinData = ['rank' => 1];
+
+            if ($this->Characters->Talents->link($C, [$T])) {
+                $response = ['result' => 'success', 'data' => $C->talents];
+            }
+        }
+
+        $this->set('response', $response);
+        $this->set('_serialize', ['response']);
+    }
+
+    public function remove_talent($char_id, $join_id)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($join_id)) {
+            $this->loadModel('CharactersTalents');
+            $link = $this->CharactersTalents->get($join_id);
+            if ($this->CharactersTalents->delete($link)) {
+                $response = ['result' => 'success', 'data' => null];
+            }
+        }
+
+        $this->set('response', $response);
+        $this->set('_serialize', ['response']);
+    }
+
+    public function change_talent_rank($char_id = null, $join_id = null, $delta = 1)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($join_id)) {
+            $delta = (int)$delta;
+
+            $this->loadModel('CharactersTalents');
+            $T = $this->CharactersTalents->get($join_id, ['contain' => 'Talents']);
+            if ($T->talent->ranked) {
+                $T->rank += $delta;
+                if ($T->rank < 1) {
+                    $T->rank = 1;
+                }
+            }
+            if ($this->CharactersTalents->save($T)) {
+                $response = ['result' => 'success', 'data' => $T->rank];
+            }
+        }
+
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
 
 }
