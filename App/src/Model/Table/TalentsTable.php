@@ -55,15 +55,6 @@ class TalentsTable extends Table
             ->requirePresence('ranked', 'create')
             ->notEmpty('ranked');
 
-        $validator
-            ->requirePresence('activation_type', 'create')
-            ->notEmpty('activation_type');
-
-        $validator
-            ->add('page', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('page', 'create')
-            ->notEmpty('page');
-
         return $validator;
     }
 }
