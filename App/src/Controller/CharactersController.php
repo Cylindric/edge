@@ -89,7 +89,7 @@ class CharactersController extends AppController
                 'alias' => 't',
                 'type' => 'LEFT',
                 'conditions' => [
-                    'skills.id = t.skill_id',
+                    'Skills.id = t.skill_id',
                     't.character_id' => $id]
             ])
             ->group(['Skills.id', 'Stats.name', 'Stats.code'])
@@ -172,7 +172,7 @@ class CharactersController extends AppController
                 'alias' => 't',
                 'type' => 'LEFT',
                 'conditions' => [
-                    'skills.id = t.skill_id',
+                    'Skills.id = t.skill_id',
                     't.character_id' => $id]
             ])
             ->group('Skills.id')
