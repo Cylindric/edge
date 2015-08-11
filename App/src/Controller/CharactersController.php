@@ -253,7 +253,8 @@ class CharactersController extends AppController
                 'Stats',
                 'Training' => function ($q) use ($id) {
                     return $q->where(['Training.character_id' => $id]);
-                }]);
+                }])
+            ->order('Skills.name');
 
         $this->set('character', $character);
         $this->set('skills', $skills);
