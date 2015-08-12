@@ -1,5 +1,9 @@
-<?php $this->Html->script('app', ['block' => true]); ?>
-<?php $this->assign('title', $character->name); ?>
+<?php
+    $this->Html->addCrumb('Characters', '/characters');
+    $this->Html->addCrumb($character->name);
+    $this->Html->script('app', ['block' => true]);
+    $this->assign('title', $character->name);
+?>
 
 <?= $this->Form->create($character); ?>
 <?= $this->Form->hidden('id'); ?>

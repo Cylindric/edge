@@ -1,3 +1,4 @@
+<?php $this->Html->addCrumb('Users'); ?>
 <table class="table table-striped table-bordered">
     <thead>
     <tr>

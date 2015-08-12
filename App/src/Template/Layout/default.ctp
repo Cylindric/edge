@@ -70,6 +70,7 @@
 			</div>
 		</div>
 	</div>
+	<?= $this->Html->getCrumbList(['class' => 'breadcrumb hidden-print', 'lastclass' => 'active'], 'Home'); ?>
 
 	<?= $this->Flash->render() ?>
 	<?= $this->fetch('content') ?>

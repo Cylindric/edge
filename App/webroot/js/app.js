@@ -203,7 +203,7 @@ var RpgApp = {};
 	$(document).on('click', 'a[id*=new_note_submit]', function () {
         RpgApp.addNote(char_id);
     });
-	
+		
 	RpgApp.getStats(char_id);
     RpgApp.getSkills(char_id);
     RpgApp.getTalents(char_id);

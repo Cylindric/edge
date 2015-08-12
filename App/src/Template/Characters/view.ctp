@@ -1,3 +1,8 @@
+<?php
+$this->Html->addCrumb('Characters', '/characters');
+$this->Html->addCrumb($character->name);
+?>
+
 <?php $this->assign('title', $character->name); ?>
 <div class="row">
     <div class="col-xs-12">

@@ -6,9 +6,7 @@
         <tr id="skill_<?= $skill->id ?>">
             <td><span class="skill_name"><?= $skill->name ?> (<?= $skill->stat->code ?>)</span></td>
             <td class="col-md-2 text-center">
-                <?php if ($skill->level > 0): ?>
-                    <i class="decrease glyphicon glyphicon-minus" id="skilldecrease_<?= $skill->id ?>" style="<?= ($skill->level > 0) ? "" : "display:none;"; ?>"></i>
-                <?php endif; ?>
+                <i class="decrease glyphicon glyphicon-minus" id="skilldecrease_<?= $skill->id ?>" style="<?= ($skill->level > 0) ? "" : "display:none;"; ?>"></i>
                 <span class="skill_level"><?= $skill->level == 0 ? '' : $skill->level ?></span>
                 <i class="increase glyphicon glyphicon-plus" id="skillincrease_<?= $skill->id ?>"></i>
             </td>
