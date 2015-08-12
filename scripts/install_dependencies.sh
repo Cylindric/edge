@@ -54,4 +54,4 @@ mysql -uroot -p$rootpass -e 'CREATE DATABASE IF NOT EXISTS edgetest;';
 mysql -uroot -p$rootpass -e "GRANT ALL PRIVILEGES ON edgetest.* TO \"edge\"@\"localhost\" IDENTIFIED BY \"$edgepass\";"
 mysql -uroot -p$rootpass -e 'FLUSH PRIVILEGES;';
 
-
+echo "" > /var/www/edge/slack.webhook_url

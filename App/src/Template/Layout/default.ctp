@@ -20,7 +20,7 @@
 	<?= $this->fetch('css') ?>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
 
 	<div class="navbar navbar-default">
 		<div class="container-fluid">
