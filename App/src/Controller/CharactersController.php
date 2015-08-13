@@ -385,8 +385,8 @@ class CharactersController extends AppController
             // Change the stat
             $Char->$stat_code = $new_value;
             if ($this->Characters->save($Char)) {
-				// Announce 
-				$this->Slack->announceCharacterEdit($Char);
+                // Announce
+                $this->Slack->announceCharacterEdit($Char);
 
                 $response = ['result' => 'success', 'data' => $Char->$stat_code];
                 $this->Flash->success(__('The Stat has been saved.'));
@@ -394,7 +394,39 @@ class CharactersController extends AppController
                 $this->Flash->error(__('The Stat could not be saved. Please, try again.'));
             }
 
-       }
+        }
+
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function change_status($char_id = null, $stat_code = null, $delta = 1)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($stat_code)) {
+            $delta = (int)$delta;
+            $Char = $this->Characters->get($char_id);
+
+            switch($stat_code){
+                case 'strain':
+                    $Char->strain = max(0, $Char->strain + $delta);
+                    $response['data'] = $Char->strain;
+                    break;
+                case 'wounds':
+                    $Char->wounds = max(0, $Char->wounds + $delta);
+                    $response['data'] = $Char->wounds;
+                    break;
+            }
+
+            // Change the stat
+            if ($this->Characters->save($Char)) {
+                // Announce
+                $this->Slack->announceCharacterEdit($Char);
+                $response['result'] = 'success';
+            }
+
+        }
 
         $this->set(compact('response'));
         $this->set('_serialize', ['response']);

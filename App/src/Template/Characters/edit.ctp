@@ -1,8 +1,8 @@
 <?php
-    $this->Html->addCrumb('Characters', '/characters');
-    $this->Html->addCrumb($character->name);
-    $this->Html->script('app', ['block' => true]);
-    $this->assign('title', $character->name);
+$this->Html->addCrumb('Characters', '/characters');
+$this->Html->addCrumb($character->name);
+$this->Html->script('rpgCharacterEdit', ['block' => true]);
+$this->assign('title', $character->name);
 ?>
 
 <?= $this->Form->create($character); ?>
@@ -16,30 +16,11 @@
             <h2><?= h($character->name) ?></h2>
         </div>
 
-        <h3>Characteristics</h3>
+        <?= $this->element('status_block', [
+            'character' => $character
+        ]); ?>
 
-        <div class="row">
-            <div class="col-md-2 text-center soak">
-                <div class="row name">
-                    SOAK
-                </div>
-                <div class="row value">
-                    <?= $character->soak ?>
-                </div>
-            </div>
-            <div class="col-md-2 text-center strain">
-                <div class="row name">
-                    STRAIN
-                </div>
-                <div class="row value">
-                    <?= $character->strain ?>
-                    <?= $character->strain ?>
-                </div>
-                <div class="row text-left subtitle">
-                    THRESHOLD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CURRENT
-                </div>
-            </div>
-        </div>
+        <h3>Characteristics</h3>
 
         <div class="row" id="stats_list_edit">
         </div>
@@ -52,6 +33,6 @@
 
         <div class="row" id="notes_list_edit">
         </div>
-	</div>
+    </div>
 
 </div>

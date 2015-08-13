@@ -36,6 +36,8 @@ body {
 }
 
 .btn-skill-adjust {
+    font-size: 20px;
+    vertical-align: middle;
     border: 0;
     padding: 0;
 }
@@ -50,14 +52,14 @@ body {
     cursor:pointer;
 }
 
-.soak {
+.stat_single {
     height: 115px;
     background-image: url("/img/stat-single.png");
     background-repeat: no-repeat;
     background-position: 50% 0;
 }
 
-.soak .name {
+.stat_single .name {
     padding-top: 8px;
     height: 10px;
     color: white;
@@ -65,20 +67,20 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
-.soak .value {
+.stat_single .value {
     padding-top: 10px;
     font-size: 4em;
     font-family: 'Anton', sans-serif;
 }
 
-.strain {
+.stat_double {
     height: 115px;
     background-image: url("/img/stat-double.png");
     background-repeat: no-repeat;
     background-position: 50% 0;
 }
 
-.strain .name {
+.stat_double .name {
     padding-top: 8px;
     height: 10px;
     color: white;
@@ -86,20 +88,30 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
-.strain .subtitle {
+.stat_double .subtitle {
     padding-top: 5px;
     padding-left: 10px;
     height: 10px;
     color: white;
     font-size: 13px;
     font-family: 'Nunito', sans-serif;
+    text-align: left;
 }
 
-.strain .value {
+.stat_double .subtitle > :first-child {
+    text-align: right;
+}
+
+.stat_double .value {
     padding-top: 10px;
     font-size: 4em;
     font-family: 'Anton', sans-serif;
     height: 80px;
+    text-align: left;
+}
+
+.stat_double .value > :first-child {
+    text-align: right;
 }
 
 .public {
