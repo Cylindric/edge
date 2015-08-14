@@ -7,9 +7,10 @@ chmod u+x /var/www/edge/htdocs/bin/cake
 
 
 edgepass=`cat /var/www/edge/edgepw`
-
+slackurl=`cat /var/www/edge/slack`
 sed -i "s/'username' => '.*'/'username' => 'edge'/g" /var/www/edge/htdocs/config/app.php
 sed -i "s/'password' => '.*'/'password' => '$edgepass'/g" /var/www/edge/htdocs/config/app.php
+sed -i "s/'webhook_url' => '.*'/'webhook_url' => '$slackurl'/g" /var/www/edge/htdocs/config/app.php
 
 bin/cake migrations migrate
 

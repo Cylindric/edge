@@ -49,5 +49,5 @@ class SpeciesBase
 
     public function getSoak()
     {
-        return $this->Species->base_strain + $this->_entity->stat_br;
+        return $this->_entity->stat_br;
     }}

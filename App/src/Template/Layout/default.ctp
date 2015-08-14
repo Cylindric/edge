@@ -20,7 +20,7 @@
 	<?= $this->fetch('css') ?>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
 
 	<div class="navbar navbar-default">
 		<div class="container-fluid">
@@ -70,6 +70,7 @@
 			</div>
 		</div>
 	</div>
+	<?= $this->Html->getCrumbList(['class' => 'breadcrumb hidden-print', 'lastclass' => 'active'], 'Home'); ?>
 
 	<?= $this->Flash->render() ?>
 	<?= $this->fetch('content') ?>

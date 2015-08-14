@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use App\Rpg\CalculatorFactory;
 use Cake\Utility\Inflector;
+use Cake\Core\Configure;
 
 /**
  * Characters Controller
@@ -17,6 +18,11 @@ class CharactersController extends AppController
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
+		
+		$this->loadComponent('Slack', [
+			'webhook_url' => Configure::read('Slack.webhook_url'), 
+			'enabled' => Configure::read('Slack.enabled')
+		]);
     }
 
     public function isAuthorized($user)
@@ -111,10 +117,11 @@ class CharactersController extends AppController
             ->group(['Skills.id', 'Stats.name', 'Stats.code'])
             ->order('Skills.name');
 
-        $this->Set('canEdit', $this->Characters->isOwnedBy($character->id, $this->Auth->User('id')));
+        $this->set('canEdit', $this->Characters->isOwnedBy($character->id, $this->Auth->User('id')));
         $this->set('character', $character);
         $this->set('skills', $skills);
         $this->set('_serialize', ['character']);
+
     }
 
     /**
@@ -138,7 +145,10 @@ class CharactersController extends AppController
                 $species->applyCreationStats();
                 $species->applyCreationSkills();
 
-                $this->Flash->success(__('The character has been saved.'));
+				// Announce
+				$this->Slack->announceCharacterCreation($character);
+
+				$this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'edit', $character->id]);
             } else {
                 $this->Flash->error(__('The character could not be saved. Please, try again.'));
@@ -168,7 +178,10 @@ class CharactersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $character = $this->Characters->patchEntity($character, $this->request->data);
             if ($this->Characters->save($character)) {
-                $this->Flash->success(__('The character has been saved.'));
+				// Announce
+				$this->Slack->announceCharacterEdit($character);
+
+				$this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The character could not be saved. Please, try again.'));
@@ -344,6 +357,11 @@ class CharactersController extends AppController
             }
         }
 
+		// Announce
+		if ($response['result'] == 'success')
+			$this->Slack->announceCharacterEdit($Character);
+
+		
         $response['Dice'] = $Skill->dice($Character);
         $response['Level'] = $Skill->level;
 
@@ -367,11 +385,47 @@ class CharactersController extends AppController
             // Change the stat
             $Char->$stat_code = $new_value;
             if ($this->Characters->save($Char)) {
+                // Announce
+                $this->Slack->announceCharacterEdit($Char);
+
                 $response = ['result' => 'success', 'data' => $Char->$stat_code];
                 $this->Flash->success(__('The Stat has been saved.'));
             } else {
                 $this->Flash->error(__('The Stat could not be saved. Please, try again.'));
             }
+
+        }
+
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function change_status($char_id = null, $stat_code = null, $delta = 1)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($stat_code)) {
+            $delta = (int)$delta;
+            $Char = $this->Characters->get($char_id);
+
+            switch($stat_code){
+                case 'strain':
+                    $Char->strain = max(0, $Char->strain + $delta);
+                    $response['data'] = $Char->strain;
+                    break;
+                case 'wounds':
+                    $Char->wounds = max(0, $Char->wounds + $delta);
+                    $response['data'] = $Char->wounds;
+                    break;
+            }
+
+            // Change the stat
+            if ($this->Characters->save($Char)) {
+                // Announce
+                $this->Slack->announceCharacterEdit($Char);
+                $response['result'] = 'success';
+            }
+
         }
 
         $this->set(compact('response'));
@@ -384,7 +438,7 @@ class CharactersController extends AppController
 
         if (!is_null($char_id) && !is_null($talent_id)) {
 
-            $C = $this->Characters->get($char_id, [
+            $Char = $this->Characters->get($char_id, [
                 'contain' => ['Talents']
             ]);
 
@@ -392,8 +446,10 @@ class CharactersController extends AppController
             $T = $this->Talents->get($talent_id);
             $T->_joinData = ['rank' => 1];
 
-            if ($this->Characters->Talents->link($C, [$T])) {
-                $response = ['result' => 'success', 'data' => $C->talents];
+            if ($this->Characters->Talents->link($Char, [$T])) {
+				// Announce 
+				$this->Slack->announceCharacterEdit($Char);
+                $response = ['result' => 'success', 'data' => $Char->talents];
             }
         }
 
@@ -406,9 +462,13 @@ class CharactersController extends AppController
         $response = ['result' => 'fail', 'data' => null];
 
         if (!is_null($char_id) && !is_null($join_id)) {
-            $this->loadModel('CharactersTalents');
+            $Char = $this->Characters->get($char_id);
+
+			$this->loadModel('CharactersTalents');
             $link = $this->CharactersTalents->get($join_id);
             if ($this->CharactersTalents->delete($link)) {
+				// Announce 
+				$this->Slack->announceCharacterEdit($Char);
                 $response = ['result' => 'success', 'data' => null];
             }
         }
@@ -423,6 +483,7 @@ class CharactersController extends AppController
 
         if (!is_null($char_id) && !is_null($join_id)) {
             $delta = (int)$delta;
+            $Char = $this->Characters->get($char_id);
 
             $this->loadModel('CharactersTalents');
             $T = $this->CharactersTalents->get($join_id, ['contain' => 'Talents']);
@@ -433,6 +494,8 @@ class CharactersController extends AppController
                 }
             }
             if ($this->CharactersTalents->save($T)) {
+				// Announce 
+				$this->Slack->announceCharacterEdit($Char);
                 $response = ['result' => 'success', 'data' => $T->rank];
             }
         }
