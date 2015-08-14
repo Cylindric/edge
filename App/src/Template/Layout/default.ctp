@@ -52,6 +52,13 @@
 								<li><?= $this->Html->link('New', '/users/add') ?></li>
 							</ul>
 						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Groups <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><?= $this->Html->link('List', '/groups/') ?></li>
+								<li><?= $this->Html->link('New', '/groups/add') ?></li>
+							</ul>
+						</li>
 					<?php endif; ?>
 				</ul>
 
