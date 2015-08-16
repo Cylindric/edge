@@ -1,7 +1,6 @@
 USE edge;
 SELECT * FROM characters;
 SELECT * FROM characters_talents;
-SELECT * FROM characters_groups;
 SELECT * FROM groups;
 SELECT * FROM skills;
 SELECT * FROM species;

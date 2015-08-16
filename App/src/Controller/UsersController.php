@@ -82,7 +82,6 @@ class UsersController extends AppController
     public function login()
     {
         if ($this->request->is('post')) {
-
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
@@ -93,7 +92,7 @@ class UsersController extends AppController
                     $cookie['password'] = $this->request->data['password'];
                     $this->Cookie->write('rememberMe', $cookie, true, "1 week");
                 } else {
-                    $this->Cookie->del('rememberMe');
+                    $this->Cookie->delete('rememberMe');
                 }
 
                 return $this->redirect($this->Auth->redirectUrl());

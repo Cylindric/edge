@@ -21,7 +21,7 @@ class UsersTable extends Table
 
     public function checkLogin($username, $hash)
     {
-        $user = $this->find()->where(['username' => $username], ['password' => $hash])->first();
+        $user = $this->find()->where(['username' => $username], ['password' => $hash])->first()->toArray();
 
         if ($user) {
             $this->data = $user;

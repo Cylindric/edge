@@ -18,9 +18,7 @@ class GroupsTable extends Table
         $this->displayField('name');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->BelongsToMany('Characters', [
-            'through' => 'CharactersGroups'
-        ]);
+        $this->hasMany('Characters');
     }
 
     public function validationDefault(Validator $validator)

@@ -50,6 +50,7 @@ class AppController extends Controller
 
         $cookie = $this->Cookie->read('rememberMe');
         if (is_array($cookie) && !$this->Auth->User()) {
+            $this->loadModel('Users');
             if ($this->Users->checkLogin($cookie['username'], $cookie['password'])) {
                 $this->Auth->setUser($this->Users->data);
             }

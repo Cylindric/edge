@@ -40,12 +40,13 @@ class CharactersTable extends Table
 		$this->hasMany('CharactersTalents', [
 			'foreignKey' => 'character_id'
 		]);
-		$this->BelongsToMany('Talents', [
+		$this->belongsToMany('Talents', [
 			'through' => 'CharactersTalents'
 		]);
-		$this->BelongsToMany('Notes', [
+		$this->belongsToMany('Notes', [
 			'through' => 'CharactersNotes'
 		]);
+		$this->belongsTo('Groups');
 	}
 
 	/**
@@ -85,7 +86,4 @@ class CharactersTable extends Table
 		return $this->exists(['id' => $characterId, 'user_id' => $userId]);
 	}
 
-	public function afterSaveCommit($event, $entity, $options)
-	{
-	}
 }

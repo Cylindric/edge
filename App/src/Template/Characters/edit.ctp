@@ -14,8 +14,13 @@ $this->assign('title', $character->name);
 
         <div class="row">
             <h2><?= h($character->name) ?></h2>
+            <?php if ($character->group_id == 0): ?>
+                <div
+                    class="row"><?= $this->Html->link('Join Group', ['controller' => 'characters', 'action' => 'join_group', $character->id]) ?></div>
+            <?php else: ?>
+                <h3><?= $character->group->name ?></h3>
+            <?php endif; ?>
         </div>
-
         <?= $this->element('status_block', [
             'character' => $character
         ]); ?>

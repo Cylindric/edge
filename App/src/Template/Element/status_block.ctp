@@ -45,7 +45,7 @@ $editing = $this->request->params['action'] == 'edit';
         "name" => "defence",
         "editing" => $editing,
         "title" => "Defence",
-        "subtitles" => ['Threshold', 'Current'],
+        "subtitles" => ['Melee', 'Ranged'],
         "values" => [$character->defence_melee, $character->defence_ranged],
     ]); ?>
 

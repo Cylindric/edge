@@ -29,6 +29,7 @@ class Initial extends AbstractMigration
         $table
             ->addColumn('user_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('species_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('group_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
             ->addColumn('gender', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('age', 'string', ['default' => null, 'limit' => 45, 'null' => true])
@@ -53,18 +54,6 @@ class Initial extends AbstractMigration
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addForeignKey('user_id', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->addForeignKey('species_id', 'species', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
-            ->create();
-    }
-
-    function createTableCharactersGroups()
-    {
-        $table = $this->table('characters_groups');
-        $table->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
-            ->addColumn('group_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
-            ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
-            ->addForeignKey('group_id', 'groups', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
-            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
-            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->create();
     }
 

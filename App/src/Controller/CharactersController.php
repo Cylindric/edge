@@ -18,11 +18,11 @@ class CharactersController extends AppController
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
-		
-		$this->loadComponent('Slack', [
-			'webhook_url' => Configure::read('Slack.webhook_url'), 
-			'enabled' => Configure::read('Slack.enabled')
-		]);
+
+        $this->loadComponent('Slack', [
+            'webhook_url' => Configure::read('Slack.webhook_url'),
+            'enabled' => Configure::read('Slack.enabled')
+        ]);
     }
 
     public function isAuthorized($user)
@@ -31,23 +31,24 @@ class CharactersController extends AppController
             return true;
         }
 
-		// These require a valid Character Id that the user owns
+        // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
-			'edit', 
-			'delete', 
-			'edit_stats',
-			'edit_notes',
-			'edit_talents',
-			'edit_skills', 
-			'change_skill', 
-			'change_stat', 
-			'add_talent',
-			'remove_talent', 
-			'change_talent_rank',
-			'remove_note',
-			'add_note'
-			
-		])) {
+            'edit',
+            'delete',
+            'edit_stats',
+            'edit_notes',
+            'edit_talents',
+            'edit_skills',
+            'change_skill',
+            'change_stat',
+            'add_talent',
+            'join_group',
+            'remove_talent',
+            'change_talent_rank',
+            'remove_note',
+            'add_note'
+
+        ])) {
             $characterId = (int)$this->request->params['pass'][0];
             if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
                 return true;
@@ -82,22 +83,23 @@ class CharactersController extends AppController
      */
     public function view($id = null)
     {
-		$query = $this->Characters
-			->find('all')
-			->contain(['Training', 'Talents'])
-			->where(['Characters.id' => $id])
-		;
-		
-		$char_is_owned = $this->Characters->isOwnedBy($id, $this->Auth->User('id'));
-		
-		if ($char_is_owned) {
-			$query->contain(['Notes' => ['sort' => ['Notes.created DESC']]]);
-		} else {
-			$query->contain(['Notes' => function ($q) { return $q->where(['Notes.private' => false])->sort(['Notes.created']);}]);
-		}
-		
-		$character = $query->first();
-		
+        $query = $this->Characters
+            ->find('all')
+            ->contain(['Training', 'Talents'])
+            ->where(['Characters.id' => $id]);
+
+        $char_is_owned = $this->Characters->isOwnedBy($id, $this->Auth->User('id'));
+
+        if ($char_is_owned) {
+            $query->contain(['Notes' => ['sort' => ['Notes.created DESC']]]);
+        } else {
+            $query->contain(['Notes' => function ($q) {
+                return $q->where(['Notes.private' => false])->sort(['Notes.created']);
+            }]);
+        }
+
+        $character = $query->first();
+
         $this->loadModel('Skills');
         $skills = $this->Skills->find();
         $skills->select([
@@ -145,10 +147,10 @@ class CharactersController extends AppController
                 $species->applyCreationStats();
                 $species->applyCreationSkills();
 
-				// Announce
-				$this->Slack->announceCharacterCreation($character);
+                // Announce
+                $this->Slack->announceCharacterCreation($character);
 
-				$this->Flash->success(__('The character has been saved.'));
+                $this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'edit', $character->id]);
             } else {
                 $this->Flash->error(__('The character could not be saved. Please, try again.'));
@@ -172,16 +174,16 @@ class CharactersController extends AppController
     {
         $character = $this->Characters->get($id, [
             'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
-            'contain' => ['Training']
+            'contain' => ['Training', 'Groups']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $character = $this->Characters->patchEntity($character, $this->request->data);
             if ($this->Characters->save($character)) {
-				// Announce
-				$this->Slack->announceCharacterEdit($character);
+                // Announce
+                $this->Slack->announceCharacterEdit($character);
 
-				$this->Flash->success(__('The character has been saved.'));
+                $this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The character could not be saved. Please, try again.'));
@@ -243,12 +245,12 @@ class CharactersController extends AppController
         $this->set('character', $character);
         $this->set('_serialize', ['character']);
     }
-	
-	public function edit_notes($id = null)
+
+    public function edit_notes($id = null)
     {
         $character = $this->Characters->get($id, [
             'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
-			'contain' => ['Notes' => ['sort' => ['Notes.created DESC']]],
+            'contain' => ['Notes' => ['sort' => ['Notes.created DESC']]],
         ]);
 
         $this->set('character', $character);
@@ -357,11 +359,11 @@ class CharactersController extends AppController
             }
         }
 
-		// Announce
-		if ($response['result'] == 'success')
-			$this->Slack->announceCharacterEdit($Character);
+        // Announce
+        if ($response['result'] == 'success')
+            $this->Slack->announceCharacterEdit($Character);
 
-		
+
         $response['Dice'] = $Skill->dice($Character);
         $response['Level'] = $Skill->level;
 
@@ -408,7 +410,7 @@ class CharactersController extends AppController
             $delta = (int)$delta;
             $Char = $this->Characters->get($char_id);
 
-            switch($stat_code){
+            switch ($stat_code) {
                 case 'strain':
                     $Char->strain = max(0, $Char->strain + $delta);
                     $response['data'] = $Char->strain;
@@ -455,8 +457,8 @@ class CharactersController extends AppController
             $T->_joinData = ['rank' => 1];
 
             if ($this->Characters->Talents->link($Char, [$T])) {
-				// Announce 
-				$this->Slack->announceCharacterEdit($Char);
+                // Announce
+                $this->Slack->announceCharacterEdit($Char);
                 $response = ['result' => 'success', 'data' => $Char->talents];
             }
         }
@@ -472,11 +474,11 @@ class CharactersController extends AppController
         if (!is_null($char_id) && !is_null($join_id)) {
             $Char = $this->Characters->get($char_id);
 
-			$this->loadModel('CharactersTalents');
+            $this->loadModel('CharactersTalents');
             $link = $this->CharactersTalents->get($join_id);
             if ($this->CharactersTalents->delete($link)) {
-				// Announce 
-				$this->Slack->announceCharacterEdit($Char);
+                // Announce
+                $this->Slack->announceCharacterEdit($Char);
                 $response = ['result' => 'success', 'data' => null];
             }
         }
@@ -502,8 +504,8 @@ class CharactersController extends AppController
                 }
             }
             if ($this->CharactersTalents->save($T)) {
-				// Announce 
-				$this->Slack->announceCharacterEdit($Char);
+                // Announce
+                $this->Slack->announceCharacterEdit($Char);
                 $response = ['result' => 'success', 'data' => $T->rank];
             }
         }
@@ -517,9 +519,9 @@ class CharactersController extends AppController
         $response = ['result' => 'fail', 'data' => null];
 
         if (!is_null($char_id) && !is_null($note_id)) {
-			$this->loadModel('Notes');
+            $this->loadModel('Notes');
 
-			if($this->Notes->delete($this->Notes->get($note_id))){
+            if ($this->Notes->delete($this->Notes->get($note_id))) {
                 $response = ['result' => 'success', 'data' => null];
             }
         }
@@ -530,14 +532,14 @@ class CharactersController extends AppController
 
     public function add_note($char_id)
     {
-		$Char = $this->Characters->get($char_id);
+        $Char = $this->Characters->get($char_id);
 
-		$this->loadModel('Notes');
+        $this->loadModel('Notes');
         $note = $this->Notes->newEntity();
         if ($this->request->is('post')) {
             $note = $this->Notes->patchEntity($note, $this->request->data);
             if ($this->Notes->save($note)) {
-				$this->Characters->Notes->link($Char, [$note]);
+                $this->Characters->Notes->link($Char, [$note]);
                 $response = ['result' => 'success', 'data' => $note];
             } else {
                 $response = ['result' => 'fail', 'data' => $note];
@@ -548,5 +550,28 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
+    public function join_group($char_id)
+    {
+        $Char = $this->Characters->get($char_id, ['contain' => 'Groups']);
+
+        $this->loadModel('Groups');
+        $Groups = $this->Characters->Groups->find('list')->toArray();
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $character = $this->Characters->patchEntity($Char, $this->request->data);
+            if ($this->Characters->save($character)) {
+                // Announce
+                //$this->Slack->announceCharacterGroupJoin($character);
+
+                $this->Flash->success(__('The character has been added to the group.'));
+                return $this->redirect(['action' => 'edit', $char_id]);
+            } else {
+                $this->Flash->error(__('The character could not be added to the group. Please, try again.'));
+            }
+        }
+
+        $this->set('character', $Char);
+        $this->set('groups', $Groups);
+    }
 
 }
