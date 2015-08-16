@@ -116,7 +116,7 @@ var RpgApp = {};
         $.get('/characters/change_status/' + character_id + '/' + status_id + '/' + delta + '.json',
             function (response) {
                 if (response.response.result == 'success') {
-                    $('#'+update).find('span').text(response.response.data);
+                    $('#'+update).text(response.response.data);
                 } else if (response.response.result == 'fail') {
                     console.log('fail');
                 }
@@ -174,18 +174,18 @@ var RpgApp = {};
     var char_id = $(document).find('input[name="id"]').val();
 
     // status buttons
-    $(document).on('click', 'i[id=strain_decrease]', function () {
-        RpgApp.changeStatus(char_id, 'strain', -1, 'strain_box');
-    });
-    $(document).on('click', 'i[id=strain_increase]', function () {
-        RpgApp.changeStatus(char_id, 'strain', 1, 'strain_box');
-    });
-    $(document).on('click', 'i[id=wounds_decrease]', function () {
-        RpgApp.changeStatus(char_id, 'wounds', -1, 'wounds_box');
-    });
-    $(document).on('click', 'i[id=wounds_increase]', function () {
-        RpgApp.changeStatus(char_id, 'wounds', 1, 'wounds_box');
-    });
+    //$(document).on('click', 'i[id=strain_1_decrease]', function () {
+    //    RpgApp.changeStatus(char_id, 'strain', -1, 'strain_box');
+    //});
+    //$(document).on('click', 'i[id=strain_1_increase]', function () {
+    //    RpgApp.changeStatus(char_id, 'strain', 1, 'strain_box');
+    //});
+    //$(document).on('click', 'i[id=wounds_1_decrease]', function () {
+    //    RpgApp.changeStatus(char_id, 'wounds', -1, 'wounds_box');
+    //});
+    //$(document).on('click', 'i[id=wounds_1_increase]', function () {
+    //    RpgApp.changeStatus(char_id, 'wounds', 1, 'wounds_box');
+    //});
 
     // Stat +/- buttons
     $(document).on('click', 'i[id*=statincrease_]', function () {

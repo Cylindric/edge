@@ -77,21 +77,6 @@ class Character extends Entity
         return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_pr;
     }
 
-    public function _getWoundThreshold()
-    {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getWounds();
-    }
-
-    public function _getStrainThreshold()
-    {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getStrain();
-    }
     public function _getSoak()
     {
         if (!$this->_species)

@@ -413,9 +413,17 @@ class CharactersController extends AppController
                     $Char->strain = max(0, $Char->strain + $delta);
                     $response['data'] = $Char->strain;
                     break;
+                case 'strain_threshold':
+                    $Char->strain_threshold = $Char->strain_threshold + $delta;
+                    $response['data'] = $Char->strain_threshold;
+                    break;
                 case 'wounds':
                     $Char->wounds = max(0, $Char->wounds + $delta);
                     $response['data'] = $Char->wounds;
+                    break;
+                case 'wound_threshold':
+                    $Char->wound_threshold = $Char->wound_threshold + $delta;
+                    $response['data'] = $Char->wound_threshold;
                     break;
             }
 

@@ -52,66 +52,39 @@ body {
     cursor:pointer;
 }
 
-.stat_single {
-    height: 115px;
-    background-image: url("/img/stat-single.png");
-    background-repeat: no-repeat;
-    background-position: 50% 0;
+
+.status_block {
+    /*height: 115px;*/
+    /*background-image: url("/img/stat-double.png");*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: 50% 0;*/
 }
 
-.stat_single .name {
-    padding-top: 8px;
-    height: 10px;
+.status_block .name {
+    background-color: #B86533;
     color: white;
     font-size: 18px;
     font-family: 'Nunito', sans-serif;
 }
 
-.stat_single .value {
-    padding-top: 10px;
-    font-size: 4em;
-    font-family: 'Anton', sans-serif;
-}
-
-.stat_double {
-    height: 115px;
-    background-image: url("/img/stat-double.png");
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-}
-
-.stat_double .name {
-    padding-top: 8px;
-    height: 10px;
-    color: white;
-    font-size: 18px;
-    font-family: 'Nunito', sans-serif;
-}
-
-.stat_double .subtitle {
-    padding-top: 5px;
-    padding-left: 10px;
-    height: 10px;
+.status_block .subtitle {
+    background-color: #2D3F49;
     color: white;
     font-size: 13px;
     font-family: 'Nunito', sans-serif;
     text-align: left;
 }
 
-.stat_double .subtitle > :first-child {
-    text-align: right;
+.status_block .subtitle {
+    text-align: center;
 }
 
-.stat_double .value {
-    padding-top: 10px;
+.status_block .value {
+    /*padding-top: 10px;*/
     font-size: 4em;
     font-family: 'Anton', sans-serif;
-    height: 80px;
-    text-align: left;
-}
-
-.stat_double .value > :first-child {
-    text-align: right;
+    /*height: 80px;*/
+    text-align: center;
 }
 
 .public {
