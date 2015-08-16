@@ -82,9 +82,20 @@ class UsersController extends AppController
     public function login()
     {
         if ($this->request->is('post')) {
+
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
+
+                if ($this->request->data['remember_me']) {
+                    $cookie = array();
+                    $cookie['username'] = $this->request->data['username'];
+                    $cookie['password'] = $this->request->data['password'];
+                    $this->Cookie->write('rememberMe', $cookie, true, "1 week");
+                } else {
+                    $this->Cookie->del('rememberMe');
+                }
+
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error(__('Invalid username or password, try again'));

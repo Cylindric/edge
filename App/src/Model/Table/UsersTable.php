@@ -19,4 +19,18 @@ class UsersTable extends Table
             ]);
     }
 
+    public function checkLogin($username, $hash)
+    {
+        $user = $this->find()->where(['username' => $username], ['password' => $hash])->first();
+
+        if ($user) {
+            $this->data = $user;
+            $this->id = $user['User']['id'];
+            return true;
+        }
+
+        return false;
+    }
+
+
 }
