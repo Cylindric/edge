@@ -15,7 +15,12 @@ class GroupsController extends AppController
     public function view($id = null)
     {
         $group = $this->Groups->get($id, [
-            'contain' => ['Characters']
+            'contain' => [
+                'Characters',
+                'Characters.Species',
+                'Characters.Careers',
+                'Characters.Specialisations',
+            ]
         ]);
         $this->set('group', $group);
         $this->set('_serialize', ['group']);
@@ -41,8 +46,14 @@ class GroupsController extends AppController
     public function edit($id = null)
     {
         $group = $this->Groups->get($id, [
-            'contain' => ['Characters']
+            'contain' => [
+                'Characters',
+                'Characters.Species',
+                'Characters.Careers',
+                'Characters.Specialisations',
+            ]
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $group = $this->Groups->patchEntity($group, $this->request->data);
             if ($this->Groups->save($group)) {
@@ -52,8 +63,8 @@ class GroupsController extends AppController
                 $this->Flash->error(__('The group could not be saved. Please, try again.'));
             }
         }
-        $characters = $this->Groups->Characters->find('list', ['limit' => 200]);
-        $this->set(compact('group', 'characters'));
+
+        $this->set(compact('group'));
         $this->set('_serialize', ['group']);
     }
 

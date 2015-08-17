@@ -30,23 +30,21 @@ class CharactersTable extends Table
 		$this->table('characters');
 		$this->displayField('name');
 		$this->primaryKey('id');
-		$this->belongsTo('Species', [
-			'foreignKey' => 'species_id',
-			'joinType' => 'INNER'
-		]);
-		$this->hasMany('Training', [
-			'foreignKey' => 'character_id'
-		]);
-		$this->hasMany('CharactersTalents', [
-			'foreignKey' => 'character_id'
-		]);
+
+		$this->belongsTo('Species');
+		$this->belongsTo('Groups');
+		$this->belongsTo('Specialisations');
+		$this->belongsTo('Careers');
+
+		$this->hasMany('Training');
+		$this->hasMany('CharactersTalents');
+
 		$this->belongsToMany('Talents', [
 			'through' => 'CharactersTalents'
 		]);
 		$this->belongsToMany('Notes', [
 			'through' => 'CharactersNotes'
 		]);
-		$this->belongsTo('Groups');
 	}
 
 	/**

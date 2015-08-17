@@ -13,7 +13,17 @@ $this->assign('title', $character->name);
     <div class="col-md-12">
 
         <div class="row">
-            <h2><?= h($character->name) ?></h2>
+            <h2><a href="#" id="name" data-type="text" data-pk="<?=$character->id?>" data-url="/characters/edit/<?=$character->id?>.json" data-title="Character name"><?= h($character->name) ?></a></h2>
+            <?php echo $this->Html->scriptBlock("
+            $.fn.editable.defaults.mode = 'inline';
+            $(document).ready(function() {
+                $('#name').editable({
+                success: function(response, newValue) {
+                    if(response.response.status == 'error') return response.msg; //msg will be shown in editable form
+                }
+                });
+            });
+            ", ['block' => true]); ?>
             <?php if ($character->group_id == 0): ?>
                 <div
                     class="row"><?= $this->Html->link('Join Group', ['controller' => 'characters', 'action' => 'join_group', $character->id]) ?></div>

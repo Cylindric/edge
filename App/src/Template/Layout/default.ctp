@@ -7,9 +7,12 @@
 
 	<?= $this->Html->css('jquery-ui.css') ?>
 	<?= $this->Html->css('bootstrap.css') ?>
+	<?= $this->Html->css('bootstrap-editable.css') ?>
 	<?= $this->Html->script('jquery-2.1.4.js') ?>
-	<?= $this->Html->script('jquery-ui.js') ?>
-	<?= $this->Html->script('bootstrap.js') ?>
+	<?= $this->Html->script('jquery-ui.min.js') ?>
+	<?= $this->Html->script('bootstrap.min.js') ?>
+	<?= $this->Html->script('bootstrap-editable.min.js') ?>
+	<?= $this->Html->script('rpgApp.js') ?>
 
 	<!--
 	<link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css" rel="stylesheet"/>

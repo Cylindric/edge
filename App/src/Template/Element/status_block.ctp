@@ -19,10 +19,10 @@ $editing = $this->request->params['action'] == 'edit';
         "values" => [$character->strain_threshold, $character->strain],
     ]);
     $this->Html->scriptBlock("
-        $(document).on('click', 'i[id=strain_0_decrease]', function () {RpgApp.changeStatus(" . $character->id . ", 'strain_threshold', -1, 'strain_0_value');});
-        $(document).on('click', 'i[id=strain_0_increase]', function () {RpgApp.changeStatus(" . $character->id . ", 'strain_threshold',  1, 'strain_0_value');});
-        $(document).on('click', 'i[id=strain_1_decrease]', function () {RpgApp.changeStatus(" . $character->id . ", 'strain', -1, 'strain_1_value');});
-        $(document).on('click', 'i[id=strain_1_increase]', function () {RpgApp.changeStatus(" . $character->id . ", 'strain',  1, 'strain_1_value');});
+        $(document).on('click', 'i[id=strain_0_decrease]', function () {rpgApp.changeStatus(" . $character->id . ", 'strain_threshold', -1, 'strain_0_value');});
+        $(document).on('click', 'i[id=strain_0_increase]', function () {rpgApp.changeStatus(" . $character->id . ", 'strain_threshold',  1, 'strain_0_value');});
+        $(document).on('click', 'i[id=strain_1_decrease]', function () {rpgApp.changeStatus(" . $character->id . ", 'strain', -1, 'strain_1_value');});
+        $(document).on('click', 'i[id=strain_1_increase]', function () {rpgApp.changeStatus(" . $character->id . ", 'strain',  1, 'strain_1_value');});
     ", ['block' => true]);
     ?>
 
@@ -34,10 +34,10 @@ $editing = $this->request->params['action'] == 'edit';
         "values" => [$character->wound_threshold, $character->wounds],
     ]);
     $this->Html->scriptBlock("
-        $(document).on('click', 'i[id=wounds_0_decrease]', function () {RpgApp.changeStatus(" . $character->id . ", 'wound_threshold', -1, 'wounds_0_value');});
-        $(document).on('click', 'i[id=wounds_0_increase]', function () {RpgApp.changeStatus(" . $character->id . ", 'wound_threshold',  1, 'wounds_0_value');});
-        $(document).on('click', 'i[id=wounds_1_decrease]', function () {RpgApp.changeStatus(" . $character->id . ", 'wounds', -1, 'wounds_1_value');});
-        $(document).on('click', 'i[id=wounds_1_increase]', function () {RpgApp.changeStatus(" . $character->id . ", 'wounds',  1, 'wounds_1_value');});
+        $(document).on('click', 'i[id=wounds_0_decrease]', function () {rpgApp.changeStatus(" . $character->id . ", 'wound_threshold', -1, 'wounds_0_value');});
+        $(document).on('click', 'i[id=wounds_0_increase]', function () {rpgApp.changeStatus(" . $character->id . ", 'wound_threshold',  1, 'wounds_0_value');});
+        $(document).on('click', 'i[id=wounds_1_decrease]', function () {rpgApp.changeStatus(" . $character->id . ", 'wounds', -1, 'wounds_1_value');});
+        $(document).on('click', 'i[id=wounds_1_increase]', function () {rpgApp.changeStatus(" . $character->id . ", 'wounds',  1, 'wounds_1_value');});
     ", ['block' => true]);
     ?>
 

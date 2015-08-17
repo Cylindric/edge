@@ -42,6 +42,20 @@ body {
     padding: 0;
 }
 
+.group_view .buttons {
+    padding-left: 0;
+}
+
+.group_view .adjust > div {
+    padding: 0;
+    line-height: 0.5em;
+}
+
+.group_view .btn-skill-adjust {
+    font-size: 0.4em;
+    vertical-align: middle;
+}
+
 .increase {
     color: green;
     cursor:pointer;
@@ -53,13 +67,7 @@ body {
 }
 
 
-.status_block {
-    /*height: 115px;*/
-    /*background-image: url("/img/stat-double.png");*/
-    /*background-repeat: no-repeat;*/
-    /*background-position: 50% 0;*/
-}
-
+.group_view .title,
 .status_block .name {
     background-color: #B86533;
     color: white;
@@ -67,6 +75,7 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
+.group_view .subtitle,
 .status_block .subtitle {
     background-color: #2D3F49;
     color: white;
@@ -75,16 +84,18 @@ body {
     text-align: left;
 }
 
-.status_block .subtitle {
+.group_view .name,
+.group_view .value,
+.status_block .value {
+    font-size: 4em;
+    font-family: 'Anton', sans-serif;
     text-align: center;
 }
 
-.status_block .value {
-    /*padding-top: 10px;*/
-    font-size: 4em;
+.group_view .species {
+    margin-top: -1em;
     font-family: 'Anton', sans-serif;
-    /*height: 80px;*/
-    text-align: center;
+    font-size: 1em;
 }
 
 .public {

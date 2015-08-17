@@ -25,7 +25,7 @@ class UsersTable extends Table
 
         if ($user) {
             $this->data = $user;
-            $this->id = $user['User']['id'];
+            $this->id = $user['id'];
             return true;
         }
 

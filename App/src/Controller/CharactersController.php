@@ -45,6 +45,7 @@ class CharactersController extends AppController
             'join_group',
             'remove_talent',
             'change_talent_rank',
+            'toggle_career',
             'remove_note',
             'add_note'
 
@@ -172,46 +173,54 @@ class CharactersController extends AppController
      */
     public function edit($id = null)
     {
+        $response = ['result' => 'fail', 'data' => null];
+
         $character = $this->Characters->get($id, [
             'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
             'contain' => ['Training', 'Groups']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $character = $this->Characters->patchEntity($character, $this->request->data);
+            $data = $this->request->data;
+            if(array_key_exists('pk', $this->request->data)){
+                // X-Editable input
+                $data = [$data['name'] => $data['value']];
+            }
+            $character = $this->Characters->patchEntity($character, $data);
             if ($this->Characters->save($character)) {
+                $response['result'] = 'success';
+                $response['data'] = $character;
+
                 // Announce
                 $this->Slack->announceCharacterEdit($character);
-
-                $this->Flash->success(__('The character has been saved.'));
-                return $this->redirect(['action' => 'index']);
             } else {
+                $response['message'] = $character->errors();
                 $this->Flash->error(__('The character could not be saved. Please, try again.'));
             }
         }
 
-        $this->loadModel('Skills');
-        $skills = $this->Skills->find();
-        $skills->select([
-            'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
-            'Stats.name', 'Stats.code',
-            'level' => $skills->func()->sum('t.level')
-        ])
-            ->contain(['Stats'])
-            ->join([
-                'table' => 'training',
-                'alias' => 't',
-                'type' => 'LEFT',
-                'conditions' => [
-                    'Skills.id = t.skill_id',
-                    't.character_id' => $id]
-            ])
-            ->group('Skills.id')
-            ->order('Skills.name');
+//        $this->loadModel('Skills');
+//        $skills = $this->Skills->find();
+//        $skills->select([
+//            'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
+//            'Stats.name', 'Stats.code',
+//            'level' => $skills->func()->sum('t.level')
+//        ])
+//            ->contain(['Stats'])
+//            ->join([
+//                'table' => 'training',
+//                'alias' => 't',
+//                'type' => 'LEFT',
+//                'conditions' => [
+//                    'Skills.id = t.skill_id',
+//                    't.character_id' => $id]
+//            ])
+//            ->group('Skills.id')
+//            ->order('Skills.name');
 
         $this->set('character', $character);
-        $this->set('skills', $skills);
-        $this->set('_serialize', ['character']);
+        $this->set('response', $response);
+        $this->set('_serialize', ['response']);
     }
 
     /**
@@ -341,20 +350,12 @@ class CharactersController extends AppController
                 }
             } else {
 
-                if ($Skill->training[0]->level <= abs($delta) && $delta <= 0) {
-                    //delete the training record if it would take the level < 0
-                    $this->Training->delete($Skill->training[0]);
-                    unset($Skill->training[0]);
+                // Change the skill
+                $Skill->training[0]->level += $delta;
+                $Skill->dirty('training', true);
+
+                if ($this->Skills->save($Skill)) {
                     $response['result'] = 'success';
-
-                } else {
-                    // Change the skill
-                    $Skill->training[0]->level += $delta;
-                    $Skill->dirty('training', true);
-
-                    if ($this->Skills->save($Skill)) {
-                        $response['result'] = 'success';
-                    }
                 }
             }
         }
@@ -391,7 +392,6 @@ class CharactersController extends AppController
                 $this->Slack->announceCharacterEdit($Char);
 
                 $response = ['result' => 'success', 'data' => $Char->$stat_code];
-                $this->Flash->success(__('The Stat has been saved.'));
             } else {
                 $this->Flash->error(__('The Stat could not be saved. Please, try again.'));
             }
@@ -507,6 +507,40 @@ class CharactersController extends AppController
                 // Announce
                 $this->Slack->announceCharacterEdit($Char);
                 $response = ['result' => 'success', 'data' => $T->rank];
+            }
+        }
+
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function toggle_career($char_id = null, $skill_id = null)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($skill_id)) {
+            $Char = $this->Characters->get($char_id, [
+                'contain' => ['Training' => ['conditions' => ['Training.skill_id' => $skill_id]]]]);
+
+            $this->loadModel('Training');
+            if (count($Char->training) == 0) {
+                // No training in this Skill at all, create a new record to flag Career status in
+                $t = $this->Training->newEntity();
+                $t->skill_id = $skill_id;
+                $t->career = true;
+                $Char->training[] = $t;
+                $Char->dirty('training', true);
+                if ($this->Characters->save($Char)) {
+                    $response = ['result' => 'success', 'data' => $t->career];
+                }
+            } else {
+                $t = $Char->training[0];
+                $t->career = !$t->career;
+
+                $Char->dirty('training', true);
+                if ($this->Characters->save($Char)) {
+                    $response = ['result' => 'success', 'data' => $t->career];
+                }
             }
         }
 
