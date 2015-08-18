@@ -10,10 +10,12 @@ $this->assign('title', $character->name);
 <?= $this->Form->end() ?>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-lg-10 col-lg-offset-1">
 
         <div class="row">
-            <h2><a href="#" id="name" data-type="text" data-pk="<?=$character->id?>" data-url="/characters/edit/<?=$character->id?>.json" data-title="Character name"><?= h($character->name) ?></a></h2>
+            <h2><a href="#" id="name" data-type="text" data-pk="<?=$character->id?>" data-url="/characters/edit/<?=$character->id?>.json" data-title="Character name"><?= h($character->name) ?></a>
+                <?= $this->Html->link('<span class="glyphicon glyphicon-eye-open" aria-label="Edit"></span>', ['action' => 'view', $character->id], ['escape' => false, 'class' => 'hidden-print']) ?>
+            </h2>
             <?php echo $this->Html->scriptBlock("
             $.fn.editable.defaults.mode = 'inline';
             $(document).ready(function() {

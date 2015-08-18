@@ -26,8 +26,8 @@ body {
 .stat .value .stat_edit_button {
     font-size: 20px;
     vertical-align: middle;
-	padding: 0;
-	margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 .stat .value .stat_edit_value {
@@ -58,14 +58,13 @@ body {
 
 .increase {
     color: green;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .decrease {
     color: red;
-    cursor:pointer;
+    cursor: pointer;
 }
-
 
 .group_view .title,
 .status_block .name {
@@ -84,6 +83,10 @@ body {
     text-align: left;
 }
 
+.status_block .subtitle div:nth-child(1) {
+    text-align: right;
+}
+
 .group_view .name,
 .group_view .value,
 .status_block .value {
@@ -99,9 +102,9 @@ body {
 }
 
 .public {
-	color: green;
+    color: green;
 }
 
 .private {
-	color: red;
+    color: red;
 }

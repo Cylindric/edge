@@ -15,12 +15,67 @@ class Initial extends AbstractMigration
         $this->createTableStats();
         $this->createTableTalents();
         $this->createTableTraining();
+        $this->createTableCareers();
+        $this->createTableSpecialisations();
 
         // these tables depend on the above tables in some way
         $this->createTableCharacters();
         $this->createTableUsers();
         $this->createTableCharactersTalents();
         $this->createTableCharactersNotes();
+    }
+
+    function createTableCareers()
+    {
+        $this->table('careers')
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
+            ->create();
+
+        $table = TableRegistry::get('Careers');
+        $data = [
+            ['id' => 1, 'name' => 'Bounty Hunter'],
+            ['id' => 2, 'name' => 'Colonist'],
+            ['id' => 3, 'name' => 'Explorer'],
+            ['id' => 4, 'name' => 'Hired Gun'],
+            ['id' => 5, 'name' => 'Smuggler'],
+            ['id' => 6, 'name' => 'Technician'],
+        ];
+        foreach ($table->newEntities($data) as $entity) {
+            $table->save($entity);
+        }
+    }
+
+    function createTableSpecialisations()
+    {
+        $this->table('specialisations')
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
+            ->addColumn('career_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->create();
+
+        $table = TableRegistry::get('Specialisations');
+        $data = [
+            ['name' => 'Assassin', 'career_id' => 1],
+            ['name' => 'Gadgeteer', 'career_id' => 1],
+            ['name' => 'Survivalist', 'career_id' => 1],
+            ['name' => 'Doctor', 'career_id' => 2],
+            ['name' => 'Politico', 'career_id' => 2],
+            ['name' => 'Scholar', 'career_id' => 2],
+            ['name' => 'Fringer', 'career_id' => 3],
+            ['name' => 'Scout', 'career_id' => 3],
+            ['name' => 'Trader', 'career_id' => 3],
+            ['name' => 'Bodyguard', 'career_id' => 4],
+            ['name' => 'Marauder', 'career_id' => 4],
+            ['name' => 'Mercenary Soldier', 'career_id' => 4],
+            ['name' => 'Pilot', 'career_id' => 5],
+            ['name' => 'Scoundrel', 'career_id' => 5],
+            ['name' => 'Thief', 'career_id' => 5],
+            ['name' => 'Mechanic', 'career_id' => 6],
+            ['name' => 'Outlaw Tech', 'career_id' => 6],
+            ['name' => 'Slicer', 'career_id' => 6],
+        ];
+        foreach ($table->newEntities($data) as $entity) {
+            $table->save($entity);
+        }
     }
 
     function createTableCharacters()
@@ -30,6 +85,9 @@ class Initial extends AbstractMigration
             ->addColumn('user_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('species_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('group_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('career_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('specialisation_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('xp', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
             ->addColumn('gender', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('age', 'string', ['default' => null, 'limit' => 45, 'null' => true])
@@ -40,6 +98,8 @@ class Initial extends AbstractMigration
             ->addColumn('build', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('home_planet', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('notable_features', 'string', ['default' => null, 'limit' => 45, 'null' => true])
+            ->addColumn('credits', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('obligation', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('stat_br', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
             ->addColumn('stat_ag', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
             ->addColumn('stat_int', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
@@ -413,6 +473,7 @@ class Initial extends AbstractMigration
             ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('skill_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('level', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('career', 'boolean', ['default' => false, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])

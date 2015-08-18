@@ -2,6 +2,7 @@
 $this->Html->script('rpgGroupEdit', ['block' => true]);
 $this->Html->addCrumb('Groups', '/Groups');
 $this->Html->addCrumb('View');
+$this->assign('title', $group->name);
 $editing = false;
 ?>
 <div class="row">
@@ -76,5 +77,8 @@ $editing = false;
                 <div class="col-md-2 text-center">Mel/Rng</div>
             </div>
         </div>
+        Total XP: <?= $this->Number->format($group->xp)?>.<br/>
+        Total Obligation: <?= $this->Number->format($group->obligation)?>.<br/>
+        Total Credits: <?= $this->Number->format($group->credits)?>.
     </div>
 </div>

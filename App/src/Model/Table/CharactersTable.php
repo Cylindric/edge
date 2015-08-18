@@ -27,9 +27,8 @@ class CharactersTable extends Table
 	{
 		parent::initialize($config);
 
-		$this->table('characters');
 		$this->displayField('name');
-		$this->primaryKey('id');
+		$this->addBehavior('Timestamp');
 
 		$this->belongsTo('Species');
 		$this->belongsTo('Groups');

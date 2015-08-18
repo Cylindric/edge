@@ -10,14 +10,17 @@ class Groups extends AbstractMigration
         $this->createTableSpecialisations();
 
         $this->table('characters')
-            ->addColumn('group_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('group_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'species_id'])
+            ->addColumn('obligation', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'notable_features'])
+            ->addColumn('credits', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'notable_features'])
+            ->addColumn('xp', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'specialisation_id'])
             ->update();
 
         $this->table('characters_groups')
             ->drop();
 
         $this->table('training')
-            ->addColumn('career', 'boolean', ['default' => false, 'null' => false])
+            ->addColumn('career', 'boolean', ['default' => false, 'null' => false, 'after' => 'level'])
             ->update();
     }
 
