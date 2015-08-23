@@ -3,12 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-/**
- * Talents Controller
- *
- * @property \App\Model\Table\TalentsTable $Talents
- */
-class TalentsController extends AppController
+
+class WeaponsController extends AppController
 {
     public function initialize()
     {
@@ -25,28 +21,23 @@ class TalentsController extends AppController
         return parent::isAuthorized($user);
     }
 
-    /**
-     * Index method
-     *
-     * @return void
-     */
     public function index()
     {
         if($this->request->is('ajax')) {
             $term = trim($this->request->query('term'));
             if (!empty($term)) {
-                $talents = $this->Talents
+                $weapons = $this->Weapons
                     ->find('all')
                     ->select(['value' => 'id', 'label' => 'name'])
-                    ->where(['name LIKE' => $term . '%']);
+                    ->where(['name LIKE' => '%' . $term . '%']);
             } else {
-                $talents = array();
+                $weapons = array();
             }
         } else{
-            $talents = $this->paginate($this->Talents);
+            $weapons = $this->paginate($this->Weapons);
         }
-        $this->set('talents', $talents);
-        $this->set('_serialize', 'talents');
+        $this->set('weapons', $weapons);
+        $this->set('_serialize', 'weapons');
     }
 
 }

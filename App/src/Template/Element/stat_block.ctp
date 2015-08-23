@@ -1,4 +1,4 @@
-<div class="col-md-2 text-center stat">
+<div class="text-center stat">
 	<div class="row value">
 		<?php if ($value <= 0): ?>
 			<i class="stat_edit_button glyphicon glyphicon-minus"></i>

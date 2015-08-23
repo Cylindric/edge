@@ -3,3 +3,6 @@
 /App/tmp/*
 /App/logs/*
 App/webroot/coverage/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/*.iws
