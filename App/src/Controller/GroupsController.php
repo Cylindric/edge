@@ -47,7 +47,7 @@ class GroupsController extends AppController
     {
         $group = $this->Groups->get($id, [
             'contain' => [
-                'Characters' => ['sort' => 'characters.name'],
+                'Characters' => ['sort' => 'Characters.name'],
                 'Characters.Species',
                 'Characters.Careers',
                 'Characters.Obligations',
@@ -64,7 +64,7 @@ class GroupsController extends AppController
                 return $q->where(['Characters.group_id' => $id]);
             })
             ->where(['CharactersWeapons.equipped' => true])
-            ->order(['characters.name'])
+            ->order(['Characters.name'])
         ;
 
         $this->loadModel('Obligations');
