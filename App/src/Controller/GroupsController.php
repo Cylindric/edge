@@ -47,12 +47,27 @@ class GroupsController extends AppController
     {
         $group = $this->Groups->get($id, [
             'contain' => [
-                'Characters',
+                'Characters' => ['sort' => 'characters.name'],
                 'Characters.Species',
                 'Characters.Careers',
+                'Characters.Obligations',
                 'Characters.Specialisations',
-            ]
+                'Characters.Users',
+            ],
         ]);
+
+        $this->loadModel('Obligations');
+        $obligations = $this->Obligations->find();
+        $obligations
+            ->contain(['Characters'])
+            ->select([
+                'type',
+                'value' => $obligations->func()->sum('value')
+            ])
+            ->where(['Characters.group_id' => $id])
+            ->group('type')
+            ->order('value DESC')
+            ;
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $group = $this->Groups->patchEntity($group, $this->request->data);
@@ -64,7 +79,7 @@ class GroupsController extends AppController
             }
         }
 
-        $this->set(compact('group'));
+        $this->set(compact('group', 'obligations'));
         $this->set('_serialize', ['group']);
     }
 

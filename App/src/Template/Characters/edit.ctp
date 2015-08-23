@@ -13,11 +13,12 @@ $this->assign('title', $character->name);
     <div class="col-md-12 col-lg-10 col-lg-offset-1">
 
         <div class="row">
-            <h2><a href="#" id="name" data-type="text" data-pk="<?=$character->id?>" data-url="/characters/edit/<?=$character->id?>.json" data-title="Character name"><?= h($character->name) ?></a>
+            <h2><a href="#" id="name" data-type="text" data-pk="<?= $character->id ?>"
+                   data-url="/characters/edit/<?= $character->id ?>.json"
+                   data-title="Character name"><?= h($character->name) ?></a>
                 <?= $this->Html->link('<span class="glyphicon glyphicon-eye-open" aria-label="Edit"></span>', ['action' => 'view', $character->id], ['escape' => false, 'class' => 'hidden-print']) ?>
             </h2>
             <?php echo $this->Html->scriptBlock("
-            $.fn.editable.defaults.mode = 'inline';
             $(document).ready(function() {
                 $('#name').editable({
                 success: function(response, newValue) {
@@ -47,6 +48,32 @@ $this->assign('title', $character->name);
 
         <div class="row" id="talents_list_edit">
         </div>
+
+        <div class="row" id="inventory">
+            <div class="col-md-3">
+                <h3>Inventory</h3>
+                Credits: <span id="credits" data-type="text" data-pk="<?= $character->id ?>"
+                               data-url="/characters/edit/<?= $character->id ?>.json"
+                               data-title="Character credits"><?= $this->Number->format($character->credits) ?></span>.
+                <?php echo $this->Html->scriptBlock("
+            $(document).ready(function() {
+                $('#credits').editable({
+                success: function(response, newValue) {
+                    if(response.response.status == 'error') return response.msg;
+                },
+                display: function(value, response) {
+                    if(typeof response != 'undefined') {
+                        $(this).text(response.response.data.credits);
+                    }
+                },
+                });
+            });
+            ", ['block' => true]); ?>
+            </div>
+            <div class="col-md-3" id="weapons_list_edit">
+            </div>
+        </div>
+
 
         <div class="row" id="notes_list_edit">
         </div>

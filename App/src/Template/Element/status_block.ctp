@@ -9,6 +9,10 @@ $editing = $this->request->params['action'] == 'edit';
         "title" => "Soak",
         "value" => $character->soak,
     ]);
+    $this->Html->scriptBlock("
+    $(document).on('click', 'i[id=soak_0_decrease]', function () {rpgApp.changeStatus(" . $character->id . ", 'soak', -1, 'soak_0_value');});
+    $(document).on('click', 'i[id=soak_0_increase]', function () {rpgApp.changeStatus(" . $character->id . ", 'soak',  1, 'soak_0_value');});
+    ", ['block' => true]);
     ?>
 
     <?php echo $this->element('status_block_2', [

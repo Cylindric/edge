@@ -8,7 +8,7 @@
         <div class="form-group">
             <?= $this->Form->label('username', null, ['class' => 'col-sm-3 control-label']) ?>
             <div class="col-sm-9">
-                <?= $this->Form->input('username', ['label' => false, 'type' => 'email', 'class' => 'form-control', 'placeholder' => 'Email']) ?>
+                <?= $this->Form->input('username', ['label' => false, 'type' => 'text', 'class' => 'form-control', 'placeholder' => 'Username']) ?>
             </div>
         </div>
         <div class="form-group">

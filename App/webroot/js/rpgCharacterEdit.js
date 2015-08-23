@@ -26,14 +26,14 @@ rpgApp.getTalents = function (character_id) {
             $incompleteDiv.empty();
             $incompleteDiv.append(response);
 
-            $("#autocomplete").autocomplete({
+            $("#new_talent_autocomplete").autocomplete({
                 source: "/talents.json",
                 focus: function (event, ui) {
-                    $("#autocomplete").val(ui.item.label);
+                    $("#new_talent_autocomplete").val(ui.item.label);
                     return false;
                 },
                 select: function (event, ui) {
-                    $("#autocomplete").val(ui.item.label);
+                    $("#new_talent_autocomplete").val(ui.item.label);
 
                     $.get('/characters/add_talent/' + character_id + '/' + ui.item.value + '.json', function (response) {
                         if (response.response.result == 'success') {
@@ -48,9 +48,41 @@ rpgApp.getTalents = function (character_id) {
             });
         }
     });
-
-
 };
+
+rpgApp.getWeapons = function (character_id) {
+    $.ajax({
+        async: false,
+        type: 'GET',
+        url: '/characters/edit_weapons/' + character_id,
+        success: function (response) {
+            $incompleteDiv = $('#weapons_list_edit');
+            $incompleteDiv.empty();
+            $incompleteDiv.append(response);
+
+            $("#new_weapon_autocomplete").autocomplete({
+                source: "/weapons.json",
+                focus: function (event, ui) {
+                    $("#new_weapon_autocomplete").val(ui.item.label);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $("#new_weapon_autocomplete").val(ui.item.label);
+
+                    $.get('/characters/add_weapon/' + character_id + '/' + ui.item.value + '.json', function (response) {
+                        if (response.response.result == 'success') {
+
+                            // reload the weapons screen
+                            rpgApp.getWeapons(character_id);
+                        }
+                    });
+
+                    return false;
+                }
+            });
+        }
+    });
+}
 
 rpgApp.getStats = function (character_id) {
     $.get('/characters/edit_stats/' + character_id, function (response) {
@@ -154,6 +186,38 @@ rpgApp.toggleCareer = function (character_id, skill_id, replace) {
     );
 };
 
+rpgApp.toggleWeapon = function (character_id, link_id, replace) {
+    $.get('/characters/toggle_weapon/' + character_id + '/' + link_id + '.json',
+        function (response) {
+            if (response.response.result == 'success') {
+                if (response.response.data == true) {
+                    $('#' + replace).addClass('btn-success');
+                    $('#' + replace).removeClass('btn-default');
+                    $('#' + replace).text('equipped');
+                } else {
+                    $('#' + replace).addClass('btn-default');
+                    $('#' + replace).removeClass('btn-success');
+                    $('#' + replace).text('not equipped');
+                }
+            } else if (response.response.result == 'fail') {
+                console.log('fail');
+            }
+        }
+    );
+};
+
+rpgApp.dropWeapon = function (character_id, link_id) {
+    $.get('/characters/drop_weapon/' + character_id + '/' + link_id + '.json',
+        function (response) {
+            if (response.response.result == 'success') {
+                $('tr[id=weapon_' + link_id).remove();
+            } else if (response.response.result == 'fail') {
+                console.log('fail');
+            }
+        }
+    );
+};
+
 rpgApp.removeNote = function (character_id, note_id) {
     $.get('/characters/remove_note/' + character_id + '/' + note_id + '.json',
         function (response) {
@@ -179,20 +243,6 @@ rpgApp.addNote = function (character_id) {
 (function ($) {
     // Get the Character ID
     var char_id = $(document).find('input[name="id"]').val();
-
-    // status buttons
-    //$(document).on('click', 'i[id=strain_1_decrease]', function () {
-    //    rpgApp.changeStatus(char_id, 'strain', -1, 'strain_box');
-    //});
-    //$(document).on('click', 'i[id=strain_1_increase]', function () {
-    //    rpgApp.changeStatus(char_id, 'strain', 1, 'strain_box');
-    //});
-    //$(document).on('click', 'i[id=wounds_1_decrease]', function () {
-    //    rpgApp.changeStatus(char_id, 'wounds', -1, 'wounds_box');
-    //});
-    //$(document).on('click', 'i[id=wounds_1_increase]', function () {
-    //    rpgApp.changeStatus(char_id, 'wounds', 1, 'wounds_box');
-    //});
 
     // Stat +/- buttons
     $(document).on('click', 'i[id*=statincrease_]', function () {
@@ -227,6 +277,21 @@ rpgApp.addNote = function (character_id) {
         var id = $(this).attr('id').replace('decrease_talent_', '');
         rpgApp.changeTalent(char_id, id, -1);
     });
+    $(document).on('click', 'i[id*=toggle_career_]', function () {
+        var id = $(this).attr('id').replace('toggle_career_', '');
+        rpgApp.toggleCareer(char_id, id, $(this).attr('id'));
+    });
+
+    // Weapon buttons
+    $(document).on('click', 'i[id*=toggle_weapon_]', function () {
+        var id = $(this).attr('id').replace('toggle_weapon_', '');
+        rpgApp.toggleWeapon(char_id, id, $(this).attr('id'));
+    });
+    $(document).on('click', 'i[id*=drop_weapon_]', function () {
+        var id = $(this).attr('id').replace('drop_weapon_', '');
+        rpgApp.dropWeapon(char_id, id, $(this).attr('id'));
+    });
+
 
     // Note buttons
     $(document).on('click', 'span[id*=remove_note_]', function () {
@@ -237,13 +302,10 @@ rpgApp.addNote = function (character_id) {
         rpgApp.addNote(char_id);
     });
 
-    $(document).on('click', 'i[id*=toggle_career_]', function () {
-        var id = $(this).attr('id').replace('toggle_career_', '');
-        rpgApp.toggleCareer(char_id, id, $(this).attr('id'));
-    });
 
     rpgApp.getStats(char_id);
     rpgApp.getSkills(char_id);
     rpgApp.getTalents(char_id);
     rpgApp.getNotes(char_id);
+    rpgApp.getWeapons(char_id);
 })(jQuery);

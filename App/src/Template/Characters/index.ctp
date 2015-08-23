@@ -19,7 +19,12 @@
         <tbody>
         <?php foreach ($characters as $character): ?>
             <tr>
-                <td><?= $this->Html->link($character->name, ['action' => 'edit', $character->id]) ?></td>
+                <td>
+                    <?= $this->Html->link($character->name, ['action' => 'edit', $character->id]) ?>
+                    <?php if($character->user->id != $user['id']): ?>
+                        (<em><?= $character->user->username ?></em>)
+                    <?php endif; ?>
+                </td>
                 <td><?= h($character->species->name) ?></td>
                 <td class="actions">
                     <?= $this->Html->link('<span class="glyphicon glyphicon-search"></span>', ['action' => 'view', $character->id], ['escape' => false]) ?>

@@ -23,6 +23,7 @@
                         <div class="row species">
                             <?= $character->species->name ?>
                             <?php if(!empty($character->career)):?><?= $character->career->name ?><?php endif; ?><?php if(!empty($character->specialisation)):?>, <?= $character->specialisation->name ?><?php endif; ?>
+                            (<?= $character->user->username ?>)
                         </div>
                     </div>
                     <div class="col-xs-2 value"><?= $character->soak ?></div>

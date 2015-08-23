@@ -39,6 +39,9 @@ class CharactersController extends AppController
             'edit_notes',
             'edit_talents',
             'edit_skills',
+            'edit_weapons',
+            'drop_weapon',
+            'toggle_weapon',
             'change_skill',
             'change_stat',
             'add_talent',
@@ -67,10 +70,14 @@ class CharactersController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Species'],
-            'conditions' => ['Characters.user_id' => $this->Auth->User('id')]
+        $options = [
+            'contain' => ['Species', 'Users'],
         ];
+        if (!$this->Auth->User('role') == 'admin') {
+            $options['conditions'] = ['Characters.user_id' => $this->Auth->User('id')];
+        }
+
+        $this->paginate = $options;
         $this->set('characters', $this->paginate($this->Characters));
         $this->set('_serialize', ['characters']);
     }
@@ -176,13 +183,12 @@ class CharactersController extends AppController
         $response = ['result' => 'fail', 'data' => null];
 
         $character = $this->Characters->get($id, [
-            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
-            'contain' => ['Training', 'Groups']
+             'contain' => ['Training', 'Groups']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
-            if(array_key_exists('pk', $this->request->data)){
+            if (array_key_exists('pk', $this->request->data)) {
                 // X-Editable input
                 $data = [$data['name'] => $data['value']];
             }
@@ -199,25 +205,6 @@ class CharactersController extends AppController
             }
         }
 
-//        $this->loadModel('Skills');
-//        $skills = $this->Skills->find();
-//        $skills->select([
-//            'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
-//            'Stats.name', 'Stats.code',
-//            'level' => $skills->func()->sum('t.level')
-//        ])
-//            ->contain(['Stats'])
-//            ->join([
-//                'table' => 'training',
-//                'alias' => 't',
-//                'type' => 'LEFT',
-//                'conditions' => [
-//                    'Skills.id = t.skill_id',
-//                    't.character_id' => $id]
-//            ])
-//            ->group('Skills.id')
-//            ->order('Skills.name');
-
         $this->set('character', $character);
         $this->set('response', $response);
         $this->set('_serialize', ['response']);
@@ -233,9 +220,7 @@ class CharactersController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $character = $this->Characters->get($id, [
-            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
-        ]);
+        $character = $this->Characters->get($id);
 
         if ($this->Characters->delete($character)) {
             $this->Flash->success(__('The character has been deleted.'));
@@ -247,9 +232,7 @@ class CharactersController extends AppController
 
     public function edit_stats($id = null)
     {
-        $character = $this->Characters->get($id, [
-            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
-        ]);
+        $character = $this->Characters->get($id);
 
         $this->set('character', $character);
         $this->set('_serialize', ['character']);
@@ -258,7 +241,6 @@ class CharactersController extends AppController
     public function edit_notes($id = null)
     {
         $character = $this->Characters->get($id, [
-            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
             'contain' => ['Notes' => ['sort' => ['Notes.created DESC']]],
         ]);
 
@@ -269,7 +251,6 @@ class CharactersController extends AppController
     public function edit_talents($id = null)
     {
         $character = $this->Characters->get($id, [
-            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
             'contain' => ['Talents']
         ]);
 
@@ -280,7 +261,6 @@ class CharactersController extends AppController
     public function edit_skills($id = null)
     {
         $character = $this->Characters->get($id, [
-            'conditions' => ['Characters.user_id' => $this->Auth->User('id')],
             'contain' => ['Training']
         ]);
 
@@ -300,13 +280,80 @@ class CharactersController extends AppController
         $this->set('_serialize', ['skills']);
     }
 
-    /***
-     * Modify the specified Character's skill by $delta.
-     * Returns the new skill data.
-     * @param null $char_id
-     * @param null $skill_id
-     * @param int $delta
-     */
+    public function edit_weapons($id = null)
+    {
+        $character = $this->Characters->get($id, [
+            'contain' => ['Weapons']
+        ]);
+        $this->set('character', $character);
+        $this->set('_serialize', ['character']);
+    }
+
+    public function add_weapon($char_id, $weapon_id)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($weapon_id)) {
+
+            $Char = $this->Characters->get($char_id, [
+                'contain' => ['Weapons']
+            ]);
+
+            $this->loadModel('Weapons');
+            $W = $this->Weapons->get($weapon_id);
+
+            if ($this->Characters->Weapons->link($Char, [$W])) {
+                // Announce
+                $this->Slack->announceCharacterEdit($Char);
+                $response = ['result' => 'success', 'data' => $Char->weapons];
+            }
+        }
+
+        $this->set('response', $response);
+        $this->set('_serialize', ['response']);
+    }
+
+    public function toggle_weapon($char_id = null, $character_weapon_id = null)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($character_weapon_id)) {
+            $Char = $this->Characters->get($char_id, [
+                'contain' => ['CharactersWeapons' => ['conditions' => ['CharactersWeapons.id' => $character_weapon_id]]]]);
+
+            if (count($Char->characters_weapons) == 0) {
+                // Non-existent link, invalid operation
+            } else {
+                $t = $Char->characters_weapons[0];
+                $t->equipped = !$t->equipped;
+
+                $Char->dirty('characters_weapons', true);
+                if ($this->Characters->save($Char)) {
+                    $response = ['result' => 'success', 'data' => $t->equipped];
+                }
+            }
+        }
+
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function drop_weapon($char_id, $link_id)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($link_id)) {
+            $this->loadModel('CharactersWeapons');
+
+            if ($this->CharactersWeapons->delete($this->CharactersWeapons->get($link_id))) {
+                $response = ['result' => 'success', 'data' => null];
+            }
+        }
+
+        $this->set('response', $response);
+        $this->set('_serialize', ['response']);
+    }
+
     public function change_skill($char_id = null, $skill_id = null, $delta = 1)
     {
         $this->loadModel('Skills');
@@ -414,6 +461,10 @@ class CharactersController extends AppController
                 case 'strain':
                     $Char->strain = max(0, $Char->strain + $delta);
                     $response['data'] = $Char->strain;
+                    break;
+                case 'soak':
+                    $Char->soak = max(0, $Char->soak + $delta);
+                    $response['data'] = $Char->soak;
                     break;
                 case 'strain_threshold':
                     $Char->strain_threshold = $Char->strain_threshold + $delta;

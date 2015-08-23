@@ -17,12 +17,17 @@ class Initial extends AbstractMigration
         $this->createTableTraining();
         $this->createTableCareers();
         $this->createTableSpecialisations();
+        $this->createTableWeaponTypes();
 
         // these tables depend on the above tables in some way
+        $this->createTableWeapons();
         $this->createTableCharacters();
         $this->createTableUsers();
         $this->createTableCharactersTalents();
         $this->createTableCharactersNotes();
+        $this->createTableCharactersWeapons();
+
+        $this->createTableObligations();
     }
 
     function createTableCareers()
@@ -39,39 +44,6 @@ class Initial extends AbstractMigration
             ['id' => 4, 'name' => 'Hired Gun'],
             ['id' => 5, 'name' => 'Smuggler'],
             ['id' => 6, 'name' => 'Technician'],
-        ];
-        foreach ($table->newEntities($data) as $entity) {
-            $table->save($entity);
-        }
-    }
-
-    function createTableSpecialisations()
-    {
-        $this->table('specialisations')
-            ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
-            ->addColumn('career_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
-            ->create();
-
-        $table = TableRegistry::get('Specialisations');
-        $data = [
-            ['name' => 'Assassin', 'career_id' => 1],
-            ['name' => 'Gadgeteer', 'career_id' => 1],
-            ['name' => 'Survivalist', 'career_id' => 1],
-            ['name' => 'Doctor', 'career_id' => 2],
-            ['name' => 'Politico', 'career_id' => 2],
-            ['name' => 'Scholar', 'career_id' => 2],
-            ['name' => 'Fringer', 'career_id' => 3],
-            ['name' => 'Scout', 'career_id' => 3],
-            ['name' => 'Trader', 'career_id' => 3],
-            ['name' => 'Bodyguard', 'career_id' => 4],
-            ['name' => 'Marauder', 'career_id' => 4],
-            ['name' => 'Mercenary Soldier', 'career_id' => 4],
-            ['name' => 'Pilot', 'career_id' => 5],
-            ['name' => 'Scoundrel', 'career_id' => 5],
-            ['name' => 'Thief', 'career_id' => 5],
-            ['name' => 'Mechanic', 'career_id' => 6],
-            ['name' => 'Outlaw Tech', 'career_id' => 6],
-            ['name' => 'Slicer', 'career_id' => 6],
         ];
         foreach ($table->newEntities($data) as $entity) {
             $table->save($entity);
@@ -99,7 +71,7 @@ class Initial extends AbstractMigration
             ->addColumn('home_planet', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('notable_features', 'string', ['default' => null, 'limit' => 45, 'null' => true])
             ->addColumn('credits', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
-            ->addColumn('obligation', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('soak', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('stat_br', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
             ->addColumn('stat_ag', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
             ->addColumn('stat_int', 'integer', ['default' => 2, 'limit' => 11, 'null' => false])
@@ -140,6 +112,19 @@ class Initial extends AbstractMigration
             ->create();
     }
 
+    function createTableCharactersWeapons()
+    {
+        $table = $this->table('characters_weapons');
+        $table->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('weapon_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('equipped', 'boolean', ['default' => false, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('weapon_id', 'weapons', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->create();
+    }
+
     function createTableGroups()
     {
         $this
@@ -157,6 +142,18 @@ class Initial extends AbstractMigration
             ->addColumn('private', 'boolean', ['default' => true, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->create();
+    }
+
+    function createTableObligations()
+    {
+        $this->table('obligations')
+            ->addColumn('character_id', 'int', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('value', 'int', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('type', 'string', ['default' => '', 'limit' => 45, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
     }
 
@@ -222,6 +219,39 @@ class Initial extends AbstractMigration
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->create();
+    }
+
+    function createTableSpecialisations()
+    {
+        $this->table('specialisations')
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
+            ->addColumn('career_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->create();
+
+        $table = TableRegistry::get('Specialisations');
+        $data = [
+            ['name' => 'Assassin', 'career_id' => 1],
+            ['name' => 'Gadgeteer', 'career_id' => 1],
+            ['name' => 'Survivalist', 'career_id' => 1],
+            ['name' => 'Doctor', 'career_id' => 2],
+            ['name' => 'Politico', 'career_id' => 2],
+            ['name' => 'Scholar', 'career_id' => 2],
+            ['name' => 'Fringer', 'career_id' => 3],
+            ['name' => 'Scout', 'career_id' => 3],
+            ['name' => 'Trader', 'career_id' => 3],
+            ['name' => 'Bodyguard', 'career_id' => 4],
+            ['name' => 'Marauder', 'career_id' => 4],
+            ['name' => 'Mercenary Soldier', 'career_id' => 4],
+            ['name' => 'Pilot', 'career_id' => 5],
+            ['name' => 'Scoundrel', 'career_id' => 5],
+            ['name' => 'Thief', 'career_id' => 5],
+            ['name' => 'Mechanic', 'career_id' => 6],
+            ['name' => 'Outlaw Tech', 'career_id' => 6],
+            ['name' => 'Slicer', 'career_id' => 6],
+        ];
+        foreach ($table->newEntities($data) as $entity) {
+            $table->save($entity);
+        }
     }
 
     function createTableSpecies()
@@ -445,6 +475,21 @@ class Initial extends AbstractMigration
         }
     }
 
+    function createTableTraining()
+    {
+        $table = $this->table('training');
+        $table
+            ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('skill_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('level', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('career', 'boolean', ['default' => false, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->create();
+    }
+
     function createTableUsers()
     {
         $table = $this->table('users');
@@ -463,21 +508,78 @@ class Initial extends AbstractMigration
         foreach ($table->newEntities($data) as $entity) {
             $table->save($entity);
         }
-
     }
 
-    function createTableTraining()
+    function createTableWeapons()
     {
-        $table = $this->table('training');
+        $table = $this->table('weapons');
         $table
-            ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
-            ->addColumn('skill_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
-            ->addColumn('level', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
-            ->addColumn('career', 'boolean', ['default' => false, 'null' => false])
+            ->addColumn('weapontype_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('skill_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 50, 'null' => false])
+            ->addColumn('encumbrance', 'integer', ['default' => 0, 'null' => false])
+            ->addColumn('range_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('rarity', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('damage', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('crit', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('hp', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('value', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('restricted', 'boolean', ['default' => false, 'null' => false])
+            ->addColumn('special', 'string', ['default' => '', 'limit' => 45, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
-            ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
-            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
+
+        $table = TableRegistry::get('Weapons');
+        $data = [
+            ['name' => 'Holdout Blaster', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 5, 'crit' => 4, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 1, 'value' => 200, 'restricted' => false, 'rarity' => 4, 'special' => 'Stun setting'],
+            ['name' => 'Light Blaster Pistol', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 5, 'crit' => 4, 'range_id' => 3, 'encumbrance' => 1, 'hp' => 2, 'value' => 300, 'restricted' => false, 'rarity' => 4, 'special' => 'Stun setting'],
+            ['name' => 'Blaster Pistol', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 6, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 1, 'hp' => 3, 'value' => 400, 'restricted' => false, 'rarity' => 6, 'special' => 'Stun setting'],
+            ['name' => 'Heavy Blaster Pistol', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 7, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 2, 'hp' => 3, 'value' => 700, 'restricted' => false, 'rarity' => 6, 'special' => 'Stun setting'],
+            ['name' => 'Blaster Carbine', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 9, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 3, 'hp' => 4, 'value' => 850, 'restricted' => false, 'rarity' => 5, 'special' => 'Stun setting'],
+            ['name' => 'Blaster Rifle', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 9, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 4, 'hp' => 4, 'value' => 900, 'restricted' => false, 'rarity' => 5, 'special' => 'Stun setting'],
+            ['name' => 'Heavy Blaster Rifle', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 6, 'hp' => 4, 'value' => 1500, 'restricted' => false, 'rarity' => 6, 'special' => 'Auto-fire. Cumbersome 3'],
+            ['name' => 'Light Repeating Blaster', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 11, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 7, 'hp' => 4, 'value' => 2250, 'restricted' => true, 'rarity' => 7, 'special' => 'Auto-fire, Cumbersome 4. Pierce 1'],
+            ['name' => 'Heavy Repeating Blaster', 'weapontype_id' => 1, 'skill_id' => 24, 'damage' => 15, 'crit' => 2, 'range_id' => 4, 'encumbrance' => 9, 'hp' => 4, 'value' => 6000, 'restricted' => true, 'rarity' => 8, 'special' => 'Auto-fire. Cumbersome 5, Pierce 2, Vicious 1'],
+            ['name' => 'Bowcaster', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 5, 'hp' => 2, 'value' => 1250, 'restricted' => false, 'rarity' => 7, 'special' => 'Cumbersome 3, Knockdown'],
+            ['name' => 'Ionization Blaster', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 10, 'crit' => 5, 'range_id' => 2, 'encumbrance' => 3, 'hp' => 3, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Disorient 5, Stun Damage (Droid only)'],
+            ['name' => 'Disruptor Pistol', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 10, 'crit' => 2, 'range_id' => 2, 'encumbrance' => 2, 'hp' => 2, 'value' => 3000, 'restricted' => true, 'rarity' => 6, 'special' => 'Vicious 4'],
+            ['name' => 'Disruptor Rifle', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 2, 'range_id' => 4, 'encumbrance' => 5, 'hp' => 4, 'value' => 5000, 'restricted' => true, 'rarity' => 6, 'special' => 'Cumbersome 2, Vicious 5'],
+
+            ['name' => 'Slugthrower Pistol', 'weapontype_id' => 2, 'skill_id' => 26, 'damage' => 4, 'crit' => 5, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 3, 'special' => ''],
+            ['name' => 'Slugthrower Rifle', 'weapontype_id' => 2, 'skill_id' => 27, 'damage' => 7, 'crit' => 5, 'range' => 3, 'encumbrance' => 5, 'hp' => 1, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Cumbersome 2'],
+
+            ['name' => 'Bola / Net', 'weapontype_id' => 3, 'skill_id' => 26, 'damage' => 2, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 2, 'value' => 20, 'restricted' => false, 'rarity' => 2, 'special' => 'Ensnare 3, Knockdown, Limited Ammo 1'],
+
+            ['name' => 'Flame Projector', 'weapontype_id' => 4, 'skill_id' => 27, 'damage' => 8, 'crit' => 3, 'range' => 2, 'encumbrance' => 6, 'hp' => 2, 'value' => 1000, 'restricted' => false, 'rarity' => 6, 'special' => 'Burn 3, Blast 8'],
+            ['name' => 'Missile Tube', 'weapontype_id' => 4, 'skill_id' => 24, 'damage' => 20, 'crit' => 2, 'range' => 5, 'encumbrance' => 7, 'hp' => 4, 'value' => 7500, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 10, Cumbersomme 3, Guided 3, Breach 1, Prepare 1, Limited Ammo 6'],
+            ['name' => 'Frag Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 8, 'crit' => 4, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 50, 'restricted' => false, 'rarity' => 5, 'special' => 'Blast 6, Limited Ammo 1'],
+            ['name' => 'Stun Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 18, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 75, 'restricted' => false, 'rarity' => 4, 'special' => 'Disorient 3, Stun Damage, Blast 8, Limited Ammo 1'],
+            ['name' => 'Thermal Detonator', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 20, 'crit' => 2, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 2000, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 15, Breach 1, Vicious 4, Limited Ammo 1'],
+        ];
+        foreach ($table->newEntities($data) as $entity) {
+            $table->save($entity);
+        }
+    }
+
+    function createTableWeaponTypes()
+    {
+        $table = $this->table('weapon_types');
+        $table
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 50, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->create();
+
+        $table = TableRegistry::get('WeaponTypes');
+        $data = [
+            ['name' => 'Energy Weapons'],
+            ['name' => 'Slugthrowers'],
+            ['name' => 'Thrown Weapons'],
+            ['name' => 'Explosives and Other Weapons'],
+        ];
+        foreach ($table->newEntities($data) as $entity) {
+            $table->save($entity);
+        }
     }
 }
