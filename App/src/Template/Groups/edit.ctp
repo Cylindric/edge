@@ -83,8 +83,35 @@ $editing = false;
             </div>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-md-3 col-md-offset-1">
+        <div class="col-md-6">
+            <h2>Weaponry</h2>
+            <table class="table table-condensed">
+                <tr>
+                    <th>Character</th>
+                    <th>Weapon</th>
+                    <th>Range</th>
+                    <th class="text-right">Damage</th>
+                    <th class="text-right">Crit</th>
+                    <th>Special</th>
+                </tr>
+                <?php foreach ($weapons as $weapon): ?>
+                    <tr>
+                        <td class="text-capitalize"><?= $weapon->_matchingData['Characters']->name ?></td>
+                        <td class="text-capitalize"><?= $weapon->name ?></td>
+                        <td class="text-capitalize"><?= $weapon->range->name ?></td>
+                        <td class="text-right"><?= $weapon->damage ?></td>
+                        <td class="text-right"><?= $weapon->crit ?></td>
+                        <td><?= $weapon->special ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
             <h2>XP</h2>
             <table class="table table-condensed">
                 <?php $total = 0; ?>

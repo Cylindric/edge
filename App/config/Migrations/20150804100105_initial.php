@@ -18,6 +18,7 @@ class Initial extends AbstractMigration
         $this->createTableCareers();
         $this->createTableSpecialisations();
         $this->createTableWeaponTypes();
+        $this->createTableRanges();
 
         // these tables depend on the above tables in some way
         $this->createTableWeapons();
@@ -117,6 +118,7 @@ class Initial extends AbstractMigration
         $table = $this->table('characters_weapons');
         $table->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('weapon_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('quantity', 'integer', ['default' => 1, 'limit' => 11, 'null' => false])
             ->addColumn('equipped', 'boolean', ['default' => false, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
@@ -155,6 +157,28 @@ class Initial extends AbstractMigration
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
+    }
+
+    function createTableRanges()
+    {
+        $table = $this->table('ranges');
+        $table
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 50, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->create();
+
+        $table = TableRegistry::get('Ranges');
+        $data = [
+            ['name' => 'Engaged'],
+            ['name' => 'Short'],
+            ['name' => 'Medium'],
+            ['name' => 'Long'],
+            ['name' => 'Extreme'],
+        ];
+        foreach ($table->newEntities($data) as $entity) {
+            $table->save($entity);
+        }
     }
 
     function createTableSkills()
@@ -525,9 +549,11 @@ class Initial extends AbstractMigration
             ->addColumn('hp', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('value', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('restricted', 'boolean', ['default' => false, 'null' => false])
-            ->addColumn('special', 'string', ['default' => '', 'limit' => 45, 'null' => false])
+            ->addColumn('special', 'string', ['default' => '', 'limit' => 128, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addForeignKey('range_id', 'ranges', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
 
         $table = TableRegistry::get('Weapons');
@@ -556,6 +582,18 @@ class Initial extends AbstractMigration
             ['name' => 'Frag Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 8, 'crit' => 4, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 50, 'restricted' => false, 'rarity' => 5, 'special' => 'Blast 6, Limited Ammo 1'],
             ['name' => 'Stun Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 18, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 75, 'restricted' => false, 'rarity' => 4, 'special' => 'Disorient 3, Stun Damage, Blast 8, Limited Ammo 1'],
             ['name' => 'Thermal Detonator', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 20, 'crit' => 2, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 2000, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 15, Breach 1, Vicious 4, Limited Ammo 1'],
+
+            ['name' => 'Brass Knuckles', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 1, 'crit' => 4, 'range' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 0, 'special' => 'Disorient 3'],
+            ['name' => 'Shock Gloves', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 0, 'crit' => 5, 'range' => 1, 'encumbrance' => 0, 'hp' => 1, 'value' => 300, 'restricted' => false, 'rarity' => 2, 'special' => 'Stun 3'],
+
+            ['name' => 'Combat Knife', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 1, 'crit' => 3, 'range' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 1, 'special' => ''],
+            ['name' => 'Gaffi Stick', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 3, 'range' => 1, 'encumbrance' => 3, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 2, 'special' => 'Defensive 1, Disorient 3'],
+            ['name' => 'Force Pike', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 3, 'crit' => 2, 'range' => 1, 'encumbrance' => 3, 'hp' => 3, 'value' => 500, 'restricted' => false, 'rarity' => 4, 'special' => 'Pierce 2, Stun Setting'],
+            ['name' => 'Lightsaber', 'weapon_type_id' => 6, 'skill_id' => 28, 'damage' => 10, 'crit' => 1, 'range' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 10000, 'restricted' => true, 'rarity' => 10, 'special' => 'Breach 1, Sunder, Vicious 2'],
+            ['name' => 'Truncheon', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 5, 'range' => 1, 'encumbrance' => 2, 'hp' => 0, 'value' => 15, 'restricted' => false, 'rarity' => 1, 'special' => 'Disorient'],
+            ['name' => 'Vibro-Ax', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 3, 'crit' => 2, 'range' => 1, 'encumbrance' => 4, 'hp' => 3, 'value' => 750, 'restricted' => false, 'rarity' => 5, 'special' => 'Pierce 2, Sunder, Vicious 3'],
+            ['name' => 'Vibroknife', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 1, 'crit' => 2, 'range' => 1, 'encumbrance' => 1, 'hp' => 2, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Pierce 2, Vicious 1'],
+            ['name' => 'Vibrosword', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 2, 'range' => 1, 'encumbrance' => 3, 'hp' => 5, 'value' => 750, 'restricted' => false, 'rarity' => 5, 'special' => 'Pierce 2, Vicious 1, Defensive 1'],
         ];
         foreach ($table->newEntities($data) as $entity) {
             $table->save($entity);
@@ -577,6 +615,8 @@ class Initial extends AbstractMigration
             ['name' => 'Slugthrowers'],
             ['name' => 'Thrown Weapons'],
             ['name' => 'Explosives and Other Weapons'],
+            ['name' => 'Brawling Weapons'],
+            ['name' => 'Melee Weapons'],
         ];
         foreach ($table->newEntities($data) as $entity) {
             $table->save($entity);

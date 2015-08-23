@@ -70,7 +70,7 @@ $this->assign('title', $character->name);
             });
             ", ['block' => true]); ?>
             </div>
-            <div class="col-md-3" id="weapons_list_edit">
+            <div class="col-md-12" id="weapons_list_edit">
             </div>
         </div>
 

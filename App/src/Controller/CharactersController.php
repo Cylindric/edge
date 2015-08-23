@@ -183,7 +183,7 @@ class CharactersController extends AppController
         $response = ['result' => 'fail', 'data' => null];
 
         $character = $this->Characters->get($id, [
-             'contain' => ['Training', 'Groups']
+            'contain' => ['Training', 'Groups']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -283,7 +283,11 @@ class CharactersController extends AppController
     public function edit_weapons($id = null)
     {
         $character = $this->Characters->get($id, [
-            'contain' => ['Weapons']
+            'contain' => [
+                'CharactersWeapons' => ['sort' => 'equipped DESC'],
+                'CharactersWeapons.Weapons',
+                'CharactersWeapons.Weapons.Skills',
+                'CharactersWeapons.Weapons.Ranges']
         ]);
         $this->set('character', $character);
         $this->set('_serialize', ['character']);
@@ -351,6 +355,37 @@ class CharactersController extends AppController
         }
 
         $this->set('response', $response);
+        $this->set('_serialize', ['response']);
+    }
+
+    public function change_weapon_qty($char_id = null, $join_id = null, $delta = 1)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if (!is_null($char_id) && !is_null($join_id)) {
+            $delta = (int)$delta;
+            $Char = $this->Characters->get($char_id);
+
+            $this->loadModel('CharactersWeapons');
+            $T = $this->CharactersWeapons->get($join_id);
+            $T->quantity += $delta;
+            if ($T->quantity < 1) {
+                if ($this->CharactersWeapons->delete($T))
+                {
+                    // Announce
+                    $this->Slack->announceCharacterEdit($Char);
+                    $response = ['result' => 'success', 'data' => 0];
+                }
+            } else {
+                if ($this->CharactersWeapons->save($T)) {
+                    // Announce
+                    $this->Slack->announceCharacterEdit($Char);
+                    $response = ['result' => 'success', 'data' => $T->quantity];
+                }
+            }
+        }
+
+        $this->set(compact('response'));
         $this->set('_serialize', ['response']);
     }
 

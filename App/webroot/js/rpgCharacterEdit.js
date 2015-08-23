@@ -218,6 +218,19 @@ rpgApp.dropWeapon = function (character_id, link_id) {
     );
 };
 
+
+rpgApp.changeWeapon = function (character_id, link_id, delta) {
+    $.get('/characters/change_weapon_qty/' + character_id + '/' + link_id + '/' + delta + '.json',
+        function (response) {
+            if (response.response.result == 'success') {
+                rpgApp.getWeapons(character_id);
+            } else if (response.response.result == 'fail') {
+                console.log('fail');
+            }
+        }
+    );
+};
+
 rpgApp.removeNote = function (character_id, note_id) {
     $.get('/characters/remove_note/' + character_id + '/' + note_id + '.json',
         function (response) {
@@ -290,6 +303,14 @@ rpgApp.addNote = function (character_id) {
     $(document).on('click', 'i[id*=drop_weapon_]', function () {
         var id = $(this).attr('id').replace('drop_weapon_', '');
         rpgApp.dropWeapon(char_id, id, $(this).attr('id'));
+    });
+    $(document).on('click', 'span[id*=increase_weapon_]', function () {
+        var id = $(this).attr('id').replace('increase_weapon_', '');
+        rpgApp.changeWeapon(char_id, id, 1);
+    });
+    $(document).on('click', 'span[id*=decrease_weapon_]', function () {
+        var id = $(this).attr('id').replace('decrease_weapon_', '');
+        rpgApp.changeWeapon(char_id, id, -1);
     });
 
 

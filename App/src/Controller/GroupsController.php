@@ -56,6 +56,17 @@ class GroupsController extends AppController
             ],
         ]);
 
+        $this->loadModel('Weapons');
+        $weapons = $this->Weapons->find();
+        $weapons
+            ->contain(['Ranges'])
+            ->matching('CharactersWeapons.Characters', function ($q) use ($id) {
+                return $q->where(['Characters.group_id' => $id]);
+            })
+            ->where(['CharactersWeapons.equipped' => true])
+            ->order(['characters.name'])
+        ;
+
         $this->loadModel('Obligations');
         $obligations = $this->Obligations->find();
         $obligations
@@ -79,7 +90,7 @@ class GroupsController extends AppController
             }
         }
 
-        $this->set(compact('group', 'obligations'));
+        $this->set(compact('group', 'obligations', 'weapons'));
         $this->set('_serialize', ['group']);
     }
 

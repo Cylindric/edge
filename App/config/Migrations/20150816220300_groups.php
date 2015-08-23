@@ -6,10 +6,16 @@ class Groups extends AbstractMigration
 {
     public function change()
     {
+        $table = $this->table('weapons');
+        $table
+            ->addForeignKey('range_id', 'ranges', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->update();
         $this->createTableCareers();
         $this->createTableSpecialisations();
         $this->createTableObligations();
         $this->createTableWeaponTypes();
+        $this->createTableRanges();
         $this->createTableWeapons();
         $this->createTableCharactersWeapons();
 
@@ -57,6 +63,7 @@ class Groups extends AbstractMigration
         $table = $this->table('characters_weapons');
         $table->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('weapon_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('quantity', 'integer', ['default' => 1, 'limit' => 11, 'null' => false])
             ->addColumn('equipped', 'boolean', ['default' => false, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
@@ -129,10 +136,12 @@ class Groups extends AbstractMigration
             ->addColumn('hp', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('value', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('restricted', 'boolean', ['default' => false, 'null' => false])
-            ->addColumn('special', 'string', ['default' => '', 'limit' => 45, 'null' => false])
+            ->addColumn('special', 'string', ['default' => '', 'limit' => 128, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
-            ->create();
+            ->addForeignKey('range_id', 'ranges', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+              ->create();
 
         $table = TableRegistry::get('Weapons');
         $data = [
@@ -150,17 +159,30 @@ class Groups extends AbstractMigration
             ['name' => 'Disruptor Pistol', 'weapon_type_id' => 1, 'skill_id' => 26, 'damage' => 10, 'crit' => 2, 'range_id' => 2, 'encumbrance' => 2, 'hp' => 2, 'value' => 3000, 'restricted' => true, 'rarity' => 6, 'special' => 'Vicious 4'],
             ['name' => 'Disruptor Rifle', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 2, 'range_id' => 4, 'encumbrance' => 5, 'hp' => 4, 'value' => 5000, 'restricted' => true, 'rarity' => 6, 'special' => 'Cumbersome 2, Vicious 5'],
 
-            ['name' => 'Slugthrower Pistol', 'weapontype_id' => 2, 'skill_id' => 26, 'damage' => 4, 'crit' => 5, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 3, 'special' => ''],
-            ['name' => 'Slugthrower Rifle', 'weapontype_id' => 2, 'skill_id' => 27, 'damage' => 7, 'crit' => 5, 'range' => 3, 'encumbrance' => 5, 'hp' => 1, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Cumbersome 2'],
+            ['name' => 'Slugthrower Pistol', 'weapontype_id' => 2, 'skill_id' => 26, 'damage' => 4, 'crit' => 5, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 3, 'special' => ''],
+            ['name' => 'Slugthrower Rifle', 'weapontype_id' => 2, 'skill_id' => 27, 'damage' => 7, 'crit' => 5, 'range_id' => 3, 'encumbrance' => 5, 'hp' => 1, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Cumbersome 2'],
 
-            ['name' => 'Bola / Net', 'weapontype_id' => 3, 'skill_id' => 26, 'damage' => 2, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 2, 'value' => 20, 'restricted' => false, 'rarity' => 2, 'special' => 'Ensnare 3, Knockdown, Limited Ammo 1'],
+            ['name' => 'Bola / Net', 'weapontype_id' => 3, 'skill_id' => 26, 'damage' => 2, 'crit' => 0, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 2, 'value' => 20, 'restricted' => false, 'rarity' => 2, 'special' => 'Ensnare 3, Knockdown, Limited Ammo 1'],
 
-            ['name' => 'Flame Projector', 'weapontype_id' => 4, 'skill_id' => 27, 'damage' => 8, 'crit' => 3, 'range' => 2, 'encumbrance' => 6, 'hp' => 2, 'value' => 1000, 'restricted' => false, 'rarity' => 6, 'special' => 'Burn 3, Blast 8'],
-            ['name' => 'Missile Tube', 'weapontype_id' => 4, 'skill_id' => 24, 'damage' => 20, 'crit' => 2, 'range' => 5, 'encumbrance' => 7, 'hp' => 4, 'value' => 7500, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 10, Cumbersomme 3, Guided 3, Breach 1, Prepare 1, Limited Ammo 6'],
-            ['name' => 'Frag Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 8, 'crit' => 4, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 50, 'restricted' => false, 'rarity' => 5, 'special' => 'Blast 6, Limited Ammo 1'],
-            ['name' => 'Stun Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 18, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 75, 'restricted' => false, 'rarity' => 4, 'special' => 'Disorient 3, Stun Damage, Blast 8, Limited Ammo 1'],
-            ['name' => 'Thermal Detonator', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 20, 'crit' => 2, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 2000, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 15, Breach 1, Vicious 4, Limited Ammo 1'],
+            ['name' => 'Flame Projector', 'weapontype_id' => 4, 'skill_id' => 27, 'damage' => 8, 'crit' => 3, 'range_id' => 2, 'encumbrance' => 6, 'hp' => 2, 'value' => 1000, 'restricted' => false, 'rarity' => 6, 'special' => 'Burn 3, Blast 8'],
+            ['name' => 'Missile Tube', 'weapontype_id' => 4, 'skill_id' => 24, 'damage' => 20, 'crit' => 2, 'range_id' => 5, 'encumbrance' => 7, 'hp' => 4, 'value' => 7500, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 10, Cumbersomme 3, Guided 3, Breach 1, Prepare 1, Limited Ammo 6'],
+            ['name' => 'Frag Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 8, 'crit' => 4, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 50, 'restricted' => false, 'rarity' => 5, 'special' => 'Blast 6, Limited Ammo 1'],
+            ['name' => 'Stun Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 18, 'crit' => 0, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 75, 'restricted' => false, 'rarity' => 4, 'special' => 'Disorient 3, Stun Damage, Blast 8, Limited Ammo 1'],
+            ['name' => 'Thermal Detonator', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 20, 'crit' => 2, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 2000, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 15, Breach 1, Vicious 4, Limited Ammo 1'],
+
+            ['name' => 'Brass Knuckles', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 1, 'crit' => 4, 'range_id' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 0, 'special' => 'Disorient 3'],
+            ['name' => 'Shock Gloves', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 0, 'crit' => 5, 'range_id' => 1, 'encumbrance' => 0, 'hp' => 1, 'value' => 300, 'restricted' => false, 'rarity' => 2, 'special' => 'Stun 3'],
+
+            ['name' => 'Combat Knife', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 1, 'crit' => 3, 'range_id' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 1, 'special' => ''],
+            ['name' => 'Gaffi Stick', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 3, 'range_id' => 1, 'encumbrance' => 3, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 2, 'special' => 'Defensive 1, Disorient 3'],
+            ['name' => 'Force Pike', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 3, 'crit' => 2, 'range_id' => 1, 'encumbrance' => 3, 'hp' => 3, 'value' => 500, 'restricted' => false, 'rarity' => 4, 'special' => 'Pierce 2, Stun Setting'],
+            ['name' => 'Lightsaber', 'weapon_type_id' => 6, 'skill_id' => 28, 'damage' => 10, 'crit' => 1, 'range_id' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 10000, 'restricted' => true, 'rarity' => 10, 'special' => 'Breach 1, Sunder, Vicious 2'],
+            ['name' => 'Truncheon', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 5, 'range_id' => 1, 'encumbrance' => 2, 'hp' => 0, 'value' => 15, 'restricted' => false, 'rarity' => 1, 'special' => 'Disorient'],
+            ['name' => 'Vibro-Ax', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 3, 'crit' => 2, 'range_id' => 1, 'encumbrance' => 4, 'hp' => 3, 'value' => 750, 'restricted' => false, 'rarity' => 5, 'special' => 'Pierce 2, Sunder, Vicious 3'],
+            ['name' => 'Vibroknife', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 1, 'crit' => 2, 'range_id' => 1, 'encumbrance' => 1, 'hp' => 2, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Pierce 2, Vicious 1'],
+            ['name' => 'Vibrosword', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 2, 'range_id' => 1, 'encumbrance' => 3, 'hp' => 5, 'value' => 750, 'restricted' => false, 'rarity' => 5, 'special' => 'Pierce 2, Vicious 1, Defensive 1'],
         ];
+
         foreach ($table->newEntities($data) as $entity) {
             $table->save($entity);
         }
@@ -181,6 +203,30 @@ class Groups extends AbstractMigration
             ['name' => 'Slugthrowers'],
             ['name' => 'Thrown Weapons'],
             ['name' => 'Explosives and Other Weapons'],
+            ['name' => 'Brawling Weapons'],
+            ['name' => 'Melee Weapons'],
+        ];
+        foreach ($table->newEntities($data) as $entity) {
+            $table->save($entity);
+        }
+    }
+
+    function createTableRanges()
+    {
+        $table = $this->table('ranges');
+        $table
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 50, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->create();
+
+        $table = TableRegistry::get('Ranges');
+        $data = [
+            ['name' => 'Engaged'],
+            ['name' => 'Short'],
+            ['name' => 'Medium'],
+            ['name' => 'Long'],
+            ['name' => 'Extreme'],
         ];
         foreach ($table->newEntities($data) as $entity) {
             $table->save($entity);

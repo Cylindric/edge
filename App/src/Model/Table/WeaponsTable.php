@@ -39,10 +39,12 @@ class WeaponsTable extends Table
             'foreignKey' => 'skill_id',
             'joinType' => 'INNER'
         ]);
-//        $this->belongsTo('Ranges', [
-//            'foreignKey' => 'range_id',
-//            'joinType' => 'INNER'
-//        ]);
+        $this->belongsTo('Ranges', [
+            'foreignKey' => 'range_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->hasMany('CharactersWeapons');
+        $this->belongsToMany('Characters');
     }
 
     /**
@@ -96,9 +98,6 @@ class WeaponsTable extends Table
             ->requirePresence('restricted', 'create')
             ->notEmpty('restricted');
 
-        $validator
-            ->requirePresence('special', 'create')
-            ->notEmpty('special');
 
         return $validator;
     }
