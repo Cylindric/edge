@@ -32,7 +32,10 @@ class CharactersTable extends Table
         $this->hasMany('Training');
         $this->hasMany('CharactersTalents');
         $this->hasMany('CharactersWeapons');
+        $this->hasMany('CharactersSkills');
         $this->hasMany('Obligations');
+
+        $this->belongsToMany('Skills');
 
         $this->belongsToMany('Talents', [
             'through' => 'CharactersTalents'

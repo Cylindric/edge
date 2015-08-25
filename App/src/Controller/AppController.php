@@ -4,6 +4,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\I18n\Time;
+use Cake\Core\Configure;
 
 class AppController extends Controller
 {
@@ -18,6 +19,7 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
+        $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
             'authorize' => ['Controller'],
@@ -31,6 +33,10 @@ class AppController extends Controller
             ]
         ]);
         $this->loadComponent('Cookie');
+        $this->loadComponent('Slack', [
+            'webhook_url' => Configure::read('Slack.webhook_url'),
+            'enabled' => Configure::read('Slack.enabled')
+        ]);
         Time::$defaultLocale = 'en-GB';
 
     }

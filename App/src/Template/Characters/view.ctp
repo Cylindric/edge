@@ -114,6 +114,13 @@ $this->Html->addCrumb($character->name);
             </div>
         <?php endif; ?>
 
+        <div class="row" id="bio">
+            <div class="col-md-12">
+                <h3>Bio</h3>
+                <?= $this->Text->autoParagraph($character->biography) ?>
+            </div>
+        </div>
+
     </div>
 
 </div>

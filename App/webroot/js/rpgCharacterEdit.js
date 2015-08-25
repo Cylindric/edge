@@ -93,7 +93,7 @@ rpgApp.getStats = function (character_id) {
 };
 
 rpgApp.changeSkill = function (character_id, skill_id, delta) {
-    $.get('/characters/change_skill/' + character_id + '/' + skill_id + '/' + delta + '.json',
+    $.get('/character_skills/change/' + character_id + '/' + skill_id + '/' + delta + '.json',
         function (response) {
             if (response.response.result == 'success') {
                 // response now contains the new Skill values

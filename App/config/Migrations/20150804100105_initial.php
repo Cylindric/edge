@@ -14,7 +14,6 @@ class Initial extends AbstractMigration
         $this->createTableSpecies();
         $this->createTableStats();
         $this->createTableTalents();
-        $this->createTableTraining();
         $this->createTableCareers();
         $this->createTableSpecialisations();
         $this->createTableWeaponTypes();
@@ -24,6 +23,7 @@ class Initial extends AbstractMigration
         $this->createTableWeapons();
         $this->createTableCharacters();
         $this->createTableUsers();
+        $this->createTableCharactersSkills();
         $this->createTableCharactersTalents();
         $this->createTableCharactersNotes();
         $this->createTableCharactersWeapons();
@@ -499,9 +499,9 @@ class Initial extends AbstractMigration
         }
     }
 
-    function createTableTraining()
+    function createTableCharactersSkills()
     {
-        $table = $this->table('training');
+        $table = $this->table('characters_skills');
         $table
             ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('skill_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
@@ -538,7 +538,7 @@ class Initial extends AbstractMigration
     {
         $table = $this->table('weapons');
         $table
-            ->addColumn('weapontype_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('weapon_type_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('skill_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('name', 'string', ['default' => null, 'limit' => 50, 'null' => false])
             ->addColumn('encumbrance', 'integer', ['default' => 0, 'null' => false])
@@ -558,30 +558,30 @@ class Initial extends AbstractMigration
 
         $table = TableRegistry::get('Weapons');
         $data = [
-            ['name' => 'Holdout Blaster', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 5, 'crit' => 4, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 1, 'value' => 200, 'restricted' => false, 'rarity' => 4, 'special' => 'Stun setting'],
-            ['name' => 'Light Blaster Pistol', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 5, 'crit' => 4, 'range_id' => 3, 'encumbrance' => 1, 'hp' => 2, 'value' => 300, 'restricted' => false, 'rarity' => 4, 'special' => 'Stun setting'],
-            ['name' => 'Blaster Pistol', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 6, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 1, 'hp' => 3, 'value' => 400, 'restricted' => false, 'rarity' => 6, 'special' => 'Stun setting'],
-            ['name' => 'Heavy Blaster Pistol', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 7, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 2, 'hp' => 3, 'value' => 700, 'restricted' => false, 'rarity' => 6, 'special' => 'Stun setting'],
-            ['name' => 'Blaster Carbine', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 9, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 3, 'hp' => 4, 'value' => 850, 'restricted' => false, 'rarity' => 5, 'special' => 'Stun setting'],
-            ['name' => 'Blaster Rifle', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 9, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 4, 'hp' => 4, 'value' => 900, 'restricted' => false, 'rarity' => 5, 'special' => 'Stun setting'],
-            ['name' => 'Heavy Blaster Rifle', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 6, 'hp' => 4, 'value' => 1500, 'restricted' => false, 'rarity' => 6, 'special' => 'Auto-fire. Cumbersome 3'],
-            ['name' => 'Light Repeating Blaster', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 11, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 7, 'hp' => 4, 'value' => 2250, 'restricted' => true, 'rarity' => 7, 'special' => 'Auto-fire, Cumbersome 4. Pierce 1'],
-            ['name' => 'Heavy Repeating Blaster', 'weapontype_id' => 1, 'skill_id' => 24, 'damage' => 15, 'crit' => 2, 'range_id' => 4, 'encumbrance' => 9, 'hp' => 4, 'value' => 6000, 'restricted' => true, 'rarity' => 8, 'special' => 'Auto-fire. Cumbersome 5, Pierce 2, Vicious 1'],
-            ['name' => 'Bowcaster', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 5, 'hp' => 2, 'value' => 1250, 'restricted' => false, 'rarity' => 7, 'special' => 'Cumbersome 3, Knockdown'],
-            ['name' => 'Ionization Blaster', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 10, 'crit' => 5, 'range_id' => 2, 'encumbrance' => 3, 'hp' => 3, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Disorient 5, Stun Damage (Droid only)'],
-            ['name' => 'Disruptor Pistol', 'weapontype_id' => 1, 'skill_id' => 26, 'damage' => 10, 'crit' => 2, 'range_id' => 2, 'encumbrance' => 2, 'hp' => 2, 'value' => 3000, 'restricted' => true, 'rarity' => 6, 'special' => 'Vicious 4'],
-            ['name' => 'Disruptor Rifle', 'weapontype_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 2, 'range_id' => 4, 'encumbrance' => 5, 'hp' => 4, 'value' => 5000, 'restricted' => true, 'rarity' => 6, 'special' => 'Cumbersome 2, Vicious 5'],
+            ['name' => 'Holdout Blaster', 'weapon_type_id' => 1, 'skill_id' => 26, 'damage' => 5, 'crit' => 4, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 1, 'value' => 200, 'restricted' => false, 'rarity' => 4, 'special' => 'Stun setting'],
+            ['name' => 'Light Blaster Pistol', 'weapon_type_id' => 1, 'skill_id' => 26, 'damage' => 5, 'crit' => 4, 'range_id' => 3, 'encumbrance' => 1, 'hp' => 2, 'value' => 300, 'restricted' => false, 'rarity' => 4, 'special' => 'Stun setting'],
+            ['name' => 'Blaster Pistol', 'weapon_type_id' => 1, 'skill_id' => 26, 'damage' => 6, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 1, 'hp' => 3, 'value' => 400, 'restricted' => false, 'rarity' => 6, 'special' => 'Stun setting'],
+            ['name' => 'Heavy Blaster Pistol', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 7, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 2, 'hp' => 3, 'value' => 700, 'restricted' => false, 'rarity' => 6, 'special' => 'Stun setting'],
+            ['name' => 'Blaster Carbine', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 9, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 3, 'hp' => 4, 'value' => 850, 'restricted' => false, 'rarity' => 5, 'special' => 'Stun setting'],
+            ['name' => 'Blaster Rifle', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 9, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 4, 'hp' => 4, 'value' => 900, 'restricted' => false, 'rarity' => 5, 'special' => 'Stun setting'],
+            ['name' => 'Heavy Blaster Rifle', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 6, 'hp' => 4, 'value' => 1500, 'restricted' => false, 'rarity' => 6, 'special' => 'Auto-fire. Cumbersome 3'],
+            ['name' => 'Light Repeating Blaster', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 11, 'crit' => 3, 'range_id' => 4, 'encumbrance' => 7, 'hp' => 4, 'value' => 2250, 'restricted' => true, 'rarity' => 7, 'special' => 'Auto-fire, Cumbersome 4. Pierce 1'],
+            ['name' => 'Heavy Repeating Blaster', 'weapon_type_id' => 1, 'skill_id' => 24, 'damage' => 15, 'crit' => 2, 'range_id' => 4, 'encumbrance' => 9, 'hp' => 4, 'value' => 6000, 'restricted' => true, 'rarity' => 8, 'special' => 'Auto-fire. Cumbersome 5, Pierce 2, Vicious 1'],
+            ['name' => 'Bowcaster', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 3, 'range_id' => 3, 'encumbrance' => 5, 'hp' => 2, 'value' => 1250, 'restricted' => false, 'rarity' => 7, 'special' => 'Cumbersome 3, Knockdown'],
+            ['name' => 'Ionization Blaster', 'weapon_type_id' => 1, 'skill_id' => 26, 'damage' => 10, 'crit' => 5, 'range_id' => 2, 'encumbrance' => 3, 'hp' => 3, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Disorient 5, Stun Damage (Droid only)'],
+            ['name' => 'Disruptor Pistol', 'weapon_type_id' => 1, 'skill_id' => 26, 'damage' => 10, 'crit' => 2, 'range_id' => 2, 'encumbrance' => 2, 'hp' => 2, 'value' => 3000, 'restricted' => true, 'rarity' => 6, 'special' => 'Vicious 4'],
+            ['name' => 'Disruptor Rifle', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 2, 'range_id' => 4, 'encumbrance' => 5, 'hp' => 4, 'value' => 5000, 'restricted' => true, 'rarity' => 6, 'special' => 'Cumbersome 2, Vicious 5'],
 
-            ['name' => 'Slugthrower Pistol', 'weapontype_id' => 2, 'skill_id' => 26, 'damage' => 4, 'crit' => 5, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 3, 'special' => ''],
-            ['name' => 'Slugthrower Rifle', 'weapontype_id' => 2, 'skill_id' => 27, 'damage' => 7, 'crit' => 5, 'range' => 3, 'encumbrance' => 5, 'hp' => 1, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Cumbersome 2'],
+            ['name' => 'Slugthrower Pistol', 'weapon_type_id' => 2, 'skill_id' => 26, 'damage' => 4, 'crit' => 5, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 3, 'special' => ''],
+            ['name' => 'Slugthrower Rifle', 'weapon_type_id' => 2, 'skill_id' => 27, 'damage' => 7, 'crit' => 5, 'range' => 3, 'encumbrance' => 5, 'hp' => 1, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Cumbersome 2'],
 
-            ['name' => 'Bola / Net', 'weapontype_id' => 3, 'skill_id' => 26, 'damage' => 2, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 2, 'value' => 20, 'restricted' => false, 'rarity' => 2, 'special' => 'Ensnare 3, Knockdown, Limited Ammo 1'],
+            ['name' => 'Bola / Net', 'weapon_type_id' => 3, 'skill_id' => 26, 'damage' => 2, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 2, 'value' => 20, 'restricted' => false, 'rarity' => 2, 'special' => 'Ensnare 3, Knockdown, Limited Ammo 1'],
 
-            ['name' => 'Flame Projector', 'weapontype_id' => 4, 'skill_id' => 27, 'damage' => 8, 'crit' => 3, 'range' => 2, 'encumbrance' => 6, 'hp' => 2, 'value' => 1000, 'restricted' => false, 'rarity' => 6, 'special' => 'Burn 3, Blast 8'],
-            ['name' => 'Missile Tube', 'weapontype_id' => 4, 'skill_id' => 24, 'damage' => 20, 'crit' => 2, 'range' => 5, 'encumbrance' => 7, 'hp' => 4, 'value' => 7500, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 10, Cumbersomme 3, Guided 3, Breach 1, Prepare 1, Limited Ammo 6'],
-            ['name' => 'Frag Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 8, 'crit' => 4, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 50, 'restricted' => false, 'rarity' => 5, 'special' => 'Blast 6, Limited Ammo 1'],
-            ['name' => 'Stun Grenade', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 18, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 75, 'restricted' => false, 'rarity' => 4, 'special' => 'Disorient 3, Stun Damage, Blast 8, Limited Ammo 1'],
-            ['name' => 'Thermal Detonator', 'weapontype_id' => 4, 'skill_id' => 26, 'damage' => 20, 'crit' => 2, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 2000, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 15, Breach 1, Vicious 4, Limited Ammo 1'],
+            ['name' => 'Flame Projector', 'weapon_type_id' => 4, 'skill_id' => 27, 'damage' => 8, 'crit' => 3, 'range' => 2, 'encumbrance' => 6, 'hp' => 2, 'value' => 1000, 'restricted' => false, 'rarity' => 6, 'special' => 'Burn 3, Blast 8'],
+            ['name' => 'Missile Tube', 'weapon_type_id' => 4, 'skill_id' => 24, 'damage' => 20, 'crit' => 2, 'range' => 5, 'encumbrance' => 7, 'hp' => 4, 'value' => 7500, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 10, Cumbersomme 3, Guided 3, Breach 1, Prepare 1, Limited Ammo 6'],
+            ['name' => 'Frag Grenade', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 8, 'crit' => 4, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 50, 'restricted' => false, 'rarity' => 5, 'special' => 'Blast 6, Limited Ammo 1'],
+            ['name' => 'Stun Grenade', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 18, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 75, 'restricted' => false, 'rarity' => 4, 'special' => 'Disorient 3, Stun Damage, Blast 8, Limited Ammo 1'],
+            ['name' => 'Thermal Detonator', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 20, 'crit' => 2, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 2000, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 15, Breach 1, Vicious 4, Limited Ammo 1'],
 
             ['name' => 'Brass Knuckles', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 1, 'crit' => 4, 'range' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 0, 'special' => 'Disorient 3'],
             ['name' => 'Shock Gloves', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 0, 'crit' => 5, 'range' => 1, 'encumbrance' => 0, 'hp' => 1, 'value' => 300, 'restricted' => false, 'rarity' => 2, 'special' => 'Stun 3'],

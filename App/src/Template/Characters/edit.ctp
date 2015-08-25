@@ -74,8 +74,14 @@ $this->assign('title', $character->name);
             </div>
         </div>
 
-
         <div class="row" id="notes_list_edit">
+        </div>
+
+        <div class="row" id="bio_edit">
+            <div class="col-md-12">
+            <h3>Bio</h3>
+            <?= $this->Text->autoParagraph($character->biography) ?>
+            </div>
         </div>
     </div>
 

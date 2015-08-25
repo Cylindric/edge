@@ -33,9 +33,8 @@ class SkillsTable extends Table
             'foreignKey' => 'stat_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('Training', [
-            'foreignKey' => 'skill_id'
-        ]);
+        $this->hasMany('CharactersSkills');
+        $this->belongsToMany('Characters');
     }
 
     /**

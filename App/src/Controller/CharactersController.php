@@ -73,7 +73,7 @@ class CharactersController extends AppController
         $options = [
             'contain' => ['Species', 'Users'],
         ];
-        if (!$this->Auth->User('role') == 'admin') {
+        if ($this->Auth->User('role') != 'admin') {
             $options['conditions'] = ['Characters.user_id' => $this->Auth->User('id')];
         }
 
@@ -93,7 +93,7 @@ class CharactersController extends AppController
     {
         $query = $this->Characters
             ->find('all')
-            ->contain(['Training', 'Talents'])
+            ->contain(['Talents'])
             ->where(['Characters.id' => $id]);
 
         $char_is_owned = $this->Characters->isOwnedBy($id, $this->Auth->User('id'));
@@ -102,28 +102,29 @@ class CharactersController extends AppController
             $query->contain(['Notes' => ['sort' => ['Notes.created DESC']]]);
         } else {
             $query->contain(['Notes' => function ($q) {
-                return $q->where(['Notes.private' => false])->sort(['Notes.created']);
+                return $q->where(['Notes.private' => false])->order(['Notes.created']);
             }]);
         }
 
         $character = $query->first();
 
+        // Get all the skills
         $this->loadModel('Skills');
         $skills = $this->Skills->find();
-        $skills->select([
-            'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
-            'Stats.name', 'Stats.code',
-            'level' => $skills->func()->sum('t.level')
-        ])
-            ->contain(['Stats'])
-            ->join([
-                'table' => 'training',
-                'alias' => 't',
-                'type' => 'LEFT',
-                'conditions' => [
-                    'Skills.id = t.skill_id',
-                    't.character_id' => $id]
+        $skills->join([
+            'table' => 'characters_skills',
+            'alias' => 't',
+            'type' => 'LEFT',
+            'conditions' => [
+                'Skills.id = t.skill_id',
+                't.character_id' => $id]
             ])
+            ->select([
+                'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
+                'Stats.name', 'Stats.code',
+                'level' => $skills->func()->sum('t.level')
+            ])
+            ->contain(['Stats'])
             ->group(['Skills.id', 'Stats.name', 'Stats.code'])
             ->order('Skills.name');
 
@@ -183,7 +184,7 @@ class CharactersController extends AppController
         $response = ['result' => 'fail', 'data' => null];
 
         $character = $this->Characters->get($id, [
-            'contain' => ['Training', 'Groups']
+            'contain' => ['Groups']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -260,19 +261,27 @@ class CharactersController extends AppController
 
     public function edit_skills($id = null)
     {
-        $character = $this->Characters->get($id, [
-            'contain' => ['Training']
-        ]);
+        $character = $this->Characters->get($id, ['contain' => ['CharactersSkills']]);
 
         $this->loadModel('Skills');
 
-        $skills = $this->Skills
-            ->find()
-            ->contain([
-                'Stats',
-                'Training' => function ($q) use ($id) {
-                    return $q->where(['Training.character_id' => $id]);
-                }])
+        $this->loadModel('Skills');
+        $skills = $this->Skills->find();
+        $skills->join([
+            'table' => 'characters_skills',
+            'alias' => 't',
+            'type' => 'LEFT',
+            'conditions' => [
+                'Skills.id = t.skill_id',
+                't.character_id' => $id]
+        ])
+            ->select([
+                'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
+                'Stats.name', 'Stats.code',
+                'level' => $skills->func()->sum('t.level')
+            ])
+            ->contain(['Stats'])
+            ->group(['Skills.id', 'Stats.name', 'Stats.code'])
             ->order('Skills.name');
 
         $this->set('character', $character);
@@ -370,8 +379,7 @@ class CharactersController extends AppController
             $T = $this->CharactersWeapons->get($join_id);
             $T->quantity += $delta;
             if ($T->quantity < 1) {
-                if ($this->CharactersWeapons->delete($T))
-                {
+                if ($this->CharactersWeapons->delete($T)) {
                     // Announce
                     $this->Slack->announceCharacterEdit($Char);
                     $response = ['result' => 'success', 'data' => 0];
@@ -389,71 +397,6 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function change_skill($char_id = null, $skill_id = null, $delta = 1)
-    {
-        $this->loadModel('Skills');
-        $this->loadModel('Training');
-
-        $Character = $this->Characters->get($char_id, [
-            'contain' => ['Training']
-        ]);
-
-        $Skill = $this->Skills
-            ->find()
-            ->contain([
-                'Stats',
-                'Training' => function ($q) use ($char_id) {
-                    return $q->where(['Training.character_id' => $char_id]);
-                }])
-            ->where(['Skills.id' => $skill_id])
-            ->first();
-
-        $response = [
-            'result' => 'fail',
-            'Skill' => $Skill
-        ];
-
-
-        if (!is_null($char_id) && !is_null($skill_id)) {
-            $delta = (int)$delta;
-
-            if (count($Skill->training) == 0) {
-                if ($delta > 0) {
-                    // No skill trained yet, so create a new record
-                    $train = $this->Training->newEntity();
-                    $train->character_id = $char_id;
-                    $train->skill_id = $skill_id;
-                    $train->level = $delta;
-                    $Skill->training[] = $train;
-                    $Skill->dirty('training', true);
-                }
-                if ($this->Skills->save($Skill)) {
-                    $response['result'] = 'success';
-                }
-            } else {
-
-                // Change the skill
-                $Skill->training[0]->level += $delta;
-                $Skill->dirty('training', true);
-
-                if ($this->Skills->save($Skill)) {
-                    $response['result'] = 'success';
-                }
-            }
-        }
-
-        // Announce
-        if ($response['result'] == 'success')
-            $this->Slack->announceCharacterEdit($Character);
-
-
-        $response['Dice'] = $Skill->dice($Character);
-        $response['Level'] = $Skill->level;
-
-        $this->set('skill', $Skill);
-        $this->set('response', $response);
-        $this->set('_serialize', ['response']);
-    }
 
     public function change_stat($char_id = null, $stat_code = null, $delta = 1)
     {
