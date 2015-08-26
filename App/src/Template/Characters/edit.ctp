@@ -72,6 +72,8 @@ $this->assign('title', $character->name);
             </div>
             <div class="col-md-12" id="weapons_list_edit">
             </div>
+            <div class="col-md-12" id="armour_list_edit">
+            </div>
         </div>
 
         <div class="row" id="notes_list_edit">

@@ -2,6 +2,7 @@ USE edge;
 DELETE FROM phinxlog where version <> '20150804100105';
 
 
+SELECT * FROM armour;
 SELECT * FROM careers;
 SELECT * FROM characters;
 SELECT * FROM characters_skills;

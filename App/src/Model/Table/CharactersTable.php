@@ -22,11 +22,13 @@ class CharactersTable extends Table
         $this->belongsTo('Careers');
         $this->belongsTo('Users');
 
+        $this->hasMany('CharactersArmour');
         $this->hasMany('CharactersTalents');
         $this->hasMany('CharactersWeapons');
         $this->hasMany('CharactersSkills');
         $this->hasMany('Obligations');
 
+        $this->belongsToMany('Armour', ['through' => 'CharactersArmour']);
         $this->belongsToMany('Skills');
         $this->belongsToMany('Talents');
         $this->belongsToMany('Notes');

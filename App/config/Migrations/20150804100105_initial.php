@@ -20,6 +20,7 @@ class Initial extends AbstractMigration
         $this->createTableRanges();
 
         // these tables depend on the above tables in some way
+        $this->createTableArmour();
         $this->createTableWeapons();
         $this->createTableCharacters();
         $this->createTableUsers();
@@ -29,6 +30,36 @@ class Initial extends AbstractMigration
         $this->createTableCharactersWeapons();
 
         $this->createTableObligations();
+    }
+
+    function createTableArmour()
+    {
+        $table = $this->table('armour');
+        $table
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 50, 'null' => false])
+            ->addColumn('encumbrance', 'integer', ['default' => 0, 'null' => false])
+            ->addColumn('rarity', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('defence', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('hp', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('value', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('restricted', 'boolean', ['default' => false, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->create();
+
+        $table = TableRegistry::get('Armour');
+        $data = [
+            ['name' => 'Adverse Environment Gear', 'defence' => 0, 'soak' => 1, 'value' => 500, 'encumbrance' => 2, 'hp' => 1, 'restricted' => false, 'rarity' => 1],
+            ['name' => 'Armored Clothing', 'defence' => 1, 'soak' => 1, 'value' => 1000, 'encumbrance' => 3, 'hp' => 1, 'restricted' => false, 'rarity' => 6],
+            ['name' => 'Heavy Battle Armor', 'defence' => 1, 'soak' => 2, 'value' => 5000, 'encumbrance' => 6, 'hp' => 4, 'restricted' => true, 'rarity' => 7],
+            ['name' => 'Heavy Clothing', 'defence' => 0, 'soak' => 1, 'value' => 50, 'encumbrance' => 1, 'hp' => 0, 'restricted' => false, 'rarity' => 0],
+            ['name' => 'Laminate', 'defence' => 0, 'soak' => 2, 'value' => 2500, 'encumbrance' => 4, 'hp' => 3, 'restricted' => false, 'rarity' => 5],
+            ['name' => 'Personal Deflector Shield', 'defence' => 0, 'soak' => 0, 'value' => 1000, 'encumbrance' => 2, 'hp' => 0, 'restricted' => false, 'rarity' => 8],
+            ['name' => 'Padded Armor', 'defence' => 0, 'soak' => 2, 'value' => 500, 'encumbrance' => 2, 'hp' => 0, 'restricted' => false, 'rarity' => 1],
+        ];
+        foreach ($table->newEntities($data) as $entity) {
+            $table->save($entity);
+        }
     }
 
     function createTableCareers()
