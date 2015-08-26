@@ -218,7 +218,6 @@ rpgApp.dropWeapon = function (character_id, link_id) {
     );
 };
 
-
 rpgApp.changeWeapon = function (character_id, link_id, delta) {
     $.get('/characters/change_weapon_qty/' + character_id + '/' + link_id + '/' + delta + '.json',
         function (response) {

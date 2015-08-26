@@ -83,6 +83,7 @@ class Initial extends AbstractMigration
             ->addColumn('strain', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('defence_ranged', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('defence_melee', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('biography', 'text', ['default' => '', 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addForeignKey('user_id', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
@@ -507,6 +508,8 @@ class Initial extends AbstractMigration
             ->addColumn('skill_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('level', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('career', 'boolean', ['default' => false, 'null' => false])
+            ->addColumn('locked', 'boolean', ['default' => false, 'null' => false])
+            ->addColumn('source', 'string', ['default' => '', 'limit' => 20, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
@@ -554,6 +557,7 @@ class Initial extends AbstractMigration
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addForeignKey('range_id', 'ranges', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('weapon_type_id', 'weapon_types', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
 
         $table = TableRegistry::get('Weapons');

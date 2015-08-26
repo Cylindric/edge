@@ -7,13 +7,6 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-/**
- * Characters Model
- *
- * @property \Cake\ORM\Association\BelongsTo $Species
- * @property \Cake\ORM\Association\HasMany $Growth
- * @property \Cake\ORM\Association\HasMany $Training
- */
 class CharactersTable extends Table
 {
     public function initialize(array $config)
@@ -29,23 +22,15 @@ class CharactersTable extends Table
         $this->belongsTo('Careers');
         $this->belongsTo('Users');
 
-        $this->hasMany('Training');
         $this->hasMany('CharactersTalents');
         $this->hasMany('CharactersWeapons');
         $this->hasMany('CharactersSkills');
         $this->hasMany('Obligations');
 
         $this->belongsToMany('Skills');
-
-        $this->belongsToMany('Talents', [
-            'through' => 'CharactersTalents'
-        ]);
-        $this->belongsToMany('Notes', [
-            'through' => 'CharactersNotes'
-        ]);
-        $this->belongsToMany('Weapons', [
-            'through' => 'CharactersWeapons'
-        ]);
+        $this->belongsToMany('Talents');
+        $this->belongsToMany('Notes');
+        $this->belongsToMany('Weapons');
     }
 
     public function validationDefault(Validator $validator)
@@ -61,13 +46,6 @@ class CharactersTable extends Table
         return $validator;
     }
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['species_id'], 'Species'));
