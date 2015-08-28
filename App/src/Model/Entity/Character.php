@@ -32,19 +32,15 @@ class Character extends Entity
     public function _getTotalSoak()
     {
         $base_soak = $this->soak;
-        if (isset($this->armour)) {
-            $armour_soak = $this->armour;
-        } else {
-            $Armour = TableRegistry::get('CharactersArmour');
-            $query = $Armour->find();
-            $query
-                ->contain(['armour'])
-                ->where(['CharactersArmour.character_id' => $this->id])
-                ->andWhere(['CharactersArmour.equipped' => true])
-                ->select(['soak' => $query->func()->sum('Armour.soak')])
-                ->hydrate(false);
-            $armour_soak = $query->toArray()[0]['soak'];
-        }
+        $Armour = TableRegistry::get('CharactersArmour');
+        $query = $Armour->find();
+        $query
+            ->contain(['armour'])
+            ->where(['CharactersArmour.character_id' => $this->id])
+            ->andWhere(['CharactersArmour.equipped' => true])
+            ->select(['soak' => $query->func()->sum('Armour.soak')])
+            ->hydrate(false);
+        $armour_soak = $query->toArray()[0]['soak'];
 
         return $base_soak + $armour_soak;
     }

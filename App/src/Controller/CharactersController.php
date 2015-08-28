@@ -39,9 +39,6 @@ class CharactersController extends AppController
             'edit_notes',
             'edit_talents',
             'edit_skills',
-            'edit_weapons',
-            'drop_weapon',
-            'toggle_weapon',
             'change_skill',
             'change_stat',
             'add_talent',
@@ -93,7 +90,13 @@ class CharactersController extends AppController
     {
         $query = $this->Characters
             ->find('all')
-            ->contain(['Talents'])
+            ->contain([
+                'Armour',
+                'Talents',
+                'Weapons',
+                'Weapons.Ranges',
+                'Weapons.Skills',
+            ])
             ->where(['Characters.id' => $id]);
 
         $char_is_owned = $this->Characters->isOwnedBy($id, $this->Auth->User('id'));
@@ -132,7 +135,6 @@ class CharactersController extends AppController
         $this->set('character', $character);
         $this->set('skills', $skills);
         $this->set('_serialize', ['character']);
-
     }
 
     /**
@@ -288,115 +290,6 @@ class CharactersController extends AppController
         $this->set('skills', $skills);
         $this->set('_serialize', ['skills']);
     }
-
-    public function edit_weapons($id = null)
-    {
-        $character = $this->Characters->get($id, [
-            'contain' => [
-                'CharactersWeapons' => ['sort' => 'equipped DESC'],
-                'CharactersWeapons.Weapons',
-                'CharactersWeapons.Weapons.Skills',
-                'CharactersWeapons.Weapons.Ranges']
-        ]);
-        $this->set('character', $character);
-        $this->set('_serialize', ['character']);
-    }
-
-    public function add_weapon($char_id, $weapon_id)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($weapon_id)) {
-
-            $Char = $this->Characters->get($char_id, [
-                'contain' => ['Weapons']
-            ]);
-
-            $this->loadModel('Weapons');
-            $W = $this->Weapons->get($weapon_id);
-
-            if ($this->Characters->Weapons->link($Char, [$W])) {
-                // Announce
-                $this->Slack->announceCharacterEdit($Char);
-                $response = ['result' => 'success', 'data' => $Char->weapons];
-            }
-        }
-
-        $this->set('response', $response);
-        $this->set('_serialize', ['response']);
-    }
-
-    public function toggle_weapon($char_id = null, $character_weapon_id = null)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($character_weapon_id)) {
-            $Char = $this->Characters->get($char_id, [
-                'contain' => ['CharactersWeapons' => ['conditions' => ['CharactersWeapons.id' => $character_weapon_id]]]]);
-
-            if (count($Char->characters_weapons) == 0) {
-                // Non-existent link, invalid operation
-            } else {
-                $t = $Char->characters_weapons[0];
-                $t->equipped = !$t->equipped;
-
-                $Char->dirty('characters_weapons', true);
-                if ($this->Characters->save($Char)) {
-                    $response = ['result' => 'success', 'data' => $t->equipped];
-                }
-            }
-        }
-
-        $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
-    }
-
-    public function drop_weapon($char_id, $link_id)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($link_id)) {
-            $this->loadModel('CharactersWeapons');
-
-            if ($this->CharactersWeapons->delete($this->CharactersWeapons->get($link_id))) {
-                $response = ['result' => 'success', 'data' => null];
-            }
-        }
-
-        $this->set('response', $response);
-        $this->set('_serialize', ['response']);
-    }
-
-    public function change_weapon_qty($char_id = null, $join_id = null, $delta = 1)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($join_id)) {
-            $delta = (int)$delta;
-            $Char = $this->Characters->get($char_id);
-
-            $this->loadModel('CharactersWeapons');
-            $T = $this->CharactersWeapons->get($join_id);
-            $T->quantity += $delta;
-            if ($T->quantity < 1) {
-                if ($this->CharactersWeapons->delete($T)) {
-                    // Announce
-                    $this->Slack->announceCharacterEdit($Char);
-                    $response = ['result' => 'success', 'data' => 0];
-                }
-            } else {
-                if ($this->CharactersWeapons->save($T)) {
-                    // Announce
-                    $this->Slack->announceCharacterEdit($Char);
-                    $response = ['result' => 'success', 'data' => $T->quantity];
-                }
-            }
-        }
-
-        $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
-    }
-
 
     public function change_stat($char_id = null, $stat_code = null, $delta = 1)
     {

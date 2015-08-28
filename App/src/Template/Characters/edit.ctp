@@ -40,7 +40,7 @@ $this->assign('title', $character->name);
 
         <h3>Characteristics</h3>
 
-        <div class="row" id="stats_list_edit">
+        <div class="row pagebreak" id="stats_list_edit">
         </div>
 
         <div class="row" id="skills_list_edit">
@@ -73,6 +73,8 @@ $this->assign('title', $character->name);
             <div class="col-md-12" id="weapons_list_edit">
             </div>
             <div class="col-md-12" id="armour_list_edit">
+            </div>
+            <div class="col-md-12" id="item_list_edit">
             </div>
         </div>
 
