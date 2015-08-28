@@ -1,19 +1,18 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Skill;
+use App\Model\Entity\ItemType;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Skills Model
+ * ItemTypes Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Stats
- * @property \Cake\ORM\Association\HasMany $Training
+ * @property \Cake\ORM\Association\HasMany $Items
  */
-class SkillsTable extends Table
+class ItemTypesTable extends Table
 {
 
     /**
@@ -26,15 +25,13 @@ class SkillsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('skills');
+        $this->table('item_types');
         $this->displayField('name');
         $this->primaryKey('id');
-        $this->belongsTo('Stats', [
-            'foreignKey' => 'stat_id',
-            'joinType' => 'INNER'
+        $this->addBehavior('Timestamp');
+        $this->hasMany('Items', [
+            'foreignKey' => 'item_type_id'
         ]);
-        $this->hasMany('CharactersSkills');
-        $this->belongsToMany('Characters');
     }
 
     /**
@@ -54,18 +51,5 @@ class SkillsTable extends Table
             ->notEmpty('name');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['stat_id'], 'Stats'));
-        return $rules;
     }
 }

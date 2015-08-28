@@ -7,7 +7,7 @@ $editing = $this->request->params['action'] == 'edit';
         "name" => "soak",
         "editing" => $editing,
         "title" => "Soak",
-        "value" => $character->soak,
+        "value" => $character->totalSoak,
     ]);
     $this->Html->scriptBlock("
     $(document).on('click', 'i[id=soak_0_decrease]', function () {rpgApp.changeStatus(" . $character->id . ", 'soak', -1, 'soak_0_value');});
@@ -50,7 +50,7 @@ $editing = $this->request->params['action'] == 'edit';
         "editing" => $editing,
         "title" => "Defence",
         "subtitles" => ['Melee', 'Ranged'],
-        "values" => [$character->defence_melee, $character->defence_ranged],
+        "values" => [$character->totalDefence['melee'], $character->totalDefence['ranged']],
     ]); ?>
 
 </div>

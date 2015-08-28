@@ -1,19 +1,18 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Skill;
+use App\Model\Entity\Item;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Skills Model
+ * Items Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Stats
- * @property \Cake\ORM\Association\HasMany $Training
+ * @property \Cake\ORM\Association\BelongsTo $ItemTypes
  */
-class SkillsTable extends Table
+class ItemsTable extends Table
 {
 
     /**
@@ -26,15 +25,14 @@ class SkillsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('skills');
+        $this->table('items');
         $this->displayField('name');
         $this->primaryKey('id');
-        $this->belongsTo('Stats', [
-            'foreignKey' => 'stat_id',
+        $this->addBehavior('Timestamp');
+        $this->belongsTo('ItemTypes', [
+            'foreignKey' => 'item_type_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('CharactersSkills');
-        $this->belongsToMany('Characters');
     }
 
     /**
@@ -53,6 +51,26 @@ class SkillsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
+        $validator
+            ->add('encumbrance', 'valid', ['rule' => 'numeric'])
+            ->requirePresence('encumbrance', 'create')
+            ->notEmpty('encumbrance');
+
+        $validator
+            ->add('rarity', 'valid', ['rule' => 'numeric'])
+            ->requirePresence('rarity', 'create')
+            ->notEmpty('rarity');
+
+        $validator
+            ->add('value', 'valid', ['rule' => 'numeric'])
+            ->requirePresence('value', 'create')
+            ->notEmpty('value');
+
+        $validator
+            ->add('restricted', 'valid', ['rule' => 'boolean'])
+            ->requirePresence('restricted', 'create')
+            ->notEmpty('restricted');
+
         return $validator;
     }
 
@@ -65,7 +83,7 @@ class SkillsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['stat_id'], 'Stats'));
+        $rules->add($rules->existsIn(['item_type_id'], 'ItemTypes'));
         return $rules;
     }
 }

@@ -4,9 +4,9 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Training Entity.
+ * CharactersItem Entity.
  */
-class Training extends Entity
+class CharactersItem extends Entity
 {
 
     /**

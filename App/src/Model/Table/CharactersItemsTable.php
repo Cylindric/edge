@@ -1,19 +1,19 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Training;
+use App\Model\Entity\CharactersItem;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Training Model
+ * CharactersItems Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Characters
- * @property \Cake\ORM\Association\BelongsTo $Skills
+ * @property \Cake\ORM\Association\BelongsTo $Items
  */
-class TrainingTable extends Table
+class CharactersItemsTable extends Table
 {
 
     /**
@@ -26,7 +26,7 @@ class TrainingTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('training');
+        $this->table('characters_items');
         $this->displayField('id');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
@@ -34,8 +34,8 @@ class TrainingTable extends Table
             'foreignKey' => 'character_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Skills', [
-            'foreignKey' => 'skill_id',
+        $this->belongsTo('Items', [
+            'foreignKey' => 'item_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -53,9 +53,14 @@ class TrainingTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->add('level', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('level', 'create')
-            ->notEmpty('level');
+            ->add('quantity', 'valid', ['rule' => 'numeric'])
+            ->requirePresence('quantity', 'create')
+            ->notEmpty('quantity');
+
+        $validator
+            ->add('equipped', 'valid', ['rule' => 'boolean'])
+            ->requirePresence('equipped', 'create')
+            ->notEmpty('equipped');
 
         return $validator;
     }
@@ -70,7 +75,7 @@ class TrainingTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['character_id'], 'Characters'));
-        $rules->add($rules->existsIn(['skill_id'], 'Skills'));
+        $rules->add($rules->existsIn(['item_id'], 'Items'));
         return $rules;
     }
 }

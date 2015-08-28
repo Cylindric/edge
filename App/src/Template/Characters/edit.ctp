@@ -40,7 +40,7 @@ $this->assign('title', $character->name);
 
         <h3>Characteristics</h3>
 
-        <div class="row" id="stats_list_edit">
+        <div class="row pagebreak" id="stats_list_edit">
         </div>
 
         <div class="row" id="skills_list_edit">
@@ -72,10 +72,20 @@ $this->assign('title', $character->name);
             </div>
             <div class="col-md-12" id="weapons_list_edit">
             </div>
+            <div class="col-md-12" id="armour_list_edit">
+            </div>
+            <div class="col-md-12" id="item_list_edit">
+            </div>
         </div>
 
-
         <div class="row" id="notes_list_edit">
+        </div>
+
+        <div class="row" id="bio_edit">
+            <div class="col-md-12">
+            <h3>Bio</h3>
+            <?= $this->Text->autoParagraph($character->biography) ?>
+            </div>
         </div>
     </div>
 

@@ -5,10 +5,10 @@ $this->Html->addCrumb($character->name);
 
 <?php $this->assign('title', $character->name); ?>
 <div class="row">
-    <div class="col-xs-12 col-lg-10 col-lg-offset-1">
+    <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
 
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-md-12">
                 <h2><?= h($character->name) ?>
                     <?php if ($canEdit): ?>
                     <?= $this->Html->link('<span class="glyphicon glyphicon-edit" aria-label="Edit"></span>', ['action' => 'edit', $character->id], ['escape' => false, 'class' => 'hidden-print']) ?></h2>
@@ -23,7 +23,7 @@ $this->Html->addCrumb($character->name);
         <h3>Characteristics</h3>
 
         <div class="row">
-            <div class="col-xs-2 text-center stat">
+            <div class="col-md-2 col-sm-2 text-center stat">
                 <div class="row value">
                     <span class="stat_edit_value"><?= $character->stat_br ?></span>
                 </div>
@@ -31,7 +31,7 @@ $this->Html->addCrumb($character->name);
                     BRAWN
                 </div>
             </div>
-            <div class="col-xs-2 text-center stat">
+            <div class="col-md-2 col-sm-2 text-center stat">
                 <div class="row value">
                     <span class="stat_edit_value"><?= $character->stat_ag ?></span>
                 </div>
@@ -39,7 +39,7 @@ $this->Html->addCrumb($character->name);
                     AGILITY
                 </div>
             </div>
-            <div class="col-xs-2 text-center stat">
+            <div class="col-md-2 col-sm-2 text-center stat">
                 <div class="row value">
                     <span class="stat_edit_value"><?= $character->stat_int ?></span>
                 </div>
@@ -47,7 +47,7 @@ $this->Html->addCrumb($character->name);
                     INTELLECT
                 </div>
             </div>
-            <div class="col-xs-2 text-center stat">
+            <div class="col-md-2 col-sm-2 text-center stat">
                 <div class="row value">
                     <span class="stat_edit_value"><?= $character->stat_cun ?></span>
                 </div>
@@ -55,7 +55,7 @@ $this->Html->addCrumb($character->name);
                     CUNNING
                 </div>
             </div>
-            <div class="col-xs-2 text-center stat">
+            <div class="col-md-2 col-sm-2 text-center stat">
                 <div class="row value">
                     <span class="stat_edit_value"><?= $character->stat_will ?></span>
                 </div>
@@ -63,7 +63,7 @@ $this->Html->addCrumb($character->name);
                     WILLPOWER
                 </div>
             </div>
-            <div class="col-xs-2 text-center stat">
+            <div class="col-md-2 col-sm-2 text-center stat">
                 <div class="row value">
                     <span class="stat_edit_value"><?= $character->stat_pr ?></span>
                 </div>
@@ -73,15 +73,15 @@ $this->Html->addCrumb($character->name);
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xs-5">
+        <div class="row breakbefore">
+            <div class="col-sm-5 col-md-5">
                 <?= $this->element('skill_list', [
                     'title' => 'General Skills',
                     'skilltype_id' => 1
                 ]); ?>
             </div>
 
-            <div class="col-xs-5">
+            <div class="col-sm-5 col-md-5">
                 <?= $this->element('skill_list', [
                     'title' => 'Combat Skills',
                     'skilltype_id' => 2
@@ -94,25 +94,48 @@ $this->Html->addCrumb($character->name);
             </div>
         </div>
 
-        <?php if (count($character->talents) > 0) : ?>
-            <div class="row">
-                <div class="col-xs-5">
-                    <?= $this->element('talent_list', [
-                        'character_talents' => $character->talents
-                    ]); ?>
-                </div>
+        <div class="row breakbefore">
+            <div class="col-md-12">
+                <?= $this->element('weapon_list', [
+                    'character_weapons' => $character->weapons
+                ]); ?>
             </div>
-        <?php endif; ?>
+        </div>
 
-        <?php if (count($character->notes) > 0) : ?>
-            <div class="row">
-                <div class="col-xs-5">
-                    <?= $this->element('notes_list', [
-                        'character_notes' => $character->notes
-                    ]); ?>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?= $this->element('armour_list', [
+                    'character_armour' => $character->armour
+                ]); ?>
             </div>
-        <?php endif; ?>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-5 col-md-5">
+                <?= $this->element('talent_list', [
+                    'character_talents' => $character->talents
+                ]); ?>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-5 col-md-5">
+                <?= $this->element('notes_list', [
+                    'character_notes' => $character->notes
+                ]); ?>
+            </div>
+        </div>
+
+
+        <div class="row" id="bio">
+            <div class="col-md-12">
+                <h3>Bio</h3>
+                <?= $this->Text->autoParagraph($character->biography) ?>
+            </div>
+        </div>
+
 
     </div>
 

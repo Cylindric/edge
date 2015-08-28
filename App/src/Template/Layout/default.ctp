@@ -26,6 +26,7 @@
 
 	<?= $this->Html->css('http://fonts.googleapis.com/css?family=Anton|Nunito') ?>
 	<?= $this->Html->css('edge.css') ?>
+	<?= $this->Html->css('edge-print.css', ['media' => 'print']) ?>
 
 	<?= $this->fetch('meta') ?>
 	<?= $this->fetch('css') ?>
