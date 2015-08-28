@@ -28,7 +28,7 @@
             <td><?= $link->weapon->range->name ?></td>
             <td><?= $link->weapon->crit ?></td>
             <td><?= $link->weapon->special ?></td>
-            <td class="col-md-1">
+            <td class="col-md-1 actions">
                 <?php if ($link->equipped): ?>
                     <i class="btn btn-success btn-xs" id="toggle_weapon_<?= $link->id ?>">Equipped</i>
                 <?php else: ?>

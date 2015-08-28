@@ -50,6 +50,13 @@ $this->assign('title', $character->name);
         </div>
 
         <div class="row" id="inventory">
+            <div class="col-md-12" id="weapons_list_edit">
+            </div>
+            <div class="col-md-6" id="armour_list_edit">
+            </div>
+            <div class="col-md-6" id="item_list_edit">
+            </div>
+
             <div class="col-md-3">
                 <h3>Inventory</h3>
                 Credits: <span id="credits" data-type="text" data-pk="<?= $character->id ?>"
@@ -69,12 +76,6 @@ $this->assign('title', $character->name);
                 });
             });
             ", ['block' => true]); ?>
-            </div>
-            <div class="col-md-12" id="weapons_list_edit">
-            </div>
-            <div class="col-md-12" id="armour_list_edit">
-            </div>
-            <div class="col-md-12" id="item_list_edit">
             </div>
         </div>
 

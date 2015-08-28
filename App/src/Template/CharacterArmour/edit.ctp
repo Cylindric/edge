@@ -14,7 +14,7 @@
             <td><?= $link->armour->name ?></td>
             <td><?= $link->armour->defence ?></td>
             <td><?= $link->armour->soak ?></td>
-            <td class="col-md-1">
+            <td class="col-md-1 actions">
                 <?php if ($link->equipped): ?>
                     <i class="btn btn-success btn-xs" id="toggle_armour_<?= $link->id ?>">Equipped</i>
                 <?php else: ?>

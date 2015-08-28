@@ -6,7 +6,7 @@ class v02 extends AbstractMigration
 {
     public function change()
     {
-        $table = $this->table('character');
+        $table = $this->table('characters');
         $table
             ->addColumn('biography', 'text', ['default' => '', 'null' => false])
             ->update();

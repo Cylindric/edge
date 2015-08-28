@@ -6,6 +6,10 @@ i {
     font-style: normal;
 }
 
+.actions {
+    white-space: nowrap;
+}
+
 .stat {
     height: 150px;
     background-image: url("/img/stat-bg.png");
