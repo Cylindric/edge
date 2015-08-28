@@ -6,6 +6,10 @@ i {
     font-style: normal;
 }
 
+.footer {
+    text-align: center;
+}
+
 .actions {
     white-space: nowrap;
 }
