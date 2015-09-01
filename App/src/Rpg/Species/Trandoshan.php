@@ -12,21 +12,7 @@ class Trandoshan extends SpeciesBase
 
 	public function applyCreationSkills()
 	{
-		$skills = TableRegistry::get('Skills');
-		
-		$new_skills = ['Perception', 'Claws', 'Regeneration'];
-		
-		foreach($new_skills as $skill)
-		{
-			$skill = $skills->findByName($skill)->first();
-
-			$training = TableRegistry::get('Training');
-			$t = $training->newEntity();
-			$t->skill_id = $skill->id;
-			$t->character_id = $this->_entity->id;
-			$t->level = 1;
-			$training->save($t);
-		}
+		$this->applySkills(['Perception', 'Claws', 'Regeneration']);
 	}
 
 }

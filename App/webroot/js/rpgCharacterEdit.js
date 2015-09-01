@@ -329,8 +329,8 @@ rpgApp.changeWeapon = function (character_id, link_id, delta) {
     );
 };
 
-rpgApp.removeNote = function (character_id, note_id) {
-    $.get('/characters/remove_note/' + character_id + '/' + note_id + '.json',
+rpgApp.removeNote = function (note_id) {
+    $.get('/notes/delete/' + note_id + '.json',
         function (response) {
             if (response.response.result == 'success') {
                 $('tr[id=note_' + note_id).remove();
@@ -342,7 +342,8 @@ rpgApp.removeNote = function (character_id, note_id) {
 };
 
 rpgApp.addNote = function (character_id) {
-    $.post("/characters/add_note/" + character_id + '.json', {
+    $.post("/characters_notes/add.json", {
+        charId: character_id,
         note: $("#new_note").val(),
         private: $("#new_note_private").prop('checked') ? 1 : 0
     }, function (data) {
@@ -425,7 +426,7 @@ rpgApp.addNote = function (character_id) {
     // Note buttons
     $(document).on('click', 'span[id*=remove_note_]', function () {
         var id = $(this).attr('id').replace('remove_note_', '');
-        rpgApp.removeNote(char_id, id);
+        rpgApp.removeNote(id);
     });
     $(document).on('click', 'a[id*=new_note_submit]', function () {
         rpgApp.addNote(char_id);

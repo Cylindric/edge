@@ -33,7 +33,7 @@ $editing = false;
                     <div class="col-md-2 value"><?= $character->soak ?></div>
                     <div class="col-md-2 value">
                         <div class="col-md-9">
-                            <?= $character->strain_threshold ?>/<span id="strain_value"><?= $character->strain ?></span>
+                            <?= $character->strain_threshold ?>/<span id="strain_<?= $character->id ?>_value"><?= $character->strain ?></span>
                         </div>
                         <div class="col-md-3 buttons">
                             <div class="col adjust">
@@ -46,7 +46,7 @@ $editing = false;
                     </div>
                     <div class="col-md-2 value">
                         <div class="col-md-9">
-                            <?= $character->wound_threshold ?>/<span id="wounds_value"><?= $character->wounds ?></span>
+                            <?= $character->wound_threshold ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->wounds ?></span>
                         </div>
                         <div class="col-md-3 buttons">
                             <div class="col adjust">
@@ -69,7 +69,7 @@ $editing = false;
         var char_id = parts[2];
         var action = parts[3];
         var delta = (action == 'increase' ? 1 : -1);
-        var update = status + '_value';
+        var update = status + '_' + char_id + '_value';
         rpgApp.changeStatus(char_id, status, delta, update);
     });
             ", ['block' => true]); ?>

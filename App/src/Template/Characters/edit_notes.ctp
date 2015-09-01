@@ -19,9 +19,9 @@
                     </td>
                     <td>
                         <?php if ($note->private): ?>
-                            <span class="glyphicon glyphicon-eye-close private"></span>
+                            <span class="glyphicon glyphicon-eye-close private" data-toggle="tooltip" data-placement="left" title="This note is private. Click to make it public."></span>
                         <?php else: ?>
-                            <span class="glyphicon glyphicon-eye-open public"></span>
+                            <span class="glyphicon glyphicon-eye-open public" data-toggle="tooltip" data-placement="left" title="This note is public. Click to make it private."></span>
                         <?php endif; ?>
                         <?= $note->note ?></td>
                 </tr>

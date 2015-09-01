@@ -35,7 +35,7 @@ class Character extends Entity
         $Armour = TableRegistry::get('CharactersArmour');
         $query = $Armour->find();
         $query
-            ->contain(['armour'])
+            ->contain(['Armour'])
             ->where(['CharactersArmour.character_id' => $this->id])
             ->andWhere(['CharactersArmour.equipped' => true])
             ->select(['soak' => $query->func()->sum('Armour.soak')])
@@ -52,7 +52,7 @@ class Character extends Entity
         $Armour = TableRegistry::get('CharactersArmour');
         $query = $Armour->find();
         $query
-            ->contain(['armour'])
+            ->contain(['Armour'])
             ->where(['CharactersArmour.character_id' => $this->id])
             ->andWhere(['CharactersArmour.equipped' => true])
             ->select(['defence' => $query->func()->sum('Armour.defence')])

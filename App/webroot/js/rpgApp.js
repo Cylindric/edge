@@ -13,3 +13,7 @@ rpgApp.changeStatus = function (character_id, status_id, delta, update) {
         }
     );
 };
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
