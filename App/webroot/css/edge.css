@@ -39,26 +39,26 @@ i {
     vertical-align: middle;
 }
 
-.btn-skill-adjust {
-    font-size: 20px;
-    vertical-align: middle;
-    border: 0;
-    padding: 0;
-}
-
+/*.group_view > div {*/
+    /*font-size: 20px;*/
+    /*vertical-align: middle;*/
+    /*border: 0;*/
+    /*padding: 0;*/
+/*}*/
+/**/
 .group_view .buttons {
     padding-left: 0;
 }
 
 .group_view .adjust > div {
-    padding: 0;
-    line-height: 0.5em;
+    /*padding: 0;*/
+    /*line-height: 0.5em;*/
 }
 
-.group_view .btn-skill-adjust {
-    font-size: 0.4em;
-    vertical-align: middle;
-}
+/*.group_view .btn-skill-adjust {*/
+    /*font-size: 0.4em;*/
+    /*vertical-align: middle;*/
+/*}*/
 
 .increase {
     color: green;
