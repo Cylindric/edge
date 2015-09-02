@@ -29,6 +29,17 @@ class Character extends Entity
         $this->_species = $species->get($this->_properties['species_id']);
     }
 
+    public function _getTotalXp()
+    {
+        $Xp = TableRegistry::get('Xp');
+        $xp = $Xp->find();
+        $xp
+            ->where(['Xp.character_id' => $this->id])
+            ->select(['xp' => $xp->func()->sum('Xp.value')])
+            ->hydrate(false);
+        return $xp->toArray()[0]['xp'];
+    }
+
     public function _getTotalSoak()
     {
         $base_soak = $this->soak;

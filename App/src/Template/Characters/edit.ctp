@@ -78,6 +78,9 @@ $this->assign('title', $character->name);
             </div>
         </div>
 
+        <div class="row" id="xp_list_edit">
+        </div>
+
         <div class="row" id="notes_list_edit">
         </div>
 

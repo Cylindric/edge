@@ -105,10 +105,10 @@ $editing = false;
             <h2>XP</h2>
             <table class="table table-condensed">
                 <?php $total = 0; ?>
-                <?php foreach ($group->characters as $character): $total += $character->xp; ?>
+                <?php foreach ($group->characters as $character): $total += $character->totalXp; ?>
                     <tr>
                         <td class="text-capitalize"><?= $character->name ?></td>
-                        <td class="text-right"><?= $character->xp ?></td>
+                        <td class="text-right"><?= $character->totalXp ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr class="success">

@@ -23,7 +23,7 @@
                 </td>
             </tr>
         <?php endforeach; ?>
-        <tr>
+        <tr class="hidden-print">
             <td>Add:<input id="new_talent_autocomplete"/><input type="hidden" id="new_talent_id"/></td>
             <td></td>
         </tr>

@@ -16,11 +16,11 @@
                 <?php else: ?>
                     <i class="btn btn-default btn-xs" id="toggle_armour_<?= $link->id ?>">not equipped</i>
                 <?php endif; ?>
-                <i class="btn btn-warning btn-xs" id="drop_armour_<?= $link->id ?>">drop</i>
+                <i class="btn btn-warning btn-xs hidden-print" id="drop_armour_<?= $link->id ?>">drop</i>
             </td>
         </tr>
     <?php endforeach; ?>
-    <tr>
+    <tr class="hidden-print">
         <td>Add:<input id="new_item_autocomplete"/><input type="hidden" id="new_item_id"/></td>
     </tr>
     </tbody>

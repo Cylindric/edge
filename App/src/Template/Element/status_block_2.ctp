@@ -4,7 +4,7 @@
     </div>
 
     <?php if ($editing): ?>
-        <div class="row">
+        <div class="row hidden-print">
             <div class="col-xs-5 col-xs-offset-1">
                 <i class="btn btn-success btn-xs" id="<?= $name ?>_0_increase">increase</i>
             </div>
@@ -20,7 +20,7 @@
     </div>
 
     <?php if ($editing): ?>
-        <div class="row">
+        <div class="row hidden-print">
             <div class="col-xs-5 col-xs-offset-1">
                 <i class="btn btn-danger btn-xs" id="<?= $name ?>_0_decrease">decrease</i>
             </div>

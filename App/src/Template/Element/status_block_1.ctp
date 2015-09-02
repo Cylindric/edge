@@ -3,7 +3,7 @@
         <?= $name ?>
     </div>
     <?php if ($editing): ?>
-        <div class="row">
+        <div class="row hidden-print">
             <div class="col-sm-10 col-sm-offset-1">
                 <i class="btn btn-success btn-xs" id="<?= $name ?>_0_increase">increase</i>
             </div>
@@ -13,7 +13,7 @@
         <div class="col-sm-10 col-sm-offset-1"><span id="<?= $name ?>_0_value"><?= $value ?></span></div>
     </div>
     <?php if ($editing): ?>
-        <div class="row">
+        <div class="row hidden-print">
             <div class="col-sm-10 col-sm-offset-1">
                 <i class="btn btn-danger btn-xs" id="<?= $name ?>_0_decrease">decrease</i>
             </div>
