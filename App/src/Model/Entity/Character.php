@@ -29,13 +29,24 @@ class Character extends Entity
         $this->_species = $species->get($this->_properties['species_id']);
     }
 
+    public function _getTotalXp()
+    {
+        $Xp = TableRegistry::get('Xp');
+        $xp = $Xp->find();
+        $xp
+            ->where(['Xp.character_id' => $this->id])
+            ->select(['xp' => $xp->func()->sum('Xp.value')])
+            ->hydrate(false);
+        return $xp->toArray()[0]['xp'];
+    }
+
     public function _getTotalSoak()
     {
         $base_soak = $this->soak;
         $Armour = TableRegistry::get('CharactersArmour');
         $query = $Armour->find();
         $query
-            ->contain(['armour'])
+            ->contain(['Armour'])
             ->where(['CharactersArmour.character_id' => $this->id])
             ->andWhere(['CharactersArmour.equipped' => true])
             ->select(['soak' => $query->func()->sum('Armour.soak')])
@@ -52,7 +63,7 @@ class Character extends Entity
         $Armour = TableRegistry::get('CharactersArmour');
         $query = $Armour->find();
         $query
-            ->contain(['armour'])
+            ->contain(['Armour'])
             ->where(['CharactersArmour.character_id' => $this->id])
             ->andWhere(['CharactersArmour.equipped' => true])
             ->select(['defence' => $query->func()->sum('Armour.defence')])

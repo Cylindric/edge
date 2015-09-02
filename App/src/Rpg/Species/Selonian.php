@@ -3,7 +3,7 @@ namespace App\Rpg\Species;
 
 use Cake\ORM\TableRegistry;
 
-class Rodian extends SpeciesBase
+class Selonian extends SpeciesBase
 {
 	function __construct($species, $entity)
 	{
@@ -12,6 +12,7 @@ class Rodian extends SpeciesBase
 
 	public function applyCreationSkills()
 	{
-		$this->applySkills(['Survival']);
+		$this->applySkills(['Coordination']);
 	}
+
 }

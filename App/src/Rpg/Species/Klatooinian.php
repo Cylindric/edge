@@ -3,15 +3,10 @@ namespace App\Rpg\Species;
 
 use Cake\ORM\TableRegistry;
 
-class Rodian extends SpeciesBase
+class Klatooinian extends SpeciesBase
 {
 	function __construct($species, $entity)
 	{
 		parent::__construct($species, $entity);
-	}
-
-	public function applyCreationSkills()
-	{
-		$this->applySkills(['Survival']);
 	}
 }

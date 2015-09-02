@@ -46,4 +46,44 @@ class SpeciesBase
     {
         return $this->Species->base_strain + $this->_entity->stat_will;
     }
+
+    protected function applySkills($skills)
+    {
+        $Skills = TableRegistry::get('Skills');
+        $CharactersSkills = TableRegistry::get('CharactersSkills');
+        
+        foreach($skills as $skill)
+        {
+            $skill = $Skills->findByName($skill)->first();
+
+            $new = $CharactersSkills->newEntity();
+            $new->character_id = $this->_entity->id;
+            $new->skill_id = $skill->id;
+            $new->level = 1;
+            if ($CharactersSkills->save($new)) {
+                $response['result'] = 'success';
+            };
+
+
+        }
+    }
+
+    protected function applyTalents($talents)
+    {
+        $Talents = TableRegistry::get('Talents');
+        $CharactersTalents = TableRegistry::get('CharactersTalents');
+        foreach($talents as $talent)
+        {
+            $talent = $Talents->findByName($talent)->first();
+
+            $new = $CharactersTalents->newEntity();
+            $new->talent_id = $talent->id;
+            $new->character_id = $this->_entity->id;
+            $new->level = 1;
+            if($CharactersTalents->save($new))
+            {
+                $response['result'] = 'success';
+            }
+        }
+    }
 }

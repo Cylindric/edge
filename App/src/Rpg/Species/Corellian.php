@@ -3,7 +3,7 @@ namespace App\Rpg\Species;
 
 use Cake\ORM\TableRegistry;
 
-class Rodian extends SpeciesBase
+class Corellian extends SpeciesBase
 {
 	function __construct($species, $entity)
 	{

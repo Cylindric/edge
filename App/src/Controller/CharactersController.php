@@ -39,6 +39,7 @@ class CharactersController extends AppController
             'edit_notes',
             'edit_talents',
             'edit_skills',
+            'edit_xp',
             'change_skill',
             'change_stat',
             'add_talent',
@@ -46,8 +47,6 @@ class CharactersController extends AppController
             'remove_talent',
             'change_talent_rank',
             'toggle_career',
-            'remove_note',
-            'add_note'
 
         ])) {
             $characterId = (int)$this->request->params['pass'][0];
@@ -121,7 +120,7 @@ class CharactersController extends AppController
             'conditions' => [
                 'Skills.id = t.skill_id',
                 't.character_id' => $id]
-            ])
+        ])
             ->select([
                 'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
                 'Stats.name', 'Stats.code',
@@ -245,6 +244,16 @@ class CharactersController extends AppController
     {
         $character = $this->Characters->get($id, [
             'contain' => ['Notes' => ['sort' => ['Notes.created DESC']]],
+        ]);
+
+        $this->set('character', $character);
+        $this->set('_serialize', ['character']);
+    }
+
+    public function edit_xp($id = null)
+    {
+        $character = $this->Characters->get($id, [
+            'contain' => ['Xp' => ['sort' => ['Xp.created DESC']]],
         ]);
 
         $this->set('character', $character);
@@ -467,42 +476,6 @@ class CharactersController extends AppController
         }
 
         $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
-    }
-
-    public function remove_note($char_id, $note_id)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($note_id)) {
-            $this->loadModel('Notes');
-
-            if ($this->Notes->delete($this->Notes->get($note_id))) {
-                $response = ['result' => 'success', 'data' => null];
-            }
-        }
-
-        $this->set('response', $response);
-        $this->set('_serialize', ['response']);
-    }
-
-    public function add_note($char_id)
-    {
-        $Char = $this->Characters->get($char_id);
-
-        $this->loadModel('Notes');
-        $note = $this->Notes->newEntity();
-        if ($this->request->is('post')) {
-            $note = $this->Notes->patchEntity($note, $this->request->data);
-            if ($this->Notes->save($note)) {
-                $this->Characters->Notes->link($Char, [$note]);
-                $response = ['result' => 'success', 'data' => $note];
-            } else {
-                $response = ['result' => 'fail', 'data' => $note];
-            }
-        }
-
-        $this->set('response', $response);
         $this->set('_serialize', ['response']);
     }
 

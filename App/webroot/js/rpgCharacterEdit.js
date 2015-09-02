@@ -16,6 +16,14 @@ rpgApp.getNotes = function (character_id) {
     });
 };
 
+rpgApp.getXp = function (character_id) {
+    $.get('/characters/edit_xp/' + character_id, function (response) {
+        $incompleteDiv = $('#xp_list_edit');
+        $incompleteDiv.empty();
+        $incompleteDiv.append(response);
+    });
+};
+
 rpgApp.getTalents = function (character_id) {
     $.ajax({
         async: false,
@@ -329,8 +337,8 @@ rpgApp.changeWeapon = function (character_id, link_id, delta) {
     );
 };
 
-rpgApp.removeNote = function (character_id, note_id) {
-    $.get('/characters/remove_note/' + character_id + '/' + note_id + '.json',
+rpgApp.removeNote = function (note_id) {
+    $.get('/notes/delete/' + note_id + '.json',
         function (response) {
             if (response.response.result == 'success') {
                 $('tr[id=note_' + note_id).remove();
@@ -341,12 +349,35 @@ rpgApp.removeNote = function (character_id, note_id) {
     );
 };
 
+rpgApp.removeXp = function (xp_id) {
+    $.get('/xp/delete/' + xp_id + '.json',
+        function (response) {
+            if (response.response.result == 'success') {
+                $('tr[id=xp_' + xp_id).remove();
+            } else if (response.response.result == 'fail') {
+                console.log('fail');
+            }
+        }
+    );
+};
+
 rpgApp.addNote = function (character_id) {
-    $.post("/characters/add_note/" + character_id + '.json', {
+    $.post("/characters_notes/add.json", {
+        charId: character_id,
         note: $("#new_note").val(),
         private: $("#new_note_private").prop('checked') ? 1 : 0
     }, function (data) {
         rpgApp.getNotes(character_id);
+    });
+};
+
+rpgApp.addXp = function (character_id) {
+    $.post("/xp/add.json", {
+        character_id: character_id,
+        value: $("#new_xp").val(),
+        note: $("#new_xp_note").val()
+    }, function (data) {
+        rpgApp.getXp(character_id);
     });
 };
 
@@ -421,14 +452,22 @@ rpgApp.addNote = function (character_id) {
         rpgApp.toggleArmour(char_id, id, $(this).attr('id'));
     });
 
-
     // Note buttons
     $(document).on('click', 'span[id*=remove_note_]', function () {
         var id = $(this).attr('id').replace('remove_note_', '');
-        rpgApp.removeNote(char_id, id);
+        rpgApp.removeNote(id);
     });
     $(document).on('click', 'a[id*=new_note_submit]', function () {
         rpgApp.addNote(char_id);
+    });
+
+    // Xp buttons
+    $(document).on('click', 'span[id*=remove_xp_]', function () {
+        var id = $(this).attr('id').replace('remove_xp_', '');
+        rpgApp.removeXp(id);
+    });
+    $(document).on('click', 'a[id*=new_xp_submit]', function () {
+        rpgApp.addXp(char_id);
     });
 
 
@@ -439,4 +478,5 @@ rpgApp.addNote = function (character_id) {
     rpgApp.getWeapons(char_id);
     rpgApp.getArmour(char_id);
     rpgApp.getItems(char_id);
+    rpgApp.getXp(char_id);
 })(jQuery);

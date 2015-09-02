@@ -12,15 +12,7 @@ class Wookiee extends SpeciesBase
 
 	public function applyCreationSkills()
 	{
-		$skills = TableRegistry::get('Skills');
-		$skill = $skills->findByName('Brawl')->first();
-
-		$training = TableRegistry::get('Training');
-		$t = $training->newEntity();
-		$t->skill_id = $skill->id;
-		$t->character_id = $this->_entity->id;
-		$t->level = 1;
-		$training->save($t);
+		$this->applySkills(['Brawl']);
 	}
 
 }

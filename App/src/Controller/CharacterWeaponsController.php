@@ -13,7 +13,6 @@ class CharacterWeaponsController extends AppController
         parent::initialize();
         $this->loadModel('Characters');
         $this->loadModel('Weapons');
-        $this->loadModel('CharactersWeapons');
     }
 
     public function isAuthorized($user)
