@@ -27,6 +27,7 @@ class CharactersNotesTable extends Table
         $this->table('characters_notes');
         $this->displayField('id');
         $this->primaryKey('id');
+        $this->addBehavior('Timestamp');
         $this->belongsTo('Characters', [
             'foreignKey' => 'character_id',
             'joinType' => 'INNER'

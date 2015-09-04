@@ -13,6 +13,7 @@ class CharactersArmourTable extends Table
         parent::initialize($config);
 
         $this->table('characters_armour');
+        $this->addBehavior('Timestamp');
 
         $this->belongsTo('Characters', [
             'foreignKey' => 'character_id',

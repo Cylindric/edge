@@ -47,14 +47,7 @@ SELECT c.group_id, u.id, 0, NOW(), NOW()
 FROM characters c
 INNER JOIN users u ON (c.user_id = u.id);
 
-UPDATE users SET created = NOW() WHERE created is null;
-UPDATE users SET modified = NOW() WHERE modified is null;
-
-
-
-SELECT Groups.id AS `Groups__id`, Groups.name AS `Groups__name`, Groups.created AS `Groups__created`, Groups.modified AS `Groups__modified`, GroupsUsers.id AS `GroupsUsers__id`, GroupsUsers.group_id AS `GroupsUsers__group_id`, GroupsUsers.user_id AS `GroupsUsers__user_id`, GroupsUsers.gm AS `GroupsUsers__gm`, GroupsUsers.created AS `GroupsUsers__created`, GroupsUsers.modified AS `GroupsUsers__modified` 
-FROM groups Groups 
-INNER JOIN groups_users GroupsUsers ON (GroupsUsers.user_id = 6 AND Groups.id = (GroupsUsers.group_id));
+UPDATE users SET created = COALESCE(created, NOW()), modified = COALESCE(modified, NOW()) WHERE created is null OR modified is null;
 
 
 DROP TABLE armour;

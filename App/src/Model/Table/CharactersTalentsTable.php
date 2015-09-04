@@ -27,6 +27,7 @@ class CharactersTalentsTable extends Table
         $this->table('characters_talents');
         $this->displayField('id');
         $this->primaryKey('id');
+        $this->addBehavior('Timestamp');
         $this->belongsTo('Characters', [
             'foreignKey' => 'character_id',
             'joinType' => 'INNER'

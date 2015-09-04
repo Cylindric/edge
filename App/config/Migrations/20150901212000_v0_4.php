@@ -11,11 +11,17 @@ class v04 extends AbstractMigration
             ->addColumn('note', 'string', ['default' => '', 'limit' => 45, 'null' => false, 'after' => 'value'])
             ->update();
 
+        $this->table('characters_items')
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true, 'after' => 'equipped'])
+            ->update();
+
+
+        // Fix missing timestamps
+        $tables = ['characters', 'characters_armour', 'characters_items', 'characters_notes', 'characters_talents', 'characters_weapons', 'groups'];
         $conn = ConnectionManager::get('default');
-        $conn->query('UPDATE obligations SET created = NOW() WHERE created is null');
-        $conn->query('UPDATE obligations SET modified = NOW() WHERE modified is null');
-        $conn->query('UPDATE users SET created = NOW() WHERE created is null');
-        $conn->query('UPDATE users SET modified = NOW() WHERE modified is null');
+        foreach($tables as $table) {
+            $conn->query('UPDATE '.$table.' SET created = COALESCE(created, NOW()), modified = COALESCE(modified, NOW()) WHERE created is null OR modified is null;');
+        }
 
         $this->table('groups_users')
             ->addColumn('group_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
