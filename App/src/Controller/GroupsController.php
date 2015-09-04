@@ -11,6 +11,8 @@ class GroupsController extends AppController
         if (in_array($this->request->action, ['index'])) {
             return true;
         }
+
+        return parent::isAuthorized($user);
     }
 
     public function index()
