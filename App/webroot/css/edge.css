@@ -6,6 +6,10 @@ i {
     font-style: normal;
 }
 
+.tab-content h3 {
+    margin-top: 0px;
+}
+
 .footer {
     text-align: center;
 }

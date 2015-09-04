@@ -46,23 +46,43 @@ $this->assign('title', $character->name);
         <div class="row" id="skills_list_edit">
         </div>
 
-        <div class="row" id="talents_list_edit">
-        </div>
+        <div class="row">
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills hidden-print" role="tablist">
+                <li role="presentation" class="btn-lg active"><a href="#talents" aria-controls="talents" role="tab" data-toggle="tab">Talents</a></li>
+                <li role="presentation" class="btn-lg"><a href="#weapons" aria-controls="weapons" role="tab" data-toggle="tab">Weapons</a></li>
+                <li role="presentation" class="btn-lg"><a href="#armour" aria-controls="armour" role="tab" data-toggle="tab">Armour</a></li>
+                <li role="presentation" class="btn-lg"><a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items</a></li>
+                <li role="presentation" class="btn-lg"><a href="#cash" aria-controls="cash" role="tab" data-toggle="tab">Cash</a></li>
+                <li role="presentation" class="btn-lg"><a href="#xp" aria-controls="xp" role="tab" data-toggle="tab">Experience (<?= $character->totalXp ?>)</a></li>
+                <li role="presentation" class="btn-lg"><a href="#obligation" aria-controls="obligation" role="tab" data-toggle="tab">Obligation (<?= $character->totalObligation ?>)</a></li>
+                <li role="presentation" class="btn-lg"><a href="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</li>
+            </ul>
 
-        <div class="row" id="inventory">
-            <div class="col-md-12" id="weapons_list_edit">
-            </div>
-            <div class="col-md-6" id="armour_list_edit">
-            </div>
-            <div class="col-md-6" id="item_list_edit">
-            </div>
-
-            <div class="col-md-3">
-                <h3>Inventory</h3>
-                Credits: <span id="credits" data-type="text" data-pk="<?= $character->id ?>"
-                               data-url="/characters/edit/<?= $character->id ?>.json"
-                               data-title="Character credits"><?= $this->Number->format($character->credits) ?></span>.
-                <?php echo $this->Html->scriptBlock("
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="talents">
+                    <div class="col-md-6" id="talents_list_edit"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="weapons">
+                    <div class="col-md-12" id="weapons_list_edit">
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="armour">
+                    <div class="col-md-6" id="armour_list_edit">
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="items">
+                    <div class="col-md-6" id="item_list_edit">
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="cash">
+                    <div class="col-md-6">
+                        <h3>Cash</h3>
+                        Credits: <span id="credits" data-type="text" data-pk="<?= $character->id ?>"
+                                       data-url="/characters/edit/<?= $character->id ?>.json"
+                                       data-title="Character credits"><?= $this->Number->format($character->credits) ?></span>.
+                        <?php echo $this->Html->scriptBlock("
             $(document).ready(function() {
                 $('#credits').editable({
                 success: function(response, newValue) {
@@ -76,20 +96,26 @@ $this->assign('title', $character->name);
                 });
             });
             ", ['block' => true]); ?>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="xp">
+                    <div class="col-md-12" id="xp_list_edit">
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="obligation">
+                    <div class="col-md-12" id="obligation_list_edit">
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="bio">
+                    <div class="col-md-12" id="bio_edit">
+                        <h3>Bio</h3>
+                        <?= $this->Text->autoParagraph($character->biography) ?>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="row" id="xp_list_edit">
         </div>
 
         <div class="row" id="notes_list_edit">
-        </div>
-
-        <div class="row" id="bio_edit">
-            <div class="col-md-12">
-            <h3>Bio</h3>
-            <?= $this->Text->autoParagraph($character->biography) ?>
-            </div>
         </div>
     </div>
 

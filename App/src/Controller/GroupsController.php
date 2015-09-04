@@ -6,6 +6,13 @@ use App\Controller\AppController;
 class GroupsController extends AppController
 {
 
+    public function isAuthorized($user)
+    {
+        if (in_array($this->request->action, ['index'])) {
+            return true;
+        }
+    }
+
     public function index()
     {
         $this->set('groups', $this->paginate($this->Groups));
@@ -17,6 +24,7 @@ class GroupsController extends AppController
         $group = $this->Groups->get($id, [
             'contain' => [
                 'Characters',
+                'Characters.Users',
                 'Characters.Species',
                 'Characters.Careers',
                 'Characters.Specialisations',

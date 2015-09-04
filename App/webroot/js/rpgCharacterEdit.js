@@ -24,6 +24,14 @@ rpgApp.getXp = function (character_id) {
     });
 };
 
+rpgApp.getObligation = function (character_id) {
+    $.get('/characters/edit_obligations/' + character_id, function (response) {
+        $incompleteDiv = $('#obligation_list_edit');
+        $incompleteDiv.empty();
+        $incompleteDiv.append(response);
+    });
+};
+
 rpgApp.getTalents = function (character_id) {
     $.ajax({
         async: false,
@@ -361,6 +369,18 @@ rpgApp.removeXp = function (xp_id) {
     );
 };
 
+rpgApp.removeObligation = function (obligation_id) {
+    $.get('/obligations/delete/' + obligation_id + '.json',
+        function (response) {
+            if (response.response.result == 'success') {
+                $('tr[id=obligation_' + obligation_id).remove();
+            } else if (response.response.result == 'fail') {
+                console.log('fail');
+            }
+        }
+    );
+};
+
 rpgApp.addNote = function (character_id) {
     $.post("/characters_notes/add.json", {
         charId: character_id,
@@ -378,6 +398,17 @@ rpgApp.addXp = function (character_id) {
         note: $("#new_xp_note").val()
     }, function (data) {
         rpgApp.getXp(character_id);
+    });
+};
+
+rpgApp.addObligation = function (character_id) {
+    $.post("/obligations/add.json", {
+        character_id: character_id,
+        value: $("#new_obligation").val(),
+        type: $("#new_obligation_type").val(),
+        note: $("#new_obligation_note").val()
+    }, function (data) {
+        rpgApp.getObligation(character_id);
     });
 };
 
@@ -470,6 +501,15 @@ rpgApp.addXp = function (character_id) {
         rpgApp.addXp(char_id);
     });
 
+    // Obligation buttons
+    $(document).on('click', 'span[id*=remove_obligation_]', function () {
+        var id = $(this).attr('id').replace('remove_obligation_', '');
+        rpgApp.removeObligation(id);
+    });
+    $(document).on('click', 'a[id*=new_obligation_submit]', function () {
+        rpgApp.addObligation(char_id);
+    });
+
 
     rpgApp.getStats(char_id);
     rpgApp.getSkills(char_id);
@@ -479,4 +519,5 @@ rpgApp.addXp = function (character_id) {
     rpgApp.getArmour(char_id);
     rpgApp.getItems(char_id);
     rpgApp.getXp(char_id);
+    rpgApp.getObligation(char_id);
 })(jQuery);

@@ -12,7 +12,6 @@ class ObligationsTable extends Table
         parent::initialize($config);
 
         $this->addBehavior('Timestamp');
-
         $this->belongsTo('Characters');
     }
 
