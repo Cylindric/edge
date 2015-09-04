@@ -66,15 +66,17 @@
                                 <li><?= $this->Html->link('New', '/users/add') ?></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-haspopup="true" aria-expanded="false">Groups <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><?= $this->Html->link('List', '/groups/') ?></li>
-                                <li><?= $this->Html->link('New', '/groups/add') ?></li>
-                            </ul>
-                        </li>
                     <?php endif; ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">Groups <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><?= $this->Html->link('List', '/groups/') ?></li>
+                            <?php if ($user['role'] == 'admin'): ?>
+                                <li><?= $this->Html->link('New', '/groups/add') ?></li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -98,6 +100,7 @@
 
     <?= $this->Flash->render() ?>
     <?= $this->fetch('content') ?>
+    <div class="footer">Version: <?= $version; ?></div>
 </div>
 <?= $this->fetch('script') ?>
 </body>

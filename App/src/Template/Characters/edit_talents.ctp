@@ -1,4 +1,3 @@
-<div class="col-md-4">
     <h3>Talents</h3>
     <table class="table table-striped table-bordered">
         <thead>
@@ -29,4 +28,3 @@
         </tr>
         </tbody>
     </table>
-</div>

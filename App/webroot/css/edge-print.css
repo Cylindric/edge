@@ -166,6 +166,7 @@
     margin-left: 0;
 }
 
+.tab-content > .tab-pane {display: block !important; opacity: 1 !important; visibility: visible !important}
 
 .stat {
     background-image: url("/img/stat-bg.png") !important;

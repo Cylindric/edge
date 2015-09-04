@@ -27,34 +27,12 @@ SELECT * FROM talents ORDER BY name;
 SELECT * FROM users;
 SELECT * FROM weapon_types;
 SELECT * FROM weapons ORDER BY name;
-SELECT * FROM xp;
+SELECT * FROM xp ORDER BY modified DESC;
 
--- v0.2 to v0.3
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Arcona', 'Arcona',             10, 10, 100, 1, 2, 2, 2, 3, 2);
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Chevin', 'Chevin',             11, 11,  80, 3, 1, 2, 3, 2, 1);
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Gran', 'Gran',                 10,  9, 100, 2, 2, 2, 1, 2, 3);
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Chiss', 'Chiss',               10, 10, 100, 2, 2, 3, 2, 2, 1);
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Duros', 'Duros',               11, 10, 100, 1, 2, 3, 2, 2, 2);
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Toydarian', 'Toydarian',        9, 12,  90, 1, 1, 2, 2, 3, 3);
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Drall', 'Drall',                8, 12,  90, 1, 1, 4, 2, 2, 2);
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Selonian', 'Selonian',         11, 10,  90, 2, 3, 2, 1, 3, 1);
-INSERT INTO species (name, class, base_wound, base_strain, base_xp, stat_br, stat_ag, stat_int, stat_cun, stat_will, stat_pr) VALUES ('Corellian Human', 'Corellian', 10, 10, 110, 2, 2, 2, 2, 2, 2);
-INSERT INTO talents (name, ranked) VALUES ('Mood Reader', false);
-INSERT INTO talents (name, ranked) VALUES ('Flying', false);
-CREATE TABLE `xp` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `character_id` INT NOT NULL,
-  `value` INT NOT NULL,
-  `note` VARCHAR(45) NOT NULL DEFAULT '',
-  `created` DATETIME NULL,
-  `modified` DATETIME NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_characters_idx` (`character_id` ASC),
-  CONSTRAINT `fk_characters`
-    FOREIGN KEY (`character_id`)
-    REFERENCES `edge`.`characters` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION);
+-- v0.3 to v0.4
+ALTER TABLE obligations ADD note varchar(45) AFTER type;
+UPDATE obligations SET created = NOW() WHERE created IS NULL;
+UPDATE obligations SET modified = NOW() WHERE modified IS NULL;
 
 DROP TABLE armour;
 DROP TABLE careers;
@@ -81,3 +59,4 @@ DROP TABLE talents;
 DROP TABLE users;
 DROP TABLE weapon_types;
 DROP TABLE weapons;
+DROP TABLE xp;

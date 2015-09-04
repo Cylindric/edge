@@ -40,6 +40,7 @@ class CharactersController extends AppController
             'edit_talents',
             'edit_skills',
             'edit_xp',
+            'edit_obligations',
             'change_skill',
             'change_stat',
             'add_talent',
@@ -254,6 +255,16 @@ class CharactersController extends AppController
     {
         $character = $this->Characters->get($id, [
             'contain' => ['Xp' => ['sort' => ['Xp.created DESC']]],
+        ]);
+
+        $this->set('character', $character);
+        $this->set('_serialize', ['character']);
+    }
+
+    public function edit_obligations($id = null)
+    {
+        $character = $this->Characters->get($id, [
+            'contain' => ['Obligations' => ['sort' => ['Obligations.created DESC']]],
         ]);
 
         $this->set('character', $character);

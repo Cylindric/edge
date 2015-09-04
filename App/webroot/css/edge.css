@@ -6,6 +6,18 @@ i {
     font-style: normal;
 }
 
+.tab-content h3 {
+    margin-top: 0px;
+}
+
+.footer {
+    text-align: center;
+}
+
+.actions {
+    white-space: nowrap;
+}
+
 .stat {
     height: 150px;
     background-image: url("/img/stat-bg.png");

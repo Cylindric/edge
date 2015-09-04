@@ -40,6 +40,17 @@ class Character extends Entity
         return $xp->toArray()[0]['xp'];
     }
 
+    public function _getTotalObligation()
+    {
+        $Obligations = TableRegistry::get('Obligations');
+        $obligation = $Obligations->find();
+        $obligation
+            ->where(['Obligations.character_id' => $this->id])
+            ->select(['obligation' => $obligation->func()->sum('Obligations.value')])
+            ->hydrate(false);
+        return $obligation->toArray()[0]['obligation'];
+    }
+
     public function _getTotalSoak()
     {
         $base_soak = $this->soak;

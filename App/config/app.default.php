@@ -9,7 +9,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => true,
+    'debug' => false,
 
     /**
      * Configure basic information about the application.
@@ -323,4 +323,12 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+
+    'rpgApp' => [
+        'version' => '0',
+    ],
+
+    'Slack' => [
+        'webhook_url' => '',
+    ]
 ];

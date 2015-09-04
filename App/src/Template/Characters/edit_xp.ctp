@@ -1,5 +1,4 @@
-<div class="col-md-12">
-    <h3>Experience</h3>
+    <h3>Experience - <?= $this->Number->format($character->totalXp) ?></h3>
 
     <?php if (count($character->xp) == 0): ?>
         <p>There is no XP yet.</p>
@@ -8,7 +7,7 @@
             <thead>
             <tr>
                 <th>Date</th>
-                <th>XP</th>
+                <th class="text-right">XP</th>
                 <th>Note</th>
             </tr>
             </thead>
@@ -16,9 +15,9 @@
             <?php foreach ($character->xp as $xp): ?>
                 <tr id="xp_<?= $xp->id ?>">
                     <td class="col-md-2">
-                        <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_xp_<?= $xp->id ?>"></span><?= $xp->created->i18nFormat(null, 'Europe/London') ?>
+                        <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_xp_<?= $xp->id ?>"></span><?= $xp->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
                     </td>
-                    <td><?= $xp->value ?></td>
+                    <td class="text-right"><?= $this->Number->format($xp->value) ?></td>
                     <td><?= $xp->note ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -34,4 +33,3 @@
         </div>
         <a class="btn btn-default" id="new_xp_submit">Submit</a>
     </form>
-</div>
