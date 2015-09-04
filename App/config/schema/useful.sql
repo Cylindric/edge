@@ -12,6 +12,7 @@ SELECT * FROM characters_skills;
 SELECT * FROM characters_talents;
 SELECT * FROM characters_weapons;
 SELECT * FROM groups;
+SELECT * FROM groups_users;
 SELECT * FROM item_types;
 SELECT * FROM items;
 SELECT * FROM notes;
@@ -30,15 +31,31 @@ SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
 -- v0.3 to v0.4
-ALTER TABLE obligations ADD note varchar(45) AFTER type;
-UPDATE obligations SET created = NOW() WHERE created IS NULL;
-UPDATE obligations SET modified = NOW() WHERE modified IS NULL;
-UPDATE users SET created = NOW() WHERE created IS NULL;
-UPDATE users SET modified = NOW() WHERE modified IS NULL;
-UPDATE armour SET created = NOW() WHERE created IS NULL;
-UPDATE armour SET modified = NOW() WHERE modified IS NULL;
-UPDATE groups SET created = NOW() WHERE created IS NULL;
-UPDATE groups SET modified = NOW() WHERE modified IS NULL;
+CREATE TABLE `edge`.`groups_users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `gm` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `fk_group_idx` (`group_id` ASC),
+  INDEX `fk_users_idx` (`user_id` ASC),
+  CONSTRAINT `fk_groups` FOREIGN KEY (`group_id`) REFERENCES `edge`.`groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `edge`.`users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION);
+
+INSERT INTO groups_users (group_id, user_id, gm, created, modified)
+SELECT c.group_id, u.id, 0, NOW(), NOW()
+FROM characters c
+INNER JOIN users u ON (c.user_id = u.id);
+
+UPDATE users SET created = NOW() WHERE created is null;
+UPDATE users SET modified = NOW() WHERE modified is null;
+
+
+
+SELECT Groups.id AS `Groups__id`, Groups.name AS `Groups__name`, Groups.created AS `Groups__created`, Groups.modified AS `Groups__modified`, GroupsUsers.id AS `GroupsUsers__id`, GroupsUsers.group_id AS `GroupsUsers__group_id`, GroupsUsers.user_id AS `GroupsUsers__user_id`, GroupsUsers.gm AS `GroupsUsers__gm`, GroupsUsers.created AS `GroupsUsers__created`, GroupsUsers.modified AS `GroupsUsers__modified` 
+FROM groups Groups 
+INNER JOIN groups_users GroupsUsers ON (GroupsUsers.user_id = 6 AND Groups.id = (GroupsUsers.group_id));
+
 
 DROP TABLE armour;
 DROP TABLE careers;
@@ -50,6 +67,7 @@ DROP TABLE characters_skills;
 DROP TABLE characters_talents;
 DROP TABLE characters_weapons;
 DROP TABLE groups;
+DROP TABLE groups_users;
 DROP TABLE item_types;
 DROP TABLE items;
 DROP TABLE notes;

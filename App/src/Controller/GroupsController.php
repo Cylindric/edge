@@ -12,12 +12,31 @@ class GroupsController extends AppController
             return true;
         }
 
+        // Groups are editable by the GM only
+        if (in_array($this->request->action, [
+            'edit',
+        ])) {
+            $groupId = (int)$this->request->params['pass'][0];
+            if ($this->Groups->isOwnedBy($groupId, $user['id'])) {
+                return true;
+            }
+        }
+
+
         return parent::isAuthorized($user);
     }
 
     public function index()
     {
-        $this->set('groups', $this->paginate($this->Groups));
+        $user_id = $this->Auth->User('id');
+
+        $groups = $this->Groups->find();
+        $groups
+            ->matching('GroupsUsers', function ($q) use ($user_id) {
+                return $q->where(['GroupsUsers.user_id' => $user_id]);
+            });
+
+        $this->set('groups', $this->paginate($groups));
         $this->set('_serialize', ['groups']);
     }
 
@@ -74,8 +93,7 @@ class GroupsController extends AppController
                 return $q->where(['Characters.group_id' => $id]);
             })
             ->where(['CharactersWeapons.equipped' => true])
-            ->order(['Characters.name'])
-        ;
+            ->order(['Characters.name']);
 
         $this->loadModel('Obligations');
         $obligations = $this->Obligations->find();
@@ -87,8 +105,7 @@ class GroupsController extends AppController
             ])
             ->where(['Characters.group_id' => $id])
             ->group('type')
-            ->order('value DESC')
-            ;
+            ->order('value DESC');
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $group = $this->Groups->patchEntity($group, $this->request->data);

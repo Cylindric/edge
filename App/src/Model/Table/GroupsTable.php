@@ -2,6 +2,7 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 class GroupsTable extends Table
@@ -15,7 +16,10 @@ class GroupsTable extends Table
         $this->displayField('name');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
+
         $this->hasMany('Characters');
+        $this->hasMany('GroupsUsers');
+        $this->belongsToMany('Users');
     }
 
     public function validationDefault(Validator $validator)
@@ -29,5 +33,11 @@ class GroupsTable extends Table
             ->notEmpty('name');
 
         return $validator;
+    }
+
+    public function isOwnedBy($groupId, $userId)
+    {
+        $gt = TableRegistry::get('GroupsUsers');
+        return $gt->exists(['group_id' => $groupId, 'user_id' => $userId, 'gm' => true]);
     }
 }

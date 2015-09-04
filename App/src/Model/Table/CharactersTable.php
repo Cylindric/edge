@@ -3,6 +3,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 class CharactersTable extends Table
@@ -92,7 +93,26 @@ class CharactersTable extends Table
 
     public function isOwnedBy($characterId, $userId)
     {
-        return $this->exists(['id' => $characterId, 'user_id' => $userId]);
+        // The character's actual owner is obviously an owner
+        if ($this->exists(['id' => $characterId, 'user_id' => $userId])) {
+            return true;
+        }
+
+        // If the character is in any groups, those groups' GMs are also granted Owner status
+        $groups = TableRegistry::get('Groups')
+            ->find()
+            ->select(['GroupsUsers.id'])
+            ->matching('GroupsUsers', function ($q) use ($userId) {
+                return $q->where(['GroupsUsers.user_id' => $userId]);
+            })
+            ->hydrate(false)
+            ->count();
+
+        if ($groups > 0) {
+            return true;
+        }
+
+        return false;
     }
 
 }
