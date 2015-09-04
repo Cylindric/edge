@@ -33,6 +33,12 @@ SELECT * FROM xp ORDER BY modified DESC;
 ALTER TABLE obligations ADD note varchar(45) AFTER type;
 UPDATE obligations SET created = NOW() WHERE created IS NULL;
 UPDATE obligations SET modified = NOW() WHERE modified IS NULL;
+UPDATE users SET created = NOW() WHERE created IS NULL;
+UPDATE users SET modified = NOW() WHERE modified IS NULL;
+UPDATE armour SET created = NOW() WHERE created IS NULL;
+UPDATE armour SET modified = NOW() WHERE modified IS NULL;
+UPDATE groups SET created = NOW() WHERE created IS NULL;
+UPDATE groups SET modified = NOW() WHERE modified IS NULL;
 
 DROP TABLE armour;
 DROP TABLE careers;
