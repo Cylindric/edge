@@ -141,7 +141,8 @@ class Initial extends AbstractMigration
     function createTableNotes()
     {
         $table = $this->table('notes');
-        $table->addColumn('note', 'text', ['default' => null, 'null' => false])
+        $table
+            ->addColumn('note', 'text', ['default' => null, 'null' => false])
             ->addColumn('private', 'boolean', ['default' => true, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])

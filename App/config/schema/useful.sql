@@ -11,6 +11,7 @@ SELECT * FROM characters_notes;
 SELECT * FROM characters_skills;
 SELECT * FROM characters_talents;
 SELECT * FROM characters_weapons;
+SELECT * FROM credits;
 SELECT * FROM groups;
 SELECT * FROM groups_users;
 SELECT * FROM item_types;
@@ -31,7 +32,7 @@ SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
 -- v0.3 to v0.4
-CREATE TABLE `edge`.`groups_users` (
+CREATE TABLE groups_users (
   `id` INT NOT NULL AUTO_INCREMENT,
   `group_id` INT NOT NULL,
   `user_id` INT NOT NULL,
@@ -39,13 +40,26 @@ CREATE TABLE `edge`.`groups_users` (
   PRIMARY KEY (`id`),
   INDEX `fk_group_idx` (`group_id` ASC),
   INDEX `fk_users_idx` (`user_id` ASC),
-  CONSTRAINT `fk_groups` FOREIGN KEY (`group_id`) REFERENCES `edge`.`groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `edge`.`users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION);
+  CONSTRAINT `fk_groups` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION);
 
 INSERT INTO groups_users (group_id, user_id, gm, created, modified)
 SELECT c.group_id, u.id, 0, NOW(), NOW()
 FROM characters c
 INNER JOIN users u ON (c.user_id = u.id);
+
+CREATE TABLE credits (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `character_id` INT NOT NULL,
+  `value` INT NOT NULL DEFAULT 0,
+  `notes` varchar(45) NOT NULL DEFAULT '',
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_characters_idx` (`character_id` ASC),
+  CONSTRAINT `fk_characters` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION);
+
+INSERT INTO credits (character_id, value, notes, created, modified) SELECT id, credits, 'Initial credits', NOW(), NOW() FROM characters;
 
 UPDATE users SET created = COALESCE(created, NOW()), modified = COALESCE(modified, NOW()) WHERE created is null OR modified is null;
 
@@ -59,6 +73,7 @@ DROP TABLE characters_notes;
 DROP TABLE characters_skills;
 DROP TABLE characters_talents;
 DROP TABLE characters_weapons;
+DROP TABLE credits;
 DROP TABLE groups;
 DROP TABLE groups_users;
 DROP TABLE item_types;

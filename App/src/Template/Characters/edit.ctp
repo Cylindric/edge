@@ -1,3 +1,4 @@
+
 <?php
 $this->Html->addCrumb('Characters', '/characters');
 $this->Html->addCrumb($character->name);
@@ -53,10 +54,10 @@ $this->assign('title', $character->name);
                 <li role="presentation" class="btn-lg"><a href="#weapons" aria-controls="weapons" role="tab" data-toggle="tab">Weapons</a></li>
                 <li role="presentation" class="btn-lg"><a href="#armour" aria-controls="armour" role="tab" data-toggle="tab">Armour</a></li>
                 <li role="presentation" class="btn-lg"><a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items</a></li>
-                <li role="presentation" class="btn-lg"><a href="#cash" aria-controls="cash" role="tab" data-toggle="tab">Cash</a></li>
+                <li role="presentation" class="btn-lg"><a href="#credits" aria-controls="credits" role="tab" data-toggle="tab">Credits</a></li>
                 <li role="presentation" class="btn-lg"><a href="#xp" aria-controls="xp" role="tab" data-toggle="tab">Experience (<?= $character->totalXp ?>)</a></li>
                 <li role="presentation" class="btn-lg"><a href="#obligation" aria-controls="obligation" role="tab" data-toggle="tab">Obligation (<?= $character->totalObligation ?>)</a></li>
-                <li role="presentation" class="btn-lg"><a href="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</li>
+                <li role="presentation" class="btn-lg"><a href="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -76,26 +77,8 @@ $this->assign('title', $character->name);
                     <div class="col-md-6" id="item_list_edit">
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="cash">
-                    <div class="col-md-6">
-                        <h3>Cash</h3>
-                        Credits: <span id="credits" data-type="text" data-pk="<?= $character->id ?>"
-                                       data-url="/characters/edit/<?= $character->id ?>.json"
-                                       data-title="Character credits"><?= $this->Number->format($character->credits) ?></span>.
-                        <?php echo $this->Html->scriptBlock("
-            $(document).ready(function() {
-                $('#credits').editable({
-                success: function(response, newValue) {
-                    if(response.response.status == 'error') return response.msg;
-                },
-                display: function(value, response) {
-                    if(typeof response != 'undefined') {
-                        $(this).text(response.response.data.credits);
-                    }
-                },
-                });
-            });
-            ", ['block' => true]); ?>
+                <div role="tabpanel" class="tab-pane fade" id="credits">
+                    <div class="col-md-12" id="credits_list_edit">
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="xp">

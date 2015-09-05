@@ -7,6 +7,9 @@ class v04 extends AbstractMigration
 {
     public function change()
     {
+        $conn = ConnectionManager::get('default');
+
+
         $this->table('obligations')
             ->addColumn('note', 'string', ['default' => '', 'limit' => 45, 'null' => false, 'after' => 'value'])
             ->update();
@@ -18,7 +21,6 @@ class v04 extends AbstractMigration
 
         // Fix missing timestamps
         $tables = ['characters', 'characters_armour', 'characters_items', 'characters_notes', 'characters_talents', 'characters_weapons', 'groups'];
-        $conn = ConnectionManager::get('default');
         foreach($tables as $table) {
             $conn->query('UPDATE '.$table.' SET created = COALESCE(created, NOW()), modified = COALESCE(modified, NOW()) WHERE created is null OR modified is null;');
         }
@@ -33,7 +35,6 @@ class v04 extends AbstractMigration
             ->addForeignKey('user_id', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
 
-        $conn = ConnectionManager::get('default');
         $conn->query(
             'INSERT INTO groups_users (group_id, user_id, gm, created, modified) ' .
             'SELECT c.group_id, u.id, 0, NOW(), NOW() ' .
@@ -41,5 +42,23 @@ class v04 extends AbstractMigration
             'INNER JOIN users u ON (c.user_id = u.id)'
         );
 
+        $this->table('credits')
+            ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('value', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('note', 'text', ['default' => null, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addForeignKey('character_id', 'characters', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->create();
+
+        $conn->query(
+            'INSERT INTO credits (character_id, value, note, created, modified) ' .
+            "SELECT id, credits, 'Initial funds', NOW(), NOW() " .
+            'FROM characters'
+        );
+
+        $this->table('characters')
+            ->removeColumn('credits')
+            ->update();
     }
 }

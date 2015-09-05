@@ -24,6 +24,14 @@ rpgApp.getXp = function (character_id) {
     });
 };
 
+rpgApp.getCredits = function (character_id) {
+    $.get('/credits/edit/' + character_id, function (response) {
+        $incompleteDiv = $('#credits_list_edit');
+        $incompleteDiv.empty();
+        $incompleteDiv.append(response);
+    });
+};
+
 rpgApp.getObligation = function (character_id) {
     $.get('/characters/edit_obligations/' + character_id, function (response) {
         $incompleteDiv = $('#obligation_list_edit');
@@ -369,6 +377,18 @@ rpgApp.removeXp = function (xp_id) {
     );
 };
 
+rpgApp.removeCredits = function (credit_id) {
+    $.get('/credits/delete/' + credit_id + '.json',
+        function (response) {
+            if (response.response.result == 'success') {
+                $('tr[id=credits_' + credit_id).remove();
+            } else if (response.response.result == 'fail') {
+                console.log('fail');
+            }
+        }
+    );
+};
+
 rpgApp.removeObligation = function (obligation_id) {
     $.get('/obligations/delete/' + obligation_id + '.json',
         function (response) {
@@ -398,6 +418,16 @@ rpgApp.addXp = function (character_id) {
         note: $("#new_xp_note").val()
     }, function (data) {
         rpgApp.getXp(character_id);
+    });
+};
+
+rpgApp.addCredits = function (character_id) {
+    $.post("/credits/add.json", {
+        character_id: character_id,
+        value: $("#new_credits").val(),
+        note: $("#new_credits_note").val()
+    }, function (data) {
+        rpgApp.getCredits(character_id);
     });
 };
 
@@ -501,6 +531,15 @@ rpgApp.addObligation = function (character_id) {
         rpgApp.addXp(char_id);
     });
 
+    // Credits buttons
+    $(document).on('click', 'span[id*=remove_credits_]', function () {
+        var id = $(this).attr('id').replace('remove_credits_', '');
+        rpgApp.removeCredits(id);
+    });
+    $(document).on('click', 'a[id*=new_credits_submit]', function () {
+        rpgApp.addCredits(char_id);
+    });
+
     // Obligation buttons
     $(document).on('click', 'span[id*=remove_obligation_]', function () {
         var id = $(this).attr('id').replace('remove_obligation_', '');
@@ -520,4 +559,5 @@ rpgApp.addObligation = function (character_id) {
     rpgApp.getItems(char_id);
     rpgApp.getXp(char_id);
     rpgApp.getObligation(char_id);
+    rpgApp.getCredits(char_id);
 })(jQuery);
