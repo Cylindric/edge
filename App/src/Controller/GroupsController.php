@@ -22,7 +22,6 @@ class GroupsController extends AppController
             }
         }
 
-
         return parent::isAuthorized($user);
     }
 
@@ -31,11 +30,17 @@ class GroupsController extends AppController
         $user_id = $this->Auth->User('id');
 
         $groups = $this->Groups->find();
-        $groups
-            ->matching('GroupsUsers', function ($q) use ($user_id) {
-                return $q->where(['GroupsUsers.user_id' => $user_id]);
-            });
-
+        $groups->select(['Groups.id', 'Groups.name']);
+        if($this->Auth->user('role') == 'admin') {
+            $groups
+                ->matching('GroupsUsers');
+        } else {
+            $groups
+                ->matching('GroupsUsers', function ($q) use ($user_id) {
+                    return $q->where(['GroupsUsers.user_id' => $user_id]);
+                });
+        }
+        $groups->distinct();
         $this->set('groups', $this->paginate($groups));
         $this->set('_serialize', ['groups']);
     }
