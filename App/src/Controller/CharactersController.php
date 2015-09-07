@@ -1,30 +1,11 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
 use App\Rpg\CalculatorFactory;
-use Cake\Utility\Inflector;
 use Cake\Core\Configure;
 
-/**
- * Characters Controller
- *
- * @property \App\Model\Table\CharactersTable $Characters
- */
 class CharactersController extends AppController
 {
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->loadComponent('RequestHandler');
-
-        $this->loadComponent('Slack', [
-            'webhook_url' => Configure::read('Slack.webhook_url'),
-            'enabled' => Configure::read('Slack.enabled')
-        ]);
-    }
-
     public function isAuthorized($user)
     {
         if (in_array($this->request->action, ['add', 'index'])) {
@@ -47,11 +28,13 @@ class CharactersController extends AppController
             'join_group',
             'remove_talent',
             'change_talent_rank',
-            'toggle_career',
-
         ])) {
-            $characterId = (int)$this->request->params['pass'][0];
-            if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
+            if ($this->request->is('post')) {
+                $character_id = $this->request->data['character_id'];
+            } else {
+                $character_id = (int)$this->request->params['pass'][0];
+            }
+            if ($this->Characters->isOwnedBy($character_id, $user['id'])) {
                 return true;
             }
         }
@@ -59,12 +42,6 @@ class CharactersController extends AppController
         return parent::isAuthorized($user);
     }
 
-
-    /**
-     * Index method
-     *
-     * @return void
-     */
     public function index()
     {
         $options = [
@@ -79,13 +56,6 @@ class CharactersController extends AppController
         $this->set('_serialize', ['characters']);
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Character id.
-     * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function view($id = null)
     {
         $query = $this->Characters
@@ -137,11 +107,6 @@ class CharactersController extends AppController
         $this->set('_serialize', ['character']);
     }
 
-    /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
-     */
     public function add()
     {
         $character = $this->Characters->newEntity();
@@ -174,13 +139,6 @@ class CharactersController extends AppController
         $this->set('_serialize', ['character']);
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Character id.
-     * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function edit($id = null)
     {
         $response = ['result' => 'fail', 'data' => null];
@@ -213,13 +171,6 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Character id.
-     * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -255,26 +206,6 @@ class CharactersController extends AppController
     {
         $character = $this->Characters->get($id, [
             'contain' => ['Xp' => ['sort' => ['Xp.created DESC']]],
-        ]);
-
-        $this->set('character', $character);
-        $this->set('_serialize', ['character']);
-    }
-
-    public function edit_obligations($id = null)
-    {
-        $character = $this->Characters->get($id, [
-            'contain' => ['Obligations' => ['sort' => ['Obligations.created DESC']]],
-        ]);
-
-        $this->set('character', $character);
-        $this->set('_serialize', ['character']);
-    }
-
-    public function edit_talents($id = null)
-    {
-        $character = $this->Characters->get($id, [
-            'contain' => ['Talents']
         ]);
 
         $this->set('character', $character);
@@ -384,112 +315,6 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function add_talent($char_id, $talent_id)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($talent_id)) {
-
-            $Char = $this->Characters->get($char_id, [
-                'contain' => ['Talents']
-            ]);
-
-            $this->loadModel('Talents');
-            $T = $this->Talents->get($talent_id);
-            $T->_joinData = ['rank' => 1];
-
-            if ($this->Characters->Talents->link($Char, [$T])) {
-                // Announce
-                $this->Slack->announceCharacterEdit($Char);
-                $response = ['result' => 'success', 'data' => $Char->talents];
-            }
-        }
-
-        $this->set('response', $response);
-        $this->set('_serialize', ['response']);
-    }
-
-    public function remove_talent($char_id, $join_id)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($join_id)) {
-            $Char = $this->Characters->get($char_id);
-
-            $this->loadModel('CharactersTalents');
-            $link = $this->CharactersTalents->get($join_id);
-            if ($this->CharactersTalents->delete($link)) {
-                // Announce
-                $this->Slack->announceCharacterEdit($Char);
-                $response = ['result' => 'success', 'data' => null];
-            }
-        }
-
-        $this->set('response', $response);
-        $this->set('_serialize', ['response']);
-    }
-
-    public function change_talent_rank($char_id = null, $join_id = null, $delta = 1)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($join_id)) {
-            $delta = (int)$delta;
-            $Char = $this->Characters->get($char_id);
-
-            $this->loadModel('CharactersTalents');
-            $T = $this->CharactersTalents->get($join_id, ['contain' => 'Talents']);
-            if ($T->talent->ranked) {
-                $T->rank += $delta;
-                if ($T->rank < 1) {
-                    $T->rank = 1;
-                }
-            }
-            if ($this->CharactersTalents->save($T)) {
-                // Announce
-                $this->Slack->announceCharacterEdit($Char);
-                $response = ['result' => 'success', 'data' => $T->rank];
-            }
-        }
-
-        $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
-    }
-
-    public function toggle_career($char_id = null, $skill_id = null)
-    {
-        $response = ['result' => 'fail', 'data' => null];
-
-        if (!is_null($char_id) && !is_null($skill_id)) {
-            $Char = $this->Characters->get($char_id, [
-                'contain' => ['Training' => ['conditions' => ['Training.skill_id' => $skill_id]]]]);
-
-            $this->loadModel('Training');
-            if (count($Char->training) == 0) {
-                // No training in this Skill at all, create a new record to flag Career status in
-                $t = $this->Training->newEntity();
-                $t->skill_id = $skill_id;
-                $t->career = true;
-                $Char->training[] = $t;
-                $Char->dirty('training', true);
-                if ($this->Characters->save($Char)) {
-                    $response = ['result' => 'success', 'data' => $t->career];
-                }
-            } else {
-                $t = $Char->training[0];
-                $t->career = !$t->career;
-
-                $Char->dirty('training', true);
-                if ($this->Characters->save($Char)) {
-                    $response = ['result' => 'success', 'data' => $t->career];
-                }
-            }
-        }
-
-        $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
-    }
-
     public function join_group($char_id)
     {
         $Char = $this->Characters->get($char_id, ['contain' => 'Groups']);
@@ -500,9 +325,6 @@ class CharactersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $character = $this->Characters->patchEntity($Char, $this->request->data);
             if ($this->Characters->save($character)) {
-                // Announce
-                //$this->Slack->announceCharacterGroupJoin($character);
-
                 $this->Flash->success(__('The character has been added to the group.'));
                 return $this->redirect(['action' => 'edit', $char_id]);
             } else {

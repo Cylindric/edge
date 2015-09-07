@@ -3,22 +3,18 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-class ObligationsController extends AppController
+class CreditsController extends AppController
 {
     public function initialize()
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
         $this->loadModel('Characters');
-        $this->loadModel('Obligations');
+        $this->loadModel('Credits');
     }
 
     public function isAuthorized($user)
     {
-        if ($this->request->action === 'index') {
-            return true;
-        }
-
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
             'add',
@@ -38,13 +34,14 @@ class ObligationsController extends AppController
 
     public function add()
     {
-        $note = $this->Obligations->newEntity();
+        $credit = $this->Credits->newEntity();
         if ($this->request->is('post')) {
-            $obligation = $this->Obligations->patchEntity($note, $this->request->data);
-            if ($this->Obligations->save($obligation)) {
-                $response = ['result' => 'success', 'data' => $obligation];
+            $char = $this->Characters->get($this->request->data['character_id']);
+            $credit = $this->Credits->patchEntity($credit, $this->request->data);
+            if ($this->Credits->save($credit)) {
+                $response = ['result' => 'success', 'data' => $credit];
             } else {
-                $response = ['result' => 'fail', 'data' => $obligation];
+                $response = ['result' => 'fail', 'data' => $credit];
             }
         }
 
@@ -54,29 +51,31 @@ class ObligationsController extends AppController
 
     public function edit($character_id = null)
     {
-        $obligations = $this->Obligations
+        $credits = $this->Credits
             ->find()
             ->where(['character_id' => $character_id])
             ->order('created DESC');
 
-        $query = $this->Obligations->find();
+        $query = $this->Credits->find();
         $query
             ->where(['character_id' => $character_id])
             ->select(['total' => $query->func()->sum('value')])
             ->hydrate(false);
         $total = $query->toArray()[0]['total'];
 
-        $this->set('obligations', $obligations->toArray());
+
+        $this->set('credits', $credits->toArray());
         $this->set('total', $total);
         $this->set('_serialize', ['character']);
     }
 
-    public function delete($obligation_id)
+
+    public function delete($id)
     {
         $response = ['result' => 'fail', 'data' => null];
 
-        if (!is_null($obligation_id)) {
-            if ($this->Obligations->delete($this->Obligations->get($obligation_id))) {
+        if (!is_null($id)) {
+            if ($this->Credits->delete($this->Credits->get($id))) {
                 $response = ['result' => 'success', 'data' => null];
             }
         }
@@ -84,4 +83,5 @@ class ObligationsController extends AppController
         $this->set('response', $response);
         $this->set('_serialize', ['response']);
     }
+
 }

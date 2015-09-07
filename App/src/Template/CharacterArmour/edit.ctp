@@ -24,9 +24,20 @@
             </td>
         </tr>
     <?php endforeach; ?>
-    <tr class="hidden-print">
-        <td>Add:<input id="new_armour_autocomplete"/><input type="hidden" id="new_armour_id"/></td>
-    </tr>
     </tbody>
 </table>
 
+<div class="col-md-12 hidden-print">
+    <form class="form-inline">
+        <input type="hidden" id="new_armour_id"/>
+
+        <div class="form-group">
+
+            <div class="input-group">
+                <div class="input-group-addon">New Armour:</div>
+                <input type="text" id="new_armour_autocomplete" placeholder="enter armour name" class="form-control"/>
+            </div>
+
+        </div>
+    </form>
+</div>

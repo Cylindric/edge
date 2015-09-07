@@ -103,7 +103,8 @@ class Initial extends AbstractMigration
     function createTableCharactersTalents()
     {
         $table = $this->table('characters_talents');
-        $table->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+        $table
+            ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('talent_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
             ->addColumn('rank', 'integer', ['default' => 1, 'limit' => 11, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
@@ -140,7 +141,8 @@ class Initial extends AbstractMigration
     function createTableNotes()
     {
         $table = $this->table('notes');
-        $table->addColumn('note', 'text', ['default' => null, 'null' => false])
+        $table
+            ->addColumn('note', 'text', ['default' => null, 'null' => false])
             ->addColumn('private', 'boolean', ['default' => true, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])

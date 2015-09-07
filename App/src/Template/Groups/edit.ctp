@@ -1,7 +1,7 @@
 <?php
 $this->Html->script('rpgGroupEdit', ['block' => true]);
 $this->Html->addCrumb('Groups', '/Groups');
-$this->Html->addCrumb('View');
+$this->Html->addCrumb('Edit');
 $this->assign('title', $group->name);
 $editing = false;
 ?>

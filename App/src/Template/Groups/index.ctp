@@ -18,7 +18,9 @@
         <tbody>
         <?php foreach ($groups as $group): ?>
             <tr>
-                <td><?= $this->Html->link($group->name, ['action' => 'edit', $group->id]) ?></td>
+                <td>
+                    <?= $this->Html->link($group->name, ['action' => 'edit', $group->id]) ?>
+                </td>
                 <td class="actions">
                     <?= $this->Html->link('<span class="glyphicon glyphicon-search"></span>', ['action' => 'view', $group->id], ['escape' => false]) ?>
                     <?= $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', ['action' => 'edit', $group->id], ['escape' => false]) ?>

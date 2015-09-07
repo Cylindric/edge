@@ -1,8 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\CharactersTalent;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -29,6 +27,7 @@ class CharactersNotesTable extends Table
         $this->table('characters_notes');
         $this->displayField('id');
         $this->primaryKey('id');
+        $this->addBehavior('Timestamp');
         $this->belongsTo('Characters', [
             'foreignKey' => 'character_id',
             'joinType' => 'INNER'
