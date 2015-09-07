@@ -169,40 +169,43 @@ rpgApp.getStats = function (character_id) {
 };
 
 rpgApp.changeSkill = function (character_id, skill_id, delta) {
-    $.get('/character_skills/change/' + character_id + '/' + skill_id + '/' + delta + '.json',
-        function (response) {
-            if (response.response.result == 'success') {
-                // response now contains the new Skill values
-                var newLevel = response.response.Level;
-                var level = $('#skill_' + skill_id).find('span.skill_level');
-                level.text(newLevel);
 
-                // Set the new value
-                $dice = $('#skill_' + skill_id).find('span.skill_dice');
-                $dice.empty();
-                var proficiencyDice = response.response.Dice["proficiency"];
-                for (i = 0; i < proficiencyDice; i++) {
-                    $dice.append('<img src="/img/dice-proficiency.png" alt="Proficiency">');
-                }
-                var abilityDice = response.response.Dice["ability"];
-                for (i = 0; i < abilityDice; i++) {
-                    $dice.append('<img src="/img/dice-ability.png" alt="Ability">');
-                }
+    $.post('/character_skills/change.json', {
+        character_id: character_id,
+        skill_id: skill_id,
+        delta: delta,
+    }, function (response) {
+        if (response.response.result == 'success') {
+            // response now contains the new Skill values
+            var newLevel = response.response.Level;
+            var level = $('#skill_' + skill_id).find('span.skill_level');
+            level.text(newLevel);
 
-                // Show or hide the buttons
-                if (newLevel >= 1) {
-                    $('#skill_' + skill_id).find('i.decrease').fadeIn();
-                    level.fadeIn();
-                } else {
-                    $('#skill_' + skill_id).find('i.decrease').fadeOut();
-                    level.fadeOut();
-                }
-
-            } else if (response.response.result == 'fail') {
-                console.log('fail');
+            // Set the new value
+            $dice = $('#skill_' + skill_id).find('span.skill_dice');
+            $dice.empty();
+            var proficiencyDice = response.response.Dice["proficiency"];
+            for (i = 0; i < proficiencyDice; i++) {
+                $dice.append('<img src="/img/dice-proficiency.png" alt="Proficiency">');
             }
+            var abilityDice = response.response.Dice["ability"];
+            for (i = 0; i < abilityDice; i++) {
+                $dice.append('<img src="/img/dice-ability.png" alt="Ability">');
+            }
+
+            // Show or hide the buttons
+            if (newLevel >= 1) {
+                $('#skill_' + skill_id).find('i.decrease').fadeIn();
+                level.fadeIn();
+            } else {
+                $('#skill_' + skill_id).find('i.decrease').fadeOut();
+                level.fadeOut();
+            }
+
+        } else if (response.response.result == 'fail') {
+            console.log('failed to change rank in skill ' + skill_id);
         }
-    );
+    });
 };
 
 rpgApp.changeStat = function (character_id, stat_id, delta) {
@@ -258,29 +261,30 @@ rpgApp.talentChangeRank = function (character_id, link_id, delta) {
         character_id: character_id,
         link_id: link_id,
         delta: delta,
-    }, function (data) {
+    }, function () {
         rpgApp.talentsGet(character_id);
     });
 };
 
 rpgApp.toggleCareer = function (character_id, skill_id, replace) {
-    $.get('/characters/toggle_career/' + character_id + '/' + skill_id + '.json',
-        function (response) {
-            if (response.response.result == 'success') {
-                if (response.response.data == true) {
-                    $('#' + replace).addClass('btn-success');
-                    $('#' + replace).removeClass('btn-default');
-                    $('#' + replace).text('career');
-                } else {
-                    $('#' + replace).addClass('btn-default');
-                    $('#' + replace).removeClass('btn-success');
-                    $('#' + replace).text('standard');
-                }
-            } else if (response.response.result == 'fail') {
-                console.log('fail');
+    $.post("/character_skills/toggle_career.json", {
+        character_id: character_id,
+        skill_id: skill_id,
+    }, function (response) {
+        if (response.response.result == 'success') {
+            if (response.response.data == true) {
+                $('#' + replace).addClass('btn-success');
+                $('#' + replace).removeClass('btn-default');
+                $('#' + replace).text('career');
+            } else {
+                $('#' + replace).addClass('btn-default');
+                $('#' + replace).removeClass('btn-success');
+                $('#' + replace).text('standard');
             }
+        } else {
+            console.log('failed to toggle career for skill ' + skill_id + '!');
         }
-    );
+    });
 };
 
 rpgApp.weaponToggle = function (character_id, link_id, replace) {
@@ -431,6 +435,10 @@ rpgApp.addObligation = function (character_id) {
         var id = $(this).attr('id').replace('skilldecrease_', '');
         rpgApp.changeSkill(char_id, id, -1);
     });
+    $(document).on('click', 'i[id*=toggle_career_]', function () {
+        var id = $(this).attr('id').replace('toggle_career_', '');
+        rpgApp.toggleCareer(char_id, id, $(this).attr('id'));
+    });
 
     // Talent buttons
     $(document).on('click', 'span[id*=remove_talent_]', function () {
@@ -444,10 +452,6 @@ rpgApp.addObligation = function (character_id) {
     $(document).on('click', 'span[id*=decrease_talent_]', function () {
         var id = $(this).attr('id').replace('decrease_talent_', '');
         rpgApp.talentChangeRank(char_id, id, -1);
-    });
-    $(document).on('click', 'i[id*=toggle_career_]', function () {
-        var id = $(this).attr('id').replace('toggle_career_', '');
-        rpgApp.toggleCareer(char_id, id, $(this).attr('id'));
     });
 
 

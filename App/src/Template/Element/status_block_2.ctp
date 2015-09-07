@@ -25,7 +25,7 @@
                 <i class="btn btn-danger btn-xs" id="<?= $name ?>_0_decrease">decrease</i>
             </div>
             <div class="col-xs-5">
-                <i class="btn btn-success btn-xs" id="<?= $name ?>_0_decrease">decrease</i>
+                <i class="btn btn-success btn-xs" id="<?= $name ?>_1_decrease">decrease</i>
             </div>
         </div>
     <?php endif; ?>

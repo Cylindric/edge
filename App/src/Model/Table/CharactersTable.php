@@ -29,7 +29,7 @@ class CharactersTable extends Table
         $this->hasMany('Obligations');
         $this->hasMany('Xp');
 
-        $this->belongsToMany('Armour', ['through' => 'CharactersArmour']);
+        $this->belongsToMany('Armour', ['through' => 'CharactersArmour']); // Specify the join-table name because by convention it should be called ArmourCharacters
         $this->belongsToMany('Items');
         $this->belongsToMany('Skills');
         $this->belongsToMany('Talents');
