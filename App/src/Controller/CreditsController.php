@@ -56,17 +56,16 @@ class CreditsController extends AppController
             ->where(['character_id' => $character_id])
             ->order('created DESC');
 
-        $balance = 0;
         $query = $this->Credits->find();
         $query
             ->where(['character_id' => $character_id])
-            ->select(['balance' => $query->func()->sum('value')])
+            ->select(['total' => $query->func()->sum('value')])
             ->hydrate(false);
-        $balance = $query->toArray()[0]['balance'];
+        $total = $query->toArray()[0]['total'];
 
 
         $this->set('credits', $credits->toArray());
-        $this->set('balance', $balance);
+        $this->set('total', $total);
         $this->set('_serialize', ['character']);
     }
 

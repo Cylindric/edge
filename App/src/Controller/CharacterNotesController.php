@@ -1,14 +1,13 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
-
-class CharactersNotesController extends AppController
+class CharacterNotesController extends AppController
 {
     public function initialize()
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
+        $this->loadModel('CharactersNotes');
         $this->loadModel('Characters');
         $this->loadModel('Notes');
     }

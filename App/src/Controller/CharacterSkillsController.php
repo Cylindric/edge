@@ -1,19 +1,15 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
-use App\Rpg\CalculatorFactory;
-use Cake\Utility\Inflector;
-
 class CharacterSkillsController extends AppController
 {
 
     public function initialize()
     {
         parent::initialize();
+        $this->loadModel('CharactersSkills');
         $this->loadModel('Characters');
         $this->loadModel('Skills');
-        $this->loadModel('CharactersSkills');
     }
 
     public function isAuthorized($user)

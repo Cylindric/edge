@@ -20,9 +20,20 @@
             </td>
         </tr>
     <?php endforeach; ?>
-    <tr class="hidden-print">
-        <td>Add:<input id="new_item_autocomplete"/><input type="hidden" id="new_item_id"/></td>
-    </tr>
     </tbody>
 </table>
 
+<div class="col-md-12 hidden-print">
+    <form class="form-inline">
+        <input type="hidden" id="new_item_id"/>
+
+        <div class="form-group">
+
+            <div class="input-group">
+                <div class="input-group-addon">New Item:</div>
+                <input type="text" id="new_item_autocomplete" placeholder="enter item name" class="form-control"/>
+            </div>
+
+        </div>
+    </form>
+</div>

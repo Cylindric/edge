@@ -1,4 +1,4 @@
-<h3>Credits - <?= $this->Number->format($balance) ?></h3>
+<h3>Credits - <?= $this->Number->format($total) ?></h3>
 
 <?php if (count($credits) == 0): ?>
     <p>There are no transactions yet.</p>
@@ -25,11 +25,25 @@
     </table>
 <?php endif; ?>
 
-<form class="form-inline hidden-print">
-    <div class="form-group">
-        <label for="new_credits">New Credits</label>
-        <input type="text" id="new_credits"></input>
-        <input type="text" id="new_credits_note"></input>
-    </div>
-    <a class="btn btn-default" id="new_credits_submit">Submit</a>
-</form>
+
+<div class="col-md-12 hidden-print">
+    <form class="form-inline">
+        <div class="form-group">
+
+            <div class="input-group">
+                <div class="input-group-addon">Credits:</div>
+                <input type="number" id="new_credits" placeholder="0" class="form-control text-right"/>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-addon">Notes</div>
+                <input type="text" id="new_credits_note" placeholder="enter any notes" class="form-control"/>
+            </div>
+
+            <div class="input-group">
+                <a class="btn btn-primary" id="new_credits_submit">Add</a>
+            </div>
+
+        </div>
+    </form>
+</div>
