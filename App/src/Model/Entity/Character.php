@@ -29,6 +29,17 @@ class Character extends Entity
         $this->_species = $species->get($this->_properties['species_id']);
     }
 
+    public function _getTotalCredits()
+    {
+        $Credits = TableRegistry::get('Credits');
+        $credits = $Credits->find();
+        $credits
+            ->where(['Credits.character_id' => $this->id])
+            ->select(['total' => $credits->func()->sum('Credits.value')])
+            ->hydrate(false);
+        return $credits->toArray()[0]['total'];
+    }
+
     public function _getTotalXp()
     {
         $Xp = TableRegistry::get('Xp');

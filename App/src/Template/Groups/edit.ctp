@@ -117,6 +117,7 @@ $editing = false;
                 </tr>
             </table>
         </div>
+
         <div class="col-sm-3 col-md-3">
             <h2>Obligation</h2>
             <table class="table table-condensed">
@@ -133,14 +134,15 @@ $editing = false;
                 </tr>
             </table>
         </div>
+
         <div class="col-sm-3 col-md-3">
             <h2>Credits</h2>
             <table class="table table-condensed">
                 <?php $total = 0; ?>
-                <?php foreach ($group->characters as $character): $total += $character->credits; ?>
+                <?php foreach ($group->characters as $character): $total += $character->totalCredits; ?>
                     <tr>
                         <td class="text-capitalize"><?= $character->name ?></td>
-                        <td class="text-right"><?= $this->Number->format($character->credits) ?></td>
+                        <td class="text-right"><?= $this->Number->format($character->totalCredits) ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr class="success">
