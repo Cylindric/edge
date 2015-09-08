@@ -2,7 +2,7 @@
 use Phinx\Migration\AbstractMigration;
 use Cake\ORM\TableRegistry;
 
-class Initial extends AbstractMigration
+class v001 extends AbstractMigration
 {
     public function up()
     {
@@ -12,7 +12,6 @@ class Initial extends AbstractMigration
         $this->createTableNotes();
         $this->createTableRanges();
         $this->createTableSlack();
-        $this->createTableSpecialisations();
         $this->createTableSpecies();
         $this->createTableStats();
         $this->createTableTalents();
@@ -20,6 +19,7 @@ class Initial extends AbstractMigration
         $this->createTableWeaponTypes();
 		
         // these tables depend on the above tables in some way
+        $this->createTableSpecialisations(); // requires careers
         $this->createTableSkills(); // requires Stats
         $this->createTableWeapons(); // requires Ranges, Skills
         $this->createTableCharacters(); // requires Careers, Groups, Specialisations, Species, Users
@@ -252,8 +252,9 @@ class Initial extends AbstractMigration
     function createTableSpecialisations()
     {
         $this->table('specialisations')
-            ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
             ->addColumn('career_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 45, 'null' => false])
+            ->addForeignKey('career_id', 'careers', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
 
         $table = TableRegistry::get('Specialisations');
@@ -545,9 +546,9 @@ class Initial extends AbstractMigration
         $table
             ->addColumn('weapon_type_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('skill_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('range_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('name', 'string', ['default' => null, 'limit' => 50, 'null' => false])
             ->addColumn('encumbrance', 'integer', ['default' => 0, 'null' => false])
-            ->addColumn('range_id', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('rarity', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('damage', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('crit', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
@@ -557,9 +558,9 @@ class Initial extends AbstractMigration
             ->addColumn('special', 'string', ['default' => '', 'limit' => 128, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
-            ->addForeignKey('range_id', 'ranges', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
-            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->addForeignKey('weapon_type_id', 'weapon_types', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('skill_id', 'skills', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('range_id', 'ranges', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
 
         $table = TableRegistry::get('Weapons');

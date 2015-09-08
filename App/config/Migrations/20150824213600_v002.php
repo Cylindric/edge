@@ -2,7 +2,7 @@
 use Phinx\Migration\AbstractMigration;
 use Cake\ORM\TableRegistry;
 
-class v02 extends AbstractMigration
+class v002 extends AbstractMigration
 {
     public function change()
     {

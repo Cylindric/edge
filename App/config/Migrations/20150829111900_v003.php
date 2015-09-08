@@ -3,7 +3,7 @@ use Phinx\Migration\AbstractMigration;
 use Cake\ORM\TableRegistry;
 use Cake\Datasource\ConnectionManager;
 
-class v03 extends AbstractMigration
+class v003 extends AbstractMigration
 {
     public function change()
     {

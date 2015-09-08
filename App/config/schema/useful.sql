@@ -31,37 +31,9 @@ SELECT * FROM weapon_types;
 SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
--- v0.3 to v0.4
-CREATE TABLE groups_users (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `group_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  `gm` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  INDEX `fk_group_idx` (`group_id` ASC),
-  INDEX `fk_users_idx` (`user_id` ASC),
-  CONSTRAINT `fk_groups` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION);
+-- v0.4 to v0.5
 
-INSERT INTO groups_users (group_id, user_id, gm, created, modified)
-SELECT c.group_id, u.id, 0, NOW(), NOW()
-FROM characters c
-INNER JOIN users u ON (c.user_id = u.id);
 
-CREATE TABLE credits (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `character_id` INT NOT NULL,
-  `value` INT NOT NULL DEFAULT 0,
-  `notes` varchar(45) NOT NULL DEFAULT '',
-  `created` DATETIME NULL,
-  `modified` DATETIME NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_characters_idx` (`character_id` ASC),
-  CONSTRAINT `fk_characters` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION);
-
-INSERT INTO credits (character_id, value, notes, created, modified) SELECT id, credits, 'Initial credits', NOW(), NOW() FROM characters;
-
-UPDATE users SET created = COALESCE(created, NOW()), modified = COALESCE(modified, NOW()) WHERE created is null OR modified is null;
 
 -- The order of these is important due to inheritance - don't just re-sort the list!
 DROP TABLE characters_armour;
@@ -75,7 +47,6 @@ DROP TABLE obligations;
 DROP TABLE xp;
 DROP TABLE characters;
 DROP TABLE armour;
-DROP TABLE careers;
 DROP TABLE groups_users;
 DROP TABLE groups;
 DROP TABLE items;
@@ -84,6 +55,7 @@ DROP TABLE notes;
 DROP TABLE phinxlog;
 DROP TABLE slack;
 DROP TABLE specialisations;
+DROP TABLE careers;
 DROP TABLE talents;
 DROP TABLE IF EXISTS training;
 DROP TABLE weapons;
