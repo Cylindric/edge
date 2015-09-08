@@ -7,28 +7,27 @@ class Initial extends AbstractMigration
     public function up()
     {
         // leaf-tables depend on nothing else
+        $this->createTableCareers();
         $this->createTableGroups();
         $this->createTableNotes();
-        $this->createTableSkills();
+        $this->createTableRanges();
         $this->createTableSlack();
+        $this->createTableSpecialisations();
         $this->createTableSpecies();
         $this->createTableStats();
         $this->createTableTalents();
-        $this->createTableCareers();
-        $this->createTableSpecialisations();
-        $this->createTableWeaponTypes();
-        $this->createTableRanges();
-
-        // these tables depend on the above tables in some way
-        $this->createTableWeapons();
-        $this->createTableCharacters();
         $this->createTableUsers();
-        $this->createTableCharactersSkills();
-        $this->createTableCharactersTalents();
-        $this->createTableCharactersNotes();
-        $this->createTableCharactersWeapons();
-
-        $this->createTableObligations();
+        $this->createTableWeaponTypes();
+		
+        // these tables depend on the above tables in some way
+        $this->createTableSkills(); // requires Stats
+        $this->createTableWeapons(); // requires Ranges, Skills
+        $this->createTableCharacters(); // requires Careers, Groups, Specialisations, Species, Users
+        $this->createTableCharactersSkills(); // requires Characters, Skills
+        $this->createTableCharactersTalents(); // requires Characters, Talents
+        $this->createTableCharactersNotes(); // requires Characters, Notes
+        $this->createTableCharactersWeapons(); // requires Characters, Weapons
+        $this->createTableObligations(); // requires Characters
     }
 
     function createTableCareers()
@@ -87,6 +86,9 @@ class Initial extends AbstractMigration
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addForeignKey('user_id', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->addForeignKey('species_id', 'species', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('group_id', 'groups', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('career_id', 'careers', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('specialisation_id', 'specialisations', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->create();
     }
 
@@ -132,7 +134,7 @@ class Initial extends AbstractMigration
     {
         $this
             ->table('groups')
-            ->addColumn('name', ' string', ['default' => null, 'limit' => 100, 'null' => false])
+            ->addColumn('name', 'string', ['default' => null, 'limit' => 100, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->create();
@@ -152,8 +154,8 @@ class Initial extends AbstractMigration
     function createTableObligations()
     {
         $this->table('obligations')
-            ->addColumn('character_id', 'int', ['default' => null, 'limit' => 11, 'null' => false])
-            ->addColumn('value', 'int', ['default' => 0, 'limit' => 11, 'null' => false])
+            ->addColumn('character_id', 'integer', ['default' => null, 'limit' => 11, 'null' => false])
+            ->addColumn('value', 'integer', ['default' => 0, 'limit' => 11, 'null' => false])
             ->addColumn('type', 'string', ['default' => '', 'limit' => 45, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
@@ -576,28 +578,28 @@ class Initial extends AbstractMigration
             ['name' => 'Disruptor Pistol', 'weapon_type_id' => 1, 'skill_id' => 26, 'damage' => 10, 'crit' => 2, 'range_id' => 2, 'encumbrance' => 2, 'hp' => 2, 'value' => 3000, 'restricted' => true, 'rarity' => 6, 'special' => 'Vicious 4'],
             ['name' => 'Disruptor Rifle', 'weapon_type_id' => 1, 'skill_id' => 27, 'damage' => 10, 'crit' => 2, 'range_id' => 4, 'encumbrance' => 5, 'hp' => 4, 'value' => 5000, 'restricted' => true, 'rarity' => 6, 'special' => 'Cumbersome 2, Vicious 5'],
 
-            ['name' => 'Slugthrower Pistol', 'weapon_type_id' => 2, 'skill_id' => 26, 'damage' => 4, 'crit' => 5, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 3, 'special' => ''],
-            ['name' => 'Slugthrower Rifle', 'weapon_type_id' => 2, 'skill_id' => 27, 'damage' => 7, 'crit' => 5, 'range' => 3, 'encumbrance' => 5, 'hp' => 1, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Cumbersome 2'],
+            ['name' => 'Slugthrower Pistol', 'weapon_type_id' => 2, 'skill_id' => 26, 'damage' => 4, 'crit' => 5, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 3, 'special' => ''],
+            ['name' => 'Slugthrower Rifle', 'weapon_type_id' => 2, 'skill_id' => 27, 'damage' => 7, 'crit' => 5, 'range_id' => 3, 'encumbrance' => 5, 'hp' => 1, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Cumbersome 2'],
 
-            ['name' => 'Bola / Net', 'weapon_type_id' => 3, 'skill_id' => 26, 'damage' => 2, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 2, 'value' => 20, 'restricted' => false, 'rarity' => 2, 'special' => 'Ensnare 3, Knockdown, Limited Ammo 1'],
+            ['name' => 'Bola / Net', 'weapon_type_id' => 3, 'skill_id' => 26, 'damage' => 2, 'crit' => 0, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 2, 'value' => 20, 'restricted' => false, 'rarity' => 2, 'special' => 'Ensnare 3, Knockdown, Limited Ammo 1'],
 
-            ['name' => 'Flame Projector', 'weapon_type_id' => 4, 'skill_id' => 27, 'damage' => 8, 'crit' => 3, 'range' => 2, 'encumbrance' => 6, 'hp' => 2, 'value' => 1000, 'restricted' => false, 'rarity' => 6, 'special' => 'Burn 3, Blast 8'],
-            ['name' => 'Missile Tube', 'weapon_type_id' => 4, 'skill_id' => 24, 'damage' => 20, 'crit' => 2, 'range' => 5, 'encumbrance' => 7, 'hp' => 4, 'value' => 7500, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 10, Cumbersomme 3, Guided 3, Breach 1, Prepare 1, Limited Ammo 6'],
-            ['name' => 'Frag Grenade', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 8, 'crit' => 4, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 50, 'restricted' => false, 'rarity' => 5, 'special' => 'Blast 6, Limited Ammo 1'],
-            ['name' => 'Stun Grenade', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 18, 'crit' => 0, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 75, 'restricted' => false, 'rarity' => 4, 'special' => 'Disorient 3, Stun Damage, Blast 8, Limited Ammo 1'],
-            ['name' => 'Thermal Detonator', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 20, 'crit' => 2, 'range' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 2000, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 15, Breach 1, Vicious 4, Limited Ammo 1'],
+            ['name' => 'Flame Projector', 'weapon_type_id' => 4, 'skill_id' => 27, 'damage' => 8, 'crit' => 3, 'range_id' => 2, 'encumbrance' => 6, 'hp' => 2, 'value' => 1000, 'restricted' => false, 'rarity' => 6, 'special' => 'Burn 3, Blast 8'],
+            ['name' => 'Missile Tube', 'weapon_type_id' => 4, 'skill_id' => 24, 'damage' => 20, 'crit' => 2, 'range_id' => 5, 'encumbrance' => 7, 'hp' => 4, 'value' => 7500, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 10, Cumbersomme 3, Guided 3, Breach 1, Prepare 1, Limited Ammo 6'],
+            ['name' => 'Frag Grenade', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 8, 'crit' => 4, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 50, 'restricted' => false, 'rarity' => 5, 'special' => 'Blast 6, Limited Ammo 1'],
+            ['name' => 'Stun Grenade', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 18, 'crit' => 0, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 75, 'restricted' => false, 'rarity' => 4, 'special' => 'Disorient 3, Stun Damage, Blast 8, Limited Ammo 1'],
+            ['name' => 'Thermal Detonator', 'weapon_type_id' => 4, 'skill_id' => 26, 'damage' => 20, 'crit' => 2, 'range_id' => 2, 'encumbrance' => 1, 'hp' => 0, 'value' => 2000, 'restricted' => true, 'rarity' => 8, 'special' => 'Blast 15, Breach 1, Vicious 4, Limited Ammo 1'],
 
-            ['name' => 'Brass Knuckles', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 1, 'crit' => 4, 'range' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 0, 'special' => 'Disorient 3'],
-            ['name' => 'Shock Gloves', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 0, 'crit' => 5, 'range' => 1, 'encumbrance' => 0, 'hp' => 1, 'value' => 300, 'restricted' => false, 'rarity' => 2, 'special' => 'Stun 3'],
+            ['name' => 'Brass Knuckles', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 1, 'crit' => 4, 'range_id' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 0, 'special' => 'Disorient 3'],
+            ['name' => 'Shock Gloves', 'weapon_type_id' => 5, 'skill_id' => 23, 'damage' => 0, 'crit' => 5, 'range_id' => 1, 'encumbrance' => 0, 'hp' => 1, 'value' => 300, 'restricted' => false, 'rarity' => 2, 'special' => 'Stun 3'],
 
-            ['name' => 'Combat Knife', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 1, 'crit' => 3, 'range' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 1, 'special' => ''],
-            ['name' => 'Gaffi Stick', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 3, 'range' => 1, 'encumbrance' => 3, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 2, 'special' => 'Defensive 1, Disorient 3'],
-            ['name' => 'Force Pike', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 3, 'crit' => 2, 'range' => 1, 'encumbrance' => 3, 'hp' => 3, 'value' => 500, 'restricted' => false, 'rarity' => 4, 'special' => 'Pierce 2, Stun Setting'],
-            ['name' => 'Lightsaber', 'weapon_type_id' => 6, 'skill_id' => 28, 'damage' => 10, 'crit' => 1, 'range' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 10000, 'restricted' => true, 'rarity' => 10, 'special' => 'Breach 1, Sunder, Vicious 2'],
-            ['name' => 'Truncheon', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 5, 'range' => 1, 'encumbrance' => 2, 'hp' => 0, 'value' => 15, 'restricted' => false, 'rarity' => 1, 'special' => 'Disorient'],
-            ['name' => 'Vibro-Ax', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 3, 'crit' => 2, 'range' => 1, 'encumbrance' => 4, 'hp' => 3, 'value' => 750, 'restricted' => false, 'rarity' => 5, 'special' => 'Pierce 2, Sunder, Vicious 3'],
-            ['name' => 'Vibroknife', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 1, 'crit' => 2, 'range' => 1, 'encumbrance' => 1, 'hp' => 2, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Pierce 2, Vicious 1'],
-            ['name' => 'Vibrosword', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 2, 'range' => 1, 'encumbrance' => 3, 'hp' => 5, 'value' => 750, 'restricted' => false, 'rarity' => 5, 'special' => 'Pierce 2, Vicious 1, Defensive 1'],
+            ['name' => 'Combat Knife', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 1, 'crit' => 3, 'range_id' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 25, 'restricted' => false, 'rarity' => 1, 'special' => ''],
+            ['name' => 'Gaffi Stick', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 3, 'range_id' => 1, 'encumbrance' => 3, 'hp' => 0, 'value' => 100, 'restricted' => false, 'rarity' => 2, 'special' => 'Defensive 1, Disorient 3'],
+            ['name' => 'Force Pike', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 3, 'crit' => 2, 'range_id' => 1, 'encumbrance' => 3, 'hp' => 3, 'value' => 500, 'restricted' => false, 'rarity' => 4, 'special' => 'Pierce 2, Stun Setting'],
+            ['name' => 'Lightsaber', 'weapon_type_id' => 6, 'skill_id' => 28, 'damage' => 10, 'crit' => 1, 'range_id' => 1, 'encumbrance' => 1, 'hp' => 0, 'value' => 10000, 'restricted' => true, 'rarity' => 10, 'special' => 'Breach 1, Sunder, Vicious 2'],
+            ['name' => 'Truncheon', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 5, 'range_id' => 1, 'encumbrance' => 2, 'hp' => 0, 'value' => 15, 'restricted' => false, 'rarity' => 1, 'special' => 'Disorient'],
+            ['name' => 'Vibro-Ax', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 3, 'crit' => 2, 'range_id' => 1, 'encumbrance' => 4, 'hp' => 3, 'value' => 750, 'restricted' => false, 'rarity' => 5, 'special' => 'Pierce 2, Sunder, Vicious 3'],
+            ['name' => 'Vibroknife', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 1, 'crit' => 2, 'range_id' => 1, 'encumbrance' => 1, 'hp' => 2, 'value' => 250, 'restricted' => false, 'rarity' => 3, 'special' => 'Pierce 2, Vicious 1'],
+            ['name' => 'Vibrosword', 'weapon_type_id' => 6, 'skill_id' => 25, 'damage' => 2, 'crit' => 2, 'range_id' => 1, 'encumbrance' => 3, 'hp' => 5, 'value' => 750, 'restricted' => false, 'rarity' => 5, 'special' => 'Pierce 2, Vicious 1, Defensive 1'],
         ];
         foreach ($table->newEntities($data) as $entity) {
             $table->save($entity);

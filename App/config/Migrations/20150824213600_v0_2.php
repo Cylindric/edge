@@ -8,7 +8,7 @@ class v02 extends AbstractMigration
     {
         $table = $this->table('characters');
         $table
-            ->addColumn('biography', 'text', ['default' => '', 'null' => false])
+            ->addColumn('biography', 'text', ['default' => '', 'null' => false, 'after' => 'defence_melee'])
             ->update();
 
 
@@ -17,8 +17,8 @@ class v02 extends AbstractMigration
 
         $table = $this->table('characters_skills');
         $table
-            ->addColumn('locked', 'boolean', ['default' => false, 'null' => false])
-            ->addColumn('source', 'string', ['default' => '', 'limit' => 20, 'null' => false])
+            ->addColumn('locked', 'boolean', ['default' => false, 'null' => false, 'after' => 'career'])
+            ->addColumn('source', 'string', ['default' => '', 'limit' => 20, 'null' => false, 'after' => 'career'])
             ->update();
 
         $table = $this->table('armour');

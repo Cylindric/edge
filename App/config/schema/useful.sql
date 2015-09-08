@@ -1,5 +1,5 @@
 USE edge;
-DELETE FROM phinxlog where version > '20150824213600';
+DELETE FROM phinxlog where version > '20150901212000';
 
 
 SELECT * FROM armour;
@@ -63,10 +63,7 @@ INSERT INTO credits (character_id, value, notes, created, modified) SELECT id, c
 
 UPDATE users SET created = COALESCE(created, NOW()), modified = COALESCE(modified, NOW()) WHERE created is null OR modified is null;
 
-
-DROP TABLE armour;
-DROP TABLE careers;
-DROP TABLE characters;
+-- The order of these is important due to inheritance - don't just re-sort the list!
 DROP TABLE characters_armour;
 DROP TABLE characters_items;
 DROP TABLE characters_notes;
@@ -74,21 +71,25 @@ DROP TABLE characters_skills;
 DROP TABLE characters_talents;
 DROP TABLE characters_weapons;
 DROP TABLE credits;
-DROP TABLE groups;
-DROP TABLE groups_users;
-DROP TABLE item_types;
-DROP TABLE items;
-DROP TABLE notes;
 DROP TABLE obligations;
+DROP TABLE xp;
+DROP TABLE characters;
+DROP TABLE armour;
+DROP TABLE careers;
+DROP TABLE groups_users;
+DROP TABLE groups;
+DROP TABLE items;
+DROP TABLE item_types;
+DROP TABLE notes;
 DROP TABLE phinxlog;
-DROP TABLE ranges; 
-DROP TABLE skills;
 DROP TABLE slack;
 DROP TABLE specialisations;
-DROP TABLE species;
-DROP TABLE stats;
 DROP TABLE talents;
-DROP TABLE users;
-DROP TABLE weapon_types;
+DROP TABLE IF EXISTS training;
 DROP TABLE weapons;
-DROP TABLE xp;
+DROP TABLE ranges; 
+DROP TABLE skills;
+DROP TABLE stats;
+DROP TABLE weapon_types;
+DROP TABLE species;
+DROP TABLE users;

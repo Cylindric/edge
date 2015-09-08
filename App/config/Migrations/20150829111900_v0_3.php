@@ -1,11 +1,14 @@
 <?php
 use Phinx\Migration\AbstractMigration;
 use Cake\ORM\TableRegistry;
+use Cake\Datasource\ConnectionManager;
 
 class v03 extends AbstractMigration
 {
     public function change()
     {
+        $conn = ConnectionManager::get('default');
+
         $table = TableRegistry::get('Species');
         $data = [
             // Far Horizons
@@ -53,16 +56,12 @@ class v03 extends AbstractMigration
             ->create();
 
         // Migrate XP data
-        $C = TableRegistry::get('Characters');
-        $X = TableRegistry::get('Xp');
-        $chars = $C->find('all')->where(['xp >' => 0]);
-        foreach ($chars as $char) {
-            $xp = $X->newEntity();
-            $xp->character_id = $char->id;
-            $xp->value = $char->xp;
-            $xp->note = 'Initial XP';
-            $X->save($xp);
-        }
+		$conn->query(
+            "INSERT INTO xp (character_id, value, note, created, modified) " .
+            "SELECT c.id, c.xp, 'Initial XP', NOW(), NOW() " .
+            "FROM characters c " .
+			"WHERE c.xp > 0 "
+        );
 
         $this->table('characters')
             ->removeColumn('xp')

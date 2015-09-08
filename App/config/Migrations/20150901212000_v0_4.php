@@ -18,6 +18,11 @@ class v04 extends AbstractMigration
             ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true, 'after' => 'equipped'])
             ->update();
 
+        $this->table('characters_notes')
+            ->addColumn('created', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
+            ->update();
+
 
         // Fix missing timestamps
         $tables = ['characters', 'characters_armour', 'characters_items', 'characters_notes', 'characters_talents', 'characters_weapons', 'groups'];
