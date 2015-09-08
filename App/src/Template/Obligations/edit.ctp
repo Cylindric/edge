@@ -7,7 +7,7 @@
         <thead>
         <tr>
             <th>Date</th>
-            <th class="text-right">XP</th>
+            <th class="text-right">Obligation</th>
             <th>Type</th>
             <th>Note</th>
         </tr>
