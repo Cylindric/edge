@@ -22,10 +22,12 @@ class CreditsController extends AppController
             'delete'
         ])) {
             if ($this->request->is('post')) {
-                $char = $this->Characters->get($this->request->data['character_id']);
-                if ($this->Characters->isOwnedBy($char->id, $user['id'])) {
-                    return true;
-                }
+                $character_id = $this->request->data['character_id'];
+            } else {
+                $character_id = (int)$this->request->params['pass'][0];
+            }
+            if ($this->Characters->isOwnedBy($character_id, $user['id'])) {
+                return true;
             }
         }
 

@@ -22,9 +22,12 @@ class CharacterTalentsController extends AppController
             'delete'
         ])) {
             if ($this->request->is('post')) {
-                if ($this->Characters->isOwnedBy($this->request->data['character_id'], $user['id'])) {
-                    return true;
-                }
+                $character_id = $this->request->data['character_id'];
+            } else {
+                $character_id = (int)$this->request->params['pass'][0];
+            }
+            if ($this->Characters->isOwnedBy($character_id, $user['id'])) {
+                return true;
             }
         }
 

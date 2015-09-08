@@ -21,12 +21,16 @@ class CharacterArmourController extends AppController
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
             'add',
-            'drop',
+            'delete',
             'edit',
-
+            'toggle',
         ])) {
-            $characterId = (int)$this->request->params['pass'][0];
-            if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
+            if ($this->request->is('post')) {
+                $character_id = $this->request->data['character_id'];
+            } else {
+                $character_id = (int)$this->request->params['pass'][0];
+            }
+            if ($this->Characters->isOwnedBy($character_id, $user['id'])) {
                 return true;
             }
         }
@@ -58,7 +62,7 @@ class CharacterArmourController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function drop($char_id, $link_id)
+    public function delete($char_id, $link_id)
     {
         $response = ['result' => 'fail', 'data' => null];
 
