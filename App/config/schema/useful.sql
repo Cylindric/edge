@@ -20,6 +20,7 @@ SELECT * FROM notes;
 SELECT * FROM obligations;
 SELECT * FROM phinxlog;
 SELECT * FROM ranges;
+SELECT * FROM sessions;
 SELECT * FROM skills ORDER BY name;
 SELECT * FROM slack;
 SELECT * FROM specialisations ORDER BY name;
@@ -32,7 +33,13 @@ SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
 -- v0.4 to v0.5
-
+ALTER TABLE characters DROP COLUMN credits;
+CREATE TABLE sessions (
+	id varchar(40) NOT NULL default '',
+	data text,
+	expires INT(11) NOT NULL,
+	PRIMARY KEY  (id)
+);
 
 
 -- The order of these is important due to inheritance - don't just re-sort the list!
@@ -53,6 +60,7 @@ DROP TABLE items;
 DROP TABLE item_types;
 DROP TABLE notes;
 DROP TABLE phinxlog;
+DROP TABLE sessions;
 DROP TABLE slack;
 DROP TABLE specialisations;
 DROP TABLE careers;
