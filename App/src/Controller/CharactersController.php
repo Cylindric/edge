@@ -202,16 +202,6 @@ class CharactersController extends AppController
         $this->set('_serialize', ['character']);
     }
 
-    public function edit_xp($id = null)
-    {
-        $character = $this->Characters->get($id, [
-            'contain' => ['Xp' => ['sort' => ['Xp.created DESC']]],
-        ]);
-
-        $this->set('character', $character);
-        $this->set('_serialize', ['character']);
-    }
-
     public function edit_skills($id = null)
     {
         $character = $this->Characters->get($id, ['contain' => ['CharactersSkills']]);

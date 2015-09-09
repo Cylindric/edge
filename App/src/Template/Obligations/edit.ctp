@@ -18,8 +18,8 @@
                 <td class="col-md-2">
                     <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_obligation_<?= $obligation->id ?>"></span><?= $obligation->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
                 </td>
-                <td class="text-right"><?= $this->Number->format($obligation->value) ?></td>
-                <td><?= $obligation->type ?></td>
+                <td class="col-md-1 text-right"><?= $this->Number->format($obligation->value) ?></td>
+                <td class="col-md-2"><?= $obligation->type ?></td>
                 <td><?= $obligation->note ?></td>
             </tr>
         <?php endforeach; ?>

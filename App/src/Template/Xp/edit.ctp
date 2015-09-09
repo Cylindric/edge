@@ -1,6 +1,6 @@
-<h3>Experience - <?= $this->Number->format($character->totalXp) ?></h3>
+<h3>Experience - <?= $this->Number->format($total) ?></h3>
 
-<?php if (count($character->xp) == 0): ?>
+<?php if (count($xp) == 0): ?>
     <p>There is no XP yet.</p>
 <?php else: ?>
     <table class="table table-striped table-bordered table-condensed">
@@ -12,13 +12,13 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($character->xp as $xp): ?>
-            <tr id="xp_<?= $xp->id ?>">
+        <?php foreach ($xp as $x): ?>
+            <tr id="xp_<?= $x->id ?>">
                 <td class="col-md-2">
-                    <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_xp_<?= $xp->id ?>"></span><?= $xp->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
+                    <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_xp_<?= $x->id ?>"></span><?= $x->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
                 </td>
-                <td class="text-right"><?= $this->Number->format($xp->value) ?></td>
-                <td><?= $xp->note ?></td>
+                <td class="col-md-1 text-right"><?= $this->Number->format($x->value) ?></td>
+                <td><?= $x->note ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

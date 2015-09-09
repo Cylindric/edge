@@ -17,7 +17,7 @@
                 <td class="col-md-2">
                     <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_credits_<?= $credit->id ?>"></span><?= $credit->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
                 </td>
-                <td class="text-right"><?= $this->Number->format($credit->value) ?></td>
+                <td class="col-md-1 text-right"><?= $this->Number->format($credit->value) ?></td>
                 <td><?= $credit->note ?></td>
             </tr>
         <?php endforeach; ?>

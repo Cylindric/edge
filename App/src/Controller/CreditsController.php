@@ -38,7 +38,6 @@ class CreditsController extends AppController
     {
         $credit = $this->Credits->newEntity();
         if ($this->request->is('post')) {
-            $char = $this->Characters->get($this->request->data['character_id']);
             $credit = $this->Credits->patchEntity($credit, $this->request->data);
             if ($this->Credits->save($credit)) {
                 $response = ['result' => 'success', 'data' => $credit];
@@ -68,7 +67,7 @@ class CreditsController extends AppController
 
         $this->set('credits', $credits->toArray());
         $this->set('total', $total);
-        $this->set('_serialize', ['character']);
+        $this->set('_serialize', ['credits']);
     }
 
 
