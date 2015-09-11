@@ -1,5 +1,4 @@
 <h3>Experience - <?= $this->Number->format($total) ?></h3>
-
 <?php if (count($xp) == 0): ?>
     <p>There is no XP yet.</p>
 <?php else: ?>
@@ -12,13 +11,20 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($xp as $x): ?>
+        <?php
+        foreach ($xp as $x):
+            $gm_id = $x->character->group->groups_users[0]->user_id;
+            ?>
             <tr id="xp_<?= $x->id ?>">
                 <td class="col-md-2">
                     <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_xp_<?= $x->id ?>"></span><?= $x->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
                 </td>
                 <td class="col-md-1 text-right"><?= $this->Number->format($x->value) ?></td>
-                <td><?= $x->note ?></td>
+                <td><?= $x->note ?>
+                    <?php if ($x->created_user->id == $gm_id): ?>
+                        <span class="btn btn-xs btn-warning">GM <?= $x->created_user->username ?></span>
+                    <?php endif; ?>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>

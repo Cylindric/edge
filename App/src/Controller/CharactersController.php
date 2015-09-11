@@ -18,16 +18,9 @@ class CharactersController extends AppController
             'delete',
             'edit_stats',
             'edit_notes',
-            'edit_talents',
             'edit_skills',
-            'edit_xp',
-            'edit_obligations',
-            'change_skill',
             'change_stat',
-            'add_talent',
             'join_group',
-            'remove_talent',
-            'change_talent_rank',
         ])) {
             if ($this->request->is('post')) {
                 $character_id = $this->request->data['character_id'];

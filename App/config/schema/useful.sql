@@ -33,13 +33,24 @@ SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
 -- v0.4 to v0.5
-ALTER TABLE characters DROP COLUMN credits;
 CREATE TABLE sessions (
 	id varchar(40) NOT NULL default '',
 	data text,
 	expires INT(11) NOT NULL,
 	PRIMARY KEY  (id)
 );
+ALTER TABLE xp CHANGE COLUMN note note VARCHAR(255) NOT NULL DEFAULT '';
+ALTER TABLE xp ADD COLUMN created_by INT(11) NOT NULL DEFAULT 0 AFTER created;
+ALTER TABLE xp ADD COLUMN modified_by INT(11) NOT NULL DEFAULT 0 AFTER modified;
+
+UPDATE xp x
+INNER JOIN characters c ON (x.character_id = c.id)
+INNER JOIN groups_users gu ON (c.group_id = gu.group_id AND gu.gm = 1)
+SET x.created_by = gu.user_id, x.modified_by = gu.user_id
+;
+
+ALTER TABLE xp ADD CONSTRAINT `xp_ibfk_createdby` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE xp ADD CONSTRAINT `xp_ibfk_modifiedby` FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 
 -- The order of these is important due to inheritance - don't just re-sort the list!

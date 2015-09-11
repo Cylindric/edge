@@ -5,9 +5,11 @@ use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\Core\Configure;
+use Muffin\Footprint\Auth\FootprintAwareTrait;
 
 class AppController extends Controller
 {
+    use FootprintAwareTrait;
 
     /**
      * Initialization hook method.
