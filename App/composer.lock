@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1756c310c83462a843c8f81ad6d3e9e8",
+    "hash": "7941e6ee4061345f7200b8d6435021c9",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -291,6 +291,47 @@
             "time": "2015-06-10 10:35:13"
         },
         {
+            "name": "ceeram/cakephp-blame",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ceeram/blame.git",
+                "reference": "1485679f5f195822c57493b90be26952ea3c5b0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ceeram/blame/zipball/1485679f5f195822c57493b90be26952ea3c5b0f",
+                "reference": "1485679f5f195822c57493b90be26952ea3c5b0f",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/plugin-installer": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "cakephp/cakephp": "~3.0",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Ceeram\\Blame\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ceeram",
+                    "email": "c33ram@gmail.com"
+                }
+            ],
+            "description": "CakePHP plugin to update created_by and modified_by fields",
+            "time": "2015-03-28 11:00:24"
+        },
+        {
             "name": "ircmaxell/password-compat",
             "version": "v1.0.4",
             "source": {
@@ -385,60 +426,6 @@
                 "php mobile detect"
             ],
             "time": "2015-06-18 09:43:23"
-        },
-        {
-            "name": "muffin/footprint",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/UseMuffin/Footprint.git",
-                "reference": "adf0629c044361ea053b4c7146a596ddc4c8ae78"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/UseMuffin/Footprint/zipball/adf0629c044361ea053b4c7146a596ddc4c8ae78",
-                "reference": "adf0629c044361ea053b4c7146a596ddc4c8ae78",
-                "shasum": ""
-            },
-            "require-dev": {
-                "cakephp/cakephp": "~3.0",
-                "cakephp/cakephp-codesniffer": "2.*",
-                "phpunit/phpunit": "4.1.*"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "Muffin\\Footprint\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jad Bitar",
-                    "homepage": "http://jadb.io",
-                    "role": "Author"
-                },
-                {
-                    "name": "ADmad",
-                    "homepage": "https://github.com/ADmad",
-                    "role": "Author"
-                },
-                {
-                    "name": "Others",
-                    "homepage": "https://github.com/usemuffin/footprint/graphs/contributors"
-                }
-            ],
-            "description": "CakePHP 3.0+ plugin to allow passing currently logged in user to model layer",
-            "homepage": "https://github.com/usemuffin/footprint",
-            "keywords": [
-                "cakephp",
-                "footprint",
-                "muffin"
-            ],
-            "time": "2015-08-03 18:10:36"
         },
         {
             "name": "nesbot/carbon",
@@ -2101,7 +2088,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "muffin/footprint": 20,
         "psy/psysh": 0
     },
     "prefer-stable": true,

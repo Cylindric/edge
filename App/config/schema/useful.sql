@@ -42,15 +42,24 @@ CREATE TABLE sessions (
 ALTER TABLE xp CHANGE COLUMN note note VARCHAR(255) NOT NULL DEFAULT '';
 ALTER TABLE xp ADD COLUMN created_by INT(11) NOT NULL DEFAULT 0 AFTER created;
 ALTER TABLE xp ADD COLUMN modified_by INT(11) NOT NULL DEFAULT 0 AFTER modified;
+ALTER TABLE obligations ADD COLUMN created_by INT(11) NOT NULL DEFAULT 0 AFTER created;
+ALTER TABLE obligations ADD COLUMN modified_by INT(11) NOT NULL DEFAULT 0 AFTER modified;
 
 UPDATE xp x
 INNER JOIN characters c ON (x.character_id = c.id)
 INNER JOIN groups_users gu ON (c.group_id = gu.group_id AND gu.gm = 1)
 SET x.created_by = gu.user_id, x.modified_by = gu.user_id
 ;
+UPDATE obligations o
+INNER JOIN characters c ON (o.character_id = c.id)
+INNER JOIN groups_users gu ON (c.group_id = gu.group_id AND gu.gm = 1)
+SET o.created_by = gu.user_id, o.modified_by = gu.user_id
+;
 
 ALTER TABLE xp ADD CONSTRAINT `xp_ibfk_createdby` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE xp ADD CONSTRAINT `xp_ibfk_modifiedby` FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE obligations ADD CONSTRAINT `obligations_ibfk_createdby` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE obligations ADD CONSTRAINT `obligations_ibfk_modifiedby` FOREIGN KEY (`modified_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 
 -- The order of these is important due to inheritance - don't just re-sort the list!

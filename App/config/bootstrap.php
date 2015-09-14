@@ -202,4 +202,4 @@ DispatcherFactory::add('ControllerFactory');
  */
 Type::build('datetime')->useLocaleParser();
 
-\Cake\Core\Plugin::load('Muffin/Footprint');
+\Cake\Core\Plugin::load('Ceeram/Blame');

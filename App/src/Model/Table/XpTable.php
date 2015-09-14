@@ -18,14 +18,7 @@ class XpTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
-        $this->addBehavior('Muffin/Footprint.Footprint', [
-                'events' => [
-                    'Model.beforeSave' => [
-                        'created_by' => 'new',
-                        'modified_by' => 'always'
-                    ]
-                ]]
-        );
+        $this->addBehavior('Ceeram/Blame.Blame');
 
         $this->belongsTo('Characters', [
             'foreignKey' => 'character_id',
@@ -63,8 +56,4 @@ class XpTable extends Table
         return $rules;
     }
 
-    public function beforeSave(Event $event, Entity $entity, ArrayObject $options)
-    {
-        $test = $event;
-    }
 }
