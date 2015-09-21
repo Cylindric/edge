@@ -55,7 +55,9 @@ class XpController extends AppController
     public function edit($character_id = null)
     {
         $xp = $this->Xp->find()
-            ->contain(['CreatedUser', 'Characters.Groups.GroupsUsers' => function($q){return $q->where(['GroupsUsers.gm' => true]);} ])
+            ->contain(['CreatedUser', 'Characters.Groups.GroupsUsers' => function ($q) {
+                return $q->where(['GroupsUsers.gm' => true]);
+            }])
             ->where(['character_id' => $character_id])
             ->order(['Xp.created DESC']);
 

@@ -14,16 +14,21 @@
         <?php
         foreach ($xp as $x):
             $gm_id = $x->character->group->groups_users[0]->user_id;
+            $created_by_gm = ($x->created_user->id == $gm_id);
             ?>
             <tr id="xp_<?= $x->id ?>">
                 <td class="col-md-2">
-                    <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_xp_<?= $x->id ?>"></span><?= $x->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
+                    <?= $x->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
+                    <?php if ($x->isLocked($user['id'], $gm_id)): ?>
+                    <?php else: ?>
+                        <span class="btn btn-xs btn-danger hidden-print" id="remove_xp_<?= $x->id ?>">delete</span>
+                    <?php endif; ?>
+                    <?php if ($created_by_gm): ?>
+                        <span class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM <?= $x->created_user->username ?></span>
+                    <?php endif; ?>
                 </td>
                 <td class="col-md-1 text-right"><?= $this->Number->format($x->value) ?></td>
                 <td><?= $x->note ?>
-                    <?php if ($x->created_user->id == $gm_id): ?>
-                        <span class="btn btn-xs btn-warning">GM <?= $x->created_user->username ?></span>
-                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -52,3 +57,8 @@
         </div>
     </form>
 </div>
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>

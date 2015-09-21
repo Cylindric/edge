@@ -21,7 +21,6 @@ class v005 extends AbstractMigration
             ->addColumn('modified_by', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'modified'])
             ->update();
 
-        // Default all XP changes to have been done by the GM
         $conn->query(
         'UPDATE xp x ' .
         'INNER JOIN characters c ON (x.character_id = c.id) ' .
@@ -43,7 +42,6 @@ class v005 extends AbstractMigration
             ->addColumn('modified_by', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'modified'])
             ->update();
 
-        // Default all XP changes to have been done by the GM
         $conn->query(
             'UPDATE obligations o ' .
             'INNER JOIN characters c ON (o.character_id = c.id) ' .
@@ -57,5 +55,27 @@ class v005 extends AbstractMigration
             ->changeColumn('created_by', 'integer', ['default' => null])
             ->changeColumn('modified_by', 'integer', ['default' => null])
             ->update();
+
+
+
+        $this->table('credits')
+            ->addColumn('created_by', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'created'])
+            ->addColumn('modified_by', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'modified'])
+            ->update();
+
+        $conn->query(
+            'UPDATE credits cr ' .
+            'INNER JOIN characters c ON (cr.character_id = c.id) ' .
+            'INNER JOIN groups_users gu ON (c.group_id = gu.group_id AND gu.gm = 1) ' .
+            'SET cr.created_by = gu.user_id, cr.modified_by = gu.user_id'
+        );
+
+        $this->table('credits')
+            ->addForeignKey('created_by', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->addForeignKey('modified_by', 'users', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->changeColumn('created_by', 'integer', ['default' => null])
+            ->changeColumn('modified_by', 'integer', ['default' => null])
+            ->update();
+
     }
 }
