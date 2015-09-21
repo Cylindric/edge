@@ -12,12 +12,24 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($credits as $credit): ?>
+        <?php
+        foreach ($credits as $credit):
+            $gm_id = $credit->Gms['id'];
+            $created_by_gm = $credit->created_by_gm;
+            $locked = $created_by_gm && ($gm_id != $user['id']);
+            ?>
             <tr id="credits_<?= $credit->id ?>">
-                <td class="col-md-2">
-                    <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_credits_<?= $credit->id ?>"></span><?= $credit->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
+                <td class="col-md-2"><?= $gm_id ?>
+                    <?= $credit->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
+                    <?php if ($locked): ?>
+                    <?php else: ?>
+                        <span class="btn btn-xs btn-danger hidden-print" id="remove_credits_<?= $credit->id ?>">delete</span>
+                    <?php endif; ?>
+                    <?php if ($created_by_gm): ?>
+                        <span class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM <?= $credit->created_user['username']?></span>
+                    <?php endif; ?>
                 </td>
-                <td class="text-right"><?= $this->Number->format($credit->value) ?></td>
+                <td class="col-md-1 text-right"><?= $this->Number->format($credit->value) ?></td>
                 <td><?= $credit->note ?></td>
             </tr>
         <?php endforeach; ?>

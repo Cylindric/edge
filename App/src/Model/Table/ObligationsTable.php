@@ -12,7 +12,16 @@ class ObligationsTable extends Table
         parent::initialize($config);
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Ceeram/Blame.Blame');
         $this->belongsTo('Characters');
+        $this->belongsTo('CreatedUser', [
+            'className' => 'Users',
+            'foreignKey' => 'created_by',
+        ]);
+        $this->belongsTo('ModifyUser', [
+            'className' => 'Users',
+            'foreignKey' => 'modified_by',
+        ]);
     }
 
     public function validationDefault(Validator $validator)

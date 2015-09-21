@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3a122c7094cff1fe2438543baa5c5a8b",
+    "hash": "7941e6ee4061345f7200b8d6435021c9",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -289,6 +289,47 @@
             ],
             "description": "A composer installer for CakePHP 3.0+ plugins.",
             "time": "2015-06-10 10:35:13"
+        },
+        {
+            "name": "ceeram/cakephp-blame",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ceeram/blame.git",
+                "reference": "1485679f5f195822c57493b90be26952ea3c5b0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ceeram/blame/zipball/1485679f5f195822c57493b90be26952ea3c5b0f",
+                "reference": "1485679f5f195822c57493b90be26952ea3c5b0f",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/plugin-installer": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "cakephp/cakephp": "~3.0",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Ceeram\\Blame\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ceeram",
+                    "email": "c33ram@gmail.com"
+                }
+            ],
+            "description": "CakePHP plugin to update created_by and modified_by fields",
+            "time": "2015-03-28 11:00:24"
         },
         {
             "name": "ircmaxell/password-compat",

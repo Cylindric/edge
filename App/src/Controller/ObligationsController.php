@@ -56,8 +56,11 @@ class ObligationsController extends AppController
     {
         $obligations = $this->Obligations
             ->find()
+            ->contain(['CreatedUser', 'Characters.Groups.GroupsUsers' => function ($q) {
+                return $q->where(['GroupsUsers.gm' => true]);
+            }])
             ->where(['character_id' => $character_id])
-            ->order('created DESC');
+            ->order('Obligations.created DESC');
 
         $query = $this->Obligations->find();
         $query

@@ -13,13 +13,24 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($obligations as $obligation): ?>
+        <?php
+        foreach ($obligations as $obligation):
+            $gm_id = $obligation->character->group->groups_users[0]->user_id;
+            $created_by_gm = ($obligation->created_by == $gm_id);
+            ?>
             <tr id="obligation_<?= $obligation->id ?>">
                 <td class="col-md-2">
-                    <span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_obligation_<?= $obligation->id ?>"></span><?= $obligation->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
+                    <?php if ($obligation->isLocked($user['id'], $gm_id)): ?>
+                    <?php else: ?>
+                        <span class="decrease glyphicon glyphicon-trash hidden-print" aria-label="Delete" id="remove_obligation_<?= $obligation->id ?>"></span>
+                    <?php endif; ?>
+                    <?= $obligation->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
+                    <?php if ($created_by_gm): ?>
+                        <span class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM <?= $obligation->created_user->username ?></span>
+                    <?php endif; ?>
                 </td>
-                <td class="text-right"><?= $this->Number->format($obligation->value) ?></td>
-                <td><?= $obligation->type ?></td>
+                <td class="col-md-1 text-right"><?= $this->Number->format($obligation->value) ?></td>
+                <td class="col-md-2"><?= $obligation->type ?></td>
                 <td><?= $obligation->note ?></td>
             </tr>
         <?php endforeach; ?>
@@ -53,3 +64,8 @@
         </div>
     </form>
 </div>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

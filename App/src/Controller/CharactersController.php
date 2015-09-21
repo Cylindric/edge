@@ -18,16 +18,9 @@ class CharactersController extends AppController
             'delete',
             'edit_stats',
             'edit_notes',
-            'edit_talents',
             'edit_skills',
-            'edit_xp',
-            'edit_obligations',
-            'change_skill',
             'change_stat',
-            'add_talent',
             'join_group',
-            'remove_talent',
-            'change_talent_rank',
         ])) {
             if ($this->request->is('post')) {
                 $character_id = $this->request->data['character_id'];
@@ -196,16 +189,6 @@ class CharactersController extends AppController
     {
         $character = $this->Characters->get($id, [
             'contain' => ['Notes' => ['sort' => ['Notes.created DESC']]],
-        ]);
-
-        $this->set('character', $character);
-        $this->set('_serialize', ['character']);
-    }
-
-    public function edit_xp($id = null)
-    {
-        $character = $this->Characters->get($id, [
-            'contain' => ['Xp' => ['sort' => ['Xp.created DESC']]],
         ]);
 
         $this->set('character', $character);

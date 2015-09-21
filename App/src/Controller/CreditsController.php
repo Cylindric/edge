@@ -38,7 +38,6 @@ class CreditsController extends AppController
     {
         $credit = $this->Credits->newEntity();
         if ($this->request->is('post')) {
-            $char = $this->Characters->get($this->request->data['character_id']);
             $credit = $this->Credits->patchEntity($credit, $this->request->data);
             if ($this->Credits->save($credit)) {
                 $response = ['result' => 'success', 'data' => $credit];
@@ -53,10 +52,45 @@ class CreditsController extends AppController
 
     public function edit($character_id = null)
     {
-        $credits = $this->Credits
-            ->find()
+        $credits = $this->Credits->find();
+        $credits
+            ->join([
+                'created_user' => [
+                    'table' => 'users',
+                    'type' => 'LEFT',
+                    'conditions' => 'credits.created_by = created_user.id',
+                ],
+                'characters' => [
+                    'table' => 'characters',
+                    'type' => 'LEFT',
+                    'conditions' => 'credits.character_id = characters.id',
+                ],
+                'groups' => [
+                    'table' => 'groups',
+                    'type' => 'LEFT',
+                    'conditions' => 'characters.group_id = groups.id',
+                ],
+                'gms' => [
+                    'table' => 'groups_users',
+                    'type' => 'LEFT',
+                    'conditions' => 'gms.group_id = groups.id AND gms.gm = 1',
+                ],
+                'gm' => [
+                    'table' => 'users',
+                    'type' => 'INNER',
+                    'conditions' => 'gms.user_id = gm.id',
+                ],
+            ])
+            ->select([
+                'Credits.id', 'Credits.created', 'Credits.value', 'Credits.note',
+                'created_user.id', 'created_user.username',
+                'characters.id',
+                'groups.id',
+                'gm.id', 'gm.username',
+                'created_by_gm' => $credits->newExpr()->addCase($credits->newExpr()->add(['gm.id = Credits.created_by']), 1, 'integer'),
+            ])
             ->where(['character_id' => $character_id])
-            ->order('created DESC');
+            ->order('Credits.created DESC');
 
         $query = $this->Credits->find();
         $query
@@ -68,7 +102,7 @@ class CreditsController extends AppController
 
         $this->set('credits', $credits->toArray());
         $this->set('total', $total);
-        $this->set('_serialize', ['character']);
+        $this->set('_serialize', ['credits']);
     }
 
 

@@ -30,7 +30,7 @@ rpgApp.getNotes = function (character_id) {
 };
 
 rpgApp.getXp = function (character_id) {
-    rpgApp.genericGet('characters', 'edit_xp', character_id, 'xp_list_edit');
+    rpgApp.genericGet('xp', 'edit', character_id, 'xp_list_edit');
 };
 
 rpgApp.getCredits = function (character_id) {

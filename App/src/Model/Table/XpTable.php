@@ -18,10 +18,19 @@ class XpTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Ceeram/Blame.Blame');
 
         $this->belongsTo('Characters', [
             'foreignKey' => 'character_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('CreatedUser', [
+            'className' => 'Users',
+            'foreignKey' => 'created_by',
+        ]);
+        $this->belongsTo('ModifyUser', [
+            'className' => 'Users',
+            'foreignKey' => 'modified_by',
         ]);
     }
 
@@ -42,6 +51,9 @@ class XpTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['character_id'], 'Characters'));
+        $rules->add($rules->existsIn(['created_by'], 'Users'));
+        $rules->add($rules->existsIn(['modified_by'], 'Users'));
         return $rules;
     }
+
 }

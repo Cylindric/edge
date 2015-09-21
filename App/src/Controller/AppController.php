@@ -5,9 +5,11 @@ use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\Core\Configure;
+use \Ceeram\Blame\Controller\BlameTrait;
 
 class AppController extends Controller
 {
+    use BlameTrait;
 
     /**
      * Initialization hook method.
