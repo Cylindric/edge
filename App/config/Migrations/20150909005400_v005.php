@@ -56,8 +56,6 @@ class v005 extends AbstractMigration
             ->changeColumn('modified_by', 'integer', ['default' => null])
             ->update();
 
-
-
         $this->table('credits')
             ->addColumn('created_by', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'created'])
             ->addColumn('modified_by', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'modified'])
