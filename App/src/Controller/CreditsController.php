@@ -58,12 +58,12 @@ class CreditsController extends AppController
                 'created_user' => [
                     'table' => 'users',
                     'type' => 'LEFT',
-                    'conditions' => 'credits.created_by = created_user.id',
+                    'conditions' => 'Credits.created_by = created_user.id',
                 ],
                 'characters' => [
                     'table' => 'characters',
                     'type' => 'LEFT',
-                    'conditions' => 'credits.character_id = characters.id',
+                    'conditions' => 'Credits.character_id = characters.id',
                 ],
                 'groups' => [
                     'table' => 'groups',
