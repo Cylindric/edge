@@ -19,7 +19,7 @@ class CharactersController extends AppController
             'edit_stats',
             'edit_notes',
             'edit_skills',
-            'change_stat',
+            'change_status',
             'join_group',
         ])) {
             if ($this->request->is('post')) {
@@ -214,7 +214,8 @@ class CharactersController extends AppController
             ->select([
                 'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
                 'Stats.name', 'Stats.code',
-                'level' => $skills->func()->sum('t.level')
+                'level' => $skills->func()->sum('t.level'),
+                'career' => $skills->func()->sum('t.career'),
             ])
             ->contain(['Stats'])
             ->group(['Skills.id', 'Stats.name', 'Stats.code'])
