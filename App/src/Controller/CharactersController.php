@@ -255,15 +255,15 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function change_status($char_id = null, $stat_code = null, $delta = 1)
+    public function change_attribute($char_id = null, $attribute_code = null, $delta = 1)
     {
         $response = ['result' => 'fail', 'data' => null];
 
-        if (!is_null($char_id) && !is_null($stat_code)) {
+        if (!is_null($char_id) && !is_null($attribute_code)) {
             $delta = (int)$delta;
             $Char = $this->Characters->get($char_id);
 
-            switch ($stat_code) {
+            switch ($attribute_code) {
                 case 'strain':
                     $Char->strain = max(0, $Char->strain + $delta);
                     $response['data'] = $Char->strain;
