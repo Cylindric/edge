@@ -240,7 +240,7 @@ rpgApp.talentsGet = function (character_id) {
                 select: function (event, ui) {
                     $("#new_talent_autocomplete").val(ui.item.label);
 
-                    $.post("/characters_talents/add.json", {
+                    $.post("/character_talents/add.json", {
                         character_id: character_id,
                         talent_id: ui.item.value,
                     }, function (response) {
