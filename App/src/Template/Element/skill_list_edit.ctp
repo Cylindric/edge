@@ -8,7 +8,7 @@
                 <span class="skill_name"><?= $skill->name ?> (<?= $skill->stat->code ?>)</span>
             </td>
             <td>
-                <?php if (count($skill->training) > 0 && $skill->training[0]->career): ?>
+                <?php if ($skill->career): ?>
                     <i class="btn btn-success btn-xs" id="toggle_career_<?= $skill->id ?>">career</i>
                 <?php else: ?>
                     <i class="btn btn-default btn-xs" id="toggle_career_<?= $skill->id ?>">standard</i>
