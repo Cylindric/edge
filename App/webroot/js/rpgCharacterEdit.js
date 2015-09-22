@@ -129,6 +129,26 @@ rpgApp.toggleArmour = function (char_id, link_id, replace) {
     );
 };
 
+rpgApp.toggleItem = function (char_id, link_id, replace) {
+    $.get('/character_items/toggle/' + char_id + '/' + link_id + '.json',
+        function (response) {
+            if (response.response.result == 'success') {
+                if (response.response.data == true) {
+                    $('#' + replace).addClass('btn-success');
+                    $('#' + replace).removeClass('btn-default');
+                    $('#' + replace).text('equipped');
+                } else {
+                    $('#' + replace).addClass('btn-default');
+                    $('#' + replace).removeClass('btn-success');
+                    $('#' + replace).text('not equipped');
+                }
+            } else if (response.response.result == 'fail') {
+                console.log('fail');
+            }
+        }
+    );
+};
+
 rpgApp.weaponsGet = function (character_id) {
     $.ajax({
         async: false,
@@ -476,11 +496,21 @@ rpgApp.addObligation = function (character_id) {
     // Armour buttons
     $(document).on('click', 'i[id*=drop_armour_]', function () {
         var id = $(this).attr('id').replace('drop_armour_', '');
-        rpgApp.genericLinkDelete('character_armour', char_id, 'tr[id=armour_' + id, '', 'armour');
+        rpgApp.genericLinkDelete('character_armour', char_id, id, 'tr[id=armour_' + id, 'armour');
     });
     $(document).on('click', 'i[id*=toggle_armour_]', function () {
         var id = $(this).attr('id').replace('toggle_armour_', '');
         rpgApp.toggleArmour(char_id, id, $(this).attr('id'));
+    });
+
+    // Item buttons
+    $(document).on('click', 'i[id*=drop_item_]', function () {
+        var id = $(this).attr('id').replace('drop_item_', '');
+        rpgApp.genericLinkDelete('character_items', char_id, id, 'tr[id=item_' + id, 'item');
+    });
+    $(document).on('click', 'i[id*=toggle_item_]', function () {
+        var id = $(this).attr('id').replace('toggle_item_', '');
+        rpgApp.toggleItem(char_id, id, $(this).attr('id'));
     });
 
     // Note buttons

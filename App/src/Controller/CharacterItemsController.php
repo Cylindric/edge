@@ -1,13 +1,8 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
-use App\Rpg\CalculatorFactory;
-use Cake\Utility\Inflector;
-
 class CharacterItemsController extends AppController
 {
-
     public function initialize()
     {
         parent::initialize();
@@ -21,12 +16,16 @@ class CharacterItemsController extends AppController
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
             'add',
-            'drop',
             'edit',
-
+            'change_qty',
+            'delete',
         ])) {
-            $characterId = (int)$this->request->params['pass'][0];
-            if ($this->Characters->isOwnedBy($characterId, $user['id'])) {
+            if ($this->request->is('post')) {
+                $character_id = $this->request->data['character_id'];
+            } else {
+                $character_id = (int)$this->request->params['pass'][0];
+            }
+            if ($this->Characters->isOwnedBy($character_id, $user['id'])) {
                 return true;
             }
         }
@@ -58,14 +57,15 @@ class CharacterItemsController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function drop($char_id, $link_id)
+    public function delete()
     {
         $response = ['result' => 'fail', 'data' => null];
 
-        if (!is_null($char_id) && !is_null($link_id)) {
-            $this->loadModel('CharactersItems');
+        if ($this->request->is('post')) {
+            $id = $this->request->data['id'];
 
-            if ($this->CharactersItems->delete($this->CharactersItems->get($link_id))) {
+            $link = $this->CharactersItems->get($id);
+            if ($this->CharactersItems->delete($link)) {
                 $response = ['result' => 'success', 'data' => null];
             }
         }
@@ -81,24 +81,24 @@ class CharacterItemsController extends AppController
         $this->set('character', $character);
     }
 
-    public function toggle($char_id = null, $link_id = null)
+    public function toggle()
     {
         $response = ['result' => 'fail', 'data' => null];
 
-        if (!is_null($char_id) && !is_null($link_id)) {
-            $Char = $this->Characters->get($char_id, [
-                'contain' => ['CharactersItems' => ['conditions' => ['CharactersItems.id' => $link_id]]]]);
+        if ($this->request->is('post')) {
+            $character_id = (int)$this->request->data['character_id'];
+            $id = (int)$this->request->data['link_id'];
 
-            if (count($Char->characters_item) == 0) {
-                // Non-existent link, invalid operation
-            } else {
-                $t = $Char->characters_item[0];
-                $t->equipped = !$t->equipped;
+            $link = $this->CharactersItems->find()
+                ->contain(['Characters', 'Items'])
+                ->where(['CharactersItems.character_id' => $character_id])
+                ->andWhere(['CharactersItems.id' => $id])
+                ->first();
 
-                $Char->dirty('characters_item', true);
-                if ($this->Characters->save($Char)) {
-                    $response = ['result' => 'success', 'data' => $t->equipped];
-                }
+            $link->equipped = !$link->equipped;
+
+            if ($this->CharactersItems->save($link)) {
+                $response = ['result' => 'success', 'data' => $link->equipped];
             }
         }
 
