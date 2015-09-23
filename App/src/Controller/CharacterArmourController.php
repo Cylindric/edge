@@ -1,13 +1,8 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
-use App\Rpg\CalculatorFactory;
-use Cake\Utility\Inflector;
-
 class CharacterArmourController extends AppController
 {
-
     public function initialize()
     {
         parent::initialize();

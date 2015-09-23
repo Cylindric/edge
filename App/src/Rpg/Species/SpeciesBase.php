@@ -33,7 +33,7 @@ class SpeciesBase
      * Core page 94
      * SpeciesWound + Brawn
      */
-    public function getWounds()
+    public function _getWounds()
     {
         return $this->Species->base_wound + $this->_entity->stat_br;
     }
@@ -42,9 +42,18 @@ class SpeciesBase
      * Core page 94
      * SpeciesStrain + Willpower
      */
-    public function getStrain()
+    public function _getStrain()
     {
         return $this->Species->base_strain + $this->_entity->stat_will;
+    }
+
+    /*
+     * Core page 94
+     * Brawn
+     */
+    public function getSoak()
+    {
+        return $this->_entity->stat_br;
     }
 
     protected function applySkills($skills)

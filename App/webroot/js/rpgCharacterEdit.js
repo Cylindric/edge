@@ -109,24 +109,25 @@ rpgApp.getItems = function (character_id) {
     });
 }
 
-rpgApp.toggleArmour = function (char_id, link_id, replace) {
-    $.get('/character_armour/toggle/' + char_id + '/' + link_id + '.json',
-        function (response) {
-            if (response.response.result == 'success') {
-                if (response.response.data == true) {
-                    $('#' + replace).addClass('btn-success');
-                    $('#' + replace).removeClass('btn-default');
-                    $('#' + replace).text('equipped');
-                } else {
-                    $('#' + replace).addClass('btn-default');
-                    $('#' + replace).removeClass('btn-success');
-                    $('#' + replace).text('not equipped');
-                }
-            } else if (response.response.result == 'fail') {
-                console.log('fail');
+rpgApp.armourToggle = function (char_id, link_id, replace) {
+    $.post('/character_armour/toggle.json', {
+        character_id: char_id,
+        link_id: link_id,
+    }, function (response) {
+        if (response.response.result == 'success') {
+            if (response.response.data == true) {
+                $('#' + replace).addClass('btn-success');
+                $('#' + replace).removeClass('btn-default');
+                $('#' + replace).text('equipped');
+            } else {
+                $('#' + replace).addClass('btn-default');
+                $('#' + replace).removeClass('btn-success');
+                $('#' + replace).text('not equipped');
             }
+        } else {
+            console.log('fail to toggle equipped status for ' + link_id + '!');
         }
-    );
+    });
 };
 
 rpgApp.toggleItem = function (char_id, link_id, replace) {
@@ -500,7 +501,7 @@ rpgApp.addObligation = function (character_id) {
     });
     $(document).on('click', 'i[id*=toggle_armour_]', function () {
         var id = $(this).attr('id').replace('toggle_armour_', '');
-        rpgApp.toggleArmour(char_id, id, $(this).attr('id'));
+        rpgApp.armourToggle(char_id, id, $(this).attr('id'));
     });
 
     // Item buttons
@@ -561,3 +562,4 @@ rpgApp.addObligation = function (character_id) {
     rpgApp.getObligation(char_id);
     rpgApp.getCredits(char_id);
 })(jQuery);
+

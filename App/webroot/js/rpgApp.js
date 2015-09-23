@@ -20,3 +20,7 @@ rpgApp.changeAttribute = function (character_id, attribute_id, delta, update) {
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
+
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})

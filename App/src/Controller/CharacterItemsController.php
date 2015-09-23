@@ -16,9 +16,9 @@ class CharacterItemsController extends AppController
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
             'add',
-            'edit',
-            'change_qty',
             'delete',
+            'edit',
+            'toggle',
         ])) {
             if ($this->request->is('post')) {
                 $character_id = $this->request->data['character_id'];

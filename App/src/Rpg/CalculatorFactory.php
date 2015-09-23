@@ -1,8 +1,6 @@
 <?php
 namespace App\Rpg;
 
-use Cake\ORM\TableRegistry;
-
 class CalculatorFactory
 {
     public static function getSpecies($species, $entity)

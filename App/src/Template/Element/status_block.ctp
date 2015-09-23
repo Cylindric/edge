@@ -10,6 +10,20 @@ $editing = $this->request->params['action'] == 'edit';
         "value" => $character->totalSoak,
     ]);
     $this->Html->scriptBlock("
+    $('#soak_0_value').popover
+        (
+        {
+            html: true,
+            trigger: 'hover',
+            title: 'Soak',
+            content: function()
+            {
+                return $.ajax({url: '/characters/get_soak/" . $character->id . "',
+                     dataType: 'html',
+                     async: false}).responseText;
+            }
+        }
+    );
     $(document).on('click', 'i[id=soak_0_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'soak', -1, 'soak_0_value');});
     $(document).on('click', 'i[id=soak_0_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'soak',  1, 'soak_0_value');});
     ", ['block' => true]);

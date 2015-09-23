@@ -62,9 +62,20 @@ class Character extends Entity
         return $obligation->toArray()[0]['obligation'];
     }
 
-    public function _getTotalSoak()
+    public function _getTotalSoakBreakdown()
     {
-        $base_soak = $this->soak;
+        if (!$this->_species)
+            $this->_updateSpecies();
+
+        $breakdown = array();
+
+        // Default Soak is zero.
+        $soak = 0;
+
+        // Soak is initially based on Brawn.
+        $breakdown['Species'] = Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getSoak();
+
+        // Armour will usually add Soak.
         $Armour = TableRegistry::get('CharactersArmour');
         $query = $Armour->find();
         $query
@@ -73,9 +84,18 @@ class Character extends Entity
             ->andWhere(['CharactersArmour.equipped' => true])
             ->select(['soak' => $query->func()->sum('Armour.soak')])
             ->hydrate(false);
-        $armour_soak = $query->toArray()[0]['soak'];
+        $breakdown['Armour'] = $query->toArray()[0]['soak'];
 
-        return $base_soak + $armour_soak;
+        // Finally any arbitrary adjustments are added
+        $breakdown['Manual'] = $this->soak;
+
+        return $breakdown;
+
+    }
+
+    public function _getTotalSoak()
+    {
+        return array_sum($this->_getTotalSoakBreakdown());
     }
 
     public function _getTotalDefence()

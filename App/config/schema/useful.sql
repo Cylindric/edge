@@ -33,7 +33,11 @@ SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
 -- v0.5 to v0.6
-
+UPDATE xp SET created_by = 6, modified_by = 6 WHERE created_by = 1 OR modified_by = 1;
+UPDATE obligations SET created_by = 6, modified_by = 6 WHERE created_by = 1 OR modified_by = 1;
+UPDATE credits SET created_by = 6, modified_by = 6 WHERE created_by = 1 OR modified_by = 1;
+UPDATE characters_skills SET created_by = 6, modified_by = 6 WHERE created_by = 1 OR modified_by = 1;
+UPDATE characters_talents SET created_by = 6, modified_by = 6 WHERE created_by = 1 OR modified_by = 1;
 
 -- The order of these is important due to inheritance - don't just re-sort the list!
 DROP TABLE characters_armour;

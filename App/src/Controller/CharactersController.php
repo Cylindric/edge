@@ -19,7 +19,8 @@ class CharactersController extends AppController
             'edit_stats',
             'edit_notes',
             'edit_skills',
-            'change_status',
+            'change_stat',
+            'change_attribute',
             'join_group',
         ])) {
             if ($this->request->is('post')) {
@@ -255,6 +256,20 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
+    public function get_soak($id)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+        $breakdown = array();
+
+        $Char = $this->Characters->get($id);
+
+        $breakdown = $Char->totalSoakBreakdown;
+        $response = ['result' => 'success', 'soak' => array_sum($breakdown), 'breakdown' => $breakdown];
+
+        $this->set(compact('response', 'breakdown'));
+        $this->set('_serialize', ['response']);
+    }
+
     public function change_attribute($char_id = null, $attribute_code = null, $delta = 1)
     {
         $response = ['result' => 'fail', 'data' => null];
@@ -269,8 +284,9 @@ class CharactersController extends AppController
                     $response['data'] = $Char->strain;
                     break;
                 case 'soak':
-                    $Char->soak = max(0, $Char->soak + $delta);
-                    $response['data'] = $Char->soak;
+                    // Note: Soak can go below zero, because this is used to arbitrarily modify calculated Soak.
+                    $Char->soak = $Char->soak + $delta;
+                    $response['data'] = $Char->totalSoak;
                     break;
                 case 'strain_threshold':
                     $Char->strain_threshold = $Char->strain_threshold + $delta;
