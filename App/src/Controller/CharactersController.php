@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Rpg\CalculatorFactory;
 use Cake\Core\Configure;
 
 class CharactersController extends AppController
@@ -117,15 +116,6 @@ class CharactersController extends AppController
             if ($this->Characters->save($character)) {
                 // Get the new Character, with associations
                 $character = $this->Characters->get($character->id, ['contain' => ['Species']]);
-
-                // Setup new skills based on the Species rules
-                $species = CalculatorFactory::getSpecies($character->species, $character);
-                $species->applyCreationStats();
-                $species->applyCreationSkills();
-
-                // Announce
-                $this->Slack->announceCharacterCreation($character);
-
                 $this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'edit', $character->id]);
             } else {

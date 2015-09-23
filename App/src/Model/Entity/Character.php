@@ -73,7 +73,7 @@ class Character extends Entity
         $soak = 0;
 
         // Soak is initially based on Brawn.
-        $breakdown['Species'] = Rpg\CalculatorFactory::getSpecies($this->_species, $this)->getSoak();
+        $breakdown['Basic'] = $this->stat_br;
 
         // Armour will usually add Soak.
         $Armour = TableRegistry::get('CharactersArmour');
@@ -90,7 +90,6 @@ class Character extends Entity
         $breakdown['Manual'] = $this->soak;
 
         return $breakdown;
-
     }
 
     public function _getTotalSoak()
@@ -119,50 +118,32 @@ class Character extends Entity
 
     public function _getBrawn()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_br;
+        return $this->stat_br;
     }
 
     public function _getAgility()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_ag;
+        return $this->stat_ag;
     }
 
     public function _getIntellect()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_int;
+        return $this->stat_int;
     }
 
     public function _getCunning()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_cun;
+        return $this->stat_cun;
     }
 
     public function _getWillpower()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_will;
+        return $this->stat_will;
     }
 
     public function _getPresence()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_pr;
+        return $this->stat_pr;
     }
 
 }

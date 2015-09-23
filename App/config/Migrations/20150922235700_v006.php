@@ -7,7 +7,8 @@ class v006 extends AbstractMigration
 {
     public function change()
     {
-        $conn = ConnectionManager::get('default');
-
+        $this->table('species')
+            ->removeColumn('class')
+            ->update();
     }
 }
