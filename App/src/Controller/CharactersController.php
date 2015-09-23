@@ -8,19 +8,25 @@ class CharactersController extends AppController
 {
     public function isAuthorized($user)
     {
-        if (in_array($this->request->action, ['add', 'index'])) {
+        // Public actions
+        if (in_array($this->request->action, [
+            'add',
+            'get_soak',
+            'index',
+            'view',
+        ])) {
             return true;
         }
 
-        // These require a valid Character Id that the user owns
+        // These actions require a valid Character Id that the user owns
         if (in_array($this->request->action, [
-            'edit',
+            'change_attribute',
+            'change_stat',
             'delete',
-            'edit_stats',
+            'edit',
             'edit_notes',
             'edit_skills',
-            'change_stat',
-            'change_attribute',
+            'edit_stats',
             'join_group',
         ])) {
             if ($this->request->is('post')) {
