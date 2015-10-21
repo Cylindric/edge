@@ -90,7 +90,7 @@ class UsersController extends AppController
                     $cookie = array();
                     $cookie['username'] = $this->request->data['username'];
                     $cookie['password'] = $this->request->data['password'];
-                    $this->Cookie->write('rememberMe', $cookie, true, "1 week");
+                    $this->Cookie->write('rememberMe', $cookie, true, "1 month");
                 } else {
                     $this->Cookie->delete('rememberMe');
                 }

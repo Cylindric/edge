@@ -4,6 +4,7 @@
     <tr>
         <th>Talent</th>
         <th>Rank</th>
+        <th>Description</th>
     </tr>
     </thead>
     <tbody>
@@ -15,6 +16,9 @@
                     <?= $talent->rank ?>
                     <span class="increase glyphicon glyphicon-plus" aria-label="Increase" id="increase_talent_<?= $talent->id ?>"></span>
                 <?php endif; ?>
+            </td>
+            <td>
+                <?= $this->RpgText->format($talent->talent->description, $talent) ?>
             </td>
         </tr>
     <?php endforeach; ?>
