@@ -5,7 +5,7 @@
         <th>Armour</th>
         <th>Defence</th>
         <th>Soak</th>
-        <th>Actions</th>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>

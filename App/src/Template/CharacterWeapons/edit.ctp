@@ -9,7 +9,7 @@
         <th>Range</th>
         <th>Crit</th>
         <th>Special</th>
-        <th>Actions</th>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>

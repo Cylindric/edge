@@ -3,7 +3,7 @@
     <thead>
     <tr>
         <th>Item</th>
-        <th>Actions</th>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>
