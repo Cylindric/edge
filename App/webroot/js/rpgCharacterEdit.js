@@ -130,24 +130,46 @@ rpgApp.armourToggle = function (char_id, link_id, replace) {
     });
 };
 
-rpgApp.toggleItem = function (char_id, link_id, replace) {
-    $.get('/character_items/toggle/' + char_id + '/' + link_id + '.json',
-        function (response) {
-            if (response.response.result == 'success') {
-                if (response.response.data == true) {
-                    $('#' + replace).addClass('btn-success');
-                    $('#' + replace).removeClass('btn-default');
-                    $('#' + replace).text('equipped');
-                } else {
-                    $('#' + replace).addClass('btn-default');
-                    $('#' + replace).removeClass('btn-success');
-                    $('#' + replace).text('not equipped');
-                }
-            } else if (response.response.result == 'fail') {
-                console.log('fail');
+rpgApp.toggleItemEquip = function (char_id, link_id, replace) {
+    $.post('/character_items/toggle_equip.json', {
+        character_id: char_id,
+        link_id: link_id,
+    }, function (response) {
+        if (response.response.result == 'success') {
+            if (response.response.data == true) {
+                $('#' + replace).addClass('btn-success');
+                $('#' + replace).removeClass('btn-default');
+                $('#' + replace).text('equipped');
+            } else {
+                $('#' + replace).addClass('btn-default');
+                $('#' + replace).removeClass('btn-success');
+                $('#' + replace).text('not equipped');
             }
+        } else {
+            console.log('fail to toggle equipped status for ' + link_id + '!');
         }
-    );
+    });
+};
+
+rpgApp.toggleItemCarry = function (char_id, link_id, replace) {
+    $.post('/character_items/toggle_carry.json', {
+        character_id: char_id,
+        link_id: link_id,
+    }, function (response) {
+        if (response.response.result == 'success') {
+            if (response.response.data == true) {
+                $('#' + replace).addClass('btn-success');
+                $('#' + replace).removeClass('btn-default');
+                $('#' + replace).text('carried');
+            } else {
+                $('#' + replace).addClass('btn-default');
+                $('#' + replace).removeClass('btn-success');
+                $('#' + replace).text('not carried');
+            }
+        } else {
+            console.log('fail to toggle carried status for ' + link_id + '!');
+        }
+    });
 };
 
 rpgApp.weaponsGet = function (character_id) {
@@ -509,9 +531,13 @@ rpgApp.addObligation = function (character_id) {
         var id = $(this).attr('id').replace('drop_item_', '');
         rpgApp.genericLinkDelete('character_items', char_id, id, 'tr[id=item_' + id, 'item');
     });
-    $(document).on('click', 'i[id*=toggle_item_]', function () {
-        var id = $(this).attr('id').replace('toggle_item_', '');
-        rpgApp.toggleItem(char_id, id, $(this).attr('id'));
+    $(document).on('click', 'i[id*=toggle_item_equip_]', function () {
+        var id = $(this).attr('id').replace('toggle_item_equip_', '');
+        rpgApp.toggleItemEquip(char_id, id, $(this).attr('id'));
+    });
+    $(document).on('click', 'i[id*=toggle_item_carry_]', function () {
+        var id = $(this).attr('id').replace('toggle_item_carry_', '');
+        rpgApp.toggleItemCarry(char_id, id, $(this).attr('id'));
     });
 
     // Note buttons

@@ -18,7 +18,8 @@ class CharacterItemsController extends AppController
             'add',
             'delete',
             'edit',
-            'toggle',
+            'toggle_carry',
+            'toggle_equip',
         ])) {
             if ($this->request->is('post')) {
                 $character_id = $this->request->data['character_id'];
@@ -81,7 +82,32 @@ class CharacterItemsController extends AppController
         $this->set('character', $character);
     }
 
-    public function toggle()
+    public function toggle_carry()
+    {
+        $response = ['result' => 'fail', 'data' => null];
+
+        if ($this->request->is('post')) {
+            $character_id = (int)$this->request->data['character_id'];
+            $id = (int)$this->request->data['link_id'];
+
+            $link = $this->CharactersItems->find()
+                ->contain(['Characters', 'Items'])
+                ->where(['CharactersItems.character_id' => $character_id])
+                ->andWhere(['CharactersItems.id' => $id])
+                ->first();
+
+            $link->carried = !$link->carried;
+
+            if ($this->CharactersItems->save($link)) {
+                $response = ['result' => 'success', 'data' => $link->carried];
+            }
+        }
+
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function toggle_equip()
     {
         $response = ['result' => 'fail', 'data' => null];
 

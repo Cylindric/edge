@@ -12,9 +12,14 @@
             <td><?= $link->item->name ?></td>
             <td class="col-md-1 actions">
                 <?php if ($link->equipped): ?>
-                    <i class="btn btn-success btn-xs" id="toggle_item_<?= $link->id ?>">Equipped</i>
+                    <i class="btn btn-success btn-xs" id="toggle_item_equip_<?= $link->id ?>">equipped</i>
                 <?php else: ?>
-                    <i class="btn btn-default btn-xs" id="toggle_item_<?= $link->id ?>">not equipped</i>
+                    <i class="btn btn-default btn-xs" id="toggle_item_equip_<?= $link->id ?>">not equipped</i>
+                <?php endif; ?>
+                <?php if ($link->carried): ?>
+                    <i class="btn btn-success btn-xs" id="toggle_item_carry_<?= $link->id ?>">carried</i>
+                <?php else: ?>
+                    <i class="btn btn-default btn-xs" id="toggle_item_carry_<?= $link->id ?>">not carried</i>
                 <?php endif; ?>
                 <i class="btn btn-warning btn-xs" id="drop_item_<?= $link->id ?>">drop</i>
             </td>

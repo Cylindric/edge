@@ -18,6 +18,7 @@ class CharacterWeaponsController extends AppController
             'add',
             'edit',
             'change_qty',
+            'toggle',
             'delete',
         ])) {
             if ($this->request->is('post')) {
