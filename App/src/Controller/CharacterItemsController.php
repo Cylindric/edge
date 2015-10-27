@@ -98,8 +98,14 @@ class CharacterItemsController extends AppController
 
             $link->carried = !$link->carried;
 
+            // If the item isn't carried, it can't be equipped either
+            if($link->carried == false)
+            {
+                $link->equipped = false;
+            }
+
             if ($this->CharactersItems->save($link)) {
-                $response = ['result' => 'success', 'data' => $link->carried];
+                $response = ['result' => 'success', 'data' => $link];
             }
         }
 
@@ -123,8 +129,14 @@ class CharacterItemsController extends AppController
 
             $link->equipped = !$link->equipped;
 
+            // If the item is equipped, it must be carried too
+            if($link->equipped == true)
+            {
+                $link->carried = true;
+            }
+
             if ($this->CharactersItems->save($link)) {
-                $response = ['result' => 'success', 'data' => $link->equipped];
+                $response = ['result' => 'success', 'data' => $link];
             }
         }
 
