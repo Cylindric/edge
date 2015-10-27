@@ -42,7 +42,7 @@ UPDATE talents SET description = '+{dice.boost.rank} to all Stealth and Coordina
 UPDATE talents SET description = 'Perform {check.average.medicine} to increase one characteristic of an engaged character by 1; suffer 1 Strain.' WHERE name = 'Stim Application';
 UPDATE talents SET description = '+{rank} wound healed.' WHERE name = 'Surgeon';
 UPDATE talents SET description = 'When targeted by a combat check, may suffer up to {rank} Strain to increase difficulty by {rank}.' WHERE name = 'Dodge';
-UPDATE talents SET description = 'On successful attack, spend 1 Destinty Point to add {stat.ag} Damage to one hit.' WHERE name = 'Targeted Blow';
+UPDATE talents SET description = 'On successful attack, spend 1 Destiny Point to add {stat.ag} Damage to one hit.' WHERE name = 'Targeted Blow';
 UPDATE talents SET description = 'Once per session, reduce rarity of a legal item by {rank}.' WHERE name = 'Know Somebody';
 UPDATE talents SET description = 'On purchase, chose one of Charm, Coercion, Negotiation or Deception. On checks of that skill, may spend {symbol.triumph} to gain {symbol.success.rank}.' WHERE name = 'Smooth Talker';
 UPDATE talents SET description = 'When selling legal goods to a merchant, gain {rank}0% more credits.' WHERE name = 'Wheel and Deal';
