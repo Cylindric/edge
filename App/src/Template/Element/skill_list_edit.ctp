@@ -22,8 +22,8 @@
             </td>
             <td class="col-md-3">
                 <span class="skill_dice">
-                     <?= str_repeat($this->Html->image('dice-proficiency.png'), $skill->dice($character)['proficiency']) ?><?= str_repeat($this->Html->image('dice-ability.png'), $skill->dice($character)['ability']) ?>
-                    </span>
+                    <?= $this->rpgText->dice($skill->dice($character)) ?>
+                </span>
             </td>
         </tr>
     <?php endforeach; ?>

@@ -109,8 +109,29 @@ rpgApp.getItems = function (character_id) {
     });
 }
 
-rpgApp.toggleArmour = function (char_id, link_id, replace) {
-    $.get('/character_armour/toggle/' + char_id + '/' + link_id + '.json',
+rpgApp.armourToggle = function (char_id, link_id, replace) {
+    $.post('/character_armour/toggle.json', {
+        character_id: char_id,
+        link_id: link_id,
+    }, function (response) {
+        if (response.response.result == 'success') {
+            if (response.response.data == true) {
+                $('#' + replace).addClass('btn-success');
+                $('#' + replace).removeClass('btn-default');
+                $('#' + replace).text('equipped');
+            } else {
+                $('#' + replace).addClass('btn-default');
+                $('#' + replace).removeClass('btn-success');
+                $('#' + replace).text('not equipped');
+            }
+        } else {
+            console.log('fail to toggle equipped status for ' + link_id + '!');
+        }
+    });
+};
+
+rpgApp.toggleItem = function (char_id, link_id, replace) {
+    $.get('/character_items/toggle/' + char_id + '/' + link_id + '.json',
         function (response) {
             if (response.response.result == 'success') {
                 if (response.response.data == true) {
@@ -240,7 +261,7 @@ rpgApp.talentsGet = function (character_id) {
                 select: function (event, ui) {
                     $("#new_talent_autocomplete").val(ui.item.label);
 
-                    $.post("/characters_talents/add.json", {
+                    $.post("/character_talents/add.json", {
                         character_id: character_id,
                         talent_id: ui.item.value,
                     }, function (response) {
@@ -476,11 +497,21 @@ rpgApp.addObligation = function (character_id) {
     // Armour buttons
     $(document).on('click', 'i[id*=drop_armour_]', function () {
         var id = $(this).attr('id').replace('drop_armour_', '');
-        rpgApp.genericLinkDelete('character_armour', char_id, 'tr[id=armour_' + id, '', 'armour');
+        rpgApp.genericLinkDelete('character_armour', char_id, id, 'tr[id=armour_' + id, 'armour');
     });
     $(document).on('click', 'i[id*=toggle_armour_]', function () {
         var id = $(this).attr('id').replace('toggle_armour_', '');
-        rpgApp.toggleArmour(char_id, id, $(this).attr('id'));
+        rpgApp.armourToggle(char_id, id, $(this).attr('id'));
+    });
+
+    // Item buttons
+    $(document).on('click', 'i[id*=drop_item_]', function () {
+        var id = $(this).attr('id').replace('drop_item_', '');
+        rpgApp.genericLinkDelete('character_items', char_id, id, 'tr[id=item_' + id, 'item');
+    });
+    $(document).on('click', 'i[id*=toggle_item_]', function () {
+        var id = $(this).attr('id').replace('toggle_item_', '');
+        rpgApp.toggleItem(char_id, id, $(this).attr('id'));
     });
 
     // Note buttons
@@ -531,3 +562,4 @@ rpgApp.addObligation = function (character_id) {
     rpgApp.getObligation(char_id);
     rpgApp.getCredits(char_id);
 })(jQuery);
+

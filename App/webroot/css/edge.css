@@ -124,3 +124,7 @@ i {
 .private {
     color: red;
 }
+
+.skillcheck {
+    font-weight: bold;
+}

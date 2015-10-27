@@ -7,6 +7,6 @@ class AppView extends View
 {
     public function initialize()
     {
-//        $this->loadHelper('RpgNumber');
+        $this->loadHelper('RpgText');
     }
 }

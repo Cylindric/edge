@@ -2,10 +2,10 @@ window.rpgApp = window.rpgApp || {};
 
 $.fn.editable.defaults.mode = 'inline';
 
-rpgApp.changeStatus = function (character_id, status_id, delta, update) {
+rpgApp.changeAttribute = function (character_id, attribute_id, delta, update) {
     $('#' + update).html('<img src="/img/loading.gif" />');
 
-    $.get('/characters/change_status/' + character_id + '/' + status_id + '/' + delta + '.json',
+    $.get('/characters/change_attribute/' + character_id + '/' + attribute_id + '/' + delta + '.json',
 
         function (response) {
             if (response.response.result == 'success') {
@@ -19,4 +19,8 @@ rpgApp.changeStatus = function (character_id, status_id, delta, update) {
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
+})
+
+$(function () {
+    $('[data-toggle="popover"]').popover()
 })

@@ -62,9 +62,20 @@ class Character extends Entity
         return $obligation->toArray()[0]['obligation'];
     }
 
-    public function _getTotalSoak()
+    public function _getTotalSoakBreakdown()
     {
-        $base_soak = $this->soak;
+        if (!$this->_species)
+            $this->_updateSpecies();
+
+        $breakdown = array();
+
+        // Default Soak is zero.
+        $soak = 0;
+
+        // Soak is initially based on Brawn.
+        $breakdown['Basic'] = $this->stat_br;
+
+        // Armour will usually add Soak.
         $Armour = TableRegistry::get('CharactersArmour');
         $query = $Armour->find();
         $query
@@ -73,9 +84,17 @@ class Character extends Entity
             ->andWhere(['CharactersArmour.equipped' => true])
             ->select(['soak' => $query->func()->sum('Armour.soak')])
             ->hydrate(false);
-        $armour_soak = $query->toArray()[0]['soak'];
+        $breakdown['Armour'] = $query->toArray()[0]['soak'];
 
-        return $base_soak + $armour_soak;
+        // Finally any arbitrary adjustments are added
+        $breakdown['Manual'] = $this->soak;
+
+        return $breakdown;
+    }
+
+    public function _getTotalSoak()
+    {
+        return array_sum($this->_getTotalSoakBreakdown());
     }
 
     public function _getTotalDefence()
@@ -99,50 +118,32 @@ class Character extends Entity
 
     public function _getBrawn()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_br;
+        return $this->stat_br;
     }
 
     public function _getAgility()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_ag;
+        return $this->stat_ag;
     }
 
     public function _getIntellect()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_int;
+        return $this->stat_int;
     }
 
     public function _getCunning()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_cun;
+        return $this->stat_cun;
     }
 
     public function _getWillpower()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_will;
+        return $this->stat_will;
     }
 
     public function _getPresence()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
-        return Rpg\CalculatorFactory::getSpecies($this->_species, $this)->Species->stat_pr;
+        return $this->stat_pr;
     }
 
 }

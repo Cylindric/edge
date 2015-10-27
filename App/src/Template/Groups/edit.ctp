@@ -36,8 +36,8 @@ $editing = false;
                             <?= $character->strain_threshold ?>/<span id="strain_<?= $character->id ?>_value"><?= $character->strain ?></span>
                         </div>
                         <div class="col-sm-2 buttons">
-                            <i class="btn btn-md btn-danger btn-skill-adjust" id="updatestatus_strain_<?= $character->id ?>_increase">increase</i>
-                            <i class="btn btn-md btn-success btn-skill-adjust" id="updatestatus_strain_<?= $character->id ?>_decrease">decrease</i>
+                            <i class="btn btn-md btn-danger btn-skill-adjust" id="updateattribute_strain_<?= $character->id ?>_increase">increase</i>
+                            <i class="btn btn-md btn-success btn-skill-adjust" id="updateattribute_strain_<?= $character->id ?>_decrease">decrease</i>
                         </div>
                     </div>
 
@@ -47,21 +47,21 @@ $editing = false;
                             <?= $character->wound_threshold ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->wounds ?></span>
                         </div>
                         <div class="col-sm-4 buttons">
-                            <div><i class="btn btn-md btn-success btn-skill-adjust" id="updatestatus_wounds_<?= $character->id ?>_increase">increase</i></div>
-                            <div><i class="btn btn-md btn-danger btn-skill-adjust" id="updatestatus_wounds_<?= $character->id ?>_decrease">decrease</i></div>
+                            <div><i class="btn btn-md btn-success btn-skill-adjust" id="updateattribute_wounds_<?= $character->id ?>_increase">increase</i></div>
+                            <div><i class="btn btn-md btn-danger btn-skill-adjust" id="updateattribute_wounds_<?= $character->id ?>_decrease">decrease</i></div>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
             <?php echo $this->Html->scriptBlock("
-    $(document).on('click', 'i[id*=updatestatus_]', function () {
+    $(document).on('click', 'i[id*=updateattribute_]', function () {
         var parts = $(this).attr('id').split('_');
         var status = parts[1];
         var char_id = parts[2];
         var action = parts[3];
         var delta = (action == 'increase' ? 1 : -1);
         var update = status + '_' + char_id + '_value';
-        rpgApp.changeStatus(char_id, status, delta, update);
+        rpgApp.changeAttribute(char_id, status, delta, update);
     });
             ", ['block' => true]); ?>
 

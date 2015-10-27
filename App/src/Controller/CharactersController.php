@@ -1,25 +1,31 @@
 <?php
 namespace App\Controller;
 
-use App\Rpg\CalculatorFactory;
 use Cake\Core\Configure;
 
 class CharactersController extends AppController
 {
     public function isAuthorized($user)
     {
-        if (in_array($this->request->action, ['add', 'index'])) {
+        // Public actions
+        if (in_array($this->request->action, [
+            'add',
+            'get_soak',
+            'index',
+            'view',
+        ])) {
             return true;
         }
 
-        // These require a valid Character Id that the user owns
+        // These actions require a valid Character Id that the user owns
         if (in_array($this->request->action, [
-            'edit',
+            'change_attribute',
+            'change_stat',
             'delete',
-            'edit_stats',
+            'edit',
             'edit_notes',
             'edit_skills',
-            'change_status',
+            'edit_stats',
             'join_group',
         ])) {
             if ($this->request->is('post')) {
@@ -110,15 +116,6 @@ class CharactersController extends AppController
             if ($this->Characters->save($character)) {
                 // Get the new Character, with associations
                 $character = $this->Characters->get($character->id, ['contain' => ['Species']]);
-
-                // Setup new skills based on the Species rules
-                $species = CalculatorFactory::getSpecies($character->species, $character);
-                $species->applyCreationStats();
-                $species->applyCreationSkills();
-
-                // Announce
-                $this->Slack->announceCharacterCreation($character);
-
                 $this->Flash->success(__('The character has been saved.'));
                 return $this->redirect(['action' => 'edit', $character->id]);
             } else {
@@ -255,22 +252,37 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function change_status($char_id = null, $stat_code = null, $delta = 1)
+    public function get_soak($id)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+        $breakdown = array();
+
+        $Char = $this->Characters->get($id);
+
+        $breakdown = $Char->totalSoakBreakdown;
+        $response = ['result' => 'success', 'soak' => array_sum($breakdown), 'breakdown' => $breakdown];
+
+        $this->set(compact('response', 'breakdown'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function change_attribute($char_id = null, $attribute_code = null, $delta = 1)
     {
         $response = ['result' => 'fail', 'data' => null];
 
-        if (!is_null($char_id) && !is_null($stat_code)) {
+        if (!is_null($char_id) && !is_null($attribute_code)) {
             $delta = (int)$delta;
             $Char = $this->Characters->get($char_id);
 
-            switch ($stat_code) {
+            switch ($attribute_code) {
                 case 'strain':
                     $Char->strain = max(0, $Char->strain + $delta);
                     $response['data'] = $Char->strain;
                     break;
                 case 'soak':
-                    $Char->soak = max(0, $Char->soak + $delta);
-                    $response['data'] = $Char->soak;
+                    // Note: Soak can go below zero, because this is used to arbitrarily modify calculated Soak.
+                    $Char->soak = $Char->soak + $delta;
+                    $response['data'] = $Char->totalSoak;
                     break;
                 case 'strain_threshold':
                     $Char->strain_threshold = $Char->strain_threshold + $delta;
