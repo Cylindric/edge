@@ -9,7 +9,13 @@ SELECT * FROM characters_armour;
 SELECT * FROM characters_items;
 SELECT * FROM characters_notes;
 SELECT * FROM characters_skills ORDER BY character_id, skill_id;
-SELECT * FROM characters_talents ORDER BY character_id;
+
+SELECT ct.*, t.name
+FROM characters_talents ct
+INNER JOIN talents t ON (ct.talent_id = t.id)
+WHERE ct.character_id=2
+ORDER BY ct.character_id;
+
 SELECT * FROM characters_weapons;
 SELECT * FROM credits;
 SELECT * FROM groups;
@@ -32,9 +38,21 @@ SELECT * FROM weapon_types;
 SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
--- v0.5 to v0.6
+-- v0.6 to v0.7
 ALTER TABLE species DROP COLUMN class;
-ALTER TABLE talents ADD COLUMN `description` varchar(255);
+ALTER TABLE characters_items ADD COLUMN `carried` tinyint(1) NOT NULL DEFAULT 1 AFTER `equipped`;
+UPDATE weapons SET skill_id = 26 WHERE name = 'Heavy Blaster Pistol' AND skill_id=27;
+
+INSERT INTO characters_skills (character_id, skill_id, level, career, locked, source, created, modified)
+SELECT character_id, skill_id, 0, 1, 1, '', created, modified
+FROM characters_skills
+WHERE career=1 AND level>0;
+UPDATE characters_skills SET career=0 WHERE career=1 AND level>0;
+
+ALTER TABLE talents ADD COLUMN soak_per_rank INT(11) NOT NULL DEFAULT 0 AFTER ranked;
+ALTER TABLE talents ADD COLUMN strain_per_rank INT(11) NOT NULL DEFAULT 0 AFTER ranked;
+UPDATE talents SET soak_per_rank = 1 WHERE name = 'Enduring';
+UPDATE talents SET strain_per_rank = 1 WHERE name = 'Grit';
 
 UPDATE talents SET description = '+{rank} Soak.' WHERE name = 'Enduring';
 UPDATE talents SET description = '+{rank} Strain.' WHERE name = 'Grit';

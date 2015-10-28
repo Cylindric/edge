@@ -16,7 +16,7 @@
     <?php foreach ($character->characters_weapons as $link): ?>
         <tr id="weapon_<?= $link->id ?>">
             <td><?= $link->weapon->name ?></td>
-            <td>
+            <td class="actions">
                 <span class="decrease glyphicon glyphicon-minus" aria-label="Decrease"
                       id="decrease_weapon_<?= $link->id ?>"></span>
                 <?= $link->quantity ?>

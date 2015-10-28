@@ -17,7 +17,7 @@
             $created_by_gm = ($x->created_user->id == $gm_id);
             ?>
             <tr id="xp_<?= $x->id ?>">
-                <td class="col-md-2" style="white-space: nowrap;">
+                <td class="col-md-2 actions">
                     <?= $x->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
                     <?php if ($x->isLocked($user['id'], $gm_id)): ?>
                     <?php else: ?>

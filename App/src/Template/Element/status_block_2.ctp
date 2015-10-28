@@ -15,8 +15,8 @@
     <?php endif; ?>
 
     <div class="row value">
-        <div class="col-xs-5 col-xs-offset-1 text-center"><span id="<?= $name ?>_0_value"><?= $values[0] ?></span></div>
-        <div class="col-xs-5 text-center"><span id="<?= $name ?>_1_value"><?= $values[1] ?></span></div>
+        <div class="col-xs-5 col-xs-offset-1 text-center <?= empty($class) ? '' : $class[0] ?>"><span id="<?= $name ?>_0_value"><?= $values[0] ?></span></div>
+        <div class="col-xs-5 text-center <?= empty($class) ? '': $class[1] ?>"><span id="<?= $name ?>_1_value"><?= $values[1] ?></span></div>
     </div>
 
     <?php if ($editing): ?>

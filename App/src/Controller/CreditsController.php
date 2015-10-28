@@ -99,7 +99,6 @@ class CreditsController extends AppController
             ->hydrate(false);
         $total = $query->toArray()[0]['total'];
 
-
         $this->set('credits', $credits->toArray());
         $this->set('total', $total);
         $this->set('_serialize', ['credits']);

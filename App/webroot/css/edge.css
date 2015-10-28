@@ -14,7 +14,8 @@ i {
     text-align: center;
 }
 
-.actions {
+.actions,
+{
     white-space: nowrap;
 }
 
@@ -49,6 +50,10 @@ i {
 .stat .value .stat_edit_value {
     font-size: 5em;
     vertical-align: middle;
+}
+
+.cursor-help {
+    cursor: help;
 }
 
 /*.group_view > div {*/
