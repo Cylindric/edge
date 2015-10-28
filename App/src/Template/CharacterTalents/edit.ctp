@@ -10,8 +10,8 @@
     <tbody>
     <?php foreach ($talents as $talent): ?>
         <tr id="talent_<?= $talent->id ?>">
-            <td><span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_talent_<?= $talent->id ?>"></span><?= $talent->talent->name ?></td>
-            <td><?php if ($talent->talent->ranked): ?>
+            <td class="text-nowrap"><span class="decrease glyphicon glyphicon-trash" aria-label="Delete" id="remove_talent_<?= $talent->id ?>"></span><?= $talent->talent->name ?></td>
+            <td class="actions"><?php if ($talent->talent->ranked): ?>
                     <span class="decrease glyphicon glyphicon-minus" aria-label="Decrease" id="decrease_talent_<?= $talent->id ?>"></span>
                     <?= $talent->rank ?>
                     <span class="increase glyphicon glyphicon-plus" aria-label="Increase" id="increase_talent_<?= $talent->id ?>"></span>

@@ -242,6 +242,7 @@ rpgApp.changeSkill = function (character_id, skill_id, delta) {
                 $('#skill_' + skill_id).find('i.decrease').fadeOut();
                 level.fadeOut();
             }
+            rpgApp.getXp(character_id);
 
         } else if (response.response.result == 'fail') {
             console.log('failed to change rank in skill ' + skill_id);

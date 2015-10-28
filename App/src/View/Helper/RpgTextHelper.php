@@ -105,13 +105,13 @@ class RpgTextHelper extends Helper
     public function dice($dice)
     {
         $out = '';
-        if(array_key_exists('ability', $dice))
-        {
-            $out .= str_repeat($this->Html->image('dice-ability.png'), $dice['ability']);
-        }
         if(array_key_exists('proficiency', $dice))
         {
             $out .= str_repeat($this->Html->image('dice-proficiency.png'), $dice['proficiency']);
+        }
+        if(array_key_exists('ability', $dice))
+        {
+            $out .= str_repeat($this->Html->image('dice-ability.png'), $dice['ability']);
         }
         if(array_key_exists('difficulty', $dice))
         {

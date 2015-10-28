@@ -19,7 +19,7 @@
             $created_by_gm = ($obligation->created_by == $gm_id);
             ?>
             <tr id="obligation_<?= $obligation->id ?>">
-                <td class="col-md-2">
+                <td class="col-md-2 actions">
                     <?php if ($obligation->isLocked($user['id'], $gm_id)): ?>
                     <?php else: ?>
                         <span class="decrease glyphicon glyphicon-trash hidden-print" aria-label="Delete" id="remove_obligation_<?= $obligation->id ?>"></span>

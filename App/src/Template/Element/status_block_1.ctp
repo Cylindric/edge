@@ -10,7 +10,7 @@
         </div>
     <?php endif; ?>
     <div class="row value">
-        <div class="col-sm-10 col-sm-offset-1">
+        <div class="col-sm-10 col-sm-offset-1 <?= empty($class) ? '' : $class ?>">
             <span id="<?= $name ?>_0_value"><?= $value ?></span>
         </div>
     </div>

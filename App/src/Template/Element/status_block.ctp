@@ -8,6 +8,7 @@ $editing = $this->request->params['action'] == 'edit';
         "editing" => $editing,
         "title" => "Soak",
         "value" => $character->totalSoak,
+        "class" => 'cursor-help',
     ]);
     $this->Html->scriptBlock("
     $('#soak_0_value').popover
@@ -34,9 +35,24 @@ $editing = $this->request->params['action'] == 'edit';
         "editing" => $editing,
         "title" => "Strain",
         "subtitles" => ['Threshold', 'Current'],
-        "values" => [$character->strain_threshold, $character->strain],
+        "values" => [$character->total_strain_threshold, $character->strain],
+        "class" => ['cursor-help', ''],
     ]);
     $this->Html->scriptBlock("
+         $('#strain_0_value').popover
+            (
+            {
+                html: true,
+                trigger: 'hover',
+                title: 'Strain Threshold',
+                content: function()
+                {
+                    return $.ajax({url: '/characters/get_strain_threshold/" . $character->id . "',
+                         dataType: 'html',
+                         async: false}).responseText;
+                }
+            }
+        );
         $(document).on('click', 'i[id=strain_0_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'strain_threshold', -1, 'strain_0_value');});
         $(document).on('click', 'i[id=strain_0_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'strain_threshold',  1, 'strain_0_value');});
         $(document).on('click', 'i[id=strain_1_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'strain', -1, 'strain_1_value');});

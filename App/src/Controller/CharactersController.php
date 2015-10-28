@@ -11,6 +11,7 @@ class CharactersController extends AppController
         if (in_array($this->request->action, [
             'add',
             'get_soak',
+            'get_strain_threshold',
             'index',
             'view',
         ])) {
@@ -266,6 +267,20 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
+    public function get_strain_threshold($id)
+    {
+        $response = ['result' => 'fail', 'data' => null];
+        $breakdown = array();
+
+        $Char = $this->Characters->get($id);
+
+        $breakdown = $Char->totalStrainThresholdBreakdown;
+        $response = ['result' => 'success', 'strain_threshold' => array_sum($breakdown), 'breakdown' => $breakdown];
+
+        $this->set(compact('response', 'breakdown'));
+        $this->set('_serialize', ['response']);
+    }
+
     public function change_attribute($char_id = null, $attribute_code = null, $delta = 1)
     {
         $response = ['result' => 'fail', 'data' => null];
@@ -286,7 +301,7 @@ class CharactersController extends AppController
                     break;
                 case 'strain_threshold':
                     $Char->strain_threshold = $Char->strain_threshold + $delta;
-                    $response['data'] = $Char->strain_threshold;
+                    $response['data'] = $Char->total_strain_threshold;
                     break;
                 case 'wounds':
                     $Char->wounds = max(0, $Char->wounds + $delta);

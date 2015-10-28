@@ -63,18 +63,18 @@ $this->assign('title', $character->name);
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="talents">
-                    <div class="col-md-6" id="talents_list_edit"></div>
+                    <div class="col-md-12" id="talents_list_edit"></div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="weapons">
                     <div class="col-md-12" id="weapons_list_edit">
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="armour">
-                    <div class="col-md-6" id="armour_list_edit">
+                    <div class="col-md-12" id="armour_list_edit">
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="items">
-                    <div class="col-md-6" id="item_list_edit">
+                    <div class="col-md-12" id="item_list_edit">
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="credits">

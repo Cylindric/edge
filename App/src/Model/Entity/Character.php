@@ -37,7 +37,13 @@ class Character extends Entity
             ->where(['Credits.character_id' => $this->id])
             ->select(['total' => $credits->func()->sum('Credits.value')])
             ->hydrate(false);
-        return $credits->toArray()[0]['total'];
+
+        $total = $credits->toArray()[0]['total'];
+        if($total == null)
+        {
+            $total = 0;
+        }
+        return $total;
     }
 
     public function _getTotalXp()
@@ -62,15 +68,40 @@ class Character extends Entity
         return $obligation->toArray()[0]['obligation'];
     }
 
-    public function _getTotalSoakBreakdown()
+    public function _getTotalStrainThresholdBreakdown()
     {
         if (!$this->_species)
             $this->_updateSpecies();
 
         $breakdown = array();
 
-        // Default Soak is zero.
-        $soak = 0;
+        // Strain Threshold is initially a fixed value.
+        $breakdown['Basic'] = $this->strain_threshold;
+
+        // Talents may add Strain Threshold
+        $Talents = TableRegistry::get('CharactersTalents');
+        $query = $Talents->find();
+        $query
+            ->contain(['Talents'])
+            ->where(['CharactersTalents.character_id' => $this->id])
+            ->select(['strain' => $query->func()->sum('CharactersTalents.rank * Talents.strain_per_rank')])
+            ->hydrate(false);
+        $breakdown['Talents'] = $query->toArray()[0]['strain'];
+
+        return $breakdown;
+    }
+
+    public function _getTotalStrainThreshold()
+    {
+        return array_sum($this->_getTotalStrainThresholdBreakdown());
+    }
+
+    public function _getTotalSoakBreakdown()
+    {
+        if (!$this->_species)
+            $this->_updateSpecies();
+
+        $breakdown = array();
 
         // Soak is initially based on Brawn.
         $breakdown['Basic'] = $this->stat_br;
@@ -85,6 +116,16 @@ class Character extends Entity
             ->select(['soak' => $query->func()->sum('Armour.soak')])
             ->hydrate(false);
         $breakdown['Armour'] = $query->toArray()[0]['soak'];
+
+        // Talents may add Soak
+        $Talents = TableRegistry::get('CharactersTalents');
+        $query = $Talents->find();
+        $query
+            ->contain(['Talents'])
+            ->where(['CharactersTalents.character_id' => $this->id])
+            ->select(['soak' => $query->func()->sum('CharactersTalents.rank * Talents.soak_per_rank')])
+            ->hydrate(false);
+        $breakdown['Talents'] = $query->toArray()[0]['soak'];
 
         // Finally any arbitrary adjustments are added
         $breakdown['Manual'] = $this->soak;
