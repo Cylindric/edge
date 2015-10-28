@@ -19,7 +19,7 @@ class v007 extends AbstractMigration
         $conn->query("INSERT INTO characters_skills (character_id, skill_id, level, career, locked, source, created, modified) "
             . "SELECT character_id, skill_id, 0, 1, 1, '', created, modified "
             . "FROM characters_skills "
-            . "WHERE career=1 AND level>0";
+            . "WHERE career=1 AND level>0");
 
         $conn->query("UPDATE characters_skills SET career=0 WHERE career=1 AND level>0");
 
