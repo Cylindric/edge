@@ -87,3 +87,4 @@ DROP TABLE stats;
 DROP TABLE weapon_types;
 DROP TABLE species;
 DROP TABLE users;
+
