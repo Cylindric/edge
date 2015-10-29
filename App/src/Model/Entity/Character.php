@@ -21,14 +21,6 @@ class Character extends Entity
         'id' => false,
     ];
 
-    private $_species;
-
-    private function _updateSpecies()
-    {
-        $species = TableRegistry::get('Species');
-        $this->_species = $species->get($this->_properties['species_id']);
-    }
-
     public function _getTotalCredits()
     {
         $Credits = TableRegistry::get('Credits');
@@ -70,9 +62,6 @@ class Character extends Entity
 
     public function _getTotalStrainThresholdBreakdown()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
         $breakdown = array();
 
         // Strain Threshold is initially a fixed value.
@@ -98,9 +87,6 @@ class Character extends Entity
 
     public function _getTotalSoakBreakdown()
     {
-        if (!$this->_species)
-            $this->_updateSpecies();
-
         $breakdown = array();
 
         // Soak is initially based on Brawn.
