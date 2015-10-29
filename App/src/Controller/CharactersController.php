@@ -269,9 +269,6 @@ class CharactersController extends AppController
 
     public function get_soak($id)
     {
-        $response = ['result' => 'fail', 'data' => null];
-        $breakdown = array();
-
         $Char = $this->Characters->get($id);
 
         $breakdown = $Char->totalSoakBreakdown;
@@ -283,9 +280,6 @@ class CharactersController extends AppController
 
     public function get_strain_threshold($id)
     {
-        $response = ['result' => 'fail', 'data' => null];
-        $breakdown = array();
-
         $Char = $this->Characters->get($id);
 
         $breakdown = $Char->totalStrainThresholdBreakdown;
