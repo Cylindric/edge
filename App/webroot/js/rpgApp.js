@@ -1,3 +1,19 @@
+var rpgAppNg = angular.module('rpgAppNg', [
+    'ngRoute',
+    'rpgControllers'
+]);
+
+rpgAppNg.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+            when('/characters/:character_id', {
+                templateUrl: 'partials/phone-list.html',
+                controller: 'CharacterController'
+            })
+        ;
+    }]);
+
+
 window.rpgApp = window.rpgApp || {};
 
 $.fn.editable.defaults.mode = 'inline';

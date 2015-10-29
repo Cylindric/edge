@@ -64,6 +64,7 @@ class AppController extends Controller
             }
         }
 
+        $this->set('debug', Configure::read('debug'));
         $this->set('user', $this->Auth->User());
         $this->set('version', Configure::read('rpgApp.version'));
     }

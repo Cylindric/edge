@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="rpgAppNg">
 <head>
     <?= $this->Html->charset() ?>
     <title>Edge: <?= $this->fetch('title') ?></title>
     <?= $this->Html->meta('icon') ?>
+
+    <?php if( $debug>0): ?>
+        <?= $this->Html->script('angular.min.js') ?>
+        <?= $this->Html->script('angular-route.min.js') ?>
+    <?php else: ?>
+        <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js') ?>
+        <?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.min.js') ?>
+    <?php endif; ?>
 
     <?= $this->Html->css('jquery-ui.css') ?>
     <?= $this->Html->css('bootstrap.css') ?>
@@ -12,7 +20,10 @@
     <?= $this->Html->script('jquery-ui.min.js') ?>
     <?= $this->Html->script('bootstrap.min.js') ?>
     <?= $this->Html->script('bootstrap-editable.min.js') ?>
+
     <?= $this->Html->script('rpgApp.js') ?>
+    <?= $this->Html->script('rpgControllers.js') ?>
+
 
     <!--
     <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css" rel="stylesheet"/>
