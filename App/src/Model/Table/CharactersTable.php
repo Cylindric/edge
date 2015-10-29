@@ -56,41 +56,6 @@ class CharactersTable extends Table
         return $rules;
     }
 
-    public function beforeSave($event, $entity, $options)
-    {
-        $old = $entity->getOriginal('credits');
-        $new = $entity->credits;
-        if ($old != $new) {
-            // Remove any pretty formatting
-            $new = trim($new);
-            $new = str_replace(',', '', $new);
-
-            // If it starts with a maths symbol, calculate based on that
-            if (preg_match('/([\+\-\*\/])(\d+)/', $new, $matches) !== FALSE) {
-                if (!empty($matches)) {
-                    $operator = $matches[1];
-
-                    switch ($operator) {
-                        case '+':
-                            $new = $old + $matches[2];
-                            break;
-                        case '-':
-                            $new = $old - $matches[2];
-                            break;
-                        case '*':
-                            $new = $old * $matches[2];
-                            break;
-                        case '/':
-                            $new = $old / $matches[2];
-                            break;
-                    }
-                }
-            }
-
-            $entity->credits = $new;
-        }
-    }
-
     public function isOwnedBy($characterId, $userId)
     {
         // The character's actual owner is obviously an owner
