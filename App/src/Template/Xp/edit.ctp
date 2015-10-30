@@ -1,4 +1,4 @@
-<h3>Experience - <?= $this->Number->format($total) ?></h3>
+<h3>Experience - <span class="character_xp_total"><?= $this->Number->format($total) ?></span></h3>
 <?php if (count($xp) == 0): ?>
     <p>There is no XP yet.</p>
 <?php else: ?>

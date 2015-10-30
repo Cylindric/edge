@@ -185,10 +185,7 @@ class CharactersController extends AppController
         $this->set('response', $response);
         $this->set('_serialize', ['response']);
     }
-
-    /**
-     * @param null $id
-     */
+    
     public function edit_stats($id = null)
     {
         $character = $this->Characters->get($id);
@@ -269,9 +266,6 @@ class CharactersController extends AppController
 
     public function get_soak($id)
     {
-        $response = ['result' => 'fail', 'data' => null];
-        $breakdown = array();
-
         $Char = $this->Characters->get($id);
 
         $breakdown = $Char->totalSoakBreakdown;
@@ -283,9 +277,6 @@ class CharactersController extends AppController
 
     public function get_strain_threshold($id)
     {
-        $response = ['result' => 'fail', 'data' => null];
-        $breakdown = array();
-
         $Char = $this->Characters->get($id);
 
         $breakdown = $Char->totalStrainThresholdBreakdown;

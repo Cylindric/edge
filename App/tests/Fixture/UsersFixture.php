@@ -11,5 +11,6 @@ class UsersFixture extends TestFixture
         /* 1 */ [ 'username' => 'admin', 'role' => 'admin' ],
         /* 2 */ [ 'username' => 'user', 'role' => 'user' ],
         /* 3 */ [ 'username' => 'gm', 'role' => 'user' ],
+        /* 4 */ [ 'username' => 'other', 'role' => 'user' ],
     ];
 }

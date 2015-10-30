@@ -41,6 +41,14 @@ class CreditsController extends AppController
             $credit = $this->Credits->patchEntity($credit, $this->request->data);
             if ($this->Credits->save($credit)) {
                 $response = ['result' => 'success', 'data' => $credit];
+
+                $query = $this->Credits->find();
+                $query
+                    ->where(['character_id' => $credit->character_id])
+                    ->select(['total' => $query->func()->sum('value')])
+                    ->hydrate(false);
+                $response['total'] = $query->toArray()[0]['total'];
+
             } else {
                 $response = ['result' => 'fail', 'data' => $credit];
             }

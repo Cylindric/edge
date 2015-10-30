@@ -8,7 +8,7 @@ use Cake\TestSuite\IntegrationTestCase;
 /**
  * App\Controller\CharactersController Test Case
  */
-class CharactersControllerTest extends IntegrationTestCase
+class CharactersControllerTest extends ControllerTestBase
 {
 
     /**
@@ -47,30 +47,10 @@ class CharactersControllerTest extends IntegrationTestCase
 
     public function setUp()
     {
-        $this->Users = TableRegistry::get('Users');
         $this->Characters = TableRegistry::get('Characters');
+        parent::setUp();
     }
 
-//    public function testIsAuthorized()
-//    {
-//        $this->markTestIncomplete('Not implemented yet.');
-//    }
-//
-//    public function testIndex()
-//    {
-//        $this->markTestIncomplete('Not implemented yet.');
-//    }
-//
-//    public function testView()
-//    {
-//        $this->markTestIncomplete('Not implemented yet.');
-//    }
-//
-//    public function testAdd()
-//    {
-//        $this->markTestIncomplete('Not implemented yet.');
-//    }
-//
     public function testEditRequiresLogin()
     {
         $this->get('/characters/edit/1');
@@ -79,14 +59,14 @@ class CharactersControllerTest extends IntegrationTestCase
 
     public function testEditByGM()
     {
-        $this->setGmUser();
+        $this->setUser('gm');
         $this->get('/characters/edit/1');
         $this->assertResponseOk();
     }
 
     public function testEdit()
     {
-        $this->setNormalUser();
+        $this->setUser('user');
         $this->get('/characters/edit/1');
         $this->assertResponseOk();
     }
@@ -102,7 +82,7 @@ class CharactersControllerTest extends IntegrationTestCase
 
     public function testDeleteByGm()
     {
-        $this->setGmUser();
+        $this->setUser('gm');
         $this->setJson();
 
         $charToDelete = $this->Characters->findByName('group1member1')->first();
@@ -118,7 +98,7 @@ class CharactersControllerTest extends IntegrationTestCase
 
     public function testDeleteByOwner()
     {
-        $this->setNormalUser();
+        $this->setUser('user');
         $this->setJson();
 
         $charToDelete = $this->Characters->findByName('basic')->first();
@@ -142,84 +122,6 @@ class CharactersControllerTest extends IntegrationTestCase
         // Confirm
         $count = $this->Characters->findByName('basic')->count();
         $this->assertEquals(0, $count);
-    }
-
-    /*
-        public function testEditStats()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testEditNotes()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testEditSkills()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testChangeStat()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testGetSoak()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testGetStrainThreshold()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testChangeAttribute()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testJoinGroup()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-    */
-
-    private function setNormalUser()
-    {
-        $user = $this->Users->findByUsername('user')->first();
-
-        $this->session([
-            'Auth' => [
-                'User' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'role' => $user->role,
-                ]
-            ]
-        ]);
-    }
-
-    private function setGmUser()
-    {
-        $user = $this->Users->findByUsername('gm')->first();
-        $this->session([
-            'Auth' => [
-                'User' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'role' => $user->role,
-                ]
-            ]
-        ]);
-    }
-
-    private function setJson()
-    {
-        $this->configRequest([
-            'headers' => ['Accept' => 'application/json']
-        ]);
     }
 
 }

@@ -38,11 +38,18 @@ class ObligationsController extends AppController
 
     public function add()
     {
-        $note = $this->Obligations->newEntity();
+        $obligation = $this->Obligations->newEntity();
         if ($this->request->is('post')) {
-            $obligation = $this->Obligations->patchEntity($note, $this->request->data);
+            $obligation = $this->Obligations->patchEntity($obligation, $this->request->data);
             if ($this->Obligations->save($obligation)) {
                 $response = ['result' => 'success', 'data' => $obligation];
+
+                $query = $this->Obligations->find();
+                $query
+                    ->where(['character_id' => $obligation->character_id])
+                    ->select(['total' => $query->func()->sum('value')])
+                    ->hydrate(false);
+                $response['total'] = $query->toArray()[0]['total'];
             } else {
                 $response = ['result' => 'fail', 'data' => $obligation];
             }
