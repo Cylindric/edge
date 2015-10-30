@@ -8,7 +8,7 @@ use Cake\TestSuite\IntegrationTestCase;
 /**
  * App\Controller\CharactersController Test Case
  */
-class CharactersControllerTest extends IntegrationTestCase
+class CharactersControllerTest extends ControllerTestBase
 {
 
     /**
@@ -47,30 +47,10 @@ class CharactersControllerTest extends IntegrationTestCase
 
     public function setUp()
     {
-        $this->Users = TableRegistry::get('Users');
         $this->Characters = TableRegistry::get('Characters');
+        parent::setUp();
     }
 
-//    public function testIsAuthorized()
-//    {
-//        $this->markTestIncomplete('Not implemented yet.');
-//    }
-//
-//    public function testIndex()
-//    {
-//        $this->markTestIncomplete('Not implemented yet.');
-//    }
-//
-//    public function testView()
-//    {
-//        $this->markTestIncomplete('Not implemented yet.');
-//    }
-//
-//    public function testAdd()
-//    {
-//        $this->markTestIncomplete('Not implemented yet.');
-//    }
-//
     public function testEditRequiresLogin()
     {
         $this->get('/characters/edit/1');
@@ -185,41 +165,5 @@ class CharactersControllerTest extends IntegrationTestCase
             $this->markTestIncomplete('Not implemented yet.');
         }
     */
-
-    private function setNormalUser()
-    {
-        $user = $this->Users->findByUsername('user')->first();
-
-        $this->session([
-            'Auth' => [
-                'User' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'role' => $user->role,
-                ]
-            ]
-        ]);
-    }
-
-    private function setGmUser()
-    {
-        $user = $this->Users->findByUsername('gm')->first();
-        $this->session([
-            'Auth' => [
-                'User' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'role' => $user->role,
-                ]
-            ]
-        ]);
-    }
-
-    private function setJson()
-    {
-        $this->configRequest([
-            'headers' => ['Accept' => 'application/json']
-        ]);
-    }
 
 }
