@@ -12,9 +12,9 @@ class CharactersFixture extends TestFixture
         /* 2 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'group1member1', 'group_id' => 1],
         /* 3 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'group1member2', 'group_id' => 1],
         /* 4 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'group1member3', 'group_id' => 1],
-        /* 5 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'no cred'],
-        /* 6 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'no talent'],
-        /* 7 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'no ob'],
+        /* 5 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'no credits'],
+        /* 6 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'no talents'],
+        /* 7 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'no obligations'],
         /* 8 */ ['user_id' => 2, 'species_id' => 1, 'name' => 'no xp'],
     ];
 }

@@ -28,7 +28,7 @@ class CharactersTableTest extends TestCase
         $char = $this->Characters->findByName('basic')->first();
         $this->assertEquals(3, $char->totalCredits);
 
-        $char5 = $this->Characters->findByName('no cred')->first();
+        $char5 = $this->Characters->findByName('no credits')->first();
         $this->assertEquals(0, $char5->totalCredits);
     }
 
@@ -46,7 +46,7 @@ class CharactersTableTest extends TestCase
         $char = $this->Characters->findByName('basic')->first();
         $this->assertEquals(12, $char->totalObligation);
 
-        $char5 = $this->Characters->findByName('no ob')->first();
+        $char5 = $this->Characters->findByName('no obligations')->first();
         $this->assertEquals(0, $char5->totalObligation);
     }
 

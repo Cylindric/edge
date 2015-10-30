@@ -1,16 +1,16 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\XpController;
+use App\Controller\ObligationsController;
 use Cake\TestSuite\IntegrationTestCase;
 use Cake\ORM\TableRegistry;
 
-class XpControllerTest extends ControllerTestBase
+class ObligationsControllerTest extends ControllerTestBase
 {
 
     public $fixtures = [
         'app.characters',
-        'app.xp',
+        'app.obligations',
         'app.users',
         'app.groups',
         'app.groups_users',
@@ -19,7 +19,7 @@ class XpControllerTest extends ControllerTestBase
     public function setUp()
     {
         $this->Characters = TableRegistry::get('Characters');
-        $this->Xp = TableRegistry::get('Xp');
+        $this->Obligations = TableRegistry::get('Obligations');
         parent::setUp();
     }
 
@@ -27,18 +27,15 @@ class XpControllerTest extends ControllerTestBase
     {
         $this->setJson();
 
-        $char = $this->Characters->findByName('no xp')->first();
-        $this->assertInstanceOf('App\Model\Entity\Character', $char);
-
-        $this->post('/xp/add.json', [
-            'character_id' => $char->id,
+        $this->post('/obligations/add.json', [
+            'character_id' => 1,
             'value' => 843,
-            'note' => 'test XP',
+            'note' => 'test Obligation',
         ]);
         $this->assertRedirect();
 
         // Confirm
-        $count = $this->Xp->findByCharacterId($char->id)->count();
+        $count = $this->Obligations->findByCharacterId(7)->count();
         $this->assertEquals(0, $count);
     }
 
@@ -47,13 +44,13 @@ class XpControllerTest extends ControllerTestBase
         $this->setUser('user');
         $this->setJson();
 
-        $char = $this->Characters->findByName('no xp')->first();
+        $char = $this->Characters->findByName('no obligations')->first();
         $this->assertInstanceOf('App\Model\Entity\Character', $char);
 
-        $this->post('/xp/add.json', [
+        $this->post('/obligations/add.json', [
             'character_id' => $char->id,
             'value' => 843,
-            'note' => 'test XP',
+            'note' => 'test Obligation',
         ]);
         $this->assertResponseOk();
 
@@ -64,7 +61,7 @@ class XpControllerTest extends ControllerTestBase
         $this->assertEquals(843, $response->total);
 
         // Confirm
-        $count = $this->Xp->findByCharacterId($char->id)->count();
+        $count = $this->Obligations->findByCharacterId($char->id)->count();
         $this->assertEquals(1, $count);
     }
 
@@ -73,12 +70,12 @@ class XpControllerTest extends ControllerTestBase
         $this->setUser('gm');
         $this->setJson();
 
-        $char = $this->Characters->findByName('no xp')->first();
+        $char = $this->Characters->findByName('no obligations')->first();
 
-        $this->post('/xp/add.json', [
+        $this->post('/obligations/add.json', [
             'character_id' => $char->id,
             'value' => 843,
-            'note' => 'test XP',
+            'note' => 'test Obligation',
         ]);
         $this->assertResponseOk();
     }
@@ -88,12 +85,12 @@ class XpControllerTest extends ControllerTestBase
         $this->setUser('admin');
         $this->setJson();
 
-        $char = $this->Characters->findByName('no xp')->first();
+        $char = $this->Characters->findByName('no obligations')->first();
 
-        $this->post('/xp/add.json', [
+        $this->post('/obligations/add.json', [
             'character_id' => $char->id,
             'value' => 843,
-            'note' => 'test XP',
+            'note' => 'test Obligation',
         ]);
         $this->assertResponseOk();
     }
@@ -103,17 +100,17 @@ class XpControllerTest extends ControllerTestBase
         $this->setUser('other');
         $this->setJson();
 
-        $char = $this->Characters->findByName('no xp')->first();
+        $char = $this->Characters->findByName('no obligations')->first();
 
-        $this->post('/xp/add.json', [
+        $this->post('/obligations/add.json', [
             'character_id' => $char->id,
             'value' => 843,
-            'note' => 'test XP',
+            'note' => 'test Obligation',
         ]);
         $this->assertRedirect();
 
         // Confirm
-        $count = $this->Xp->findByCharacterId($char->id)->count();
+        $count = $this->Obligations->findByCharacterId($char->id)->count();
         $this->assertEquals(0, $count);
     }
 
@@ -123,11 +120,11 @@ class XpControllerTest extends ControllerTestBase
         $this->setJson();
         $char = $this->Characters->findByName('basic')->first();
 
-        $this->get('/xp/edit/'.$char->id.'.json');
+        $this->get('/obligations/edit/'.$char->id.'.json');
         $this->assertResponseOk();
 
         $response = json_decode($this->_response->body());
-        $this->assertObjectHasAttribute('xp', $response);
+        $this->assertObjectHasAttribute('obligations', $response);
         $this->assertObjectHasAttribute('total', $response);
     }
 
