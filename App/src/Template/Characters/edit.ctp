@@ -54,9 +54,9 @@ $this->assign('title', $character->name);
                 <li role="presentation" class="btn-lg"><a href="#weapons" aria-controls="weapons" role="tab" data-toggle="tab">Weapons</a></li>
                 <li role="presentation" class="btn-lg"><a href="#armour" aria-controls="armour" role="tab" data-toggle="tab">Armour</a></li>
                 <li role="presentation" class="btn-lg"><a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items</a></li>
-                <li role="presentation" class="btn-lg"><a href="#credits" aria-controls="credits" role="tab" data-toggle="tab">Credits  (<?= $this->RpgNumber->toReadableSize($character->totalCredits) ?>)</a></li>
-                <li role="presentation" class="btn-lg"><a href="#xp" aria-controls="xp" role="tab" data-toggle="tab">Experience (<?= $this->RpgNumber->toReadableSize($character->totalXp) ?>)</a></li>
-                <li role="presentation" class="btn-lg"><a href="#obligation" aria-controls="obligation" role="tab" data-toggle="tab">Obligation (<?= $this->RpgNumber->toReadableSize($character->totalObligation) ?>)</a></li>
+                <li role="presentation" class="btn-lg"><a href="#credits" aria-controls="credits" role="tab" data-toggle="tab">Credits (<span class="character_credits_total"><?= $this->RpgNumber->toReadableSize($character->totalCredits) ?></span>)</a></li>
+                <li role="presentation" class="btn-lg"><a href="#xp" aria-controls="xp" role="tab" data-toggle="tab">Experience (<span class="character_xp_total"><?= $this->RpgNumber->toReadableSize($character->totalXp) ?></span>)</a></li>
+                <li role="presentation" class="btn-lg"><a href="#obligation" aria-controls="obligation" role="tab" data-toggle="tab">Obligation (<span class="character_obligation_total"><?= $this->RpgNumber->toReadableSize($character->totalObligation) ?></span>)</a></li>
                 <li role="presentation" class="btn-lg"><a href="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</a></li>
             </ul>
 

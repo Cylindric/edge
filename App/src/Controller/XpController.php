@@ -38,14 +38,21 @@ class XpController extends AppController
 
     public function add()
     {
-        $xp = $this->Xp->newEntity();
-        if ($this->request->is('post')) {
-            $xp = $this->Xp->patchEntity($xp, $this->request->data);
-            if ($this->Xp->save($xp)) {
-                $response = ['result' => 'success', 'data' => $xp];
-            } else {
-                $response = ['result' => 'fail', 'data' => $xp];
-            }
+        $this->request->allowMethod(['post', 'put']);
+
+        $xp = $this->Xp->patchEntity($this->Xp->newEntity(), $this->request->data);
+        if ($this->Xp->save($xp)) {
+            $response = ['result' => 'success', 'data' => $xp];
+
+            $query = $this->Xp->find();
+            $query
+                ->where(['character_id' => $xp->character_id])
+                ->select(['total' => $query->func()->sum('value')])
+                ->hydrate(false);
+            $response['total'] = $query->toArray()[0]['total'];
+
+        } else {
+            $response = ['result' => 'fail', 'data' => $xp];
         }
 
         $this->set('response', $response);

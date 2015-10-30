@@ -185,10 +185,7 @@ class CharactersController extends AppController
         $this->set('response', $response);
         $this->set('_serialize', ['response']);
     }
-
-    /**
-     * @param null $id
-     */
+    
     public function edit_stats($id = null)
     {
         $character = $this->Characters->get($id);

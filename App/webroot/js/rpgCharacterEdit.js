@@ -428,6 +428,7 @@ rpgApp.addXp = function (character_id) {
         value: $("#new_xp").val(),
         note: $("#new_xp_note").val()
     }, function (data) {
+        $('span.character_xp_total').text(data.response.total);
         rpgApp.getXp(character_id);
     });
 };
@@ -438,6 +439,7 @@ rpgApp.addCredits = function (character_id) {
         value: $("#new_credits").val(),
         note: $("#new_credits_note").val()
     }, function (data) {
+        $('span.character_credits_total').text(data.response.total);
         rpgApp.getCredits(character_id);
     });
 };
@@ -449,6 +451,7 @@ rpgApp.addObligation = function (character_id) {
         type: $("#new_obligation_type").val(),
         note: $("#new_obligation_note").val()
     }, function (data) {
+        $('span.character_obligation_total').text(data.response.total);
         rpgApp.getObligation(character_id);
     });
 };
