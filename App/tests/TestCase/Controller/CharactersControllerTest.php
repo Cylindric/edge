@@ -59,14 +59,14 @@ class CharactersControllerTest extends ControllerTestBase
 
     public function testEditByGM()
     {
-        $this->setGmUser();
+        $this->setUser('gm');
         $this->get('/characters/edit/1');
         $this->assertResponseOk();
     }
 
     public function testEdit()
     {
-        $this->setNormalUser();
+        $this->setUser('user');
         $this->get('/characters/edit/1');
         $this->assertResponseOk();
     }
@@ -82,7 +82,7 @@ class CharactersControllerTest extends ControllerTestBase
 
     public function testDeleteByGm()
     {
-        $this->setGmUser();
+        $this->setUser('gm');
         $this->setJson();
 
         $charToDelete = $this->Characters->findByName('group1member1')->first();
@@ -98,7 +98,7 @@ class CharactersControllerTest extends ControllerTestBase
 
     public function testDeleteByOwner()
     {
-        $this->setNormalUser();
+        $this->setUser('user');
         $this->setJson();
 
         $charToDelete = $this->Characters->findByName('basic')->first();
@@ -123,47 +123,5 @@ class CharactersControllerTest extends ControllerTestBase
         $count = $this->Characters->findByName('basic')->count();
         $this->assertEquals(0, $count);
     }
-
-    /*
-        public function testEditStats()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testEditNotes()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testEditSkills()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testChangeStat()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testGetSoak()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testGetStrainThreshold()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testChangeAttribute()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-
-        public function testJoinGroup()
-        {
-            $this->markTestIncomplete('Not implemented yet.');
-        }
-    */
 
 }

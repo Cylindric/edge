@@ -13,24 +13,10 @@ class ControllerTestBase extends IntegrationTestCase
         $this->Users = TableRegistry::get('Users');
     }
 
-    protected function setNormalUser()
+    protected function setUser($username)
     {
-        $user = $this->Users->findByUsername('user')->first();
+        $user = $this->Users->findByUsername($username)->first();
 
-        $this->session([
-            'Auth' => [
-                'User' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'role' => $user->role,
-                ]
-            ]
-        ]);
-    }
-
-    protected function setGmUser()
-    {
-        $user = $this->Users->findByUsername('gm')->first();
         $this->session([
             'Auth' => [
                 'User' => [

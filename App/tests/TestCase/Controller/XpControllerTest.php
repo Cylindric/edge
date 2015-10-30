@@ -24,9 +24,28 @@ class XpControllerTest extends ControllerTestBase
 
     }
 
+    public function testAddByNobody()
+    {
+        $this->setJson();
+
+        $char = $this->Characters->findByName('no xp')->first();
+        $this->assertInstanceOf('App\Model\Entity\Character', $char);
+
+        $this->post('/xp/add.json', [
+            'character_id' => $char->id,
+            'value' => 843,
+            'note' => 'test XP',
+        ]);
+        $this->assertRedirect();
+
+        // Confirm
+        $count = $this->Xp->findByCharacterId($char->id)->count();
+        $this->assertEquals(0, $count);
+    }
+
     public function testAddByOwner()
     {
-        $this->setNormalUser();
+        $this->setUser('user');
         $this->setJson();
 
         $char = $this->Characters->findByName('no xp')->first();
@@ -52,7 +71,7 @@ class XpControllerTest extends ControllerTestBase
 
     public function testAddByGm()
     {
-        $this->setGmUser();
+        $this->setUser('gm');
         $this->setJson();
 
         $char = $this->Characters->findByName('no xp')->first();
@@ -63,6 +82,40 @@ class XpControllerTest extends ControllerTestBase
             'note' => 'test XP',
         ]);
         $this->assertResponseOk();
+    }
+
+    public function testAddByAdmin()
+    {
+        $this->setUser('admin');
+        $this->setJson();
+
+        $char = $this->Characters->findByName('no xp')->first();
+
+        $this->post('/xp/add.json', [
+            'character_id' => $char->id,
+            'value' => 843,
+            'note' => 'test XP',
+        ]);
+        $this->assertResponseOk();
+    }
+
+    public function testAddByOther()
+    {
+        $this->setUser('other');
+        $this->setJson();
+
+        $char = $this->Characters->findByName('no xp')->first();
+
+        $this->post('/xp/add.json', [
+            'character_id' => $char->id,
+            'value' => 843,
+            'note' => 'test XP',
+        ]);
+        $this->assertRedirect();
+
+        // Confirm
+        $count = $this->Xp->findByCharacterId($char->id)->count();
+        $this->assertEquals(0, $count);
     }
 
 }
