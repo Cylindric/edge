@@ -1,41 +1,23 @@
-<h3>Credits - <?= $this->Number->format($total) ?></h3>
+<h3>Credits - <span ng-bind="totalCredits"></span></h3>
 
-<?php if (count($credits) == 0): ?>
-    <p>There are no transactions yet.</p>
-<?php else: ?>
-    <table class="table table-striped table-bordered table-condensed">
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th class="text-right">Value</th>
-            <th>Note</th>
+<table class="table table-striped table-bordered table-condensed">
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th class="text-right">Value</th>
+        <th>Note</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="x in credits">
+            <td class="col-md-2">
+                {{x.created}}
+            </td>
+            <td class="col-md-1 text-right">{{x.value}}</td>
+            <td>{{x.note}}</td>
         </tr>
-        </thead>
-        <tbody>
-        <?php
-        foreach ($credits as $credit):
-            $gm_id = $credit->Gms['id'];
-            $created_by_gm = $credit->created_by_gm;
-            $locked = $created_by_gm && ($gm_id != $user['id']);
-            ?>
-            <tr id="credits_<?= $credit->id ?>">
-                <td class="col-md-2"><?= $gm_id ?>
-                    <?= $credit->created->i18nFormat([\IntlDateFormatter::SHORT, \IntlDateFormatter::NONE], 'Europe/London') ?>
-                    <?php if ($locked): ?>
-                    <?php else: ?>
-                        <span class="btn btn-xs btn-danger hidden-print" id="remove_credits_<?= $credit->id ?>">delete</span>
-                    <?php endif; ?>
-                    <?php if ($created_by_gm): ?>
-                        <span class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM <?= $credit->created_user['username']?></span>
-                    <?php endif; ?>
-                </td>
-                <td class="col-md-1 text-right"><?= $this->Number->format($credit->value) ?></td>
-                <td><?= $credit->note ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php endif; ?>
+    </tbody>
+</table>
 
 
 <div class="col-md-12 hidden-print">

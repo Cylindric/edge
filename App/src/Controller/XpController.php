@@ -56,7 +56,7 @@ class XpController extends AppController
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function edit($character_id = null)
@@ -68,16 +68,11 @@ class XpController extends AppController
             ->where(['character_id' => $character_id])
             ->order(['Xp.created DESC']);
 
-        $query = $this->Xp->find();
-        $query
-            ->where(['character_id' => $character_id])
-            ->select(['total' => $query->func()->sum('value')])
-            ->hydrate(false);
-        $total = $query->toArray()[0]['total'];
+        $total = $this->Xp->totalForCharacter($character_id);
 
         $this->set('xp', $xp);
         $this->set('total', $total);
-        $this->set('_serialize', ['xp']);
+        $this->set('_serialize', ['xp', 'total']);
     }
 
     public function delete($xp_id)

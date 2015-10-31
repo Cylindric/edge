@@ -14,6 +14,12 @@ rpgAppNg.config(['$routeProvider',
     }]);
 
 
+
+
+
+
+
+
 window.rpgApp = window.rpgApp || {};
 
 $.fn.editable.defaults.mode = 'inline';

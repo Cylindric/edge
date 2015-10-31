@@ -586,8 +586,8 @@ rpgApp.addObligation = function (character_id) {
     rpgApp.weaponsGet(char_id);
     rpgApp.getArmour(char_id);
     rpgApp.getItems(char_id);
-    rpgApp.getXp(char_id);
-    rpgApp.getObligation(char_id);
-    rpgApp.getCredits(char_id);
+    //.getXp(char_id);
+    //rpgApp.getObligation(char_id);
+    //rpgApp.getCredits(char_id);
 })(jQuery);
 

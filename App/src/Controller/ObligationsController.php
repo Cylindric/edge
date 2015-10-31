@@ -56,7 +56,7 @@ class ObligationsController extends AppController
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function edit($character_id = null)
@@ -78,7 +78,7 @@ class ObligationsController extends AppController
 
         $this->set('obligations', $obligations->toArray());
         $this->set('total', $total);
-        $this->set('_serialize', ['character']);
+        $this->set('_serialize', ['obligations', 'total']);
     }
 
     public function delete($obligation_id)
@@ -95,3 +95,4 @@ class ObligationsController extends AppController
         $this->set('_serialize', ['response']);
     }
 }
+
