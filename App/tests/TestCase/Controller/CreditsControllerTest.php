@@ -117,4 +117,44 @@ class CreditsControllerTest extends ControllerTestBase
         $this->assertEquals(0, $count);
     }
 
+    public function testDeleteByOwner()
+    {
+        $this->setUser('user');
+        $this->setJson();
+
+        $char = $this->Characters->findByName('no credits')->first();
+        $this->assertInstanceOf('App\Model\Entity\Character', $char);
+
+        $this->post('/credits/add.json', [
+            'character_id' => $char->id,
+            'value' => 843,
+            'note' => 'test credits',
+        ]);
+        $this->assertResponseOk();
+
+        // Check result data
+        $response = json_decode($this->_response->body());
+        $this->assertEquals('success', $response->result);
+        $this->assertEquals(843, $response->data->value);
+        $this->assertEquals(843, $response->total);
+        $id = $response->data->id;
+
+        // Confirm
+        $count = $this->Credits->findByCharacterId($char->id)->count();
+        $this->assertEquals(1, $count);
+
+        // Delete
+        $this->post('/credits/delete.json', [
+            'character_id' => $char->id,
+            'credit_id' => $id,
+        ]);
+        $this->assertResponseOk();
+        $response = json_decode($this->_response->body());
+        $this->assertObjectHasAttribute('total', $response);
+
+        // Confirm
+        $count = $this->Credits->findByCharacterId($char->id)->count();
+        $this->assertEquals(0, $count);
+    }
+
 }

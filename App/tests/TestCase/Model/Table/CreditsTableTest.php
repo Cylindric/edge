@@ -49,4 +49,9 @@ class CreditsTableTest extends TestCase
         $this->assertEquals(829 + 439, $total);
     }
 
+    public function testGetTotalForCharacterReturnsZeroInsteadOfNull()
+    {
+        $total = $this->Credits->totalForCharacter(-1);
+        $this->assertSame(0, $total);
+    }
 }
