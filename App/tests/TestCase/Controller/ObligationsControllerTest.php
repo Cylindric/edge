@@ -128,4 +128,25 @@ class ObligationsControllerTest extends ControllerTestBase
         $this->assertObjectHasAttribute('total', $response);
     }
 
+    public function testDeleteByOwner()
+    {
+        $this->setUser('user');
+        $this->setJson();
+
+        $char = $this->Characters->findByName('basic')->first();
+        $record = $this->Obligations->findByCharacterId($char->id)->first();
+
+        // Delete
+        $this->post('/obligations/delete.json', [
+            'character_id' => $char->id,
+            'obligation_id' => $record->id,
+        ]);
+        $this->assertResponseOk();
+        $response = json_decode($this->_response->body());
+        $this->assertObjectHasAttribute('total', $response);
+
+        // Confirm
+        $count = $this->Obligations->findById($record->id)->count();
+        $this->assertEquals(0, $count);
+    }
 }

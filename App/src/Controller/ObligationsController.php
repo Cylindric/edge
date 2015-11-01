@@ -81,18 +81,22 @@ class ObligationsController extends AppController
         $this->set('_serialize', ['obligations', 'total']);
     }
 
-    public function delete($obligation_id)
+    public function delete()
     {
-        $response = ['result' => 'fail', 'data' => null];
+        $this->request->allowMethod(['post', 'delete']);
+        $response = ['result' => 'fail'];
 
-        if (!is_null($obligation_id)) {
-            if ($this->Obligations->delete($this->Obligations->get($obligation_id))) {
-                $response = ['result' => 'success', 'data' => null];
-            }
+        $obligation = $this->Obligations->get($this->request->data['obligation_id']);
+        if ($this->Obligations->delete($obligation)) {
+            $response['result'] = 'success';
+            $response['total'] = $this->Obligations->totalForCharacter($obligation->character_id);
+        } else {
+            throw new InternalErrorException('Failed to delete Obligation record!');
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
+
 }
 

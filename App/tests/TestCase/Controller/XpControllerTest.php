@@ -131,4 +131,26 @@ class XpControllerTest extends ControllerTestBase
         $this->assertObjectHasAttribute('total', $response);
     }
 
+    public function testDeleteByOwner()
+    {
+        $this->setUser('user');
+        $this->setJson();
+
+        $char = $this->Characters->findByName('basic')->first();
+        $record = $this->Xp->findByCharacterId($char->id)->first();
+
+        // Delete
+        $this->post('/xp/delete.json', [
+            'character_id' => $char->id,
+            'xp_id' => $record->id,
+        ]);
+        $this->assertResponseOk();
+        $response = json_decode($this->_response->body());
+        $this->assertObjectHasAttribute('total', $response);
+
+        // Confirm
+        $count = $this->Xp->findById($record->id)->count();
+        $this->assertEquals(0, $count);
+    }
+
 }

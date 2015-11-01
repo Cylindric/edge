@@ -43,13 +43,7 @@ class XpController extends AppController
         $xp = $this->Xp->patchEntity($this->Xp->newEntity(), $this->request->data);
         if ($this->Xp->save($xp)) {
             $response = ['result' => 'success', 'data' => $xp];
-
-            $query = $this->Xp->find();
-            $query
-                ->where(['character_id' => $xp->character_id])
-                ->select(['total' => $query->func()->sum('value')])
-                ->hydrate(false);
-            $response['total'] = $query->toArray()[0]['total'];
+            $response['total'] = $this->Xp->totalForCharacter($xp->character_id);
 
         } else {
             $response = ['result' => 'fail', 'data' => $xp];
@@ -75,18 +69,21 @@ class XpController extends AppController
         $this->set('_serialize', ['xp', 'total']);
     }
 
-    public function delete($xp_id)
+    public function delete()
     {
-        $response = ['result' => 'fail', 'data' => null];
+        $this->request->allowMethod(['post', 'delete']);
+        $response = ['result' => 'fail'];
 
-        if (!is_null($xp_id)) {
-            if ($this->Xp->delete($this->Xp->get($xp_id))) {
-                $response = ['result' => 'success', 'data' => null];
-            }
+        $xp = $this->Xp->get($this->request->data['xp_id']);
+        if ($this->Xp->delete($xp)) {
+            $response['result'] = 'success';
+            $response['total'] = $this->Xp->totalForCharacter($xp->character_id);
+        } else {
+            throw new InternalErrorException('Failed to delete XP record!');
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
 }

@@ -31,4 +31,19 @@ class ObligationsTable extends Table
             ->notEmpty('type', 'A type is required');
     }
 
+    public function totalForCharacter($character_id)
+    {
+        $query = $this->find();
+        $query
+            ->where(['character_id' => $character_id])
+            ->select(['total' => $query->func()->sum('value')])
+            ->hydrate(false);
+        $query = $query->first();
+
+        if($query['total'] === null) {
+            $query['total'] = 0;
+        }
+        return $query['total'];
+    }
+
 }

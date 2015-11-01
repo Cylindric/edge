@@ -75,4 +75,27 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
             });
 
         }
+
+        $scope.removeXp = function(item) {
+            var index = $scope.xp.indexOf(item);
+            $http.post("/xp/delete.json", {
+                character_id: character_id,
+                xp_id: item.id
+            }).then(function successCallback(response) {
+                $scope.xp.splice(index, 1);
+                $scope.totalXp = response.data.total;
+            });
+        }
+
+        $scope.removeObligation = function(item) {
+            var index = $scope.obligations.indexOf(item);
+            $http.post("/obligations/delete.json", {
+                character_id: character_id,
+                obligation_id: item.id
+            }).then(function successCallback(response) {
+                $scope.obligations.splice(index, 1);
+                $scope.totalObligation = response.data.total;
+            });
+        }
+
     }]);
