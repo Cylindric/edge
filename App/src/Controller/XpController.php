@@ -13,10 +13,6 @@ class XpController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($this->request->action === 'index') {
-            return true;
-        }
-
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
             'add',
