@@ -114,8 +114,6 @@ class CreditsController extends AppController
         if ($this->Credits->delete($credit)) {
             $response['result'] = 'success';
             $response['total'] = $this->Credits->totalForCharacter($credit->character_id);
-        } else {
-            throw new InternalErrorException('Failed to delete Credits record!');
         }
 
         $this->set('response', $response);

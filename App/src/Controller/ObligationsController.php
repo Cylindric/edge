@@ -86,8 +86,6 @@ class ObligationsController extends AppController
         if ($this->Obligations->delete($obligation)) {
             $response['result'] = 'success';
             $response['total'] = $this->Obligations->totalForCharacter($obligation->character_id);
-        } else {
-            throw new InternalErrorException('Failed to delete Obligation record!');
         }
 
         $this->set('response', $response);

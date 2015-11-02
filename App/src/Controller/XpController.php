@@ -74,8 +74,6 @@ class XpController extends AppController
         if ($this->Xp->delete($xp)) {
             $response['result'] = 'success';
             $response['total'] = $this->Xp->totalForCharacter($xp->character_id);
-        } else {
-            throw new InternalErrorException('Failed to delete XP record!');
         }
 
         $this->set('response', $response);

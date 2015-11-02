@@ -23,25 +23,11 @@ class CreditsControllerTest extends ControllerTestBase
         parent::setUp();
     }
 
-    public function testAddByNobody()
-    {
-        $this->setJson();
-
-        $char = $this->Characters->findByName('no credits')->first();
-        $this->assertInstanceOf('App\Model\Entity\Character', $char);
-
-        $this->post('/credits/add.json', [
-            'character_id' => $char->id,
-            'value' => 843,
-            'note' => 'test credits',
-        ]);
-        $this->assertRedirect();
-
-        // Confirm
-        $count = $this->Credits->findByCharacterId($char->id)->count();
-        $this->assertEquals(0, $count);
-    }
-
+    /**
+     * @covers App\Controller\CreditsController::initialize
+     * @covers App\Controller\CreditsController::isAuthorized
+     * @covers App\Controller\CreditsController::add
+     */
     public function testAddByOwner()
     {
         $this->setUser('user');
@@ -68,6 +54,31 @@ class CreditsControllerTest extends ControllerTestBase
         $this->assertEquals(1, $count);
     }
 
+    /**
+     * @covers App\Controller\CreditsController::add
+     */
+    public function testAddByNobody()
+    {
+        $this->setJson();
+
+        $char = $this->Characters->findByName('no credits')->first();
+        $this->assertInstanceOf('App\Model\Entity\Character', $char);
+
+        $this->post('/credits/add.json', [
+            'character_id' => $char->id,
+            'value' => 843,
+            'note' => 'test credits',
+        ]);
+        $this->assertRedirect();
+
+        // Confirm
+        $count = $this->Credits->findByCharacterId($char->id)->count();
+        $this->assertEquals(0, $count);
+    }
+
+    /**
+     * @covers App\Controller\CreditsController::add
+     */
     public function testAddByGm()
     {
         $this->setUser('gm');
@@ -83,6 +94,9 @@ class CreditsControllerTest extends ControllerTestBase
         $this->assertResponseOk();
     }
 
+    /**
+     * @covers App\Controller\CreditsController::add
+     */
     public function testAddByAdmin()
     {
         $this->setUser('admin');
@@ -98,6 +112,9 @@ class CreditsControllerTest extends ControllerTestBase
         $this->assertResponseOk();
     }
 
+    /**
+     * @covers App\Controller\CreditsController::add
+     */
     public function testAddByOther()
     {
         $this->setUser('other');
@@ -117,6 +134,9 @@ class CreditsControllerTest extends ControllerTestBase
         $this->assertEquals(0, $count);
     }
 
+    /**
+     * @covers App\Controller\CreditsController::delete
+     */
     public function testDeleteByOwner()
     {
         $this->setUser('user');
