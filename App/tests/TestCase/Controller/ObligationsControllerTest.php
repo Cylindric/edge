@@ -23,22 +23,11 @@ class ObligationsControllerTest extends ControllerTestBase
         parent::setUp();
     }
 
-    public function testAddByNobody()
-    {
-        $this->setJson();
-
-        $this->post('/obligations/add.json', [
-            'character_id' => 1,
-            'value' => 843,
-            'note' => 'test Obligation',
-        ]);
-        $this->assertRedirect();
-
-        // Confirm
-        $count = $this->Obligations->findByCharacterId(7)->count();
-        $this->assertEquals(0, $count);
-    }
-
+    /**
+     * @covers App\Controller\ObligationsController::initialize
+     * @covers App\Controller\ObligationsController::isAuthorized
+     * @covers App\Controller\ObligationsController::add
+     */
     public function testAddByOwner()
     {
         $this->setUser('user');
@@ -65,6 +54,28 @@ class ObligationsControllerTest extends ControllerTestBase
         $this->assertEquals(1, $count);
     }
 
+    /**
+     * @covers App\Controller\ObligationsController::add
+     */
+    public function testAddByNobody()
+    {
+        $this->setJson();
+
+        $this->post('/obligations/add.json', [
+            'character_id' => 1,
+            'value' => 843,
+            'note' => 'test Obligation',
+        ]);
+        $this->assertRedirect();
+
+        // Confirm
+        $count = $this->Obligations->findByCharacterId(7)->count();
+        $this->assertEquals(0, $count);
+    }
+
+    /**
+     * @covers App\Controller\ObligationsController::add
+     */
     public function testAddByGm()
     {
         $this->setUser('gm');
@@ -80,6 +91,9 @@ class ObligationsControllerTest extends ControllerTestBase
         $this->assertResponseOk();
     }
 
+    /**
+     * @covers App\Controller\ObligationsController::add
+     */
     public function testAddByAdmin()
     {
         $this->setUser('admin');
@@ -95,6 +109,9 @@ class ObligationsControllerTest extends ControllerTestBase
         $this->assertResponseOk();
     }
 
+    /**
+     * @covers App\Controller\ObligationsController::add
+     */
     public function testAddByOther()
     {
         $this->setUser('other');
@@ -114,6 +131,9 @@ class ObligationsControllerTest extends ControllerTestBase
         $this->assertEquals(0, $count);
     }
 
+    /**
+     * @covers App\Controller\ObligationsController::edit
+     */
     public function testEdit()
     {
         $this->setUser('user');
@@ -128,6 +148,9 @@ class ObligationsControllerTest extends ControllerTestBase
         $this->assertObjectHasAttribute('total', $response);
     }
 
+    /**
+     * @covers App\Controller\ObligationsController::delete
+     */
     public function testDeleteByOwner()
     {
         $this->setUser('user');

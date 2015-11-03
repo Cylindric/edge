@@ -23,25 +23,11 @@ class XpControllerTest extends ControllerTestBase
         parent::setUp();
     }
 
-    public function testAddByNobody()
-    {
-        $this->setJson();
-
-        $char = $this->Characters->findByName('no xp')->first();
-        $this->assertInstanceOf('App\Model\Entity\Character', $char);
-
-        $this->post('/xp/add.json', [
-            'character_id' => $char->id,
-            'value' => 843,
-            'note' => 'test XP',
-        ]);
-        $this->assertRedirect();
-
-        // Confirm
-        $count = $this->Xp->findByCharacterId($char->id)->count();
-        $this->assertEquals(0, $count);
-    }
-
+    /**
+     * @covers App\Controller\XpController::initialize
+     * @covers App\Controller\XpController::isAuthorized
+     * @covers App\Controller\XpController::add
+     */
     public function testAddByOwner()
     {
         $this->setUser('user');
@@ -68,6 +54,31 @@ class XpControllerTest extends ControllerTestBase
         $this->assertEquals(1, $count);
     }
 
+    /**
+     * @covers App\Controller\XpController::add
+     */
+    public function testAddByNobody()
+    {
+        $this->setJson();
+
+        $char = $this->Characters->findByName('no xp')->first();
+        $this->assertInstanceOf('App\Model\Entity\Character', $char);
+
+        $this->post('/xp/add.json', [
+            'character_id' => $char->id,
+            'value' => 843,
+            'note' => 'test XP',
+        ]);
+        $this->assertRedirect();
+
+        // Confirm
+        $count = $this->Xp->findByCharacterId($char->id)->count();
+        $this->assertEquals(0, $count);
+    }
+
+    /**
+     * @covers App\Controller\XpController::add
+     */
     public function testAddByGm()
     {
         $this->setUser('gm');
@@ -83,6 +94,9 @@ class XpControllerTest extends ControllerTestBase
         $this->assertResponseOk();
     }
 
+    /**
+     * @covers App\Controller\XpController::add
+     */
     public function testAddByAdmin()
     {
         $this->setUser('admin');
@@ -98,6 +112,9 @@ class XpControllerTest extends ControllerTestBase
         $this->assertResponseOk();
     }
 
+    /**
+     * @covers App\Controller\XpController::add
+     */
     public function testAddByOther()
     {
         $this->setUser('other');
@@ -117,7 +134,10 @@ class XpControllerTest extends ControllerTestBase
         $this->assertEquals(0, $count);
     }
 
-    public function testEdit()
+    /**
+     * @covers App\Controller\XpController::edit
+     */
+    public function testEditByOwner()
     {
         $this->setUser('user');
         $this->setJson();
@@ -131,6 +151,9 @@ class XpControllerTest extends ControllerTestBase
         $this->assertObjectHasAttribute('total', $response);
     }
 
+    /**
+     * @covers App\Controller\XpController::delete
+     */
     public function testDeleteByOwner()
     {
         $this->setUser('user');
