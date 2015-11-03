@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	colors="true"
+	processIsolation="false"
+	stopOnFailure="false"
+	syntaxCheck="false"
+	bootstrap="./tests/bootstrap.php"
+	forceCoversAnnotation="true"
+		>
+	<php>
+		<ini name="memory_limit" value="-1"/>
+		<ini name="apc.enable_cli" value="1"/>
+	</php>
+
+	<filter>
+		<blacklist>
+		</blacklist>
+		<whitelist>
+			<directory suffix=".php">./src</directory>
+			<exclude>
+				<directory>./src/Console</directory>
+				<directory>./src/Shell</directory>
+				<file>./src/View/AppView.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+	
+	<!-- Add any additional test suites you want to run here -->
+	<testsuites>
+		<testsuite name="App Test Suite">
+			<directory>./tests/TestCase</directory>
+		</testsuite>
+		<!-- Add plugin test suites here. -->
+	</testsuites>
+
+	<!-- Setup a listener for fixtures -->
+	<listeners>
+		<listener
+		class="\Cake\TestSuite\Fixture\FixtureInjector"
+		file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
+			<arguments>
+				<object class="\Cake\TestSuite\Fixture\FixtureManager" />
+			</arguments>
+		</listener>
+	</listeners>
+
+	<logging>
+		<log type="testdox-html" target="webroot/reports/testdox.html" />
+		<log type="coverage-html" target="webroot/reports/coverage/" />
+		<!-- log type="coverage-clover" target="webroot/reports/clover.xml" /-->
+	</logging>
+</phpunit>

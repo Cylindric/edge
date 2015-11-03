@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
+use Cake\Network\Exception\InternalErrorException;
 
 class CreditsController extends AppController
 {
@@ -36,18 +36,23 @@ class CreditsController extends AppController
 
     public function add()
     {
+        $this->request->allowMethod(['post', 'put']);
+        $response = array();
+
         $credit = $this->Credits->newEntity();
-        if ($this->request->is('post')) {
-            $credit = $this->Credits->patchEntity($credit, $this->request->data);
-            if ($this->Credits->save($credit)) {
-                $response = ['result' => 'success', 'data' => $credit];
-            } else {
-                $response = ['result' => 'fail', 'data' => $credit];
-            }
+        $credit = $this->Credits->patchEntity($credit, $this->request->data);
+        if ($this->Credits->save($credit)) {
+            $response['result'] = 'success';
+            $response['data'] = $credit;
+            $response['total'] = $this->Credits->totalForCharacter($credit->character_id);
+
+        } else {
+            $response['result'] = 'fail';
+            $response['data'] = $credit;
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function edit($character_id = null)
@@ -92,31 +97,27 @@ class CreditsController extends AppController
             ->where(['character_id' => $character_id])
             ->order('Credits.created DESC');
 
-        $query = $this->Credits->find();
-        $query
-            ->where(['character_id' => $character_id])
-            ->select(['total' => $query->func()->sum('value')])
-            ->hydrate(false);
-        $total = $query->toArray()[0]['total'];
+        $total = $this->Credits->totalForCharacter($character_id);
 
         $this->set('credits', $credits->toArray());
         $this->set('total', $total);
-        $this->set('_serialize', ['credits']);
+        $this->set('_serialize', ['credits', 'total']);
     }
 
 
-    public function delete($id)
+    public function delete()
     {
-        $response = ['result' => 'fail', 'data' => null];
+        $this->request->allowMethod(['post', 'delete']);
+        $response = ['result' => 'fail'];
 
-        if (!is_null($id)) {
-            if ($this->Credits->delete($this->Credits->get($id))) {
-                $response = ['result' => 'success', 'data' => null];
-            }
+        $credit = $this->Credits->get($this->request->data['credit_id']);
+        if ($this->Credits->delete($credit)) {
+            $response['result'] = 'success';
+            $response['total'] = $this->Credits->totalForCharacter($credit->character_id);
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
 }

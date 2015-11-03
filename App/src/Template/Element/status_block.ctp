@@ -81,6 +81,13 @@ $editing = $this->request->params['action'] == 'edit';
         "title" => "Defence",
         "subtitles" => ['Melee', 'Ranged'],
         "values" => [$character->totalDefence['melee'], $character->totalDefence['ranged']],
-    ]); ?>
+    ]);
+    $this->Html->scriptBlock("
+        $(document).on('click', 'i[id=defence_0_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'defence_melee', -1, 'defence_0_value');});
+        $(document).on('click', 'i[id=defence_0_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'defence_melee',  1, 'defence_0_value');});
+        $(document).on('click', 'i[id=defence_1_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'defence_ranged', -1, 'defence_1_value');});
+        $(document).on('click', 'i[id=defence_1_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'defence_ranged',  1, 'defence_1_value');});
+    ", ['block' => true]);
+    ?>
 
 </div>

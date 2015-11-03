@@ -13,10 +13,6 @@ class ObligationsController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($this->request->action === 'index') {
-            return true;
-        }
-
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
             'add',
@@ -38,18 +34,25 @@ class ObligationsController extends AppController
 
     public function add()
     {
-        $note = $this->Obligations->newEntity();
+        $obligation = $this->Obligations->newEntity();
         if ($this->request->is('post')) {
-            $obligation = $this->Obligations->patchEntity($note, $this->request->data);
+            $obligation = $this->Obligations->patchEntity($obligation, $this->request->data);
             if ($this->Obligations->save($obligation)) {
                 $response = ['result' => 'success', 'data' => $obligation];
+
+                $query = $this->Obligations->find();
+                $query
+                    ->where(['character_id' => $obligation->character_id])
+                    ->select(['total' => $query->func()->sum('value')])
+                    ->hydrate(false);
+                $response['total'] = $query->toArray()[0]['total'];
             } else {
                 $response = ['result' => 'fail', 'data' => $obligation];
             }
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function edit($character_id = null)
@@ -71,20 +74,23 @@ class ObligationsController extends AppController
 
         $this->set('obligations', $obligations->toArray());
         $this->set('total', $total);
-        $this->set('_serialize', ['character']);
+        $this->set('_serialize', ['obligations', 'total']);
     }
 
-    public function delete($obligation_id)
+    public function delete()
     {
-        $response = ['result' => 'fail', 'data' => null];
+        $this->request->allowMethod(['post', 'delete']);
+        $response = ['result' => 'fail'];
 
-        if (!is_null($obligation_id)) {
-            if ($this->Obligations->delete($this->Obligations->get($obligation_id))) {
-                $response = ['result' => 'success', 'data' => null];
-            }
+        $obligation = $this->Obligations->get($this->request->data['obligation_id']);
+        if ($this->Obligations->delete($obligation)) {
+            $response['result'] = 'success';
+            $response['total'] = $this->Obligations->totalForCharacter($obligation->character_id);
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
+
 }
+

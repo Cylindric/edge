@@ -13,10 +13,6 @@ class XpController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($this->request->action === 'index') {
-            return true;
-        }
-
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
             'add',
@@ -38,18 +34,19 @@ class XpController extends AppController
 
     public function add()
     {
-        $xp = $this->Xp->newEntity();
-        if ($this->request->is('post')) {
-            $xp = $this->Xp->patchEntity($xp, $this->request->data);
-            if ($this->Xp->save($xp)) {
-                $response = ['result' => 'success', 'data' => $xp];
-            } else {
-                $response = ['result' => 'fail', 'data' => $xp];
-            }
+        $this->request->allowMethod(['post', 'put']);
+
+        $xp = $this->Xp->patchEntity($this->Xp->newEntity(), $this->request->data);
+        if ($this->Xp->save($xp)) {
+            $response = ['result' => 'success', 'data' => $xp];
+            $response['total'] = $this->Xp->totalForCharacter($xp->character_id);
+
+        } else {
+            $response = ['result' => 'fail', 'data' => $xp];
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function edit($character_id = null)
@@ -61,30 +58,26 @@ class XpController extends AppController
             ->where(['character_id' => $character_id])
             ->order(['Xp.created DESC']);
 
-        $query = $this->Xp->find();
-        $query
-            ->where(['character_id' => $character_id])
-            ->select(['total' => $query->func()->sum('value')])
-            ->hydrate(false);
-        $total = $query->toArray()[0]['total'];
+        $total = $this->Xp->totalForCharacter($character_id);
 
         $this->set('xp', $xp);
         $this->set('total', $total);
-        $this->set('_serialize', ['xp']);
+        $this->set('_serialize', ['xp', 'total']);
     }
 
-    public function delete($xp_id)
+    public function delete()
     {
-        $response = ['result' => 'fail', 'data' => null];
+        $this->request->allowMethod(['post', 'delete']);
+        $response = ['result' => 'fail'];
 
-        if (!is_null($xp_id)) {
-            if ($this->Xp->delete($this->Xp->get($xp_id))) {
-                $response = ['result' => 'success', 'data' => null];
-            }
+        $xp = $this->Xp->get($this->request->data['xp_id']);
+        if ($this->Xp->delete($xp)) {
+            $response['result'] = 'success';
+            $response['total'] = $this->Xp->totalForCharacter($xp->character_id);
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
 }

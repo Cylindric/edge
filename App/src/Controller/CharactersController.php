@@ -2,9 +2,11 @@
 namespace App\Controller;
 
 use Cake\Core\Configure;
+use Cake\Network\Exception\ForbiddenException;
 
 class CharactersController extends AppController
 {
+
     public function isAuthorized($user)
     {
         // Public actions
@@ -30,7 +32,11 @@ class CharactersController extends AppController
             'join_group',
         ])) {
             if ($this->request->is('post')) {
-                $character_id = $this->request->data['character_id'];
+                if(array_key_exists('character_id', $this->request->data)) {
+                    $character_id = $this->request->data['character_id'];
+                } else {
+                    $character_id = $this->request->data['id'];
+                }
             } else {
                 $character_id = (int)$this->request->params['pass'][0];
             }
@@ -162,19 +168,24 @@ class CharactersController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function delete($id = null)
+    public function delete()
     {
         $this->request->allowMethod(['post', 'delete']);
-        $character = $this->Characters->get($id);
+        $response = ['result' => 'fail', 'data' => null];
+
+        $character = $this->Characters->get($this->request->data['id']);
 
         if ($this->Characters->delete($character)) {
-            $this->Flash->success(__('The character has been deleted.'));
+            $response['result'] = 'success';
+            $response['data'] = sprintf('%s has been deleted.', $character->name);
         } else {
-            $this->Flash->error(__('The character could not be deleted. Please, try again.'));
+            throw new ForbiddenException('Could not delete user');
         }
-        return $this->redirect(['action' => 'index']);
-    }
 
+        $this->set('response', $response);
+        $this->set('_serialize', ['response']);
+    }
+    
     public function edit_stats($id = null)
     {
         $character = $this->Characters->get($id);
@@ -255,9 +266,6 @@ class CharactersController extends AppController
 
     public function get_soak($id)
     {
-        $response = ['result' => 'fail', 'data' => null];
-        $breakdown = array();
-
         $Char = $this->Characters->get($id);
 
         $breakdown = $Char->totalSoakBreakdown;
@@ -269,9 +277,6 @@ class CharactersController extends AppController
 
     public function get_strain_threshold($id)
     {
-        $response = ['result' => 'fail', 'data' => null];
-        $breakdown = array();
-
         $Char = $this->Characters->get($id);
 
         $breakdown = $Char->totalStrainThresholdBreakdown;
@@ -311,11 +316,18 @@ class CharactersController extends AppController
                     $Char->wound_threshold = $Char->wound_threshold + $delta;
                     $response['data'] = $Char->wound_threshold;
                     break;
+                case 'defence_melee':
+                    $Char->defence_melee = $Char->defence_melee + $delta;
+                    $response['data'] = $Char->defence_melee;
+                    break;
+                case 'defence_ranged':
+                    $Char->defence_ranged = $Char->defence_ranged + $delta;
+                    $response['data'] = $Char->defence_ranged;
+                    break;
             }
 
             // Change the stat
             if ($this->Characters->save($Char)) {
-                // Announce
                 $this->Slack->announceCharacterEdit($Char);
                 $response['result'] = 'success';
             }

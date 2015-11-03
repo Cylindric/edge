@@ -10,13 +10,14 @@ class RpgTextHelper extends Helper
 
     public function format($text, $data = array())
     {
+
         if(is_object($data)) {
             $data = (array)($data);
             $data = $data["\0*\0_properties"];
         }
 
         $char = null;
-        if(array_key_exists('character', $data)) {
+        if(is_array($data) && array_key_exists('character', $data)) {
             $char = $data['character'];
         }
 
@@ -107,19 +108,19 @@ class RpgTextHelper extends Helper
         $out = '';
         if(array_key_exists('proficiency', $dice))
         {
-            $out .= str_repeat($this->Html->image('dice-proficiency.png'), $dice['proficiency']);
+            $out .= str_repeat($this->Html->image('dice-proficiency.png', ['alt' => 'Proficiency Dice']), $dice['proficiency']);
         }
         if(array_key_exists('ability', $dice))
         {
-            $out .= str_repeat($this->Html->image('dice-ability.png'), $dice['ability']);
+            $out .= str_repeat($this->Html->image('dice-ability.png', ['alt' => 'Ability Dice']), $dice['ability']);
         }
         if(array_key_exists('difficulty', $dice))
         {
-            $out .= str_repeat($this->Html->image('dice-difficulty.png'), $dice['difficulty']);
+            $out .= str_repeat($this->Html->image('dice-difficulty.png', ['alt' => 'Difficulty Dice']), $dice['difficulty']);
         }
         if(array_key_exists('boost', $dice))
         {
-            $out .= str_repeat($this->Html->image('dice-boost.png'), $dice['boost']);
+            $out .= str_repeat($this->Html->image('dice-boost.png', ['alt' => 'Boost Dice']), $dice['boost']);
         }
         return $out;
     }
@@ -129,11 +130,11 @@ class RpgTextHelper extends Helper
         $out = '';
         if(array_key_exists('success', $symbols))
         {
-            $out .= str_repeat($this->Html->image('symbol-success.png'), $symbols['success']);
+            $out .= str_repeat($this->Html->image('symbol-success.png', ['alt' => 'Success']), $symbols['success']);
         }
         if(array_key_exists('triumph', $symbols))
         {
-            $out .= str_repeat($this->Html->image('symbol-triumph.png'), $symbols['triumph']);
+            $out .= str_repeat($this->Html->image('symbol-triumph.png', ['alt' => 'Triumph']), $symbols['triumph']);
         }
         return $out;
     }
