@@ -3,6 +3,7 @@
 <table class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
+        <th class="hidden-print">Actions</th>
         <th>Date</th>
         <th class="text-right">Obligation</th>
         <th>Type</th>
@@ -11,6 +12,10 @@
     </thead>
     <tbody>
         <tr ng-repeat="x in obligations | orderBy:'-created'  ">
+            <td class="col-md-1 text-nowrap hidden-print actions">
+                <span class="btn btn-xs btn-danger" ng-click="removeObligation(x)">delete</span>
+                <span ng-if="x.created_by_gm" class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM {{ x.created_user.username }}</span>
+            </td>
             <td class="col-md-2">{{ x.created | date:'dd/MM/yyyy HH:mm' }}</td>
             <td class="col-md-1 text-right">{{ x.value }}</td>
             <td class="col-md-2">{{ x.type }}</td>
