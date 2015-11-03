@@ -22,7 +22,7 @@
             </td>
             <td class="col-md-3">
                 <span class="skill_dice skill_dice_<?= Cake\Utility\Inflector::slug($skill->name) ?>">
-                    <?= $this->rpgText->dice($skill->dice($character)) ?>
+                    <?= $this->RpgText->dice($skill->dice($character)) ?>
                 </span>
             </td>
         </tr>

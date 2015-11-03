@@ -9,7 +9,7 @@
                 <?= $skill->level == 0 ? '' : $skill->level ?>
             </td>
             <td class="col-md-3">
-                <?= $this->rpgText->dice($skill->dice($character)) ?>
+                <?= $this->RpgText->dice($skill->dice($character)) ?>
             </td>
         </tr>
     <?php endforeach; ?>
