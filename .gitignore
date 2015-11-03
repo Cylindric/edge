@@ -6,3 +6,5 @@ App/webroot/coverage/
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/*.iws
+App/webroot/reports/coverage/
+App/webroot/reports/testdox.html

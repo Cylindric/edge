@@ -13,17 +13,10 @@ class XpTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('xp');
-        $this->displayField('id');
-        $this->primaryKey('id');
-
         $this->addBehavior('Timestamp');
         $this->addBehavior('Ceeram/Blame.Blame');
 
-        $this->belongsTo('Characters', [
-            'foreignKey' => 'character_id',
-            'joinType' => 'INNER'
-        ]);
+        $this->belongsTo('Characters');
         $this->belongsTo('CreatedUser', [
             'className' => 'Users',
             'foreignKey' => 'created_by',
@@ -54,6 +47,21 @@ class XpTable extends Table
         $rules->add($rules->existsIn(['created_by'], 'Users'));
         $rules->add($rules->existsIn(['modified_by'], 'Users'));
         return $rules;
+    }
+
+    public function totalForCharacter($character_id)
+    {
+        $query = $this->find();
+        $query
+            ->where(['character_id' => $character_id])
+            ->select(['total' => $query->func()->sum('value')])
+            ->hydrate(false);
+        $query = $query->first();
+
+        if($query['total'] === null) {
+            $query['total'] = 0;
+        }
+        return $query['total'];
     }
 
 }

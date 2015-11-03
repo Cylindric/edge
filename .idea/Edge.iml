@@ -4,6 +4,7 @@
     <content url="file://$MODULE_DIR$/App">
       <sourceFolder url="file://$MODULE_DIR$/App/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/App/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/App/vendor" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/App/bin" />
       <excludeFolder url="file://$MODULE_DIR$/App/logs" />
       <excludeFolder url="file://$MODULE_DIR$/App/output" />
@@ -11,10 +12,21 @@
       <excludeFolder url="file://$MODULE_DIR$/App/src/Console" />
       <excludeFolder url="file://$MODULE_DIR$/App/src/Shell" />
       <excludeFolder url="file://$MODULE_DIR$/App/tmp" />
-      <excludeFolder url="file://$MODULE_DIR$/App/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/App/webroot/coverage" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="PHARS">
+        <CLASSES>
+          <root url="phar://$MODULE_DIR$/App/vendor/bin/phpunit.phar" />
+          <root url="phar://$MODULE_DIR$/App/vendor/phpdocumentor/fileset/tests/data/test.phar" />
+        </CLASSES>
+        <SOURCES>
+          <root url="phar://$MODULE_DIR$/App/vendor/bin/phpunit.phar" />
+          <root url="phar://$MODULE_DIR$/App/vendor/phpdocumentor/fileset/tests/data/test.phar" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

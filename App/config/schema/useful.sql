@@ -71,7 +71,6 @@ DROP TABLE groups;
 DROP TABLE items;
 DROP TABLE item_types;
 DROP TABLE notes;
-DROP TABLE phinxlog;
 DROP TABLE sessions;
 DROP TABLE slack;
 DROP TABLE specialisations;
@@ -87,4 +86,5 @@ DROP TABLE stats;
 DROP TABLE weapon_types;
 DROP TABLE species;
 DROP TABLE users;
+DROP TABLE phinxlog;
 

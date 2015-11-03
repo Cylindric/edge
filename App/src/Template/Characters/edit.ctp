@@ -10,7 +10,7 @@ $this->assign('title', $character->name);
 <?= $this->Form->hidden('id'); ?>
 <?= $this->Form->end() ?>
 
-<div class="row">
+<div class="row" ng-controller="CharacterCtrl">
     <div class="col-md-12 col-lg-10 col-lg-offset-1">
 
         <div class="row">
@@ -54,9 +54,9 @@ $this->assign('title', $character->name);
                 <li role="presentation" class="btn-lg"><a href="#weapons" aria-controls="weapons" role="tab" data-toggle="tab">Weapons</a></li>
                 <li role="presentation" class="btn-lg"><a href="#armour" aria-controls="armour" role="tab" data-toggle="tab">Armour</a></li>
                 <li role="presentation" class="btn-lg"><a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items</a></li>
-                <li role="presentation" class="btn-lg"><a href="#credits" aria-controls="credits" role="tab" data-toggle="tab">Credits (<span class="character_credits_total"><?= $this->RpgNumber->toReadableSize($character->totalCredits) ?></span>)</a></li>
-                <li role="presentation" class="btn-lg"><a href="#xp" aria-controls="xp" role="tab" data-toggle="tab">Experience (<span class="character_xp_total"><?= $this->RpgNumber->toReadableSize($character->totalXp) ?></span>)</a></li>
-                <li role="presentation" class="btn-lg"><a href="#obligation" aria-controls="obligation" role="tab" data-toggle="tab">Obligation (<span class="character_obligation_total"><?= $this->RpgNumber->toReadableSize($character->totalObligation) ?></span>)</a></li>
+                <li role="presentation" class="btn-lg"><a href="#credits" aria-controls="credits" role="tab" data-toggle="tab">Credits (<span ng-bind="totalCredits | number"></span>)</a></li>
+                <li role="presentation" class="btn-lg"><a href="#xp" aria-controls="xp" role="tab" data-toggle="tab">Experience (<span ng-bind="totalXp | number"></span>)</a></li>
+                <li role="presentation" class="btn-lg"><a href="#obligation" aria-controls="obligation" role="tab" data-toggle="tab">Obligation (<span ng-bind="totalObligation | number"></span>)</a></li>
                 <li role="presentation" class="btn-lg"><a href="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</a></li>
             </ul>
 
@@ -78,15 +78,18 @@ $this->assign('title', $character->name);
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="credits">
-                    <div class="col-md-12" id="credits_list_edit">
+                    <div class="col-md-12">
+                        <?= $this->element('character/credits') ?>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="xp">
-                    <div class="col-md-12" id="xp_list_edit">
+                    <div class="col-md-12">
+                        <?= $this->element('character/xp') ?>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="obligation">
-                    <div class="col-md-12" id="obligation_list_edit">
+                    <div class="col-md-12">
+                        <?= $this->element('character/obligation') ?>
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="bio">

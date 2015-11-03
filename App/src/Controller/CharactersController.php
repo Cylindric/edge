@@ -316,11 +316,18 @@ class CharactersController extends AppController
                     $Char->wound_threshold = $Char->wound_threshold + $delta;
                     $response['data'] = $Char->wound_threshold;
                     break;
+                case 'defence_melee':
+                    $Char->defence_melee = $Char->defence_melee + $delta;
+                    $response['data'] = $Char->defence_melee;
+                    break;
+                case 'defence_ranged':
+                    $Char->defence_ranged = $Char->defence_ranged + $delta;
+                    $response['data'] = $Char->defence_ranged;
+                    break;
             }
 
             // Change the stat
             if ($this->Characters->save($Char)) {
-                // Announce
                 $this->Slack->announceCharacterEdit($Char);
                 $response['result'] = 'success';
             }

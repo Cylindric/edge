@@ -51,12 +51,30 @@ class CharactersControllerTest extends ControllerTestBase
         parent::setUp();
     }
 
+    /**
+     * @covers App\Controller\CharactersController::initialize
+     * @covers App\Controller\CharactersController::isAuthorized
+     * @covers App\Controller\CharactersController::edit
+     */
     public function testEditRequiresLogin()
     {
         $this->get('/characters/edit/1');
         $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
     }
 
+    /**
+     * @covers App\Controller\CharactersController::edit
+     */
+    public function testEditByOwner()
+    {
+        $this->setUser('user');
+        $this->get('/characters/edit/1');
+        $this->assertResponseOk();
+    }
+
+    /**
+     * @covers App\Controller\CharactersController::edit
+     */
     public function testEditByGM()
     {
         $this->setUser('gm');
@@ -64,15 +82,10 @@ class CharactersControllerTest extends ControllerTestBase
         $this->assertResponseOk();
     }
 
-    public function testEdit()
-    {
-        $this->setUser('user');
-        $this->get('/characters/edit/1');
-        $this->assertResponseOk();
-    }
 
-
-
+    /**
+     * @covers App\Controller\CharactersController::delete
+     */
     public function testxDeleteRequiresLogin()
     {
         $this->setJson();
@@ -80,6 +93,9 @@ class CharactersControllerTest extends ControllerTestBase
         $this->assertRedirect(['controller' => 'Users', 'action' => 'login']);
     }
 
+    /**
+     * @covers App\Controller\CharactersController::delete
+     */
     public function testDeleteByGm()
     {
         $this->setUser('gm');
@@ -96,6 +112,9 @@ class CharactersControllerTest extends ControllerTestBase
         $this->assertEquals(0, $count);
     }
 
+    /**
+     * @covers App\Controller\CharactersController::delete
+     */
     public function testDeleteByOwner()
     {
         $this->setUser('user');
