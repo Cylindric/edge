@@ -29,18 +29,6 @@ rpgApp.getNotes = function (character_id) {
     rpgApp.genericGet('characters', 'edit_notes', character_id, 'notes_list_edit');
 };
 
-rpgApp.getXp = function (character_id) {
-    rpgApp.genericGet('xp', 'edit', character_id, 'xp_list_edit');
-};
-
-rpgApp.getCredits = function (character_id) {
-    rpgApp.genericGet('credits', 'edit', character_id, 'credits_list_edit');
-};
-
-rpgApp.getObligation = function (character_id) {
-    rpgApp.genericGet('obligations', 'edit', character_id, 'obligation_list_edit');
-};
-
 rpgApp.getArmour = function (character_id) {
     $.ajax({
         async: false,
@@ -376,42 +364,6 @@ rpgApp.removeNote = function (note_id) {
     );
 };
 
-rpgApp.removeXp = function (xp_id) {
-    $.get('/xp/delete/' + xp_id + '.json',
-        function (response) {
-            if (response.response.result == 'success') {
-                $('tr[id=xp_' + xp_id).remove();
-            } else if (response.response.result == 'fail') {
-                console.log('fail');
-            }
-        }
-    );
-};
-
-rpgApp.removeCredits = function (credit_id) {
-    $.get('/credits/delete/' + credit_id + '.json',
-        function (response) {
-            if (response.response.result == 'success') {
-                $('tr[id=credits_' + credit_id).remove();
-            } else if (response.response.result == 'fail') {
-                console.log('fail');
-            }
-        }
-    );
-};
-
-rpgApp.removeObligation = function (obligation_id) {
-    $.get('/obligations/delete/' + obligation_id + '.json',
-        function (response) {
-            if (response.response.result == 'success') {
-                $('tr[id=obligation_' + obligation_id).remove();
-            } else if (response.response.result == 'fail') {
-                console.log('fail');
-            }
-        }
-    );
-};
-
 rpgApp.addNote = function (character_id) {
     $.post("/character_notes/add.json", {
         charId: character_id,
@@ -421,41 +373,6 @@ rpgApp.addNote = function (character_id) {
         rpgApp.getNotes(character_id);
     });
 };
-
-rpgApp.addXp = function (character_id) {
-    $.post("/xp/add.json", {
-        character_id: character_id,
-        value: $("#new_xp").val(),
-        note: $("#new_xp_note").val()
-    }, function (data) {
-        $('span.character_xp_total').text(data.response.total);
-        rpgApp.getXp(character_id);
-    });
-};
-
-rpgApp.addCredits = function (character_id) {
-    $.post("/credits/add.json", {
-        character_id: character_id,
-        value: $("#new_credits").val(),
-        note: $("#new_credits_note").val()
-    }, function (data) {
-        $('span.character_credits_total').text(data.response.total);
-        rpgApp.getCredits(character_id);
-    });
-};
-
-rpgApp.addObligation = function (character_id) {
-    $.post("/obligations/add.json", {
-        character_id: character_id,
-        value: $("#new_obligation").val(),
-        type: $("#new_obligation_type").val(),
-        note: $("#new_obligation_note").val()
-    }, function (data) {
-        $('span.character_obligation_total').text(data.response.total);
-        rpgApp.getObligation(character_id);
-    });
-};
-
 
 (function ($) {
     // Get the Character ID
@@ -551,34 +468,6 @@ rpgApp.addObligation = function (character_id) {
         rpgApp.addNote(char_id);
     });
 
-    // Xp buttons
-    $(document).on('click', 'span[id*=remove_xp_]', function () {
-        var id = $(this).attr('id').replace('remove_xp_', '');
-        rpgApp.removeXp(id);
-    });
-    $(document).on('click', 'a[id*=new_xp_submit]', function () {
-        rpgApp.addXp(char_id);
-    });
-
-    // Credits buttons
-    $(document).on('click', 'span[id*=remove_credits_]', function () {
-        var id = $(this).attr('id').replace('remove_credits_', '');
-        rpgApp.removeCredits(id);
-    });
-    $(document).on('click', 'a[id*=new_credits_submit]', function () {
-        rpgApp.addCredits(char_id);
-    });
-
-    // Obligation buttons
-    $(document).on('click', 'span[id*=remove_obligation_]', function () {
-        var id = $(this).attr('id').replace('remove_obligation_', '');
-        rpgApp.removeObligation(id);
-    });
-    $(document).on('click', 'a[id*=new_obligation_submit]', function () {
-        rpgApp.addObligation(char_id);
-    });
-
-
     rpgApp.getStats(char_id);
     rpgApp.getSkills(char_id);
     rpgApp.talentsGet(char_id);
@@ -586,8 +475,6 @@ rpgApp.addObligation = function (character_id) {
     rpgApp.weaponsGet(char_id);
     rpgApp.getArmour(char_id);
     rpgApp.getItems(char_id);
-    //.getXp(char_id);
-    //rpgApp.getObligation(char_id);
-    //rpgApp.getCredits(char_id);
+
 })(jQuery);
 
