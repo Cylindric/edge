@@ -21,7 +21,7 @@
                 <i class="increase glyphicon glyphicon-plus" id="skillincrease_<?= $skill->id ?>"></i>
             </td>
             <td class="col-md-3">
-                <span class="skill_dice">
+                <span class="skill_dice skill_dice_<?= Cake\Utility\Inflector::slug($skill->name) ?>">
                     <?= $this->rpgText->dice($skill->dice($character)) ?>
                 </span>
             </td>
