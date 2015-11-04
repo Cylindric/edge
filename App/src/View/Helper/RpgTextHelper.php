@@ -122,6 +122,10 @@ class RpgTextHelper extends Helper
         {
             $out .= str_repeat($this->Html->image('dice-boost.png', ['alt' => 'Boost Dice']), $dice['boost']);
         }
+        if(array_key_exists('setback', $dice))
+        {
+            $out .= str_repeat($this->Html->image('dice-setback.png', ['alt' => 'Setback Dice']), $dice['setback']);
+        }
         return $out;
     }
 
