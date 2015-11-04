@@ -14,6 +14,7 @@ class CharactersController extends AppController
             'add',
             'get_soak',
             'get_strain_threshold',
+            'get_wound_threshold',
             'index',
             'view',
         ])) {
@@ -281,6 +282,17 @@ class CharactersController extends AppController
 
         $breakdown = $Char->totalStrainThresholdBreakdown;
         $response = ['result' => 'success', 'strain_threshold' => array_sum($breakdown), 'breakdown' => $breakdown];
+
+        $this->set(compact('response', 'breakdown'));
+        $this->set('_serialize', ['response']);
+    }
+
+    public function get_wound_threshold($id)
+    {
+        $Char = $this->Characters->get($id);
+
+        $breakdown = $Char->totalWoundThresholdBreakdown;
+        $response = ['result' => 'success', 'wound_threshold' => array_sum($breakdown), 'breakdown' => $breakdown];
 
         $this->set(compact('response', 'breakdown'));
         $this->set('_serialize', ['response']);

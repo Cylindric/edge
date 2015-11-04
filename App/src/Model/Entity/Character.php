@@ -64,8 +64,13 @@ class Character extends Entity
     {
         $breakdown = array();
 
-        // Strain Threshold is initially a fixed value.
-        $breakdown['Basic'] = $this->strain_threshold;
+        // Strain Threshold is initially based on Species.
+        $Species = TableRegistry::get('Species');
+        $species = $Species->get($this->species_id);
+        $breakdown['Species'] = $species->base_strain;
+
+        // Willpower is added
+        $breakdown['Willpower'] = $this->willpower;
 
         // Talents may add Strain Threshold
         $Talents = TableRegistry::get('CharactersTalents');
@@ -77,12 +82,38 @@ class Character extends Entity
             ->hydrate(false);
         $breakdown['Talents'] = $query->toArray()[0]['strain'];
 
+        // Finally any arbitrary adjustments are added
+        $breakdown['Manual'] = $this->strain_threshold;
+
         return $breakdown;
     }
 
     public function _getTotalStrainThreshold()
     {
         return array_sum($this->_getTotalStrainThresholdBreakdown());
+    }
+
+    public function _getTotalWoundThresholdBreakdown()
+    {
+        $breakdown = array();
+
+        // Wound Threshold is initially based on Species.
+        $Species = TableRegistry::get('Species');
+        $species = $Species->get($this->species_id);
+        $breakdown['Species'] = $species->base_wound;
+
+        // Brawn is added
+        $breakdown['Willpower'] = $this->brawn;
+
+        // Finally any arbitrary adjustments are added
+        $breakdown['Manual'] = $this->wound_threshold;
+
+        return $breakdown;
+    }
+
+    public function _getTotalWoundThreshold()
+    {
+        return array_sum($this->_getTotalWoundThresholdBreakdown());
     }
 
     public function _getTotalSoakBreakdown()
