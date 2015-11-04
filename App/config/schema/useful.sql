@@ -9,13 +9,7 @@ SELECT * FROM characters_armour;
 SELECT * FROM characters_items;
 SELECT * FROM characters_notes;
 SELECT * FROM characters_skills ORDER BY character_id, skill_id;
-
-SELECT ct.*, t.name
-FROM characters_talents ct
-INNER JOIN talents t ON (ct.talent_id = t.id)
-WHERE ct.character_id=2
-ORDER BY ct.character_id;
-
+SELECT * FROM characters_talents ORDER BY ct.character_id;
 SELECT * FROM characters_weapons;
 SELECT * FROM credits;
 SELECT * FROM groups;
@@ -38,21 +32,30 @@ SELECT * FROM weapon_types;
 SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
--- v0.6 to v0.7
-UPDATE weapons SET skill_id = 26 WHERE name = 'Heavy Blaster Pistol' AND skill_id=27;
+-- v0.7 to v0.8
+-- THESE STILL NEED TRANSFERRING INTO A MIGRATION!
+UPDATE characters c
+INNER JOIN species s ON (c.species_id = s.id)
+SET c.wound_threshold = c.wound_threshold - s.base_wound - c.stat_br,
+c.strain_threshold = c.strain_threshold - s.base_strain - c.stat_will;
 
-INSERT INTO characters_skills (character_id, skill_id, level, career, locked, source, created, modified)
-SELECT character_id, skill_id, 0, 1, 1, '', created, modified
-FROM characters_skills
-WHERE career=1 AND level>0;
-
-UPDATE characters_skills SET career=0 WHERE career=1 AND level>0;
-
-ALTER TABLE talents ADD COLUMN soak_per_rank INT(11) NOT NULL DEFAULT 0 AFTER ranked;
-ALTER TABLE talents ADD COLUMN strain_per_rank INT(11) NOT NULL DEFAULT 0 AFTER ranked;
-UPDATE talents SET soak_per_rank = 1 WHERE name = 'Enduring';
-UPDATE talents SET strain_per_rank = 1 WHERE name = 'Grit';
-
+ALTER TABLE talents CHANGE COLUMN `description` `description` VARCHAR(300) NULL DEFAULT NULL;
+UPDATE talents SET description = 'Remove {dice.setback.rank} from Deception or Skulduggery checks.' WHERE name = 'Convincing Demeanor';
+UPDATE talents SET description = 'Remove {dice.setback.rank} from checks to find tracks or track targets. Decrease time to track a target by half.' WHERE name = 'Expert Tracker';
+UPDATE talents SET description = 'Add {dice.boost.rank} to all checks when interacting with beast or animals (including combat checks). Add + 10 to Critical Injury results against beasts or animals per rank of Hunter.' WHERE name = 'Hunter';
+UPDATE talents SET description = 'Remove {dice.setback.rank} from checks to move through terrain or manage environmental effects. Decrease overland travel times by half.' WHERE name = 'Outdoorsman';
+UPDATE talents SET description = 'After making a successful attack, may spend I Destiny Point to add damage equal to Cunning to one hit.' WHERE name = 'Soft Spot';
+UPDATE talents SET description = 'Do not suffer usual penalties for moving through difficult terrain.' WHERE name = 'Swift';
+UPDATE talents SET description = 'When purchasing illegal goods, may reduce rarity by {rank}, increasing cost by 50 percent of base cost per reduction.' WHERE name = 'Black Market Contacts';
+UPDATE talents SET description = 'Once per round on the character\'s turn, he may draw or holster an easily accessible weapon as an incidental, not a maneuver. This talent also reduces the amount of time to draw or stow a weapon that usually requires more than one maneuver to properly prepare or stow, by one maneuver.' WHERE name = 'Quick Draw';
+UPDATE talents SET description = '' WHERE name = '';
+UPDATE talents SET description = '' WHERE name = '';
+UPDATE talents SET description = '' WHERE name = '';
+UPDATE talents SET description = '' WHERE name = '';
+UPDATE talents SET description = '' WHERE name = '';
+UPDATE talents SET description = '' WHERE name = '';
+UPDATE talents SET description = '' WHERE name = '';
+UPDATE talents SET description = '' WHERE name = '';
 
 -- The order of these is important due to inheritance - don't just re-sort the list!
 DROP TABLE IF EXISTS characters_armour;

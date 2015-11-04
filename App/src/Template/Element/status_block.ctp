@@ -65,9 +65,24 @@ $editing = $this->request->params['action'] == 'edit';
         "editing" => $editing,
         "title" => "Wounds",
         "subtitles" => ['Threshold', 'Current'],
-        "values" => [$character->wound_threshold, $character->wounds],
+        "values" => [$character->total_wound_threshold, $character->wounds],
+        "class" => ['cursor-help', ''],
     ]);
     $this->Html->scriptBlock("
+         $('#wounds_0_value').popover
+            (
+            {
+                html: true,
+                trigger: 'hover',
+                title: 'Wound Threshold',
+                content: function()
+                {
+                    return $.ajax({url: '/characters/get_wound_threshold/" . $character->id . "',
+                         dataType: 'html',
+                         async: false}).responseText;
+                }
+            }
+        );
         $(document).on('click', 'i[id=wounds_0_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'wound_threshold', -1, 'wounds_0_value');});
         $(document).on('click', 'i[id=wounds_0_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'wound_threshold',  1, 'wounds_0_value');});
         $(document).on('click', 'i[id=wounds_1_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'wounds', -1, 'wounds_1_value');});
