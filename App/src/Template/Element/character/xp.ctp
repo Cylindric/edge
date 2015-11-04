@@ -1,4 +1,4 @@
-<h3>Experience - <span ng-bind="totalXp"></span></h3>
+<h3>Experience: <span ng-bind="totalXp"></span></h3>
 
 <table class="table table-striped table-bordered table-condensed">
     <thead>
