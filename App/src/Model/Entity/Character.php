@@ -103,7 +103,7 @@ class Character extends Entity
         $breakdown['Species'] = $species->base_wound;
 
         // Brawn is added
-        $breakdown['Willpower'] = $this->brawn;
+        $breakdown['Brawn'] = $this->brawn;
 
         // Finally any arbitrary adjustments are added
         $breakdown['Manual'] = $this->wound_threshold;
