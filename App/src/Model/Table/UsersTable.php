@@ -15,19 +15,29 @@ class UsersTable extends Table
 
     public function validationDefault(Validator $validator)
     {
-        return $validator
-            ->notEmpty('username', 'A username is required')
+        $validator->notEmpty('email', 'An email address is required');
+
+        $validator
             ->notEmpty('password', 'A password is required')
-            ->notEmpty('role', 'A role is required')
-            ->add('role', 'inList', [
-                'rule' => ['inList', ['admin', 'author']],
-                'message' => 'Please enter a valid role'
-            ]);
+            ->add('password', 'custom', [
+                'rule' => [$this, 'matchPasswordsValidator'],
+                'message' => 'Passwords do not match',
+            ])
+        ;
+
+        $validator->notEmpty('role', 'A role is required');
+
+        $validator->add('role', 'inList', [
+            'rule' => ['inList', ['admin', 'user']],
+            'message' => 'Please enter a valid role',
+        ]);
+
+        return $validator;
     }
 
-    public function checkLogin($username, $hash)
+    public function checkLogin($email, $hash)
     {
-        $user = $this->find()->where(['username' => $username], ['password' => $hash])->first()->toArray();
+        $user = $this->find()->where(['email' => $email], ['password' => $hash])->first()->toArray();
 
         if ($user) {
             $this->data = $user;
@@ -38,5 +48,13 @@ class UsersTable extends Table
         return false;
     }
 
+    public function matchPasswordsValidator($data, $context)
+    {
+        if ($data == $context['data']['confirm_password']) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

@@ -57,6 +57,13 @@ UPDATE talents SET description = '' WHERE name = '';
 UPDATE talents SET description = '' WHERE name = '';
 UPDATE talents SET description = '' WHERE name = '';
 
+ALTER TABLE users ADD COLUMN `email` VARCHAR(255) NULL AFTER `id`;
+UPDATE users SET email = username WHERE email IS NULL;
+ALTER TABLE users CHANGE COLUMN `email` `email` VARCHAR(255) NOT NULL AFTER `id`;
+
+ALTER TABLE users ADD UNIQUE INDEX `email_UNIQUE` (`email` ASC);
+ALTER TABLE users ADD INDEX `credentials` (`username` ASC, `password` ASC);
+
 -- The order of these is important due to inheritance - don't just re-sort the list!
 DROP TABLE IF EXISTS characters_armour;
 DROP TABLE IF EXISTS characters_items;

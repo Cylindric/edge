@@ -54,6 +54,8 @@ class AppController extends Controller
 
     public function beforeFilter(Event $event)
     {
+        $this->viewBuilder()->layout('guest');
+
         $this->Auth->allow(['view', 'display']);
 
         $cookie = $this->Cookie->read('rememberMe');
@@ -62,6 +64,10 @@ class AppController extends Controller
             if ($this->Users->checkLogin($cookie['username'], $cookie['password'])) {
                 $this->Auth->setUser($this->Users->data);
             }
+        }
+
+        if($this->Auth->User()) {
+            $this->viewBuilder()->layout('default');
         }
 
         $this->set('debug', Configure::read('debug'));

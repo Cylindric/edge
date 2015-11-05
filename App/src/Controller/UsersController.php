@@ -6,11 +6,24 @@ use Cake\Event\Event;
 
 class UsersController extends AppController
 {
-
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow('logout');
+        $this->Auth->allow(['login', 'register']);
+    }
+
+    public function isAuthorized($user)
+    {
+        // Public actions
+        if (in_array($this->request->action, [
+            'register',
+            'login',
+            'logout',
+        ])) {
+            return true;
+        }
+
+        return parent::isAuthorized($user);
     }
 
     public function index()
@@ -22,6 +35,23 @@ class UsersController extends AppController
     {
         $user = $this->Users->get($id);
         $this->set(compact('user'));
+    }
+
+    public function register()
+    {
+        $newUser = $this->Users->newEntity();
+        if ($this->request->is('post')) {
+            $newUser = $this->Users->patchEntity($newUser, $this->request->data);
+            if ($this->Users->save($newUser)) {
+                $this->Flash->success(__('Registration successful.'));
+
+                $authUser = $this->Users->get($newUser->id)->toArray();
+                $this->Auth->setUser($authUser);
+
+                return $this->redirect(['controller' => 'characters', 'action' => 'index']);
+            }
+        }
+        $this->set('newUser', $newUser);
     }
 
     public function add()
