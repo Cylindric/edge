@@ -203,3 +203,6 @@ DispatcherFactory::add('ControllerFactory');
 Type::build('datetime')->useLocaleParser();
 
 \Cake\Core\Plugin::load('Ceeram/Blame');
+
+
+Plugin::load('OnlineAuth', ['bootstrap' => false, 'routes' => true]);

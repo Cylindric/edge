@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7941e6ee4061345f7200b8d6435021c9",
-    "content-hash": "5ac36ef6c9c59f3de3de022d0bed8211",
+    "hash": "e8c010d942e6ece55656fd719b875914",
+    "content-hash": "7ca6399f8e8f21aeceea7e8ac1ce3efa",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -326,6 +326,51 @@
             ],
             "description": "CakePHP plugin to update created_by and modified_by fields",
             "time": "2015-03-28 11:00:24"
+        },
+        {
+            "name": "google/apiclient",
+            "version": "1.0.6-beta",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/google/google-api-php-client.git",
+                "reference": "a41a9dc0662e36420030eaab802dbb1f85459479"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/a41a9dc0662e36420030eaab802dbb1f85459479",
+                "reference": "a41a9dc0662e36420030eaab802dbb1f85459479",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "src/"
+            ],
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Client library for Google APIs",
+            "homepage": "http://developers.google.com/api-client-library/php",
+            "keywords": [
+                "google"
+            ],
+            "time": "2014-09-30 19:33:59"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -2117,6 +2162,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "google/apiclient": 10,
         "psy/psysh": 0
     },
     "prefer-stable": true,

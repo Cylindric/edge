@@ -13,10 +13,10 @@
             <?= $this->Form->input('password', ['label' => false, 'type' => 'password', 'class' => 'form-control', 'placeholder' => 'Password']) ?>
         </div>
         <div class="form-group">
-               <?= $this->Form->input('confirm_password', ['label' => false, 'type' => 'password', 'class' => 'form-control', 'placeholder' => 'Confirm Password']) ?>
+            <?= $this->Form->input('confirm_password', ['label' => false, 'type' => 'password', 'class' => 'form-control', 'placeholder' => 'Confirm Password']) ?>
         </div>
         <div class="form-group text-center">
-                <?= $this->Form->button('Create New Account', ['class' => 'btn btn-info']); ?>
+            <?= $this->Form->button('Create New Account', ['class' => 'btn btn-info']); ?>
         </div>
 
         <?= $this->Form->end(); ?>

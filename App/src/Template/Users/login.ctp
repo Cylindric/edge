@@ -1,31 +1,22 @@
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-4 col-md-offset-4">
 
-    <?= $this->Flash->render('auth') ?>
-        <?= $this->Form->create(null, ['class' => 'form-horizontal']) ?>
+        <?= $this->Flash->render('auth') ?>
+        <?= $this->Form->create(null, ['class' => 'form']) ?>
 
         <div class="form-group">
-            <?= $this->Form->label('username', null, ['class' => 'col-sm-3 control-label']) ?>
-            <div class="col-sm-7">
-                <?= $this->Form->input('username', ['label' => false]) ?>
+            <?= $this->Form->input('email', ['label' => false, 'type' => 'email', 'class' => 'form-control', 'placeholder' => 'name@example.com']) ?>
+        </div>
+        <div class="form-group">
+            <?= $this->Form->input('password', ['label' => false, 'type' => 'password', 'class' => 'form-control', 'placeholder' => 'Password']) ?>
+        </div>
+        <div class="form-group text-center">
+            <div class="checkbox">
+                <label><?= $this->Form->checkbox('remember_me', ['label' => false]) ?>Remember me?</label>
             </div>
         </div>
         <div class="form-group">
-            <?= $this->Form->label('password', null, ['class' => 'col-sm-3 control-label']) ?>
-            <div class="col-sm-7">
-                <?= $this->Form->input('password', ['label' => false]) ?>
-            </div>
-        </div>
-        <div class="form-group">
-            <?= $this->Form->label('remember_me?', null, ['class' => 'col-sm-3 control-label']) ?>
-            <div class="col-sm-7">
-                <?= $this->Form->checkbox('remember_me', ['label' => false]) ?>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <?= $this->Form->button('Login', ['class' => 'btn']); ?>
-            </div>
+            <?= $this->Form->button('Login', ['class' => 'btn']) ?>
         </div>
 
         <?= $this->Form->end() ?>
