@@ -1,6 +1,12 @@
+
 <?php
 use Cake\Routing\Router;
 
 Router::plugin('OnlineAuth', function ($routes) {
-    $routes->fallbacks('DashedRoute');
+
+    $routes->connect(
+        '/xxendpoint',
+        ['controller' => 'OnlineAuth', 'action' => 'endpoint']
+    );
+
 });

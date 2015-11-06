@@ -206,3 +206,4 @@ Type::build('datetime')->useLocaleParser();
 
 
 Plugin::load('OnlineAuth', ['bootstrap' => false, 'routes' => true]);
+Plugin::load('ADmad/HybridAuth', ['bootstrap' => true, 'routes' => true]);
