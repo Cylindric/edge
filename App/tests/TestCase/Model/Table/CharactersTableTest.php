@@ -14,6 +14,7 @@ class CharactersTableTest extends TestCase
         'app.talents',
         'app.credits',
         'app.obligations',
+        'app.species',
         'app.xp',
     ];
 
@@ -59,7 +60,7 @@ class CharactersTableTest extends TestCase
     public function testGetTotalStrainThreshold()
     {
         $char = $this->Characters->findByName('basic')->first();
-        $this->assertEquals(2, $char->totalStrainThreshold);
+        $this->assertEquals(22, $char->totalStrainThreshold);
     }
 
     public function testGetTotalDefence()
