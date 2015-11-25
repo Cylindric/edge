@@ -30,10 +30,10 @@ $editing = false;
                             (<?= $character->user->username ?>)
                         </div>
                     </div>
-                    <div class="col-sm-2 col-md-2 value"><?= $character->soak ?></div>
+                    <div class="col-sm-2 col-md-2 value"><?= $character->totalSoak ?></div>
                     <div class="col-sm-3 col-md-3">
                         <div class="col-sm-8 value">
-                            <?= $character->strain_threshold ?>/<span id="strain_<?= $character->id ?>_value"><?= $character->strain ?></span>
+                            <?= $character->totalStrainThreshold ?>/<span id="strain_<?= $character->id ?>_value"><?= $character->strain ?></span>
                         </div>
                         <div class="col-sm-2 buttons">
                             <i class="btn btn-md btn-danger btn-skill-adjust" id="updateattribute_strain_<?= $character->id ?>_increase">increase</i>
@@ -44,7 +44,7 @@ $editing = false;
 
                     <div class="col-sm-3 col-md-3">
                         <div class="col-sm-8 value">
-                            <?= $character->wound_threshold ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->wounds ?></span>
+                            <?= $character->totalWoundThreshold ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->wounds ?></span>
                         </div>
                         <div class="col-sm-4 buttons">
                             <div><i class="btn btn-md btn-success btn-skill-adjust" id="updateattribute_wounds_<?= $character->id ?>_increase">increase</i></div>
@@ -84,6 +84,7 @@ $editing = false;
                     <th>Range</th>
                     <th class="text-right">Damage</th>
                     <th class="text-right">Crit</th>
+                    <th>Dice Pool</th>
                     <th>Special</th>
                 </tr>
                 <?php foreach ($weapons as $weapon): ?>
@@ -93,6 +94,7 @@ $editing = false;
                         <td class="text-capitalize"><?= $weapon->range->name ?></td>
                         <td class="text-right"><?= $weapon->damage ?></td>
                         <td class="text-right"><?= $weapon->crit ?></td>
+                        <td><?= $this->RpgText->dice($weapon->skill->dice($weapon->_matchingData['Characters'])) ?></td>
                         <td><?= $weapon->special ?></td>
                     </tr>
                 <?php endforeach; ?>
