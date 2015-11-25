@@ -60,7 +60,7 @@ class RpgTextHelper extends Helper
         }
 
         // {symbol.triumph}
-        // {symbol.triumph.multi}
+        // {symbol.triumph.rank}
         $pattern = '{symbol\.(?P<symbol>\w+)(\.(?P<multi>\w+))?}';
         $matches = array();
         if(preg_match_all($pattern, $text, $matches)) {
@@ -78,7 +78,7 @@ class RpgTextHelper extends Helper
         }
 
         // {dice.boost}
-        // {dice.boost.multi}
+        // {dice.boost.rank}
         $pattern = '{dice\.(?P<dice>\w+)(\.(?P<multi>\w+))?}';
         $matches = array();
         if(preg_match_all($pattern, $text, $matches)) {
@@ -96,8 +96,17 @@ class RpgTextHelper extends Helper
         }
 
         // {rank}
-        if(strpos($text, '{rank}') !== false && array_key_exists('rank', $data)) {
-            $text = str_replace('{rank}', $data['rank'], $text);
+        // {rank*number}
+        $pattern = '{rank(\*?(?P<multi>\d+))?}';
+        $matches = array();
+        if(preg_match_all($pattern, $text, $matches)) {
+            for($i = 0; $i < count($matches[0]); $i++) {
+                $multi = $matches['multi'][$i] == '' ? 1 : $matches['multi'][$i];
+                $value = $data['rank'] * $multi;
+                $find = '{'.$matches[0][$i].'}';
+                $replace = $value;
+                $text = str_replace($find, $replace, $text);
+            }
         }
 
         return $text;

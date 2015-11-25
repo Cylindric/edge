@@ -128,6 +128,13 @@ class RpgTextHelperTest extends TestCase
         $this->assertEquals('test 3 text', $result);
     }
 
+    public function testParserRankWithMultiplier()
+    {
+        $data = ['rank' => 3];
+        $result = $this->RpgText->format('test {rank*10} text', $data);
+        $this->assertEquals('test 30 text', $result);
+    }
+
     public function testDice()
     {
         $result = $this->RpgText->dice(['proficiency' => 1]);
