@@ -20,11 +20,9 @@
       <library name="PHARS">
         <CLASSES>
           <root url="phar://$MODULE_DIR$/App/vendor/bin/phpunit.phar" />
-          <root url="phar://$MODULE_DIR$/App/vendor/phpdocumentor/fileset/tests/data/test.phar" />
         </CLASSES>
         <SOURCES>
           <root url="phar://$MODULE_DIR$/App/vendor/bin/phpunit.phar" />
-          <root url="phar://$MODULE_DIR$/App/vendor/phpdocumentor/fileset/tests/data/test.phar" />
         </SOURCES>
       </library>
     </orderEntry>

@@ -1,4 +1,4 @@
-<h3>Obligation - <span ng-bind="totalObligation"></span></h3>
+<h3>Obligation: <span ng-bind="totalObligation"></span></h3>
 
 <table class="table table-striped table-bordered table-condensed">
     <thead>

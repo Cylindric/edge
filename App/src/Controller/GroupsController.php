@@ -91,7 +91,7 @@ class GroupsController extends AppController
         $this->loadModel('Weapons');
         $weapons = $this->Weapons->find();
         $weapons
-            ->contain(['Ranges'])
+            ->contain(['Ranges', 'Skills', 'Skills.Stats'])
             ->matching('CharactersWeapons.Characters', function ($q) use ($id) {
                 return $q->where(['Characters.group_id' => $id]);
             })
