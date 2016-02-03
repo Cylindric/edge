@@ -1,6 +1,5 @@
 <?php
 use Phinx\Migration\AbstractMigration;
-use Cake\ORM\TableRegistry;
 use Cake\Datasource\ConnectionManager;
 
 class v007 extends AbstractMigration

@@ -11,13 +11,6 @@ class AppController extends Controller
 {
     use BlameTrait;
 
-    /**
-     * Initialization hook method.
-     *
-     * Use this method to add common initialization code like loading components.
-     *
-     * @return void
-     */
     public function initialize()
     {
         parent::initialize();

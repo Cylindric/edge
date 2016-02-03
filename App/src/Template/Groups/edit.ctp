@@ -103,6 +103,7 @@ $editing = false;
     </div>
 
     <div class="row">
+        <?php debug($group);?>
         <div class="col-sm-3 col-md-3">
             <h2>XP</h2>
             <table class="table table-condensed">

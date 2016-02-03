@@ -10,6 +10,12 @@
 			<?= $this->Form->input('species_id', ['options' => $species, 'class' => 'form-control']); ?>
 		</div>
 		<div class="form-group">
+			<?= $this->Form->input('career_id', ['options' => $careers, 'class' => 'form-control']); ?>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->input('specialisation_id', ['options' => $specialisations, 'class' => 'form-control']); ?>
+		</div>
+		<div class="form-group">
 			<?= $this->Form->input('gender', ['class' => 'form-control']); ?>
 		</div>
 		<div class="form-group">

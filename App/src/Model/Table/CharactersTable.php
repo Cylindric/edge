@@ -16,16 +16,16 @@ class CharactersTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Species');
-        $this->belongsTo('Groups');
         $this->belongsTo('Specialisations');
         $this->belongsTo('Careers');
         $this->belongsTo('Users');
 
         $this->hasMany('CharactersArmour');
+        $this->hasMany('CharactersGroups');
+        $this->hasMany('CharactersItems');
+        $this->hasMany('CharactersSkills');
         $this->hasMany('CharactersTalents');
         $this->hasMany('CharactersWeapons');
-        $this->hasMany('CharactersSkills');
-        $this->hasMany('CharactersItems');
         $this->hasMany('Obligations');
         $this->hasMany('Xp');
 

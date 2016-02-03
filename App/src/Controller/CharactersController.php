@@ -131,9 +131,11 @@ class CharactersController extends AppController
             }
         }
 
-        $species = $this->Characters->Species->find('list', ['limit' => 200]);
+        $species = $this->Characters->Species->find('list')->order('name');
+        $careers = $this->Characters->Careers->find('list')->order('name');
+        $specialisations = $this->Characters->Specialisations->find('list')->order('name');
 
-        $this->set(compact('character', 'species'));
+        $this->set(compact('character', 'species', 'careers', 'specialisations'));
         $this->set('_serialize', ['character']);
     }
 
@@ -142,7 +144,7 @@ class CharactersController extends AppController
         $response = ['result' => 'fail', 'data' => null];
 
         $character = $this->Characters->get($id, [
-            'contain' => ['Groups']
+            'contain' => ['CharactersGroups', 'CharactersGroups.Groups']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -352,10 +354,10 @@ class CharactersController extends AppController
 
     public function join_group($char_id)
     {
-        $Char = $this->Characters->get($char_id, ['contain' => 'Groups']);
+        $Char = $this->Characters->get($char_id, ['contain' => 'CharactersGroups']);
 
         $this->loadModel('Groups');
-        $Groups = $this->Characters->Groups->find('list')->toArray();
+        $Groups = $this->Characters->CharactersGroups->Groups->find('list')->toArray();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $character = $this->Characters->patchEntity($Char, $this->request->data);

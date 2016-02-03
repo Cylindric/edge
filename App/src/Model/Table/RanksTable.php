@@ -1,25 +1,21 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Weapon;
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
-class GroupsTable extends Table
+class RanksTable extends Table
 {
-
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->table('groups');
+        $this->table('ranks');
         $this->displayField('name');
         $this->primaryKey('id');
-        $this->addBehavior('Timestamp');
-
-        $this->hasMany('CharactersGroups');
-        $this->hasMany('GroupsUsers');
-        $this->belongsToMany('Users');
     }
 
     public function validationDefault(Validator $validator)
@@ -32,12 +28,12 @@ class GroupsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
+        $validator
+            ->add('rank', 'valid', ['rule' => 'numeric'])
+            ->requirePresence('rank', 'create')
+            ->notEmpty('rank');
+
         return $validator;
     }
 
-    public function isOwnedBy($groupId, $userId)
-    {
-        $gt = TableRegistry::get('GroupsUsers');
-        return $gt->exists(['group_id' => $groupId, 'user_id' => $userId, 'gm' => true]);
-    }
 }
