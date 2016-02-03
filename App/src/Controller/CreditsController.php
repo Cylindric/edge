@@ -70,10 +70,15 @@ class CreditsController extends AppController
                     'type' => 'LEFT',
                     'conditions' => 'Credits.character_id = characters.id',
                 ],
+                'characters_groups' => [
+                    'table' => 'characters_groups',
+                    'type' => 'LEFT',
+                    'conditions' => 'characters.id = characters_groups.character_id',
+                ],
                 'groups' => [
                     'table' => 'groups',
                     'type' => 'LEFT',
-                    'conditions' => 'characters.group_id = groups.id',
+                    'conditions' => 'characters_groups.group_id = groups.id',
                 ],
                 'gms' => [
                     'table' => 'groups_users',
@@ -94,7 +99,7 @@ class CreditsController extends AppController
                 'gm.id', 'gm.username',
                 'created_by_gm' => $credits->newExpr()->addCase($credits->newExpr()->add(['gm.id = Credits.created_by']), 1, 'integer'),
             ])
-            ->where(['character_id' => $character_id])
+            ->where(['characters.id' => $character_id])
             ->order('Credits.created DESC');
 
         $total = $this->Credits->totalForCharacter($character_id);

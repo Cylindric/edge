@@ -16,25 +16,28 @@ class CharactersTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Species');
-        $this->belongsTo('Specialisations');
-        $this->belongsTo('Careers');
         $this->belongsTo('Users');
 
         $this->hasMany('CharactersArmour');
         $this->hasMany('CharactersGroups');
         $this->hasMany('CharactersItems');
         $this->hasMany('CharactersSkills');
+        $this->hasMany('CharactersSpecialisations');
+        $this->hasMany('CharactersCareers');
         $this->hasMany('CharactersTalents');
         $this->hasMany('CharactersWeapons');
         $this->hasMany('Obligations');
         $this->hasMany('Xp');
 
         $this->belongsToMany('Armour', ['through' => 'CharactersArmour']); // Specify the join-table name because by convention it should be called ArmourCharacters
+        $this->belongsToMany('Careers', ['through' => 'CharactersCareers']); // Specify the join-table name because by convention it should be called CareersCharacters
+        $this->belongsToMany('Groups');
         $this->belongsToMany('Items');
         $this->belongsToMany('Skills');
         $this->belongsToMany('Talents');
         $this->belongsToMany('Notes');
         $this->belongsToMany('Weapons');
+        $this->belongsToMany('Specialisations');
     }
 
     public function validationDefault(Validator $validator)

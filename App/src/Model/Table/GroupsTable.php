@@ -20,6 +20,7 @@ class GroupsTable extends Table
         $this->hasMany('CharactersGroups');
         $this->hasMany('GroupsUsers');
         $this->belongsToMany('Users');
+        $this->belongsToMany('Characters');
     }
 
     public function validationDefault(Validator $validator)

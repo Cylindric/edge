@@ -10,11 +10,6 @@ class Xp extends Entity
         'id' => false,
     ];
 
-    /**
-     * @param $user_id
-     * @param int $gm_id
-     * @return bool
-     */
     public function IsLocked($user_id, $gm_id = 0)
     {
         // Allow editing if the User created this record

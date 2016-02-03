@@ -25,7 +25,7 @@ class AddRankToUsers extends AbstractMigration
 
         $table = $this->table('users');
         $table
-            ->addColumn('rank', 'int', ['default' => 1, 'null' => false, 'after' => 'role'])
+            ->addColumn('rank', 'integer', ['default' => 1, 'null' => false, 'after' => 'role'])
             ->update();
     }
 }

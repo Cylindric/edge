@@ -28,12 +28,12 @@ $this->assign('title', $character->name);
                 });
             });
             ", ['block' => true]); ?>
-            <?php if ($character->group_id == 0): ?>
-                <div
-                    class="row"><?= $this->Html->link('Join Group', ['controller' => 'characters', 'action' => 'join_group', $character->id]) ?></div>
-            <?php else: ?>
-                <h3><?= $character->group->name ?></h3>
-            <?php endif; ?>
+            <ul class="list-inline">
+            <?php foreach($character->characters_groups as $character_group): ?>
+                <li><?= $character_group->group->name ?></li>
+            <?php endforeach; ?>
+                <li class="hidden-print"><?= $this->Html->link('Join Group', ['controller' => 'characters', 'action' => 'join_group', $character->id]) ?></li>
+            </ul>
         </div>
         <?= $this->element('status_block', [
             'character' => $character

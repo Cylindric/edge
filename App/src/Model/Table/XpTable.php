@@ -44,8 +44,6 @@ class XpTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['character_id'], 'Characters'));
-        $rules->add($rules->existsIn(['created_by'], 'Users'));
-        $rules->add($rules->existsIn(['modified_by'], 'Users'));
         return $rules;
     }
 
