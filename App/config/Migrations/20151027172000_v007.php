@@ -27,8 +27,5 @@ class v007 extends AbstractMigration
             ->addColumn('strain_per_rank', 'integer', ['default' => 0, 'limit' => 11, 'null' => false, 'after' => 'ranked'])
             ->update();
 
-        $conn->query("UPDATE talents SET soak_per_rank = 1 WHERE name = 'Enduring'");
-        $conn->query("UPDATE talents SET strain_per_rank = 1 WHERE name = 'Grit'");
-
     }
 }

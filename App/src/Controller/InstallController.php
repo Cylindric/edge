@@ -26,9 +26,8 @@ class InstallController extends AppController
 	{
 		$import = new ImportForm();
 		if ($this->request->is('post')) {
-			$this->Flash->success('before');
 			if ($import->execute($this->request->data)) {
-				$this->Flash->success('We will get back to you soon.');
+
 			} else {
 				$this->Flash->error('There was a problem submitting your form.');
 			}

@@ -1,0 +1,44 @@
+{
+  "sources": [{ "name": "Dangerous Covenants" }],
+  "species": [
+   {
+      "name": "Aqualish",
+      "base_wound": 11,
+      "base_strain": 8,
+      "base_xp": 90,
+      "stat_br": 3,
+      "stat_ag": 2,
+      "stat_int": 1,
+      "stat_cun": 2,
+      "stat_will": 2,
+      "stat_pr": 2,
+     "source": { "name": "Dangerous Covenants" }
+    },
+    {
+      "name": "Klatooinian",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 2,
+      "stat_ag": 3,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 1,
+      "stat_pr": 2,
+      "source": { "name": "Dangerous Covenants" }
+    },
+    {
+      "name": "Weequay",
+      "base_wound": 10,
+      "base_strain": 9,
+      "base_xp": 90,
+      "stat_br": 3,
+      "stat_ag": 2,
+      "stat_int": 1,
+      "stat_cun": 3,
+      "stat_will": 2,
+      "stat_pr": 1,
+      "source": { "name": "Dangerous Covenants" }
+    }
+  ]
+}

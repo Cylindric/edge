@@ -1,0 +1,41 @@
+{
+  "sources": [{ "name": "Enter the Unknown" }],
+  "talents": [
+    {
+      "name": "All-Terrain Driver",
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Bring it Down",
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Full Stop",
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Hunter's Quarry",
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Hunter's Quarry (Improved)",
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Master Driver",
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Museum Worthy",
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Natural Driver",
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Pin",
+      "source": { "name": "Enter the Unknown" }
+    }
+  ]
+}

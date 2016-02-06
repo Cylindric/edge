@@ -26,10 +26,11 @@ SELECT * FROM ranks;
 SELECT * FROM sessions;
 SELECT * FROM skills ORDER BY name;
 SELECT * FROM slack;
+SELECT * FROM sources;
 SELECT * FROM specialisations ORDER BY name;
 SELECT * FROM species;
 SELECT * FROM stats;
-SELECT * FROM talents where description like '%{dice%' ORDER BY id;
+SELECT * FROM talents;
 SELECT * FROM users;
 SELECT * FROM weapon_types;
 SELECT * FROM weapons ORDER BY name;
@@ -42,23 +43,7 @@ INNER JOIN species s ON (c.species_id = s.id)
 SET c.wound_threshold = c.wound_threshold - s.base_wound - c.stat_br,
 c.strain_threshold = c.strain_threshold - s.base_strain - c.stat_will;
 
-ALTER TABLE talents CHANGE COLUMN `description` `description` VARCHAR(300) NULL DEFAULT NULL;
-UPDATE talents SET description = 'Remove {dice.setback.rank} from Deception or Skulduggery checks.' WHERE name = 'Convincing Demeanor';
-UPDATE talents SET description = 'Remove {dice.setback.rank} from checks to find tracks or track targets. Decrease time to track a target by half.' WHERE name = 'Expert Tracker';
-UPDATE talents SET description = 'Add {dice.boost.rank} to all checks when interacting with beast or animals (including combat checks). Add + 10 to Critical Injury results against beasts or animals per rank of Hunter.' WHERE name = 'Hunter';
-UPDATE talents SET description = 'Remove {dice.setback.rank} from checks to move through terrain or manage environmental effects. Decrease overland travel times by half.' WHERE name = 'Outdoorsman';
-UPDATE talents SET description = 'After making a successful attack, may spend I Destiny Point to add damage equal to Cunning to one hit.' WHERE name = 'Soft Spot';
-UPDATE talents SET description = 'Do not suffer usual penalties for moving through difficult terrain.' WHERE name = 'Swift';
-UPDATE talents SET description = 'When purchasing illegal goods, may reduce rarity by {rank}, increasing cost by 50 percent of base cost per reduction.' WHERE name = 'Black Market Contacts';
-UPDATE talents SET description = 'Once per round on the character\'s turn, he may draw or holster an easily accessible weapon as an incidental, not a maneuver. This talent also reduces the amount of time to draw or stow a weapon that usually requires more than one maneuver to properly prepare or stow, by one maneuver.' WHERE name = 'Quick Draw';
-UPDATE talents SET description = 'When defending computer systems, add {dice.setback.rank} to opponents\' checks.', name = 'Defensive Slicing' WHERE name = 'Defencive Slicing';
-UPDATE talents SET description = 'Remove {dice.setback.rank} from checks to break codes or decypt comms. Decrease difficulty to break codes or decrypt codes by 1.' WHERE name = 'Codebreaker';
-UPDATE talents SET description = 'Gain +{rank*2} Wound Threshold' WHERE name = 'Toughened';
-UPDATE talents SET description = '' WHERE name = '';
-UPDATE talents SET description = '' WHERE name = '';
-UPDATE talents SET description = '' WHERE name = '';
-UPDATE talents SET description = '' WHERE name = '';
-UPDATE talents SET description = '' WHERE name = '';
+
 
 -- The order of these is important due to inheritance - don't just re-sort the list!
 DROP TABLE IF EXISTS characters_armour;

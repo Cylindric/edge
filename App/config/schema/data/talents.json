@@ -1,0 +1,29 @@
+{
+  "talents": [
+    {
+      "name": "Regeneration",
+      "source": {
+        "name": "[unknown]"
+      }
+    },
+    {
+      "name": "Claws",
+      "description": "When making Brawl checks, +1 Damage and Critical Rating 3.",
+      "source": {
+        "name": "[unknown]"
+      }
+    },
+    {
+      "name": "Mood Reader",
+      "source": {
+        "name": "[unknown]"
+      }
+    },
+    {
+      "name": "Flying",
+      "source": {
+        "name": "[unknown]"
+      }
+    }
+  ]
+}

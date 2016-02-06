@@ -24,6 +24,11 @@ class AddSourceTable extends AbstractMigration
             $table->save($entity);
         }
 
+        $this->table('species')
+            ->addColumn('source_id', 'integer', ['default' => 1, 'null' => false, 'after' => 'name'])
+            ->addForeignKey('source_id', 'sources', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->update();
+
         $this->table('talents')
             ->addColumn('source_id', 'integer', ['default' => 1, 'null' => false, 'after' => 'name'])
             ->addForeignKey('source_id', 'sources', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])

@@ -1,0 +1,44 @@
+{
+  "sources": [{ "name": "Suns of Fortune" }],
+  "species": [
+    {
+      "name": "Drall",
+      "base_wound": 8,
+      "base_strain": 12,
+      "base_xp": 90,
+      "stat_br": 1,
+      "stat_ag": 1,
+      "stat_int": 4,
+      "stat_cun": 2,
+      "stat_will": 2,
+      "stat_pr": 2,
+      "source": { "name": "Suns of Fortune" }
+    },
+    {
+      "name": "Selonian",
+      "base_wound": 11,
+      "base_strain": 10,
+      "base_xp": 80,
+      "stat_br": 2,
+      "stat_ag": 3,
+      "stat_int": 2,
+      "stat_cun": 1,
+      "stat_will": 3,
+      "stat_pr": 1,
+      "source": { "name": "Suns of Fortune" }
+    },
+    {
+      "name": "Corellian Human",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 110,
+      "stat_br": 2,
+      "stat_ag": 2,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 2,
+      "stat_pr": 2,
+      "source": { "name": "Suns of Fortune" }
+    }
+  ]
+}

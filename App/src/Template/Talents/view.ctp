@@ -33,6 +33,10 @@ $this->Html->addCrumb($talent->name);
             <th><?= __('Soak Per Rank') ?></th>
             <td><?= $this->Number->format($talent->soak_per_rank) ?></td>
         </tr>
+        <tr>
+            <th><?= __('Source') ?></th>
+            <td><?= ($talent->source->name) ?></td>
+        </tr>
     </table>
 </div>
 </div>

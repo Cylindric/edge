@@ -1,12 +1,19 @@
-// \s*"id": \d+,
-// \s*"ranked": false+,
-// \s*"strain_per_rank": 0+,
-// \s*"soak_per_rank": 0+,
-// \s*
-// ,(\n\s+}) >> $1
-
 {
+    "sources": [{ "name": "Edge of the Empire" }],
     "talents": [
+        {
+            "name": "Adversary",
+            "ranked": true,
+            "source": {
+                "name": "Edge of the Empire"
+            }
+        },
+        {
+            "name": "Anatomy Lessons",
+            "source": {
+                "name": "Edge of the Empire"
+            }
+        },
         {
             "name": "Armor Master",
             "source": {
@@ -48,6 +55,7 @@
         {
             "name": "Black Market Contacts",
             "ranked": true,
+            "description": "When purchasing illegal goods, may reduce rarity by {rank}, increasing cost by 50 percent of base cost per reduction.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -89,6 +97,7 @@
         {
             "name": "Codebreaker",
             "ranked": true,
+            "description": "Remove {dice.setback.rank} from checks to break codes or decypt comms. Decrease difficulty to break codes or decrypt codes by 1.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -116,6 +125,7 @@
         {
             "name": "Convincing Demeanor",
             "ranked": true,
+            "description": "Remove {dice.setback.rank} from Deception or Skulduggery checks.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -153,15 +163,16 @@
             }
         },
         {
-            "name": "Defencing Driving",
+            "name": "Defensive Driving",
             "ranked": true,
             "source": {
                 "name": "Edge of the Empire"
             }
         },
         {
-            "name": "Defencive Slicing",
+            "name": "Defensive Slicing",
             "ranked": true,
+            "description": "When defending computer systems, add {dice.setback.rank} to opponents' checks.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -213,6 +224,7 @@
         {
             "name": "Expert Tracker",
             "ranked": true,
+            "description": "Remove {dice.setback.rank} from checks to find tracks or track targets. Decrease time to track a target by half.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -351,6 +363,7 @@
         {
             "name": "Hunter",
             "ranked": true,
+            "description": "Add {dice.boost.rank} to all checks when interacting with beast or animals (including combat checks). Add + 10 to Critical Injury results against beasts or animals per rank of Hunter.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -479,20 +492,7 @@
             }
         },
         {
-            "name": "Regeneration",
-            "source": {
-                "name": "Edge of the Empire"
-            }
-        },
-        {
-            "name": "Claws",
-            "description": "When making Brawl checks, +1 Damage and Critical Rating 3.",
-            "source": {
-                "name": "Edge of the Empire"
-            }
-        },
-        {
-            "name": "Master Metchant",
+            "name": "Master Merchant",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -615,6 +615,7 @@
         {
             "name": "Outdoorsman",
             "ranked": true,
+            "description": "Remove {dice.setback.rank} from checks to move through terrain or manage environmental effects. Decrease overland travel times by half.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -654,6 +655,7 @@
         },
         {
             "name": "Quick Draw",
+            "description": "Once per round on the character's turn, he may draw or holster an easily accessible weapon as an incidental, not a maneuver. This talent also reduces the amount of time to draw or stow a weapon that usually requires more than one maneuver to properly prepare or stow, by one maneuver.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -793,6 +795,7 @@
         },
         {
             "name": "Soft Spot",
+            "description": "After making a successful attack, may spend I Destiny Point to add damage equal to Cunning to one hit.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -897,6 +900,7 @@
         },
         {
             "name": "Swift",
+            "description": "Do not suffer usual penalties for moving through difficult terrain.",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -931,6 +935,7 @@
         {
             "name": "Toughened",
             "ranked": true,
+            "description": "Gain +{rank*2} Wound Threshold",
             "source": {
                 "name": "Edge of the Empire"
             }
@@ -989,18 +994,6 @@
             "source": {
                 "name": "Edge of the Empire"
             }
-        },
-        {
-            "name": "Mood Reader",
-            "source": {
-                "name": "Edge of the Empire"
-            }
-        },
-        {
-            "name": "Flying",
-            "source": {
-                "name": "Edge of the Empire"
-            }
         }
-    ]
+     ]
 }

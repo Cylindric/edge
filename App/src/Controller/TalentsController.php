@@ -61,7 +61,7 @@ class TalentsController extends AppController
     public function view($id = null)
     {
         $talent = $this->Talents->get($id, [
-            'contain' => ['Characters']
+            'contain' => ['Sources']
         ]);
         $this->set('talent', $talent);
         $this->set('_serialize', ['talent']);
