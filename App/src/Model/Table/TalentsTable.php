@@ -26,6 +26,7 @@ class TalentsTable extends Table
         $this->displayField('name');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
+        $this->BelongsTo('Sources');
         $this->BelongsToMany('Characters', [
             'through' => 'CharactersTalents'
         ]);
