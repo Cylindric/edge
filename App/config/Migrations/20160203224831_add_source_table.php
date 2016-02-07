@@ -33,5 +33,10 @@ class AddSourceTable extends AbstractMigration
             ->addColumn('source_id', 'integer', ['default' => 1, 'null' => false, 'after' => 'name'])
             ->addForeignKey('source_id', 'sources', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
             ->update();
+
+        $this->table('weapons')
+            ->addColumn('source_id', 'integer', ['default' => 1, 'null' => false, 'after' => 'name'])
+            ->addForeignKey('source_id', 'sources', 'id', ['update' => 'NO_ACTION', 'delete' => 'CASCADE'])
+            ->update();
     }
 }
