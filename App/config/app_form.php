@@ -5,7 +5,6 @@ return [
 //	'checkboxFormGroup' => '{{label}}',
 //	'checkboxWrapper' => '<div class="checkbox">{{label}}</div>',
 //	'dateWidget' => '{{year}}{{month}}{{day}}{{hour}}{{minute}}{{second}}{{meridian}}',
-//	'error' => '<div class="col-md-3 error-message">{{content}}</div>',
 	'error' => '<span class="label label-danger">{{content}}</span>',
 //	'errorList' => '<ul>{{content}}</ul>',
 //	'errorItem' => '<li>{{text}}</li>',
@@ -19,7 +18,6 @@ return [
 	'inputSubmit' => '<button class="btn btn-success" type="{{type}}"{{attrs}}>Save</button>',
 	'inputContainer' => '<div class="form-group {{type}}{{required}}">{{content}}</div>',
 	'inputContainerError' => '<div class="form-group {{type}}{{required}}">{{content}}{{error}}</div>',
-//	'inputContainerError' => '<div class="input {{type}}{{required}} error">{{content}}{{error}}</div>',
 	'label' => '<label{{attrs}} class="col-md-2 control-label {{divclass}}">{{text}}</label>',
 //	'nestingLabel' => '{{hidden}}<label{{attrs}}>{{input}}{{text}}</label>',
 //	'legend' => '<legend>{{text}}</legend>',
@@ -29,6 +27,6 @@ return [
 //	'selectMultiple' => '<select name="{{name}}[]" multiple="multiple"{{attrs}}>{{content}}</select>',
 //	'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}>',
 //	'radioWrapper' => '{{label}}',
-//	'textarea' => '<textarea name="{{name}}"{{attrs}}>{{value}}</textarea>',
+	'textarea' => '<div class="col-md-7 {{divclass}}"><textarea class="form-control" name="{{name}}"{{attrs}}>{{value}}</textarea></div>',
 	'submitContainer' => '<div class="form-group"><div class="col-md-offset-2 col-md-10">{{content}}</div></div>',
 ];
