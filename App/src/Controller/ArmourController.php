@@ -40,4 +40,10 @@ class ArmourController extends AppController
         $this->set('_serialize', 'armour');
     }
 
+    public function export()
+    {
+        $this->set('data', ['armour' => $this->Armour->export()]);
+        $this->set('_serialize', 'data');
+    }
+
 }

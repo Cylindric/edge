@@ -6,13 +6,10 @@ use Cake\Validation\Validator;
 
 class SlackTable extends Table
 {
-
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->table('slack');
-        $this->primaryKey('id');
         $this->addBehavior('Timestamp');
     }
 
@@ -23,5 +20,4 @@ class SlackTable extends Table
             ->notEmpty('entity_id', 'An entity id is required')
 		;
     }
-
 }

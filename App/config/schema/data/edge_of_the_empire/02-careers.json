@@ -1,0 +1,40 @@
+{
+  "careers": [
+    {
+      "name": "Bounty Hunter",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Colonist",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Explorer",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Hired Gun",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Smuggler",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Technician",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    }
+  ]
+}

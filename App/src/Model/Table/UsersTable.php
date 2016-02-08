@@ -1,10 +1,9 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class UsersTable extends Table
+class UsersTable extends AppTable
 {
 
     public function initialize(array $config)
@@ -37,6 +36,5 @@ class UsersTable extends Table
 
         return false;
     }
-
 
 }

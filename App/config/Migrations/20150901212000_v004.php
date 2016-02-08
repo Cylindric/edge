@@ -23,7 +23,6 @@ class v004 extends AbstractMigration
             ->addColumn('modified', 'datetime', ['default' => null, 'limit' => null, 'null' => true])
             ->update();
 
-
         // Fix missing timestamps
         $tables = ['characters', 'characters_armour', 'characters_items', 'characters_notes', 'characters_talents', 'characters_weapons', 'groups'];
         foreach($tables as $table) {

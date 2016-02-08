@@ -2,21 +2,16 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\CharactersSkill;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class CharactersSkillsTable extends Table
+class CharactersSkillsTable extends AppTable
 {
 
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->table('characters_skills');
-        $this->displayField('id');
-        $this->primaryKey('id');
         $this->addBehavior('Timestamp');
         $this->belongsTo('Characters');
         $this->belongsTo('Skills');

@@ -2,17 +2,15 @@
 namespace App\Model\Table;
 
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
-class CharactersTable extends Table
+class CharactersTable extends AppTable
 {
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->displayField('name');
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Species');

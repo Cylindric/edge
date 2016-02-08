@@ -2,23 +2,19 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Weapon;
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class ArmourTable extends Table
+class ArmourTable extends AppTable
 {
     public function initialize(array $config)
     {
         parent::initialize($config);
 
         $this->table('armour');
-        $this->displayField('name');
-        $this->primaryKey('id');
         $this->addBehavior('Timestamp');
         $this->hasMany('CharactersArmour');
         $this->belongsToMany('Characters');
+        $this->belongsTo('Sources');
     }
 
     public function validationDefault(Validator $validator)
@@ -69,4 +65,11 @@ class ArmourTable extends Table
         return $validator;
     }
 
+    public function export()
+    {
+        return $this
+            ->find()
+            ->contain('Sources')
+            ->select(['name', 'defence', 'soak', 'encumbrance', 'rarity', 'hp', 'value', 'restricted', 'Sources.name']);
+    }
 }

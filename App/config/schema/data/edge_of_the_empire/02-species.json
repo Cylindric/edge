@@ -1,5 +1,9 @@
 {
-  "sources": [{ "name": "Edge of the Empire" }],
+  "sources": [
+    {
+      "name": "Edge of the Empire"
+    }
+  ],
   "species": [
     {
       "name": "Human",
@@ -12,7 +16,9 @@
       "stat_cun": 2,
       "stat_will": 2,
       "stat_pr": 2,
-      "source": { "name": "Edge of the Empire" }
+      "source": {
+        "name": "Edge of the Empire"
+      }
     },
     {
       "name": "Droid",
@@ -25,7 +31,9 @@
       "stat_cun": 1,
       "stat_will": 1,
       "stat_pr": 1,
-      "source": { "name": "Edge of the Empire" }
+      "source": {
+        "name": "Edge of the Empire"
+      }
     },
     {
       "name": "Wookiee",
@@ -38,7 +46,9 @@
       "stat_cun": 2,
       "stat_will": 1,
       "stat_pr": 2,
-      "source": { "name": "Edge of the Empire" }
+      "source": {
+        "name": "Edge of the Empire"
+      }
     },
     {
       "name": "Twi\u0027Lek",
@@ -51,7 +61,9 @@
       "stat_cun": 2,
       "stat_will": 2,
       "stat_pr": 3,
-      "source": { "name": "Edge of the Empire" }
+      "source": {
+        "name": "Edge of the Empire"
+      }
     },
     {
       "name": "Bothan",
@@ -64,7 +76,9 @@
       "stat_cun": 3,
       "stat_will": 2,
       "stat_pr": 2,
-      "source": { "name": "Edge of the Empire" }
+      "source": {
+        "name": "Edge of the Empire"
+      }
     },
     {
       "name": "Rodian",
@@ -77,7 +91,9 @@
       "stat_cun": 2,
       "stat_will": 1,
       "stat_pr": 2,
-      "source": { "name": "Edge of the Empire" }
+      "source": {
+        "name": "Edge of the Empire"
+      }
     },
     {
       "name": "Trandoshan",
@@ -90,7 +106,9 @@
       "stat_cun": 2,
       "stat_will": 2,
       "stat_pr": 2,
-      "source": { "name": "Edge of the Empire" }
+      "source": {
+        "name": "Edge of the Empire"
+      }
     },
     {
       "name": "Gand",
@@ -103,7 +121,9 @@
       "stat_cun": 2,
       "stat_will": 3,
       "stat_pr": 2,
-      "source": { "name": "Edge of the Empire" }
+      "source": {
+        "name": "Edge of the Empire"
+      }
     }
   ]
 }

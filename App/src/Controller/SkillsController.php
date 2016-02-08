@@ -3,19 +3,9 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-/**
- * Skills Controller
- *
- * @property \App\Model\Table\SkillsTable $Skills
- */
 class SkillsController extends AppController
 {
 
-    /**
-     * Index method
-     *
-     * @return void
-     */
     public function index()
     {
         $this->paginate = [
@@ -25,13 +15,6 @@ class SkillsController extends AppController
         $this->set('_serialize', ['skills']);
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Skill id.
-     * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function view($id = null)
     {
         $skill = $this->Skills->get($id, [
@@ -41,11 +24,6 @@ class SkillsController extends AppController
         $this->set('_serialize', ['skill']);
     }
 
-    /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
-     */
     public function add()
     {
         $skill = $this->Skills->newEntity();
@@ -63,13 +41,6 @@ class SkillsController extends AppController
         $this->set('_serialize', ['skill']);
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Skill id.
-     * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function edit($id = null)
     {
         $skill = $this->Skills->get($id, [
@@ -89,13 +60,6 @@ class SkillsController extends AppController
         $this->set('_serialize', ['skill']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Skill id.
-     * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -106,5 +70,11 @@ class SkillsController extends AppController
             $this->Flash->error(__('The skill could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function export()
+    {
+        $this->set('data', ['skills' => $this->Skills->export()]);
+        $this->set('_serialize', 'data');
     }
 }

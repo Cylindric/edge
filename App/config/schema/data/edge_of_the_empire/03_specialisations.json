@@ -1,0 +1,166 @@
+{
+  "specialisations": [
+    {
+      "name": "Assassin",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Bounty Hunter"
+      }
+    },
+    {
+      "name": "Gadgeteer",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Bounty Hunter"
+      }
+    },
+    {
+      "name": "Survivalist",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Bounty Hunter"
+      }
+    },
+    {
+      "name": "Doctor",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Colonist"
+      }
+    },
+    {
+      "name": "Politico",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Colonist"
+      }
+    },
+    {
+      "name": "Scholar",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Colonist"
+      }
+    },
+    {
+      "name": "Fringer",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Explorer"
+      }
+    },
+    {
+      "name": "Scout",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Explorer"
+      }
+    },
+    {
+      "name": "Trader",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Explorer"
+      }
+    },
+    {
+      "name": "Bodyguard",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Hired Gun"
+      }
+    },
+    {
+      "name": "Marauder",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Hired Gun"
+      }
+    },
+    {
+      "name": "Mercenary Soldier",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Hired Gun"
+      }
+    },
+    {
+      "name": "Pilot",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Smuggler"
+      }
+    },
+    {
+      "name": "Scoundrel",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Smuggler"
+      }
+    },
+    {
+      "name": "Thief",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Smuggler"
+      }
+    },
+    {
+      "name": "Mechanic",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Technician"
+      }
+    },
+    {
+      "name": "Outlaw Tech",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Technician"
+      }
+    },
+    {
+      "name": "Slicer",
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "career": {
+        "name": "Technician"
+      }
+    }
+  ]
+}

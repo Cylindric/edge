@@ -11,7 +11,7 @@ SELECT * FROM characters_groups;
 SELECT * FROM characters_items;
 SELECT * FROM characters_notes;
 SELECT * FROM characters_skills ORDER BY character_id, skill_id;
-SELECT * FROM characters_talents ORDER BY ct.character_id;
+SELECT * FROM characters_talents ORDER BY character_id;
 SELECT * FROM characters_weapons;
 SELECT * FROM credits;
 SELECT * FROM groups;
@@ -33,7 +33,7 @@ SELECT * FROM stats;
 SELECT * FROM talents;
 SELECT * FROM users;
 SELECT * FROM weapon_types;
-SELECT * FROM weapons ORDER BY name;
+SELECT * FROM edge.weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
 -- v0.7 to v0.8
@@ -52,6 +52,9 @@ DROP TABLE IF EXISTS characters_notes;
 DROP TABLE IF EXISTS characters_skills;
 DROP TABLE IF EXISTS characters_talents;
 DROP TABLE IF EXISTS characters_weapons;
+DROP TABLE IF EXISTS characters_careers;
+DROP TABLE IF EXISTS characters_specialisations;
+DROP TABLE IF EXISTS characters_groups;
 DROP TABLE IF EXISTS ranks;
 DROP TABLE IF EXISTS credits;
 DROP TABLE IF EXISTS obligations;
@@ -78,5 +81,6 @@ DROP TABLE IF EXISTS stats;
 DROP TABLE IF EXISTS weapon_types;
 DROP TABLE IF EXISTS species;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS sources;
 DROP TABLE IF EXISTS phinxlog;
 

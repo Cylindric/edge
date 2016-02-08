@@ -1,0 +1,70 @@
+{
+  "item_types": [
+    {
+      "name": "Communications",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Poisons",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Detection",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Medical",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Cybernetics",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Entertainment",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Security",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Survival",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Tools",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Black Market",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Personal Equipment",
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    }
+  ]
+}

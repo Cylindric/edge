@@ -1,0 +1,927 @@
+{
+  "items": [
+    {
+      "name": "Commlink (handheld)",
+      "encumbrance": 0,
+      "rarity": 0,
+      "value": 25,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Communications"
+      }
+    },
+    {
+      "name": "Commlink (long range)",
+      "encumbrance": 2,
+      "rarity": 1,
+      "value": 200,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Communications"
+      }
+    },
+    {
+      "name": "Holo-Messenger",
+      "encumbrance": 0,
+      "rarity": 4,
+      "value": 250,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Communications"
+      }
+    },
+    {
+      "name": "Synthetic Standard Neurotoxin",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 50,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Poisons"
+      }
+    },
+    {
+      "name": "Synthetic Standard Anesthetic",
+      "encumbrance": 0,
+      "rarity": 4,
+      "value": 35,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Poisons"
+      }
+    },
+    {
+      "name": "Synthetic Standard Neuropalaytic",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 75,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Poisons"
+      }
+    },
+    {
+      "name": "Electrobinoculars",
+      "encumbrance": 0,
+      "rarity": 1,
+      "value": 250,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Detection"
+      }
+    },
+    {
+      "name": "General Purpose Scanner",
+      "encumbrance": 2,
+      "rarity": 3,
+      "value": 500,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Detection"
+      }
+    },
+    {
+      "name": "Hand Scanner",
+      "encumbrance": 0,
+      "rarity": 2,
+      "value": 100,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Detection"
+      }
+    },
+    {
+      "name": "Macrobinoculars",
+      "encumbrance": 1,
+      "rarity": 2,
+      "value": 75,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Detection"
+      }
+    },
+    {
+      "name": "Scanner Goggles",
+      "encumbrance": 0,
+      "rarity": 3,
+      "value": 150,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Detection"
+      }
+    },
+    {
+      "name": "Surveillance Tagger",
+      "encumbrance": 0,
+      "rarity": 4,
+      "value": 175,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Detection"
+      }
+    },
+    {
+      "name": "Bacta (liter)",
+      "encumbrance": 1,
+      "rarity": 1,
+      "value": 20,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Medical"
+      }
+    },
+    {
+      "name": "Bacta (full tank)",
+      "encumbrance": 12,
+      "rarity": 1,
+      "value": 4000,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Medical"
+      }
+    },
+    {
+      "name": "Emergency Medpac",
+      "encumbrance": 1,
+      "rarity": 1,
+      "value": 100,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Medical"
+      }
+    },
+    {
+      "name": "Medpac",
+      "encumbrance": 2,
+      "rarity": 2,
+      "value": 400,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Medical"
+      }
+    },
+    {
+      "name": "Stimpack",
+      "encumbrance": 0,
+      "rarity": 1,
+      "value": 25,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Medical"
+      }
+    },
+    {
+      "name": "Synthskin",
+      "encumbrance": 0,
+      "rarity": 1,
+      "value": 10,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Medical"
+      }
+    },
+    {
+      "name": "Cybernetic Arm Mod V",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 10000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Cybernetic Arm Mod VI",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 10000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Cybernetic Brain Implant",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 10000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Cybernetic Eyes",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 7500,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Cybernetic Leg Mod II",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 10000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Cybernetic Leg Mod III",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 10000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Cybernetic Weapon",
+      "encumbrance": 0,
+      "rarity": 7,
+      "value": 4000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "CyberScnner Limb",
+      "encumbrance": 0,
+      "rarity": 7,
+      "value": 4000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Immune Implant",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 5000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Implant Armor",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 7500,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Repli-Limb Prosthetic (limb)",
+      "encumbrance": 0,
+      "rarity": 5,
+      "value": 2000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Repli-Limb Prosthetic (organ)",
+      "encumbrance": 0,
+      "rarity": 5,
+      "value": 1000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Cybernetics"
+      }
+    },
+    {
+      "name": "Chance Cubes",
+      "encumbrance": 0,
+      "rarity": 0,
+      "value": 1,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Entertainment"
+      }
+    },
+    {
+      "name": "Dejarik Table",
+      "encumbrance": 10,
+      "rarity": 1,
+      "value": 350,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Entertainment"
+      }
+    },
+    {
+      "name": "Sabacc Deck",
+      "encumbrance": 0,
+      "rarity": 0,
+      "value": 40,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Entertainment"
+      }
+    },
+    {
+      "name": "Binders",
+      "encumbrance": 0,
+      "rarity": 0,
+      "value": 25,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Security"
+      }
+    },
+    {
+      "name": "Comm Jammer",
+      "encumbrance": 4,
+      "rarity": 3,
+      "value": 400,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Security"
+      }
+    },
+    {
+      "name": "Comm Scrambler",
+      "encumbrance": 0,
+      "rarity": 5,
+      "value": 1000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Security"
+      }
+    },
+    {
+      "name": "Disguise Kit",
+      "encumbrance": 2,
+      "rarity": 4,
+      "value": 100,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Security"
+      }
+    },
+    {
+      "name": "Electronic Lock Breaker",
+      "encumbrance": 1,
+      "rarity": 5,
+      "value": 1000,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Security"
+      }
+    },
+    {
+      "name": "Restraining Bolt",
+      "encumbrance": 0,
+      "rarity": 0,
+      "value": 35,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Security"
+      }
+    },
+    {
+      "name": "Slicer Gear",
+      "encumbrance": 2,
+      "rarity": 4,
+      "value": 500,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Security"
+      }
+    },
+    {
+      "name": "Crash Survival Kit",
+      "encumbrance": 5,
+      "rarity": 2,
+      "value": 300,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Ration Pack",
+      "encumbrance": 0,
+      "rarity": 0,
+      "value": 5,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Breath Mask",
+      "encumbrance": 1,
+      "rarity": 1,
+      "value": 25,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Space Suit",
+      "encumbrance": 4,
+      "rarity": 1,
+      "value": 100,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Tent",
+      "encumbrance": 4,
+      "rarity": 1,
+      "value": 100,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Thermal Cloak",
+      "encumbrance": 2,
+      "rarity": 1,
+      "value": 200,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Backpack",
+      "encumbrance": 0,
+      "rarity": 0,
+      "value": 50,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Climbing Gear",
+      "encumbrance": 1,
+      "rarity": 2,
+      "value": 50,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Datapad",
+      "encumbrance": 1,
+      "rarity": 1,
+      "value": 75,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Emergency Repair Patch",
+      "encumbrance": 0,
+      "rarity": 1,
+      "value": 25,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Extra Reloads",
+      "encumbrance": 1,
+      "rarity": 1,
+      "value": 25,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Fusion Lantern",
+      "encumbrance": 2,
+      "rarity": 2,
+      "value": 150,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Glow Rod",
+      "encumbrance": 1,
+      "rarity": 0,
+      "value": 10,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Jet Pack",
+      "encumbrance": 2,
+      "rarity": 7,
+      "value": 4500,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Tool Kit",
+      "encumbrance": 4,
+      "rarity": 2,
+      "value": 350,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Utility Belt",
+      "encumbrance": 0,
+      "rarity": 0,
+      "value": 25,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Tools"
+      }
+    },
+    {
+      "name": "Avabush Spice (dose)",
+      "encumbrance": 0,
+      "rarity": 6,
+      "value": 25,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Avabush Spice (100 dose container)",
+      "encumbrance": 3,
+      "rarity": 7,
+      "value": 2000,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Booster Blue (dose)",
+      "encumbrance": 0,
+      "rarity": 5,
+      "value": 10,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Booster Blue (100 dose container)",
+      "encumbrance": 3,
+      "rarity": 6,
+      "value": 750,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Death Sticks (dose)",
+      "encumbrance": 0,
+      "rarity": 1,
+      "value": 5,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Death Sticks (100 dose container)",
+      "encumbrance": 3,
+      "rarity": 2,
+      "value": 250,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Glitterstim (dose)",
+      "encumbrance": 0,
+      "rarity": 7,
+      "value": 100,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Glitterstim (100 dose container)",
+      "encumbrance": 5,
+      "rarity": 8,
+      "value": 5000,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Lesai (dose)",
+      "encumbrance": 0,
+      "rarity": 9,
+      "value": 500,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Lesai (100 dose container)",
+      "encumbrance": 2,
+      "rarity": 10,
+      "value": 7500,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Yarrock (dose)",
+      "encumbrance": 0,
+      "rarity": 8,
+      "value": 350,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Yarrock (100 dose container)",
+      "encumbrance": 3,
+      "rarity": 9,
+      "value": 20000,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Black Market"
+      }
+    },
+    {
+      "name": "Data Breaker",
+      "encumbrance": 1,
+      "rarity": 6,
+      "value": 1000,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Personal Equipment"
+      }
+    },
+    {
+      "name": "Flesh Camouflage Set",
+      "encumbrance": 2,
+      "rarity": 7,
+      "value": 2500,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Personal Equipment"
+      }
+    },
+    {
+      "name": "Personal Stealth Field",
+      "encumbrance": 1,
+      "rarity": 9,
+      "value": 20000,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      },
+      "item_type": {
+        "name": "Personal Equipment"
+      }
+    }
+  ]
+}

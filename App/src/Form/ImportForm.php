@@ -3,7 +3,6 @@ namespace App\Form;
 
 use Cake\Form\Form;
 use Cake\Form\Schema;
-use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 
@@ -41,6 +40,8 @@ class ImportForm extends Form
 				$this->parse($data);
 			} else {
 				$table = Inflector::tableize($tablename);
+				$table = $table == 'armours' ? 'armour' : $table; // Hack for non-standard table names
+
 				$table = TableRegistry::get($table);
 				foreach ($data as $record) {
 					$record = (array)$record;

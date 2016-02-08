@@ -2,6 +2,9 @@
 
 # https://stedolan.github.io
 
+cd `dirname $0`
+rm *.json
+
 jq -s '' core/*.json > combined000-core.json
 jq -s '' edge_of_the_empire/*.json > combined100-edge_of_the_empire.json
 
@@ -15,7 +18,7 @@ jq -s '' age_of_rebellion/*.json > combined200-age_of_rebellion.json
 
 jq -s '' force_and_destiny/*.json > combined300-force_and_destiny.json
 
-jq -s '' combined?00-*.json > /tmp/combined.json
+jq -s '' combined???-*.json > /tmp/combined.json
 
 jq -s 'flatten' /tmp/combined.json > combined.json
 
