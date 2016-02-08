@@ -3,7 +3,10 @@
 # https://stedolan.github.io
 
 cd `dirname $0`
-rm *.json
+
+if ls *.json 1> /dev/null 2>&1; then
+	rm *.json
+fi
 
 jq -s '' core/*.json > combined000-core.json
 jq -s '' edge_of_the_empire/*.json > combined100-edge_of_the_empire.json
@@ -23,4 +26,6 @@ jq -s '' combined???-*.json > /tmp/combined.json
 jq -s 'flatten' /tmp/combined.json > combined.json
 
 
-rm /tmp/combined.json
+if [ -f /tmp/combined.json ]; then
+	rm /tmp/combined.json
+fi
