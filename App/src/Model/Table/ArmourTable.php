@@ -13,7 +13,7 @@ class ArmourTable extends AppTable
         $this->table('armour');
         $this->addBehavior('Timestamp');
         $this->hasMany('CharactersArmour');
-        $this->belongsToMany('Characters');
+        $this->belongsToMany('Characters', ['through' => 'CharactersArmour']); // Specify the join-table name because by convention it should be called ArmourCharacters
         $this->belongsTo('Sources');
     }
 
@@ -26,41 +26,6 @@ class ArmourTable extends AppTable
         $validator
             ->requirePresence('name', 'create')
             ->notEmpty('name');
-
-        $validator
-            ->add('encumbrance', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('encumbrance', 'create')
-            ->notEmpty('encumbrance');
-
-        $validator
-            ->add('rarity', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('rarity', 'create')
-            ->notEmpty('rarity');
-
-        $validator
-            ->add('defence', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('defence', 'create')
-            ->notEmpty('defence');
-
-        $validator
-            ->add('soak', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('soak', 'create')
-            ->notEmpty('soak');
-
-        $validator
-            ->add('hp', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('hp', 'create')
-            ->notEmpty('hp');
-
-        $validator
-            ->add('value', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('value', 'create')
-            ->notEmpty('value');
-
-        $validator
-            ->add('restricted', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('restricted', 'create')
-            ->notEmpty('restricted');
 
         return $validator;
     }

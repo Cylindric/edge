@@ -78,6 +78,7 @@
                             </ul>
                         </li>
                     <?php endif; ?>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                            aria-haspopup="true" aria-expanded="false">Groups <span class="caret"></span></a>
@@ -85,6 +86,28 @@
                             <li><?= $this->Html->link('List', '/groups/') ?></li>
                             <?php if ($user['role'] == 'admin'): ?>
                                 <li><?= $this->Html->link('New', '/groups/add') ?></li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <?php if ($user['role'] == 'admin'): ?>
+                                <li><?= $this->Html->link('Armour', '/armour') ?></li>
+                                <li><?= $this->Html->link('Careers', '/careers') ?></li>
+                                <li><?= $this->Html->link('Items', '/items') ?></li>
+                                <li><?= $this->Html->link('Item Types', '/item_types') ?></li>
+                                <li><?= $this->Html->link('Ranges', '/ranges') ?></li>
+                                <li><?= $this->Html->link('Skills', '/skills') ?></li>
+                                <li><?= $this->Html->link('Specialisations', '/specialisations') ?></li>
+                                <li><?= $this->Html->link('Species', '/species') ?></li>
+                                <li><?= $this->Html->link('Stats', '/stats') ?></li>
+                                <li><?= $this->Html->link('Talents', '/talents') ?></li>
+                                <li><?= $this->Html->link('Weapons', '/weapons') ?></li>
+                                <li><?= $this->Html->link('Weapon Types', '/weapon_types') ?></li>
+                                <li role="separator" class="divider"></li>
+                                <li><?= $this->Html->link('Sources', '/sources') ?></li>
                             <?php endif; ?>
                         </ul>
                     </li>
