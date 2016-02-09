@@ -1,8 +1,8 @@
 <?php
 $this->Html->addCrumb('Characters', ['action' => '']);
 $this->Html->addCrumb($character->name);
-$this->Html->script('rpgCharacterEdit', ['block' => true]);
 $this->assign('title', $character->name);
+$this->Html->script('rpgCharacterEdit', ['block' => true]);
 ?>
 <?= $this->Form->create($character); ?>
 <?= $this->Form->hidden('id'); ?>

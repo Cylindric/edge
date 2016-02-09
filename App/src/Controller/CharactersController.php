@@ -212,8 +212,6 @@ class CharactersController extends AppController
         $character = $this->Characters->get($id, ['contain' => ['CharactersSkills']]);
 
         $this->loadModel('Skills');
-
-        $this->loadModel('Skills');
         $skills = $this->Skills->find();
         $skills->join([
             'table' => 'characters_skills',
@@ -226,14 +224,18 @@ class CharactersController extends AppController
             ->select([
                 'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
                 'Stats.name', 'Stats.code',
-                'level' => $skills->func()->sum('t.level'),
+                'level' => $skills->func()->coalesce([$skills->func()->sum('t.level'), 0]),
                 'career' => $skills->func()->sum('t.career'),
             ])
             ->contain(['Stats'])
             ->group(['Skills.id', 'Stats.name', 'Stats.code'])
             ->order('Skills.name');
 
-        $this->set('character', $character);
+        // Update the dice for each skill
+        foreach($skills as $skill) {
+            $skill->dice_details = $skill->dice($character);
+        }
+
         $this->set('skills', $skills);
         $this->set('_serialize', ['skills']);
     }

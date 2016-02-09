@@ -22,8 +22,20 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
                     $scope.stats = response.stats;
                 });
         };
-
         $scope.updateStats();
+
+        // Get the initial list of Skills
+        $scope.updateSkills = function () {
+            $http.get("/characters/edit_skills/" + character_id + ".json")
+                .success(function (response) {
+                    var list = [];
+                    list.push({'name': "General Skills", 'skills': response.skills.filter(function(value) {return value.skilltype_id == 1;})});
+                    list.push({'name': "Combat Skills", 'skills': response.skills.filter(function(value) {return value.skilltype_id == 2;})});
+                    list.push({'name': "Knowledge Skills", 'skills': response.skills.filter(function(value) {return value.skilltype_id == 3;})});
+                    $scope.skill_categories = list;
+                });
+        };
+        $scope.updateSkills();
 
         // Get the initial list of Credits
         $http.get("/credits/edit/" + character_id + ".json")
@@ -54,6 +66,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
                 delta: change
             }).then(function successCallback(response) {
                 $scope.updateStats();
+                $scope.updateSkills();
             });
         }
 
@@ -64,6 +77,26 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
                 delta: change
             }).then(function successCallback(response) {
                 $scope.updateStats();
+                $scope.updateSkills();
+            });
+        }
+
+        $scope.changeSkill = function (item, change) {
+            $http.post("/character_skills/change.json", {
+                character_id: character_id,
+                skill_id: item,
+                delta: change
+            }).then(function successCallback(response) {
+                $scope.updateSkills();
+            });
+        }
+
+        $scope.toggleCareer = function (item) {
+            $http.post("/character_skills/toggle_career.json", {
+                character_id: character_id,
+                skill_id: item
+            }).then(function successCallback(response) {
+                $scope.updateSkills();
             });
         }
 
@@ -137,4 +170,11 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
             });
         }
 
+        $scope.range = function(count){
+            var list = [];
+            for (var i = 0; i < count; i++) {
+                list.push(i)
+            }
+            return list;
+        }
     }]);
