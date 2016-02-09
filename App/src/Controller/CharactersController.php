@@ -269,24 +269,34 @@ class CharactersController extends AppController
         }
 
         $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function get_stats($id)
     {
-        $Char = $this->Characters->get($id);
+        $char = $this->Characters->get($id);
         $response = [
-            'soak' => $Char->total_soak,
-            'strain' => $Char->strain,
-            'strain_threshold' => $Char->total_strain_threshold,
-            'wounds' => $Char->wounds,
-            'wound_threshold' => $Char->total_wound_threshold,
-            'defence_melee' => $Char->defence_melee,
-            'defence_ranged' => $Char->defence_ranged,
+            'soak' => $char->total_soak,
+            'soak_breakdown' => $char->total_soak_breakdown,
+            'strain' => $char->strain,
+            'strain_threshold' => $char->total_strain_threshold,
+            'strain_threshold_breakdown' => $char->total_strain_threshold_breakdown,
+            'wounds' => $char->wounds,
+            'wound_threshold' => $char->total_wound_threshold,
+            'wound_threshold_breakdown' => $char->total_wound_threshold_breakdown,
+            'defence_melee' => $char->defence_melee,
+            'defence_ranged' => $char->defence_ranged,
+            'stats' => [
+                'br' => $char->stat_br,
+                'ag' => $char->stat_ag,
+                'int' => $char->stat_int,
+                'cun' => $char->stat_cun,
+                'will' => $char->stat_will,
+                'pr' => $char->stat_pr,
+            ],
         ];
         $this->set(compact('response'));
         $this->set('_serialize', 'response');
-
     }
 
     public function get_soak($id)

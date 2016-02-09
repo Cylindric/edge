@@ -1,5 +1,6 @@
 var rpgAppNg = angular.module('rpgAppNg', [
     'ngRoute',
+    'ui.bootstrap',
     'rpgControllers'
 ]);
 

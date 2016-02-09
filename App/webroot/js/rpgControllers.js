@@ -1,22 +1,29 @@
 var rpgControllers = angular.module('rpgControllers', []);
 
-
 rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
     function ($scope, $routeParams, $http) {
 
         // Get the Character ID
         var character_id = $(document).find('input[name="id"]').val();
 
-        $http.get("/characters/get_stats/" + character_id + ".json")
-            .success(function (response) {
-                $scope.soak = response.soak;
-                $scope.strain_threshold = response.strain_threshold;
-                $scope.strain = response.strain;
-                $scope.wound_threshold = response.wound_threshold;
-                $scope.wounds = response.wounds;
-                $scope.defence_melee = response.defence_melee;
-                $scope.defence_ranged = response.defence_ranged;
-            });
+        $scope.updateStats = function () {
+            $http.get("/characters/get_stats/" + character_id + ".json")
+                .success(function (response) {
+                    $scope.soak = response.soak;
+                    $scope.soak_breakdown = response.soak_breakdown;
+                    $scope.strain_threshold = response.strain_threshold;
+                    $scope.strain = response.strain;
+                    $scope.strain_threshold_breakdown = response.strain_threshold_breakdown;
+                    $scope.wound_threshold = response.wound_threshold;
+                    $scope.wound_threshold_breakdown = response.wound_threshold_breakdown;
+                    $scope.wounds = response.wounds;
+                    $scope.defence_melee = response.defence_melee;
+                    $scope.defence_ranged = response.defence_ranged;
+                    $scope.stats = response.stats;
+                });
+        };
+
+        $scope.updateStats();
 
         // Get the initial list of Credits
         $http.get("/credits/edit/" + character_id + ".json")
@@ -39,7 +46,6 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
                 $scope.totalObligation = response.total;
             });
 
-
         // Edits
         $scope.changeAttribute = function (item, change) {
             $http.post("/characters/change_attribute.json", {
@@ -47,7 +53,17 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
                 attribute_code: item,
                 delta: change
             }).then(function successCallback(response) {
-                $scope[item] = response.data.data;
+                $scope.updateStats();
+            });
+        }
+
+        $scope.changeStat = function (item, change) {
+            $http.post("/characters/change_stat.json", {
+                character_id: character_id,
+                stat_code: item,
+                delta: change
+            }).then(function successCallback(response) {
+                $scope.updateStats();
             });
         }
 

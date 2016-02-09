@@ -9,23 +9,8 @@ $editing = $this->request->params['action'] == 'edit';
         "title" => "Soak",
         "value" => $character->total_soak,
         "class" => 'cursor-help',
+        "popover" => 'soak_breakdown',
     ]);
-    $this->Html->scriptBlock("
-    $('#soak_0_value').popover
-        (
-        {
-            html: true,
-            trigger: 'hover',
-            title: 'Soak',
-            content: function()
-            {
-                return $.ajax({url: '/characters/get_soak/" . $character->id . "',
-                     dataType: 'html',
-                     async: false}).responseText;
-            }
-        }
-    );
-    ", ['block' => true]);
     ?>
 
     <?php echo $this->element('status_block_2', [
@@ -35,23 +20,8 @@ $editing = $this->request->params['action'] == 'edit';
         "subtitles" => ['Threshold', 'Current'],
         "values" => [$character->total_strain_threshold, $character->strain],
         "class" => ['cursor-help', ''],
+        "popover" => 'strain_threshold_breakdown',
     ]);
-    $this->Html->scriptBlock("
-         $('#strain_0_value').popover
-            (
-            {
-                html: true,
-                trigger: 'hover',
-                title: 'Strain Threshold',
-                content: function()
-                {
-                    return $.ajax({url: '/characters/get_strain_threshold/" . $character->id . "',
-                         dataType: 'html',
-                         async: false}).responseText;
-                }
-            }
-        );
-    ", ['block' => true]);
     ?>
 
     <?php echo $this->element('status_block_2', [
@@ -61,23 +31,8 @@ $editing = $this->request->params['action'] == 'edit';
         "subtitles" => ['Threshold', 'Current'],
         "values" => [$character->total_wound_threshold, $character->wounds],
         "class" => ['cursor-help', ''],
+        "popover" => 'wound_threshold_breakdown',
     ]);
-    $this->Html->scriptBlock("
-         $('#wounds_0_value').popover
-            (
-            {
-                html: true,
-                trigger: 'hover',
-                title: 'Wound Threshold',
-                content: function()
-                {
-                    return $.ajax({url: '/characters/get_wound_threshold/" . $character->id . "',
-                         dataType: 'html',
-                         async: false}).responseText;
-                }
-            }
-        );
-    ", ['block' => true]);
     ?>
 
     <?php echo $this->element('status_block_2', [
