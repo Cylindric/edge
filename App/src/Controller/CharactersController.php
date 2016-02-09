@@ -13,6 +13,7 @@ class CharactersController extends AppController
         if (in_array($this->request->action, [
             'add',
             'get_soak',
+            'get_stats',
             'get_strain_threshold',
             'get_wound_threshold',
             'index',
@@ -192,7 +193,6 @@ class CharactersController extends AppController
     public function edit_stats($id = null)
     {
         $character = $this->Characters->get($id);
-
         $this->set('character', $character);
         $this->set('_serialize', ['character']);
     }
@@ -238,51 +238,73 @@ class CharactersController extends AppController
         $this->set('_serialize', ['skills']);
     }
 
-    public function change_stat($char_id = null, $stat_code = null, $delta = 1)
+    public function change_stat()
     {
-        $stat_code = 'stat_' . $stat_code;
-        $response = ['result' => 'fail', 'data' => null];
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $char_id = $this->request->data['character_id'];
+            $stat_code = $this->request->data['stat_code'];
+            $delta = $this->request->data['delta'];
 
-        if (!is_null($char_id) && !is_null($stat_code)) {
-            $delta = (int)$delta;
-            $Char = $this->Characters->get($char_id);
+            $stat_code = 'stat_' . $stat_code;
+            $response = ['result' => 'fail', 'data' => null];
 
-            $new_value = $Char->$stat_code += $delta;
-            $new_value = max(0, $new_value); // Stats cannot go below zero.
+            if (!is_null($char_id) && !is_null($stat_code)) {
+                $delta = (int)$delta;
+                $Char = $this->Characters->get($char_id);
 
-            // Change the stat
-            $Char->$stat_code = $new_value;
-            if ($this->Characters->save($Char)) {
-                // Announce
-                $this->Slack->announceCharacterEdit($Char);
+                $new_value = $Char->$stat_code += $delta;
+                $new_value = max(0, $new_value); // Stats cannot go below zero.
 
-                $response = ['result' => 'success', 'data' => $Char->$stat_code];
-            } else {
-                $this->Flash->error(__('The Stat could not be saved. Please, try again.'));
+                // Change the stat
+                $Char->$stat_code = $new_value;
+                if ($this->Characters->save($Char)) {
+                    // Announce
+                    $this->Slack->announceCharacterEdit($Char);
+
+                    $response = ['result' => 'success', 'data' => $Char->$stat_code];
+                } else {
+                    $this->Flash->error(__('The Stat could not be saved. Please, try again.'));
+                }
             }
-
         }
 
         $this->set(compact('response'));
         $this->set('_serialize', ['response']);
     }
 
+    public function get_stats($id)
+    {
+        $Char = $this->Characters->get($id);
+        $response = [
+            'soak' => $Char->total_soak,
+            'strain' => $Char->strain,
+            'strain_threshold' => $Char->total_strain_threshold,
+            'wounds' => $Char->wounds,
+            'wound_threshold' => $Char->total_wound_threshold,
+            'defence_melee' => $Char->defence_melee,
+            'defence_ranged' => $Char->defence_ranged,
+        ];
+        $this->set(compact('response'));
+        $this->set('_serialize', 'response');
+
+    }
+
     public function get_soak($id)
     {
         $Char = $this->Characters->get($id);
 
-        $breakdown = $Char->totalSoakBreakdown;
+        $breakdown = $Char->total_soak_breakdown;
         $response = ['result' => 'success', 'soak' => array_sum($breakdown), 'breakdown' => $breakdown];
 
         $this->set(compact('response', 'breakdown'));
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function get_strain_threshold($id)
     {
         $Char = $this->Characters->get($id);
 
-        $breakdown = $Char->totalStrainThresholdBreakdown;
+        $breakdown = $Char->total_strain_threshold_breakdown;
         $response = ['result' => 'success', 'strain_threshold' => array_sum($breakdown), 'breakdown' => $breakdown];
 
         $this->set(compact('response', 'breakdown'));
@@ -293,16 +315,23 @@ class CharactersController extends AppController
     {
         $Char = $this->Characters->get($id);
 
-        $breakdown = $Char->totalWoundThresholdBreakdown;
+        $breakdown = $Char->total_wound_threshold_breakdown;
         $response = ['result' => 'success', 'wound_threshold' => array_sum($breakdown), 'breakdown' => $breakdown];
 
         $this->set(compact('response', 'breakdown'));
         $this->set('_serialize', ['response']);
     }
 
-    public function change_attribute($char_id = null, $attribute_code = null, $delta = 1)
+    public function change_attribute()
     {
         $response = ['result' => 'fail', 'data' => null];
+
+        if($this->request->is('post'))
+        {
+            $char_id = $this->request->data['character_id'];
+            $attribute_code = $this->request->data['attribute_code'];
+            $delta = $this->request->data['delta'];
+        }
 
         if (!is_null($char_id) && !is_null($attribute_code)) {
             $delta = (int)$delta;
@@ -316,7 +345,7 @@ class CharactersController extends AppController
                 case 'soak':
                     // Note: Soak can go below zero, because this is used to arbitrarily modify calculated Soak.
                     $Char->soak = $Char->soak + $delta;
-                    $response['data'] = $Char->totalSoak;
+                    $response['data'] = $Char->total_soak;
                     break;
                 case 'strain_threshold':
                     $Char->strain_threshold = $Char->strain_threshold + $delta;
@@ -328,7 +357,7 @@ class CharactersController extends AppController
                     break;
                 case 'wound_threshold':
                     $Char->wound_threshold = $Char->wound_threshold + $delta;
-                    $response['data'] = $Char->wound_threshold;
+                    $response['data'] = $Char->total_wound_threshold;
                     break;
                 case 'defence_melee':
                     $Char->defence_melee = $Char->defence_melee + $delta;
@@ -345,11 +374,10 @@ class CharactersController extends AppController
                 $this->Slack->announceCharacterEdit($Char);
                 $response['result'] = 'success';
             }
-
         }
 
         $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function join_group($char_id)

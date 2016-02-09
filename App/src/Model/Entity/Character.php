@@ -30,7 +30,7 @@ class Character extends Entity
             ->select(['total' => $credits->func()->sum('Credits.value')])
             ->hydrate(false);
 
-        $total = $credits->toArray()[0]['total'];
+        $total = $credits->toArray()[0]['total'] ?: 0;
         if($total == null)
         {
             $total = 0;
@@ -46,7 +46,7 @@ class Character extends Entity
             ->where(['Xp.character_id' => $this->id])
             ->select(['xp' => $xp->func()->sum('Xp.value')])
             ->hydrate(false);
-        return $xp->toArray()[0]['xp'];
+        return $xp->toArray()[0]['xp'] ?: 0;
     }
 
     public function _getTotalObligation()
@@ -57,7 +57,7 @@ class Character extends Entity
             ->where(['Obligations.character_id' => $this->id])
             ->select(['obligation' => $obligation->func()->sum('Obligations.value')])
             ->hydrate(false);
-        return $obligation->toArray()[0]['obligation'];
+        return $obligation->toArray()[0]['obligation'] ?: 0;
     }
 
     public function _getTotalStrainThresholdBreakdown()
@@ -80,7 +80,7 @@ class Character extends Entity
             ->where(['CharactersTalents.character_id' => $this->id])
             ->select(['strain' => $query->func()->sum('CharactersTalents.rank * Talents.strain_per_rank')])
             ->hydrate(false);
-        $breakdown['Talents'] = $query->toArray()[0]['strain'];
+        $breakdown['Talents'] = $query->toArray()[0]['strain'] ?: 0;
 
         // Finally any arbitrary adjustments are added
         $breakdown['Manual'] = $this->strain_threshold;
@@ -116,7 +116,7 @@ class Character extends Entity
         return array_sum($this->_getTotalWoundThresholdBreakdown());
     }
 
-    public function _getTotalSoakBreakdown()
+    protected function _getTotalSoakBreakdown()
     {
         $breakdown = array();
 
@@ -132,7 +132,7 @@ class Character extends Entity
             ->andWhere(['CharactersArmour.equipped' => true])
             ->select(['soak' => $query->func()->sum('Armour.soak')])
             ->hydrate(false);
-        $breakdown['Armour'] = $query->toArray()[0]['soak'];
+        $breakdown['Armour'] = $query->toArray()[0]['soak'] ?: 0;
 
         // Talents may add Soak
         $Talents = TableRegistry::get('CharactersTalents');
@@ -142,7 +142,7 @@ class Character extends Entity
             ->where(['CharactersTalents.character_id' => $this->id])
             ->select(['soak' => $query->func()->sum('CharactersTalents.rank * Talents.soak_per_rank')])
             ->hydrate(false);
-        $breakdown['Talents'] = $query->toArray()[0]['soak'];
+        $breakdown['Talents'] = $query->toArray()[0]['soak'] ?: 0;
 
         // Finally any arbitrary adjustments are added
         $breakdown['Manual'] = $this->soak;
@@ -167,7 +167,7 @@ class Character extends Entity
             ->andWhere(['CharactersArmour.equipped' => true])
             ->select(['defence' => $query->func()->sum('Armour.defence')])
             ->hydrate(false);
-        $armour_defence = $query->toArray()[0]['defence'];
+        $armour_defence = $query->toArray()[0]['defence'] ?: 0;
 
         $defence['melee'] += $armour_defence;
         $defence['ranged'] += $armour_defence;

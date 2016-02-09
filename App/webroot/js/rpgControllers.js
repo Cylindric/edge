@@ -7,29 +7,52 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
         // Get the Character ID
         var character_id = $(document).find('input[name="id"]').val();
 
+        $http.get("/characters/get_stats/" + character_id + ".json")
+            .success(function (response) {
+                $scope.soak = response.soak;
+                $scope.strain_threshold = response.strain_threshold;
+                $scope.strain = response.strain;
+                $scope.wound_threshold = response.wound_threshold;
+                $scope.wounds = response.wounds;
+                $scope.defence_melee = response.defence_melee;
+                $scope.defence_ranged = response.defence_ranged;
+            });
+
         // Get the initial list of Credits
         $http.get("/credits/edit/" + character_id + ".json")
-            .success(function(response) {
+            .success(function (response) {
                 $scope.credits = response.credits;
                 $scope.totalCredits = response.total;
             });
 
         // Get the initial list of XP
         $http.get("/xp/edit/" + character_id + ".json")
-            .success(function(response) {
+            .success(function (response) {
                 $scope.xp = response.xp;
                 $scope.totalXp = response.total;
             });
 
         // Get the initial list of Obligations
         $http.get("/obligations/edit/" + character_id + ".json")
-            .success(function(response) {
+            .success(function (response) {
                 $scope.obligations = response.obligations;
                 $scope.totalObligation = response.total;
             });
 
+
+        // Edits
+        $scope.changeAttribute = function (item, change) {
+            $http.post("/characters/change_attribute.json", {
+                character_id: character_id,
+                attribute_code: item,
+                delta: change
+            }).then(function successCallback(response) {
+                $scope[item] = response.data.data;
+            });
+        }
+
         // Adds
-        $scope.addCredits = function() {
+        $scope.addCredits = function () {
             $http.post("/credits/add.json", {
                 character_id: character_id,
                 value: $scope.new_credit.value,
@@ -40,7 +63,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
             });
         }
 
-        $scope.addObligation = function() {
+        $scope.addObligation = function () {
             $http.post("/obligations/add.json", {
                 character_id: character_id,
                 value: $scope.new_obligation.value,
@@ -52,7 +75,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
             });
         }
 
-        $scope.addXp = function() {
+        $scope.addXp = function () {
             $http.post("/xp/add.json", {
                 character_id: character_id,
                 value: $scope.new_xp.value,
@@ -64,7 +87,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
         }
 
         // Removes
-        $scope.removeCredits = function(item) {
+        $scope.removeCredits = function (item) {
             var index = $scope.credits.indexOf(item);
             $http.post("/credits/delete.json", {
                 character_id: character_id,
@@ -76,7 +99,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
 
         }
 
-        $scope.removeXp = function(item) {
+        $scope.removeXp = function (item) {
             var index = $scope.xp.indexOf(item);
             $http.post("/xp/delete.json", {
                 character_id: character_id,
@@ -87,7 +110,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', '$routeParams', '$http',
             });
         }
 
-        $scope.removeObligation = function(item) {
+        $scope.removeObligation = function (item) {
             var index = $scope.obligations.indexOf(item);
             $http.post("/obligations/delete.json", {
                 character_id: character_id,
