@@ -17,36 +17,6 @@ class TalentsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.talents',
-        'app.characters',
-        'app.species',
-        'app.users',
-        'app.characters_armour',
-        'app.armour',
-        'app.armour_characters',
-        'app.characters_groups',
-        'app.groups',
-        'app.groups_users',
-        'app.characters_items',
-        'app.items',
-        'app.item_types',
-        'app.characters_skills',
-        'app.skills',
-        'app.stats',
-        'app.characters_specialisations',
-        'app.specialisations',
-        'app.characters_careers',
-        'app.careers',
-        'app.characters_talents',
-        'app.characters_weapons',
-        'app.weapons',
-        'app.weapon_types',
-        'app.ranges',
-        'app.obligations',
-        'app.created_user',
-        'app.modify_user',
-        'app.xp',
-        'app.notes',
-        'app.characters_notes'
     ];
 
     /**

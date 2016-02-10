@@ -27,47 +27,47 @@ class CharactersTableTest extends TestCase
     public function testGetTotalCredits()
     {
         $char = $this->Characters->findByName('basic')->first();
-        $this->assertEquals(3, $char->totalCredits);
+        $this->assertEquals(3, $char->total_credits);
 
         $char5 = $this->Characters->findByName('no credits')->first();
-        $this->assertEquals(0, $char5->totalCredits);
+        $this->assertEquals(0, $char5->total_credits);
     }
 
     public function testGetTotalXp()
     {
         $char = $this->Characters->findByName('basic')->first();
-        $this->assertEquals(6, $char->totalXp);
+        $this->assertEquals(6, $char->total_xp);
 
         $char5 = $this->Characters->findByName('no xp')->first();
-        $this->assertEquals(0, $char5->totalXp);
+        $this->assertEquals(0, $char5->total_xp);
     }
 
     public function testGetTotalObligation()
     {
         $char = $this->Characters->findByName('basic')->first();
-        $this->assertEquals(12, $char->totalObligation);
+        $this->assertEquals(12, $char->total_obligation);
 
         $char5 = $this->Characters->findByName('no obligations')->first();
-        $this->assertEquals(0, $char5->totalObligation);
+        $this->assertEquals(0, $char5->total_obligation);
     }
 
     public function testGetTotalSoak()
     {
         $char = $this->Characters->findByName('basic')->first();
-        $this->assertEquals(3, $char->totalSoak);
+        $this->assertEquals(3, $char->total_soak);
     }
 
     public function testGetTotalStrainThreshold()
     {
         $char = $this->Characters->findByName('basic')->first();
-        $this->assertEquals(22, $char->totalStrainThreshold);
+        $this->assertEquals(22, $char->total_strain_threshold);
     }
 
     public function testGetTotalDefence()
     {
         $char = $this->Characters->findByName('basic')->first();
-        $this->assertEquals(2, $char->totalDefence['melee']);
-        $this->assertEquals(2, $char->totalDefence['ranged']);
+        $this->assertEquals(2, $char->total_defence['melee']);
+        $this->assertEquals(2, $char->total_defence['ranged']);
     }
 
     public function testGetBrawn()

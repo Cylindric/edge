@@ -9,3 +9,4 @@
 /App/.idea/*.iws
 /App/webroot/reports/coverage/
 /App/webroot/reports/testdox.html
+/App/nbproject/private/

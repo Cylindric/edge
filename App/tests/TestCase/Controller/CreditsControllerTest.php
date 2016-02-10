@@ -22,7 +22,7 @@ class CreditsControllerTest extends ControllerTestBase
         $this->Credits = TableRegistry::get('Credits');
         parent::setUp();
     }
-
+    
     /**
      * @covers App\Controller\CreditsController::initialize
      * @covers App\Controller\CreditsController::isAuthorized
