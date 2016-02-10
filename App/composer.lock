@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7941e6ee4061345f7200b8d6435021c9",
+    "hash": "9ec7a010af8bb20b32b45569f719bbca",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -196,20 +196,20 @@
         },
         {
             "name": "cakephp/chronos",
-            "version": "0.4.5",
+            "version": "0.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "f29f6e746954850a9c2b7862f15b591271b0a9e0"
+                "reference": "14c54f91e35bbdb9e70b18530c6de930a474cd42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/f29f6e746954850a9c2b7862f15b591271b0a9e0",
-                "reference": "f29f6e746954850a9c2b7862f15b591271b0a9e0",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/14c54f91e35bbdb9e70b18530c6de930a474cd42",
+                "reference": "14c54f91e35bbdb9e70b18530c6de930a474cd42",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.10"
+                "php": ">=5.5.9"
             },
             "require-dev": {
                 "athletic/athletic": "~0.1",
@@ -247,7 +247,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2016-01-02 12:05:36"
+            "time": "2016-02-07 15:48:49"
         },
         {
             "name": "cakephp/migrations",
@@ -1572,16 +1572,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.2.1",
+            "version": "5.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "40d32454fdad8a08ded0a2aafbc6d0e8f06a6b04"
+                "reference": "6fdb1d3004ebc7071c4ac62f2881d67c5c11fb59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/40d32454fdad8a08ded0a2aafbc6d0e8f06a6b04",
-                "reference": "40d32454fdad8a08ded0a2aafbc6d0e8f06a6b04",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6fdb1d3004ebc7071c4ac62f2881d67c5c11fb59",
+                "reference": "6fdb1d3004ebc7071c4ac62f2881d67c5c11fb59",
                 "shasum": ""
             },
             "require": {
@@ -1593,7 +1593,7 @@
                 "myclabs/deep-copy": "~1.3",
                 "php": ">=5.6",
                 "phpspec/prophecy": "^1.3.1",
-                "phpunit/php-code-coverage": "~3.1",
+                "phpunit/php-code-coverage": "~3.0",
                 "phpunit/php-file-iterator": "~1.4",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": ">=1.0.6",
@@ -1642,7 +1642,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-05 17:50:46"
+            "time": "2016-02-08 12:15:53"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
