@@ -5,13 +5,11 @@
 	<title>Edge: <?= $this->fetch('title') ?></title>
 	<?= $this->Html->meta('icon') ?>
 
+        <?= $this->Html->css('/node_modules/angular-material/angular-material.css') ?>
+
 	<?= $this->Html->css('jquery-ui.css') ?>
 	<?= $this->Html->css('bootstrap.css') ?>
 	<?= $this->Html->css('bootstrap-editable.css') ?>
-	<?= $this->Html->script('jquery-2.1.4.js') ?>
-	<?= $this->Html->script('jquery-ui.min.js') ?>
-	<?= $this->Html->script('bootstrap.min.js') ?>
-	<?= $this->Html->script('bootstrap-editable.min.js') ?>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -117,13 +115,17 @@
 	<div class="footer">Version: <?= $version; ?></div>
 </div>
 
-<?php if ($debug > 0): ?>
-	<?= $this->Html->script('angular-1.5.0.js') ?>
-	<?= $this->Html->script('angular-route-1.5.0.js') ?>
-<?php else: ?>
-	<?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js') ?>
-	<?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js') ?>
-<?php endif; ?>
+<?= $this->Html->script('jquery-2.1.4.js') ?>
+<?= $this->Html->script('jquery-ui.min.js') ?>
+<?= $this->Html->script('bootstrap.min.js') ?>
+<?= $this->Html->script('bootstrap-editable.min.js') ?>
+
+<?= $this->Html->script('/node_modules/angular/angular.min.js') ?>
+<?= $this->Html->script('/node_modules/angular-animate/angular-animate.min.js') ?>
+<?= $this->Html->script('/node_modules/angular-aria/angular-aria.min.js') ?>
+<?= $this->Html->script('/node_modules/angular-messages/angular-messages.min.js') ?>
+<?= $this->Html->script('/node_modules/angular-material/angular-material.min.js') ?>
+    
 <?= $this->Html->script('ui-bootstrap-tpls-1.1.2.min.js') ?>
 <?= $this->Html->script('rpgApp.js') ?>
 <?= $this->Html->script('rpgControllers.js') ?>

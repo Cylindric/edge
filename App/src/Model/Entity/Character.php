@@ -174,6 +174,31 @@ class Character extends Entity
         return $defence;
     }
 
+    public function _getAllSkills()
+    {
+       $Skills = TableRegistry::get('Skills');
+       $skills = $Skills->find();
+        $skills->join([
+            'table' => 'characters_skills',
+            'alias' => 't',
+            'type' => 'LEFT',
+            'conditions' => [
+                'Skills.id = t.skill_id',
+                't.character_id' => $this->id]
+        ])
+            ->select([
+                'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
+                'Stats.name', 'Stats.code',
+                'level' => $skills->func()->coalesce([$skills->func()->sum('t.level'), 0]),
+                'career' => $skills->func()->sum('t.career'),
+            ])
+            ->contain(['Stats'])
+            ->group(['Skills.id', 'Stats.name', 'Stats.code'])
+            ->order('Skills.name');
+        
+        return $skills;
+    }
+    
     public function _getBrawn()
     {
         return $this->stat_br;

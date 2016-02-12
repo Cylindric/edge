@@ -26,7 +26,7 @@ class UsersTable extends AppTable
 
     public function checkLogin($username, $hash)
     {
-        $user = $this->find()->where(['username' => $username], ['password' => $hash])->first()->toArray();
+        $user = $this->find()->where(['username' => $username], ['password' => $hash])->first();
 
         if ($user) {
             $this->data = $user;

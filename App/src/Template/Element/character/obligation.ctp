@@ -50,8 +50,3 @@
         </div>
     </form>
 </div>
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-</script>

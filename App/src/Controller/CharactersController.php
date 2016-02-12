@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Cake\Core\Configure;
 use Cake\Network\Exception\ForbiddenException;
+use Cake\Network\Exception\MethodNotAllowedException;
 
 class CharactersController extends AppController
 {
@@ -189,13 +190,6 @@ class CharactersController extends AppController
         $this->set('response', $response);
         $this->set('_serialize', ['response']);
     }
-    
-    public function edit_stats($id = null)
-    {
-        $character = $this->Characters->get($id);
-        $this->set('character', $character);
-        $this->set('_serialize', ['character']);
-    }
 
     public function edit_notes($id = null)
     {
@@ -207,29 +201,10 @@ class CharactersController extends AppController
         $this->set('_serialize', ['character']);
     }
 
-    public function edit_skills($id = null)
+    public function get_skills($id)
     {
         $character = $this->Characters->get($id, ['contain' => ['CharactersSkills']]);
-
-        $this->loadModel('Skills');
-        $skills = $this->Skills->find();
-        $skills->join([
-            'table' => 'characters_skills',
-            'alias' => 't',
-            'type' => 'LEFT',
-            'conditions' => [
-                'Skills.id = t.skill_id',
-                't.character_id' => $id]
-        ])
-            ->select([
-                'id', 'Skills.name', 'Skills.stat_id', 'Skills.skilltype_id',
-                'Stats.name', 'Stats.code',
-                'level' => $skills->func()->coalesce([$skills->func()->sum('t.level'), 0]),
-                'career' => $skills->func()->sum('t.career'),
-            ])
-            ->contain(['Stats'])
-            ->group(['Skills.id', 'Stats.name', 'Stats.code'])
-            ->order('Skills.name');
+        $skills = $character->all_skills;
 
         // Update the dice for each skill
         foreach($skills as $skill) {
