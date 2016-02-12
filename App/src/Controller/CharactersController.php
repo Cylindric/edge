@@ -264,12 +264,12 @@ class CharactersController extends AppController
             'defence_melee' => $char->defence_melee,
             'defence_ranged' => $char->defence_ranged,
             'stats' => [
-                'br' => $char->stat_br,
-                'ag' => $char->stat_ag,
-                'int' => $char->stat_int,
-                'cun' => $char->stat_cun,
-                'will' => $char->stat_will,
-                'pr' => $char->stat_pr,
+                'br' => ['name' => 'Brawn', 'value' => $char->stat_br],
+                'ag' => ['name' => 'Agility', 'value' => $char->stat_ag],
+                'int' => ['name' => 'Intellect', 'value' => $char->stat_int],
+                'cun' => ['name' => 'Cunning', 'value' => $char->stat_cun],
+                'will' => ['name' => 'Willpower', 'value' => $char->stat_will],
+                'pr' => ['name' => 'Presence', 'value' => $char->stat_pr],
             ],
         ];
         $this->set(compact('response'));

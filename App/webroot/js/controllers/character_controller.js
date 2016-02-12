@@ -1,52 +1,3 @@
-var rpgControllers = angular.module('rpgControllers', []);
-
-rpgAppNg.factory('talentService', function ($http) {
-    var getTalents = function (callbackFn) {
-        $http.get("/talents.json").then(function (response) {
-            callbackFn(response);
-        });
-    };
-
-    var addTalent = function (talent_id, character_id, callbackFn) {
-        $http.post("/character_talents/add.json", {
-            character_id: character_id,
-            talent_id: talent_id
-        }).then(function (response) {
-            if (response.data.response.result == 'success') {
-                callbackFn(response.data.response.data);
-            }
-        });
-    };
-
-    var deleteTalent = function (talent_id, character_id, callbackFn) {
-        $http.post("/character_talents/delete.json", {
-            character_id: character_id,
-            talent_id: talent_id
-        }).then(function (response) {
-            if (response.data.response.result == 'success') {
-                callbackFn(response.data.response.data);
-            }
-        });
-    };
-
-    var changeRank = function (talent_id, character_id, delta, callbackFn) {
-        $http.post("/character_talents/change_rank.json", {
-            character_id: character_id,
-            talent_id: talent_id,
-            delta: delta
-        }).then(function (response) {
-            callbackFn(response.data.response);
-        });
-    };
-
-    return {
-        getTalents: getTalents,
-        addTalent: addTalent,
-        deleteTalent: deleteTalent,
-        changeRank: changeRank
-    };
-});
-
 rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', '$http', '$filter',
     function ($scope, talentService, $http, $filter) {
 
@@ -60,26 +11,18 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', '$http', '$filt
 
         this.talentSearch = talentSearch;
         this.selectedTalentChange = selectedTalentChange;
+        $scope.selectedTalentId = 0;
 
         function talentSearch(query) {
-            var results = query ? $filter('filter')(talentList, {name: createTalentFilterFor(query)}) : talentList,
+            var results = query ? $filter('filter')(talentList, {name: query}) : talentList,
                     deferred;
             return results;
         }
 
         function selectedTalentChange(item) {
             if (item) {
-                talentService.addTalent(item.id, character_id, function (result) {
-                    updateTalents();
-                });
-                $scope.searchText = '';
-                $scope.selectedTalent = undefined;
+                $scope.selectedTalentId = item.id;
             }
-        }
-
-        function createTalentFilterFor(query) {
-            var lowercaseQuery = angular.lowercase(query);
-            return lowercaseQuery;
         }
 
         function updateStats() {
@@ -148,7 +91,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', '$http', '$filt
             $http
                     .get("/character_talents/edit/" + character_id + ".json")
                     .success(function (response) {
-                        $scope.talents = response.talents;
+                        $scope.character_talents = response.talents;
                     });
         }
 
@@ -170,6 +113,15 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', '$http', '$filt
             });
         };
 
+        $scope.addTalent = function () {
+            if ($scope.selectedTalentId > 0) {
+                talentService.addTalent($scope.selectedTalentId, character_id, function (result) {
+                    updateTalents();
+                    $scope.talentSearchText = '';
+                });
+            }
+        };
+
         $scope.deleteTalent = function (talent_id, delta) {
             talentService.deleteTalent(talent_id, character_id, function (result) {
                 updateTalents();
@@ -182,8 +134,8 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', '$http', '$filt
                 attribute_code: item,
                 delta: change
             }).then(function successCallback(response) {
-                $scope.updateStats();
-                $scope.updateSkills();
+                updateStats();
+                updateSkills();
             });
         };
 
@@ -193,8 +145,8 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', '$http', '$filt
                 stat_code: item,
                 delta: change
             }).then(function successCallback(response) {
-                $scope.updateStats();
-                $scope.updateSkills();
+                updateStats();
+                updateSkills();
             });
         };
 
@@ -204,7 +156,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', '$http', '$filt
                 skill_id: item,
                 delta: change
             }).then(function successCallback(response) {
-                $scope.updateSkills();
+                updateSkills();
             });
         };
 
@@ -213,7 +165,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', '$http', '$filt
                 character_id: character_id,
                 skill_id: item
             }).then(function successCallback(response) {
-                $scope.updateSkills();
+                updateSkills();
             });
         };
 

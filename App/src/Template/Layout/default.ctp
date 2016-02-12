@@ -128,7 +128,8 @@
     
 <?= $this->Html->script('ui-bootstrap-tpls-1.1.2.min.js') ?>
 <?= $this->Html->script('rpgApp.js') ?>
-<?= $this->Html->script('rpgControllers.js') ?>
+<?= $this->Html->script('services/talent_service.js') ?>
+<?= $this->Html->script('controllers/character_controller.js') ?>
 
 <?= $this->fetch('script') ?>
 </body>

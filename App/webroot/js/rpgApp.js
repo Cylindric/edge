@@ -5,6 +5,7 @@ var rpgAppNg = angular.module('rpgAppNg', [
     'ngMessages'
 ]);
 
+var rpgControllers = angular.module('rpgControllers', []);
 
 
 
@@ -25,7 +26,7 @@ var rpgAppNg = angular.module('rpgAppNg', [
 //            if (response.response.result === 'success') {
 //                $('#' + update).text(response.response.data);
 //            } else if (response.response.result === 'fail') {
-//                console.log('fail');
+//                console.log('favil');
 //            }
 //        }
 //    );

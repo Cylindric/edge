@@ -34,31 +34,28 @@ $this->assign('title', $character->name);
                 <li class="hidden-print"><?= $this->Html->link('Join Group', ['controller' => 'characters', 'action' => 'join_group', $character->id]) ?></li>
             </ul>
         </div>
-		<?= $this->element('status_block', [
-			'character' => $character
-		]); ?>
+		<?= $this->element('status_block', ['character' => $character]); ?>
 
         <h3>Characteristics</h3>
 
         <div class="row pagebreak">
             <div class="row">
-                <div id="stat_brawn" class="col-md-2 col-sm-4 col-xs-4">
-        <?php echo $this->element('stat_block', ["name" => "br", "value" => $character->stat_br, "label" => "BRAWN"]); ?>
-                </div>
-                <div id="stat_agility" class="col-md-2 col-sm-4 col-xs-4">
-        <?php echo $this->element('stat_block', ["name" => "ag", "value" => $character->stat_ag, "label" => "AGILITY"]); ?>
-                </div>
-                <div id="stat_intellect" class="col-md-2 col-sm-4 col-xs-4">
-        <?php echo $this->element('stat_block', ["name" => "int", "value" => $character->stat_int, "label" => "INTELLECT"]); ?>
-                </div>
-                <div id="stat_cunning" class="col-md-2 col-sm-4 col-xs-4">
-        <?php echo $this->element('stat_block', ["name" => "cun", "value" => $character->stat_cun, "label" => "CUNNING"]); ?>
-                </div>
-                <div id="stat_willpower" class="col-md-2 col-sm-4 col-xs-4">
-        <?php echo $this->element('stat_block', ["name" => "will", "value" => $character->stat_will, "label" => "WILLPOWER"]); ?>
-                </div>
-                <div id="stat_presence" class="col-md-2 col-sm-4 col-xs-4">
-        <?php echo $this->element('stat_block', ["name" => "pr", "value" => $character->stat_pr, "label" => "PRESENCE"]); ?>
+                <div class="col-md-2 col-sm-4 col-xs-4 text-center stat" ng-repeat="(id,stat) in stats">
+                    <div class="row value">
+                        <div class="col-md-12">
+
+                            <i ng-show="stat.value === 0" class="stat_edit_button glyphicon glyphicon-minus hidden-print"></i>
+                            <i ng-show="stat.value > 0" class="stat_edit_button decrease glyphicon glyphicon-minus hidden-print" ng-click="changeStat(id, -1)"></i>
+
+                            <span class="stat_edit_value">{{stat.value}}</span>
+                            <i class="stat_edit_button increase glyphicon glyphicon-plus hidden-print" ng-click="changeStat(id, 1)"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row name">
+                            {{stat.name| uppercase}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,7 +73,7 @@ $this->assign('title', $character->name);
                             <i ng-hide="skill.career" class="btn btn-default btn-xs" ng-click="toggleCareer(skill.id)">standard</i>
                         </td>
                         <td class="col-md-2 text-center">
-                            <i ng-hide="skill.level == 0" class="decrease glyphicon glyphicon-minus" ng-click="changeSkill(skill.id, -1)"></i>
+                            <i ng-hide="skill.level === 0" class="decrease glyphicon glyphicon-minus" ng-click="changeSkill(skill.id, -1)"></i>
                             <span class="skill_level">{{skill.level}}</span>
                             <i class="increase glyphicon glyphicon-plus" ng-click="changeSkill(skill.id, 1)"></i>
                         </td>
@@ -91,7 +88,7 @@ $this->assign('title', $character->name);
         </div>
 
         <div class="row">
-            <!-- Nav tabs -->
+            <!-- Navigation tabs -->
             <ul class="nav nav-pills hidden-print" role="tablist">
                 <li role="presentation" class="btn-lg active"><a href="#talents" aria-controls="talents" role="tab" data-toggle="tab">Talents</a></li>
                 <li role="presentation" class="btn-lg"><a href="#weapons" aria-controls="weapons" role="tab" data-toggle="tab">Weapons</a></li>

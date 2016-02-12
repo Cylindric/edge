@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="ct in talents">
+        <tr ng-repeat="ct in character_talents">
             <td class="text-nowrap"><span class="decrease glyphicon glyphicon-trash" aria-label="Delete" ng-click="deleteTalent(ct.talent_id)"></span> {{ct.talent.name}}</td>
             <td class="actions">
                 <div ng-hide="!ct.talent.ranked">
@@ -27,18 +27,18 @@
 <div class="col-md-12 hidden-print">
     <md-autocomplete 
         md-selected-item="selectedTalent"
-        md-search-text="ctrl.talentSearchText" 
+        md-search-text="talentSearchText" 
         md-selected-item-change="ctrl.selectedTalentChange(item)"
-        md-items="item in ctrl.talentSearch(ctrl.talentSearchText)" 
+        md-items="item in ctrl.talentSearch(talentSearchText)" 
         md-item-text="item.name" 
         md-min-length="0" 
         placeholder="Enter a new talent">
         <md-item-template>
-            <span md-highlight-text="ctrl.talentSearchText" md-highlight-flags="^i">{{item.name}}</span>
+            <span md-highlight-text="talentSearchText" md-highlight-flags="^i">{{item.name}}</span>
         </md-item-template>
         <md-not-found>
-            No talents matching "{{ctrl.talentSearchText}}" were found.
-            <a ng-click="ctrl.newTalent(ctrl.talentSearchText)">Create a new one!</a>
+            No talents matching "{{talentSearchText}}" were found.
         </md-not-found>
     </md-autocomplete>
+    <md-button class="md-raised md-primary" ng-click="addTalent()" ng-disabled="selectedTalentId === 0">Add</md-button>
 </div>
