@@ -13,7 +13,7 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<?= $this->Html->css('http://fonts.googleapis.com/css?family=Anton|Nunito') ?>
+	<!-- ?= $this->Html->css('http://fonts.googleapis.com/css?family=Anton|Nunito') ?-->
 	<?= $this->Html->css('edge.css') ?>
 	<?= $this->Html->css('edge-print.css', ['media' => 'print']) ?>
 
@@ -128,12 +128,20 @@ echo $this->Html->script('/node_modules/angular-messages/angular-messages.min.js
 echo $this->Html->script('/node_modules/angular-material/angular-material.min.js');
 echo $this->Html->script('ui-bootstrap-tpls-1.1.2.min.js');
 
+$scripts = [
+    'rpgApp.js',
+    'services/talent_service.js',
+    'services/weapon_service.js',
+    'controllers/character_controller.js',
+];
+
 if ($debug > 0) {
-    echo $this->Html->script('rpgApp.js');
-    echo $this->Html->script('services/talent_service.js');
-    echo $this->Html->script('controllers/character_controller.js');
+    foreach($scripts as $script)
+    {
+        echo $this->Html->script($script);
+    }
 } else {
-    echo $this->Html->script('/min/?g=rpgApp');
+    echo $this->Html->script('/min/b=js&f='.join(',', $scripts));
 }
 
 echo $this->fetch('script') 

@@ -170,7 +170,7 @@ class CharactersController extends AppController
 
         $this->set('character', $character);
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', ['character', 'response']);
     }
 
     public function delete()

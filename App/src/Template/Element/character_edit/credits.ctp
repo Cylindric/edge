@@ -1,4 +1,4 @@
-<h3>Credits: <span ng-bind="totalCredits"></span></h3>
+<h3>Credits: {{totalCredits | number}}</h3>
 
 <table class="table table-striped table-bordered table-condensed">
     <thead>
