@@ -1,15 +1,15 @@
-rpgAppNg.factory('weaponService', function ($http) {
+rpgAppNg.factory('itemService', function ($http) {
 
-    var getWeapons = function (callbackFn) {
-        $http.get("/weapons.json").then(function (response) {
+    var getItems = function (callbackFn) {
+        $http.get("/items.json").then(function (response) {
             callbackFn(response);
         });
     };
 
-    var addWeapon = function (weapon_id, character_id, callbackFn) {
-        $http.post("/character_weapons/add.json", {
+    var addItem = function (item_id, character_id, callbackFn) {
+        $http.post("/character_items/add.json", {
             character_id: character_id,
-            weapon_id: weapon_id
+            item_id: item_id
         }).then(function (response) {
             if (response.data.response.result === 'success') {
                 callbackFn(response.data);
@@ -17,11 +17,11 @@ rpgAppNg.factory('weaponService', function ($http) {
         });
     };
 
-    var deleteWeapon = function (link, callbackFn) {
-        $http.post("/character_weapons/delete.json", {
+    var deleteItem = function (link, callbackFn) {
+        $http.post("/character_items/delete.json", {
             id: link.id,
             character_id: link.character_id,
-            weapon_id: link.weapon_id
+            item_id: link.item_id
         }).then(function (response) {
             if (response.status === 200) {
                 callbackFn(response.data);
@@ -30,9 +30,9 @@ rpgAppNg.factory('weaponService', function ($http) {
     };
 
     var setEquipped = function (link, equipped, callbackFn) {
-        $http.post("/character_weapons/set_equipped.json", {
+        $http.post("/character_items/set_equipped.json", {
             character_id: link.character_id,
-            weapon_id: link.weapon_id,
+            item_id: link.item_id,
             id: link.id,
             equipped: equipped
         }).then(function (response) {
@@ -43,10 +43,9 @@ rpgAppNg.factory('weaponService', function ($http) {
     };
 
     return {
-        getWeapons: getWeapons,
-        addWeapon: addWeapon,
-        deleteWeapon: deleteWeapon,
+        getItems: getItems,
+        addItem: addItem,
+        deleteItem: deleteItem,
         setEquipped: setEquipped
     };
 });
-

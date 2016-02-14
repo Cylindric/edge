@@ -27,9 +27,9 @@
             <td>{{cw.weapon.crit}}</td>
             <td>{{cw.weapon.special}}</td>
             <td class="col-md-1 actions">
-                <i class="btn btn-success btn-xs" ng-show="cw.equipped" ng-click="changeWeaponEquip(cw.id, false)">Equipped</i>
-                <i class="btn btn-default btn-xs" ng-hide="cw.equipped" ng-click="changeWeaponEquip(cw.id, true)">not equipped</i>
-                <i class="btn btn-warning btn-xs hidden-print" ng-click="dropWeapon(cw.id)">drop</i>
+                <i class="btn btn-success btn-xs" ng-show="cw.equipped" ng-click="changeWeaponEquip(cw, false)">Equipped</i>
+                <i class="btn btn-default btn-xs" ng-hide="cw.equipped" ng-click="changeWeaponEquip(cw, true)">not equipped</i>
+                <i class="btn btn-warning btn-xs hidden-print" ng-click="dropWeapon(cw)">drop</i>
             </td>
         </tr>
     </tbody>

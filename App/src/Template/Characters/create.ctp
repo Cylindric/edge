@@ -19,7 +19,9 @@
 		<?= $this->Form->label('notable_features') ?>
 		<?= $this->Form->textarea('notable_features'); ?>
 
-		<?= $this->Form->submit(); ?>
+                <div class="col-md-12 form-group text-center">
+		<?= $this->Form->button('Create', ['id' => 'submit']); ?>
+                </div>
 		<?= $this->Form->end(); ?>
 
 	</div>

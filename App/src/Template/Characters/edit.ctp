@@ -1,19 +1,18 @@
 <?php
 
-$this->Html->addCrumb('Characters', ['action' => '']);
+$this->Html->addCrumb('Characters', ['action' => 'index']);
 $this->Html->addCrumb($character->name);
 $this->assign('title', $character->name);
 
 echo $this->Form->create($character);
-echo $this->Form->hidden('id');
+echo $this->Form->hidden('id', ['id' => 'character_id']);
 echo $this->Form->end();
 ?>
 
-<div class="row" ng-controller="CharacterCtrl as ctrl">
+<div class="row" ng-cloak ng-controller="CharacterEditCtrl">
     <div class="col-md-12 col-lg-10 col-lg-offset-1">
-
         <div class="row">
-            <h2>{{character.name}}</h2>
+            <h2 id="character_name">{{character.name}}</h2>
             <ul class="list-inline">
                 <li ng-repeat='cg in character.characters_groups'>{{cg.group.name}}</li>
                 <li class="hidden-print" ng-show='character.characters_groups.length === 0'><a href="<?=$this->Url->build(['controller'=>'Characters', 'action' => 'join_group' , $character->id]);?>">Join a group</a></li>
@@ -77,9 +76,9 @@ echo $this->Form->end();
             <!-- Navigation tabs -->
             <ul class="nav nav-pills hidden-print" role="tablist">
                 <li role="presentation" class="btn-lg"><a href="#talents" aria-controls="talents" role="tab" data-toggle="tab">Talents</a></li>
-                <li role="presentation" class="btn-lg active"><a href="#weapons" aria-controls="weapons" role="tab" data-toggle="tab">Weapons</a></li>
+                <li role="presentation" class="btn-lg"><a href="#weapons" aria-controls="weapons" role="tab" data-toggle="tab">Weapons</a></li>
                 <li role="presentation" class="btn-lg"><a href="#armour" aria-controls="armour" role="tab" data-toggle="tab">Armour</a></li>
-                <li role="presentation" class="btn-lg"><a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items</a></li>
+                <li role="presentation" class="btn-lg active"><a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items</a></li>
                 <li role="presentation" class="btn-lg"><a href="#credits" aria-controls="credits" role="tab" data-toggle="tab">Credits (<span ng-bind="totalCredits | number"></span>)</a></li>
                 <li role="presentation" class="btn-lg"><a href="#xp" aria-controls="xp" role="tab" data-toggle="tab">Experience (<span ng-bind="totalXp | number"></span>)</a></li>
                 <li role="presentation" class="btn-lg"><a href="#obligation" aria-controls="obligation" role="tab" data-toggle="tab">Obligation (<span ng-bind="totalObligation | number"></span>)</a></li>
@@ -93,7 +92,7 @@ echo $this->Form->end();
                         <?= $this->element('character_edit/talents') ?>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade in active" id="weapons">
+                <div role="tabpanel" class="tab-pane fade" id="weapons">
                     <div class="col-md-12">
                         <?= $this->element('character_edit/weapons') ?>
                     </div>
@@ -103,7 +102,7 @@ echo $this->Form->end();
                         <?= $this->element('character_edit/armour') ?>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="items">
+                <div role="tabpanel" class="tab-pane fade in active" id="items">
                     <div class="col-md-12">
                         <?= $this->element('character_edit/items') ?>
                     </div>
@@ -135,5 +134,4 @@ echo $this->Form->end();
         <div class="row" id="notes_list_edit">
         </div>
     </div>
-
 </div>

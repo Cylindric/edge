@@ -1,30 +1,23 @@
 <h3>Items</h3>
+
 <table class="table table-striped table-bordered">
     <thead>
-    <tr>
-        <th>Item</th>
-        <th>Status</th>
-    </tr>
+        <tr>
+            <th>Item</th>
+            <th>Status</th>
+        </tr>
     </thead>
     <tbody>
-    <?php foreach ($character->characters_items as $link): ?>
-        <tr id="item_<?= $link->id ?>">
-            <td><?= $link->item->name ?></td>
+        <tr ng-repeat="ci in character_items">
+            <td>{{ci.item.name}}</td>
             <td class="col-md-1 actions">
-                <?php if ($link->equipped): ?>
-                    <i class="btn btn-success btn-xs" id="toggle_item_equip_<?= $link->id ?>">equipped</i>
-                <?php else: ?>
-                    <i class="btn btn-default btn-xs" id="toggle_item_equip_<?= $link->id ?>">not equipped</i>
-                <?php endif; ?>
-                <?php if ($link->carried): ?>
-                    <i class="btn btn-success btn-xs" id="toggle_item_carry_<?= $link->id ?>">carried</i>
-                <?php else: ?>
-                    <i class="btn btn-default btn-xs" id="toggle_item_carry_<?= $link->id ?>">not carried</i>
-                <?php endif; ?>
-                <i class="btn btn-warning btn-xs" id="drop_item_<?= $link->id ?>">drop</i>
+                <i class="btn btn-success btn-xs" ng-show="ci.equipped" ng-click="changeWeaponEquip(ci, false)">Equipped</i>
+                <i class="btn btn-default btn-xs" ng-hide="ci.equipped" ng-click="changeWeaponEquip(ci, true)">not equipped</i>
+                <i class="btn btn-success btn-xs" ng-show="ci.carried" ng-click="changeWeaponEquip(ci, false)">Carried</i>
+                <i class="btn btn-default btn-xs" ng-hide="ci.carried" ng-click="changeWeaponEquip(ci, true)">not carried</i>
+                <i class="btn btn-warning btn-xs hidden-print" ng-click="dropWeapon(ci)">drop</i>
             </td>
         </tr>
-    <?php endforeach; ?>
     </tbody>
 </table>
 

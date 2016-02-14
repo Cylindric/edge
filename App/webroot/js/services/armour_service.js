@@ -1,15 +1,15 @@
-rpgAppNg.factory('weaponService', function ($http) {
+rpgAppNg.factory('armourService', function ($http) {
 
-    var getWeapons = function (callbackFn) {
-        $http.get("/weapons.json").then(function (response) {
+    var getArmour = function (callbackFn) {
+        $http.get("/armour.json").then(function (response) {
             callbackFn(response);
         });
     };
 
-    var addWeapon = function (weapon_id, character_id, callbackFn) {
-        $http.post("/character_weapons/add.json", {
+    var addArmour = function (armour_id, character_id, callbackFn) {
+        $http.post("/character_armour/add.json", {
             character_id: character_id,
-            weapon_id: weapon_id
+            armour_id: armour_id
         }).then(function (response) {
             if (response.data.response.result === 'success') {
                 callbackFn(response.data);
@@ -17,22 +17,22 @@ rpgAppNg.factory('weaponService', function ($http) {
         });
     };
 
-    var deleteWeapon = function (link, callbackFn) {
-        $http.post("/character_weapons/delete.json", {
-            id: link.id,
+    var deleteArmour = function (link, callbackFn) {
+        $http.post("/character_armour/delete.json", {
             character_id: link.character_id,
-            weapon_id: link.weapon_id
+            armour_id: link.armour_id,
+            id: link.id
         }).then(function (response) {
             if (response.status === 200) {
-                callbackFn(response.data);
+                callbackFn(link, response.data);
             }
         });
     };
 
     var setEquipped = function (link, equipped, callbackFn) {
-        $http.post("/character_weapons/set_equipped.json", {
+        $http.post("/character_armour/set_equipped.json", {
             character_id: link.character_id,
-            weapon_id: link.weapon_id,
+            armour_id: link.armour_id,
             id: link.id,
             equipped: equipped
         }).then(function (response) {
@@ -43,9 +43,9 @@ rpgAppNg.factory('weaponService', function ($http) {
     };
 
     return {
-        getWeapons: getWeapons,
-        addWeapon: addWeapon,
-        deleteWeapon: deleteWeapon,
+        getArmour: getArmour,
+        addArmour: addArmour,
+        deleteArmour: deleteArmour,
         setEquipped: setEquipped
     };
 });

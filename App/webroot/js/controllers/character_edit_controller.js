@@ -1,8 +1,8 @@
-rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', 'weaponService', '$http', '$filter',
-    function ($scope, talentService, weaponService, $http, $filter) {
+rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'itemService', 'talentService', 'weaponService', 'armourService', '$http', '$filter',
+    function ($scope, itemService, talentService, weaponService, armourService, $http, $filter) {
 
         // Get the Character ID
-        var character_id = $(document).find('input[name="id"]').val();
+        var character_id = angular.element('#character_id')[0].value;
 
         // Talent auto-complete
         talentService.getTalents(function (talents) {
@@ -92,7 +92,57 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', 'weaponService'
                     });
         }
 
-        // Get the initial list of Talents
+        ////////////////////////////////////////////////////////////////////////
+        // ITEM MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
+        function updateItems() {
+            $http
+                    .get("/character_items/edit/" + character_id + ".json")
+                    .success(function (response) {
+                        $scope.character_items = response;
+                    });
+        }
+
+        $scope.dropItem = function (link) {
+            itemService.deleteItem(link, function (link, result) {
+                $scope.character_item.splice(link, 1);
+            });
+        };
+
+        $scope.changeItemEquip = function (link, equipped) {
+            itemService.setEquipped(link, equipped, function (link, result) {
+                link.equipped = result.equipped;
+            });
+        };
+
+
+        ////////////////////////////////////////////////////////////////////////
+        // ARMOUR MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
+        function updateArmour() {
+            $http
+                    .get("/character_armour/edit/" + character_id + ".json")
+                    .success(function (response) {
+                        $scope.character_armour = response;
+                    });
+        }
+
+        $scope.dropArmour = function (link) {
+            armourService.deleteArmour(link, function (link, result) {
+                $scope.character_armour.splice(link, 1);
+            });
+        };
+
+        $scope.changeArmourEquip = function (link, equipped) {
+            armourService.setEquipped(link, equipped, function (link, result) {
+                link.equipped = result.equipped;
+            });
+        };
+
+
+        ////////////////////////////////////////////////////////////////////////
+        // TALENT MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
         function updateTalents() {
             $http
                     .get("/character_talents/edit/" + character_id + ".json")
@@ -101,7 +151,9 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', 'weaponService'
                     });
         }
 
-        // Get the initial list of Weapons
+        ////////////////////////////////////////////////////////////////////////
+        // WEAPON MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
         function updateWeapons() {
             $http
                     .get("/character_weapons/edit/" + character_id + ".json")
@@ -109,6 +161,18 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', 'weaponService'
                         $scope.character_weapons = response;
                     });
         }
+
+        $scope.dropWeapon = function (link) {
+            weaponService.deleteWeapon(link, function (link, result) {
+                $scope.character_weapon.splice(link, 1);
+            });
+        };
+
+        $scope.changeWeaponEquip = function (link, equipped) {
+            weaponService.setEquipped(link, equipped, function (link, result) {
+                link.equipped = result.equipped;
+            });
+        };
 
         // Get the initial list of XP
         function updateXp() {
@@ -153,13 +217,6 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', 'weaponService'
             });
         };
 
-        $scope.changeWeaponEquip = function (link_id, equipped)
-        {
-            weaponService.setEquipped(link_id, character_id, equipped, function (result) {
-                $filter('filter')($scope.character_weapons, {id: 1})[0].equipped = result.equipped;
-            });
-        }
-        
         $scope.changeStat = function (item, change) {
             $http.post("/characters/change_stat.json", {
                 character_id: character_id,
@@ -277,5 +334,7 @@ rpgAppNg.controller('CharacterCtrl', ['$scope', 'talentService', 'weaponService'
         updateObligations();
         updateXp();
         updateWeapons();
+        updateArmour();
+        updateItems();
 
     }]);

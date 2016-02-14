@@ -13,7 +13,7 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- ?= $this->Html->css('http://fonts.googleapis.com/css?family=Anton|Nunito') ?-->
+	<?= $this->Html->css('http://fonts.googleapis.com/css?family=Anton|Nunito') ?>
 	<?= $this->Html->css('edge.css') ?>
 	<?= $this->Html->css('edge-print.css', ['media' => 'print']) ?>
 
@@ -130,9 +130,12 @@ echo $this->Html->script('ui-bootstrap-tpls-1.1.2.min.js');
 
 $scripts = [
     'rpgApp.js',
+    'services/armour_service.js',
     'services/talent_service.js',
     'services/weapon_service.js',
-    'controllers/character_controller.js',
+    'services/item_service.js',
+    'controllers/character_edit_controller.js',
+    'controllers/character_index_controller.js',
 ];
 
 if ($debug > 0) {

@@ -1,29 +1,25 @@
 <h3>Armour</h3>
+
 <table class="table table-striped table-bordered">
     <thead>
-    <tr>
-        <th>Armour</th>
-        <th>Defence</th>
-        <th>Soak</th>
-        <th>Status</th>
-    </tr>
+        <tr>
+            <th>Armour</th>
+            <th>Defence</th>
+            <th>Soak</th>
+            <th>Status</th>
+        </tr>
     </thead>
     <tbody>
-    <?php foreach ($character->characters_armour as $link): ?>
-        <tr id="armour_<?= $link->id ?>">
-            <td><?= $link->armour->name ?></td>
-            <td><?= $link->armour->defence ?></td>
-            <td><?= $link->armour->soak ?></td>
+        <tr ng-repeat="ca in character_armour">
+            <td>{{ca.armour.name}}</td>
+            <td>{{ca.armour.defence}}</td>
+            <td>{{ca.armour.soak}}</td>
             <td class="col-md-1 actions">
-                <?php if ($link->equipped): ?>
-                    <i class="btn btn-success btn-xs" id="toggle_armour_<?= $link->id ?>">Equipped</i>
-                <?php else: ?>
-                    <i class="btn btn-default btn-xs" id="toggle_armour_<?= $link->id ?>">not equipped</i>
-                <?php endif; ?>
-                <i class="btn btn-warning btn-xs hidden-print" id="drop_armour_<?= $link->id ?>">drop</i>
+                <i class="btn btn-success btn-xs" ng-show="ca.equipped" ng-click="changeArmourEquip(ca, false)">Equipped</i>
+                <i class="btn btn-default btn-xs" ng-hide="ca.equipped" ng-click="changeArmourEquip(ca, true)">not equipped</i>
+                <i class="btn btn-warning btn-xs hidden-print" ng-click="dropArmour(ca)">drop</i>
             </td>
         </tr>
-    <?php endforeach; ?>
     </tbody>
 </table>
 

@@ -1,29 +1,28 @@
 <?php
+
 namespace App\Controller;
 
-class CharacterArmourController extends AppController
-{
-    public function initialize()
-    {
+class CharacterArmourController extends AppController {
+
+    public function initialize() {
         parent::initialize();
         $this->loadModel('Characters');
         $this->loadModel('Armour');
         $this->loadModel('CharactersArmour');
     }
 
-    public function isAuthorized($user)
-    {
+    public function isAuthorized($user) {
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
-            'add',
-            'delete',
-            'edit',
-            'toggle',
-        ])) {
+                    'add',
+                    'delete',
+                    'edit',
+                    'toggle',
+                ])) {
             if ($this->request->is('post')) {
                 $character_id = $this->request->data['character_id'];
             } else {
-                $character_id = (int)$this->request->params['pass'][0];
+                $character_id = (int) $this->request->params['pass'][0];
             }
             if ($this->Characters->isOwnedBy($character_id, $user['id'])) {
                 return true;
@@ -33,8 +32,7 @@ class CharacterArmourController extends AppController
         return parent::isAuthorized($user);
     }
 
-    public function add($char_id, $armour_id)
-    {
+    public function add($char_id, $armour_id) {
         $response = ['result' => 'fail', 'data' => null];
 
         if (!is_null($char_id) && !is_null($armour_id)) {
@@ -57,12 +55,11 @@ class CharacterArmourController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function delete()
-    {
+    public function delete() {
         $response = ['result' => 'fail', 'data' => null];
 
         if ($this->request->is('post')) {
-            $id = $this->request->data['id'];
+            $id = (int) $this->request->data['id'];
 
             $link = $this->CharactersArmour->get($id);
             if ($this->CharactersArmour->delete($link)) {
@@ -71,40 +68,41 @@ class CharacterArmourController extends AppController
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
-    public function edit($char_id)
-    {
-        $character = $this->Characters->get($char_id, ['contain' => ['CharactersArmour', 'CharactersArmour.Armour']]);
+    public function edit($character_id) {
+        $data = $this->CharactersArmour
+                ->find('all')
+                ->contain(['Characters', 'Armour'])
+                ->where(['character_id' => $character_id]);
 
-        $this->set('character', $character);
+        $this->set('character_armour', $data);
+        $this->set('_serialize', 'character_armour');
     }
 
-    public function toggle()
-    {
-        $response = ['result' => 'fail', 'data' => null];
+    public function set_equipped() {
+        $response = null;
 
         if ($this->request->is('post')) {
-            $character_id = (int)$this->request->data['character_id'];
-            $id = (int)$this->request->data['link_id'];
+            $id = (int) $this->request->data['id'];
+            $equipped = (bool) $this->request->data['equipped'];
 
             $link = $this->CharactersArmour->find()
-                ->contain(['Characters', 'Armour'])
-                ->where(['CharactersArmour.character_id' => $character_id])
-                ->andWhere(['CharactersArmour.id' => $id])
-                ->first();
+                    ->where(['id' => $id])
+                    ->first();
 
-            $link->equipped = !$link->equipped;
+            $link->equipped = $equipped;
 
             if ($this->CharactersArmour->save($link)) {
-                $response = ['result' => 'success', 'data' => $link->equipped];
+                $response = $link;
+            } else {
+                $this->response->statusCode(400);
             }
         }
 
         $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
-
 
 }

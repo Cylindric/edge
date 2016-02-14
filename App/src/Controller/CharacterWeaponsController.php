@@ -102,23 +102,22 @@ class CharacterWeaponsController extends AppController {
     }
 
     public function set_equipped() {
-        $response = ['result' => 'fail', 'data' => null];
+        $response = null;
 
         if ($this->request->is('post')) {
-            $character_id = (int) $this->request->data['character_id'];
-            $id = (int) $this->request->data['link_id'];
-            $equipped = (bool)$this->request->data['equipped'];
-            
+            $id = (int) $this->request->data['id'];
+            $equipped = (bool) $this->request->data['equipped'];
+
             $link = $this->CharactersWeapons->find()
-                    ->contain(['Characters', 'Weapons'])
-                    ->where(['CharactersWeapons.character_id' => $character_id])
-                    ->andWhere(['CharactersWeapons.id' => $id])
+                    ->where(['id' => $id])
                     ->first();
 
             $link->equipped = $equipped;
 
             if ($this->CharactersWeapons->save($link)) {
-                $response = ['result' => 'success', 'character_weapon' => $link];
+                $response = $link;
+            } else {
+                $this->response->statusCode(400);
             }
         }
 
