@@ -16,6 +16,7 @@
         "psy/psysh": "@stable",
         "cakephp/debug_kit": "~3.0",
         "phpunit/phpunit": ">=4.0",
+        "phpunit/phpunit-selenium": "dev-master",
         "phpunit/phpunit-skeleton-generator": ">=2.0",
         "cakephp/bake": "~1.0"
     },
