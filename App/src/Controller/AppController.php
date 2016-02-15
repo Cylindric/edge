@@ -53,7 +53,7 @@ class AppController extends Controller
         if (is_array($cookie) && !$this->Auth->User()) {
             $this->loadModel('Users');
             if ($this->Users->checkLogin($cookie['username'], $cookie['password'])) {
-                $this->Auth->setUser($this->Users->data);
+                $this->Auth->setUser($this->Users->data->toArray());
             }
         }
 
