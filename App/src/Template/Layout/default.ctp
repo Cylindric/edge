@@ -131,9 +131,12 @@ echo $this->Html->script('ui-bootstrap-tpls-1.1.2.min.js');
 $scripts = [
     'rpgApp.js',
     'services/armour_service.js',
+    'services/credit_service.js',
+    'services/item_service.js',
+    'services/obligation_service.js',
     'services/talent_service.js',
     'services/weapon_service.js',
-    'services/item_service.js',
+    'services/xp_service.js',
     'controllers/character_edit_controller.js',
     'controllers/character_index_controller.js',
 ];

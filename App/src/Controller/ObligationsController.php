@@ -71,6 +71,10 @@ class ObligationsController extends AppController
             ->select(['total' => $query->func()->sum('value')])
             ->hydrate(false);
         $total = $query->toArray()[0]['total'];
+        if($total === null)
+        {
+            $total = 0;
+        }
 
         $this->set('obligations', $obligations->toArray());
         $this->set('total', $total);

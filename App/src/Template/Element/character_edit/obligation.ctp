@@ -1,4 +1,4 @@
-<h3>Obligation: <span ng-bind="totalObligation"></span></h3>
+<h3>Obligation: <span ng-bind="totalObligation | number"></span></h3>
 
 <table class="table table-striped table-bordered table-condensed">
     <thead>
@@ -11,15 +11,15 @@
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="x in obligations | orderBy:'-created'  ">
+        <tr ng-repeat="obligation in obligations | orderBy:'-created'  ">
             <td class="col-md-1 text-nowrap hidden-print actions">
-                <span class="btn btn-xs btn-danger" ng-click="removeObligation(x)">delete</span>
-                <span ng-if="x.created_by_gm" class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM {{ x.created_user.username }}</span>
+                <span class="btn btn-xs btn-danger" ng-click="removeObligation(obligation)">delete</span>
+                <span ng-if="obligation.created_by_gm" class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM {{ obligation.created_user.username }}</span>
             </td>
-            <td class="col-md-2">{{ x.created | date:'dd/MM/yyyy HH:mm' }}</td>
-            <td class="col-md-1 text-right">{{ x.value }}</td>
-            <td class="col-md-2">{{ x.type }}</td>
-            <td>{{ x.note }}</td>
+            <td class="col-md-2">{{ obligation.created | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="col-md-1 text-right">{{ obligation.value }}</td>
+            <td class="col-md-2">{{ obligation.type }}</td>
+            <td>{{ obligation.note }}</td>
         </tr>
     </tbody>
 </table>

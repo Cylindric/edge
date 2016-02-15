@@ -1,62 +1,60 @@
 <?php
+
 namespace App\Model\Table;
 
 use App\Model\Entity\Credits;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 
-class CreditsTable extends AppTable
-{
-	public function initialize(array $config)
-	{
-		parent::initialize($config);
+class CreditsTable extends AppTable {
 
-		$this->addBehavior('Timestamp');
-		$this->addBehavior('Ceeram/Blame.Blame');
+    public function initialize(array $config) {
+        parent::initialize($config);
 
-		$this->belongsTo('Characters');
-		$this->belongsTo('CreatedUser', [
-			'className' => 'Users',
-			'foreignKey' => 'created_by',
-		]);
-		$this->belongsTo('ModifyUser', [
-			'className' => 'Users',
-			'foreignKey' => 'modified_by',
-		]);
-	}
+        $this->addBehavior('Timestamp');
+        $this->addBehavior('Ceeram/Blame.Blame');
 
-	public function validationDefault(Validator $validator)
-	{
-		$validator
-			->add('id', 'valid', ['rule' => 'numeric'])
-			->allowEmpty('id', 'create');
+        $this->belongsTo('Characters');
+        $this->belongsTo('CreatedUser', [
+            'className' => 'Users',
+            'foreignKey' => 'created_by',
+        ]);
+        $this->belongsTo('ModifyUser', [
+            'className' => 'Users',
+            'foreignKey' => 'modified_by',
+        ]);
+    }
 
-		$validator
-			->add('value', 'valid', ['rule' => 'numeric'])
-			->requirePresence('value', 'create')
-			->notEmpty('value');
+    public function validationDefault(Validator $validator) {
+        $validator
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
-		return $validator;
-	}
+        $validator
+                ->add('value', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('value', 'create')
+                ->notEmpty('value');
 
-	public function buildRules(RulesChecker $rules)
-	{
-		$rules->add($rules->existsIn(['character_id'], 'Characters'));
-		return $rules;
-	}
+        return $validator;
+    }
 
-	public function totalForCharacter($character_id)
-	{
-		$query = $this->find();
-		$query
-			->where(['character_id' => $character_id])
-			->select(['total' => $query->func()->sum('value')])
-			->hydrate(false);
-		$query = $query->first();
+    public function buildRules(RulesChecker $rules) {
+        $rules->add($rules->existsIn(['character_id'], 'Characters'));
+        return $rules;
+    }
 
-		if ($query['total'] === null) {
-			$query['total'] = 0;
-		}
-		return $query['total'];
-	}
+    public function totalForCharacter($character_id) {
+        $query = $this->find();
+        $query
+                ->where(['character_id' => $character_id])
+                ->select(['total' => $query->func()->sum('value')])
+                ->hydrate(false);
+        $query = $query->first();
+
+        if ($query['total'] === null) {
+            $query['total'] = 0;
+        }
+        return $query['total'];
+    }
+
 }

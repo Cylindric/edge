@@ -1,5 +1,5 @@
-rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'itemService', 'talentService', 'weaponService', 'armourService', '$http', '$filter',
-    function ($scope, itemService, talentService, weaponService, armourService, $http, $filter) {
+rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditService', 'itemService', 'obligationService', 'talentService', 'weaponService', 'xpService', '$http', '$filter',
+    function ($scope, armourService, creditService, itemService, obligationService, talentService, weaponService, xpService, $http, $filter) {
 
         // Get the Character ID
         var character_id = angular.element('#character_id')[0].value;
@@ -51,28 +51,6 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'itemService', 'talentServic
                     });
         }
 
-        // Get the initial list of Credits
-        function updateCredits() {
-            $http
-                    .get("/credits/edit/" + character_id + ".json")
-                    .success(function (response) {
-                        $scope.credits = response.credits;
-                        $scope.totalCredits = response.total;
-                    });
-        }
-        ;
-
-        // Get the initial list of Obligations
-        function updateObligations() {
-            $http
-                    .get("/obligations/edit/" + character_id + ".json")
-                    .success(function (response) {
-                        $scope.obligations = response.obligations;
-                        $scope.totalObligation = response.total;
-                    });
-        }
-        ;
-
         // Get the initial list of Skills
         function updateSkills() {
             $http
@@ -91,6 +69,59 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'itemService', 'talentServic
                         $scope.skill_categories = list;
                     });
         }
+
+        ////////////////////////////////////////////////////////////////////////
+        // ARMOUR MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
+        function updateArmour() {
+            $http
+                    .get("/character_armour/edit/" + character_id + ".json")
+                    .success(function (response) {
+                        $scope.character_armour = response;
+                    });
+        }
+
+        $scope.dropArmour = function (link) {
+            armourService.deleteArmour(link, function (link, result) {
+                $scope.character_armour.splice(link, 1);
+            });
+        };
+
+        $scope.changeArmourEquip = function (link, equipped) {
+            armourService.setEquipped(link, equipped, function (link, result) {
+                link.equipped = result.equipped;
+            });
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+        // CREDIT MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
+        function updateCredits() {
+            $http
+                    .get("/credits/edit/" + character_id + ".json")
+                    .success(function (response) {
+                        $scope.credits = response.credits;
+                        $scope.totalCredits = response.total;
+                    });
+        }
+
+        $scope.addCredits = function () {
+            $http.post("/credits/add.json", {
+                character_id: character_id,
+                value: $scope.new_credit.value,
+                note: $scope.new_credit.note
+            }).then(function successCallback(response) {
+                $scope.credits.push(response.data.data);
+                $scope.totalCredits = response.data.total;
+            });
+        };
+
+        $scope.removeCredits = function (record) {
+            creditService.deleteCredits(record, function (record, result) {
+                $scope.credits.splice(record, 1);
+                $scope.totalCredits = result.total;
+            });
+        };
 
         ////////////////////////////////////////////////////////////////////////
         // ITEM MANAGEMENT
@@ -117,28 +148,36 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'itemService', 'talentServic
 
 
         ////////////////////////////////////////////////////////////////////////
-        // ARMOUR MANAGEMENT
+        // OBLIGATION MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
-        function updateArmour() {
+        function updateObligations() {
             $http
-                    .get("/character_armour/edit/" + character_id + ".json")
+                    .get("/obligations/edit/" + character_id + ".json")
                     .success(function (response) {
-                        $scope.character_armour = response;
+                        $scope.obligations = response.obligations;
+                        $scope.totalObligation = response.total;
                     });
         }
 
-        $scope.dropArmour = function (link) {
-            armourService.deleteArmour(link, function (link, result) {
-                $scope.character_armour.splice(link, 1);
+        $scope.addObligation = function () {
+            $http.post("/obligations/add.json", {
+                character_id: character_id,
+                value: $scope.new_obligation.value,
+                type: $scope.new_obligation.type,
+                note: $scope.new_obligation.note
+            }).then(function successCallback(response) {
+                $scope.obligations.push(response.data.data);
+                $scope.totalObligation = response.data.total;
             });
         };
 
-        $scope.changeArmourEquip = function (link, equipped) {
-            armourService.setEquipped(link, equipped, function (link, result) {
-                link.equipped = result.equipped;
+        $scope.removeObligation = function (item) {
+            var index = $scope.obligations.indexOf(item);
+            obligationService.deleteObligation(item, function (item, result) {
+                $scope.obligations.splice(item, 1);
+                $scope.totalObligation = result.total;
             });
         };
-
 
         ////////////////////////////////////////////////////////////////////////
         // TALENT MANAGEMENT
@@ -174,7 +213,9 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'itemService', 'talentServic
             });
         };
 
-        // Get the initial list of XP
+        ////////////////////////////////////////////////////////////////////////
+        // XP MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
         function updateXp() {
             $http
                     .get("/xp/edit/" + character_id + ".json")
@@ -183,6 +224,27 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'itemService', 'talentServic
                         $scope.totalXp = response.total;
                     });
         }
+
+        $scope.addXp = function () {
+            $http.post("/xp/add.json", {
+                character_id: character_id,
+                value: $scope.new_xp.value,
+                note: $scope.new_xp.note
+            }).then(function successCallback(response) {
+                $scope.xp.push(response.data.data);
+                $scope.totalXp = response.data.total;
+            });
+        };
+
+        $scope.removeXp = function (record) {
+            var index = $scope.xp.indexOf(record);
+            xpService.deleteXp(record, function (link, result) {
+                $scope.xp.splice(link, 1);
+                $scope.totalXp = result.total;
+            });
+        };
+
+
 
         // Edits
         $scope.changeTalentRank = function (talent_id, delta) {
@@ -244,76 +306,6 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'itemService', 'talentServic
                 skill_id: item
             }).then(function successCallback(response) {
                 updateSkills();
-            });
-        };
-
-        // Adds
-        $scope.addCredits = function () {
-            $http.post("/credits/add.json", {
-                character_id: character_id,
-                value: $scope.new_credit.value,
-                note: $scope.new_credit.note
-            }).then(function successCallback(response) {
-                $scope.credits.push(response.data.data);
-                $scope.totalCredits = response.data.total;
-            });
-        };
-
-        $scope.addObligation = function () {
-            $http.post("/obligations/add.json", {
-                character_id: character_id,
-                value: $scope.new_obligation.value,
-                type: $scope.new_obligation.type,
-                note: $scope.new_obligation.note
-            }).then(function successCallback(response) {
-                $scope.obligations.push(response.data.data);
-                $scope.totalObligation = response.data.total;
-            });
-        };
-
-        $scope.addXp = function () {
-            $http.post("/xp/add.json", {
-                character_id: character_id,
-                value: $scope.new_xp.value,
-                note: $scope.new_xp.note
-            }).then(function successCallback(response) {
-                $scope.xp.push(response.data.data);
-                $scope.totalXp = response.data.total;
-            });
-        };
-
-        // Removes
-        $scope.removeCredits = function (item) {
-            var index = $scope.credits.indexOf(item);
-            $http.post("/credits/delete.json", {
-                character_id: character_id,
-                credit_id: item.id
-            }).then(function successCallback(response) {
-                $scope.credits.splice(index, 1);
-                $scope.totalCredits = response.data.total;
-            });
-
-        };
-
-        $scope.removeXp = function (item) {
-            var index = $scope.xp.indexOf(item);
-            $http.post("/xp/delete.json", {
-                character_id: character_id,
-                xp_id: item.id
-            }).then(function successCallback(response) {
-                $scope.xp.splice(index, 1);
-                $scope.totalXp = response.data.total;
-            });
-        };
-
-        $scope.removeObligation = function (item) {
-            var index = $scope.obligations.indexOf(item);
-            $http.post("/obligations/delete.json", {
-                character_id: character_id,
-                obligation_id: item.id
-            }).then(function successCallback(response) {
-                $scope.obligations.splice(index, 1);
-                $scope.totalObligation = response.data.total;
             });
         };
 
