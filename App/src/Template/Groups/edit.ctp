@@ -17,7 +17,8 @@ $editing = false;
                 <div class="col-sm-3 col-md-3">Strain</div>
                 <div class="col-sm-3 col-md-3">Wounds</div>
             </div>
-            <?php foreach ($group->characters as $character): ?>
+            <?php foreach ($group->characters_groups as $character_group): ?>
+                <?php $character = $character_group->character; ?>
                 <div class="row">
                     <div class="col-sm-4 col-md-4">
                         <div class="row name">
@@ -107,10 +108,10 @@ $editing = false;
             <h2>XP</h2>
             <table class="table table-condensed">
                 <?php $total = 0; ?>
-                <?php foreach ($group->characters as $character): $total += $character->totalXp; ?>
+                <?php foreach ($group->characters_groups as $character_group): $total += $character_group->character->totalXp; ?>
                     <tr>
-                        <td class="text-capitalize"><?= $character->name ?></td>
-                        <td class="text-right"><?= $character->totalXp ?></td>
+                        <td class="text-capitalize"><?= $character_group->character->name ?></td>
+                        <td class="text-right"><?= $this->Number->format($character_group->character->totalXp) ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr class="success">
@@ -141,10 +142,10 @@ $editing = false;
             <h2>Credits</h2>
             <table class="table table-condensed">
                 <?php $total = 0; ?>
-                <?php foreach ($group->characters as $character): $total += $character->totalCredits; ?>
+                <?php foreach ($group->characters_groups as $character_group): $total += $character_group->character->totalCredits; ?>
                     <tr>
-                        <td class="text-capitalize"><?= $character->name ?></td>
-                        <td class="text-right"><?= $this->Number->format($character->totalCredits) ?></td>
+                        <td class="text-capitalize"><?= $character_group->character->name ?></td>
+                        <td class="text-right"><?= $this->Number->format($character_group->character->totalCredits) ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr class="success">

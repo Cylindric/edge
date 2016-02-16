@@ -1,0 +1,95 @@
+{
+  "armour": [
+    {
+      "name": "Adverse Environment Gear",
+      "defence": 0,
+      "soak": 1,
+      "encumbrance": 2,
+      "rarity": 1,
+      "hp": 1,
+      "value": 500,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Armored Clothing",
+      "defence": 1,
+      "soak": 1,
+      "encumbrance": 3,
+      "rarity": 6,
+      "hp": 1,
+      "value": 1000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Heavy Battle Armor",
+      "defence": 1,
+      "soak": 2,
+      "encumbrance": 6,
+      "rarity": 7,
+      "hp": 4,
+      "value": 5000,
+      "restricted": true,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Heavy Clothing",
+      "defence": 0,
+      "soak": 1,
+      "encumbrance": 1,
+      "rarity": 0,
+      "hp": 0,
+      "value": 50,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Laminate",
+      "defence": 0,
+      "soak": 2,
+      "encumbrance": 4,
+      "rarity": 5,
+      "hp": 3,
+      "value": 2500,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Personal Deflector Shield",
+      "defence": 0,
+      "soak": 0,
+      "encumbrance": 2,
+      "rarity": 8,
+      "hp": 0,
+      "value": 1000,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Padded Armor",
+      "defence": 0,
+      "soak": 2,
+      "encumbrance": 2,
+      "rarity": 1,
+      "hp": 0,
+      "value": 500,
+      "restricted": false,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "sources": [
+    {
+      "name": "Edge of the Empire"
+    }
+  ],
+  "species": [
+    {
+      "name": "Human",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 2,
+      "stat_ag": 2,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 2,
+      "stat_pr": 2,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Droid",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 175,
+      "stat_br": 1,
+      "stat_ag": 1,
+      "stat_int": 1,
+      "stat_cun": 1,
+      "stat_will": 1,
+      "stat_pr": 1,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Wookiee",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 3,
+      "stat_ag": 2,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 1,
+      "stat_pr": 2,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Twi\u0027Lek",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 1,
+      "stat_ag": 2,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 2,
+      "stat_pr": 3,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Bothan",
+      "base_wound": 10,
+      "base_strain": 11,
+      "base_xp": 100,
+      "stat_br": 1,
+      "stat_ag": 2,
+      "stat_int": 2,
+      "stat_cun": 3,
+      "stat_will": 2,
+      "stat_pr": 2,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Rodian",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 2,
+      "stat_ag": 3,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 1,
+      "stat_pr": 2,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Trandoshan",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 3,
+      "stat_ag": 1,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 2,
+      "stat_pr": 2,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Gand",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 2,
+      "stat_ag": 2,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 3,
+      "stat_pr": 2,
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    }
+  ]
+}

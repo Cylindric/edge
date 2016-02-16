@@ -20,7 +20,7 @@
 			<exclude>
 				<directory>./src/Console</directory>
 				<directory>./src/Shell</directory>
-				<file>./src/View/AppView.php</file>
+				
 			</exclude>
 		</whitelist>
 	</filter>

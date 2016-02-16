@@ -1,13 +1,10 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Xp;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class XpTable extends Table
+class XpTable extends AppTable
 {
     public function initialize(array $config)
     {
@@ -44,8 +41,6 @@ class XpTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['character_id'], 'Characters'));
-        $rules->add($rules->existsIn(['created_by'], 'Users'));
-        $rules->add($rules->existsIn(['modified_by'], 'Users'));
         return $rules;
     }
 

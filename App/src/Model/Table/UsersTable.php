@@ -1,10 +1,9 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class UsersTable extends Table
+class UsersTable extends AppTable
 {
 
     public function initialize(array $config)
@@ -27,7 +26,7 @@ class UsersTable extends Table
 
     public function checkLogin($username, $hash)
     {
-        $user = $this->find()->where(['username' => $username], ['password' => $hash])->first()->toArray();
+        $user = $this->find()->where(['username' => $username], ['password' => $hash])->first();
 
         if ($user) {
             $this->data = $user;
@@ -37,6 +36,5 @@ class UsersTable extends Table
 
         return false;
     }
-
 
 }

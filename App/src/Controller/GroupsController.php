@@ -61,8 +61,15 @@ class GroupsController extends AppController
     public function add()
     {
         $group = $this->Groups->newEntity();
+
         if ($this->request->is('post')) {
-            $group = $this->Groups->patchEntity($group, $this->request->data);
+            $data = $this->request->data;
+            $data['groups_users'] = [
+                ['user_id' => $this->Auth->User('id'), 'gm' => true]
+            ];
+
+            $group = $this->Groups->newEntity($data, ['associated' => ['GroupsUsers']]);
+
             if ($this->Groups->save($group)) {
                 $this->Flash->success(__('The group has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -70,7 +77,7 @@ class GroupsController extends AppController
                 $this->Flash->error(__('The group could not be saved. Please, try again.'));
             }
         }
-        $characters = $this->Groups->Characters->find('list', ['limit' => 200]);
+        $characters = $this->Groups->CharactersGroups->Characters->find('list');
         $this->set(compact('group', 'characters'));
         $this->set('_serialize', ['group']);
     }
@@ -79,12 +86,13 @@ class GroupsController extends AppController
     {
         $group = $this->Groups->get($id, [
             'contain' => [
-                'Characters' => ['sort' => 'Characters.name'],
-                'Characters.Species',
-                'Characters.Careers',
-                'Characters.Obligations',
-                'Characters.Specialisations',
-                'Characters.Users',
+                'CharactersGroups',
+                'CharactersGroups.Characters' => ['sort' => 'Characters.name'],
+                'CharactersGroups.Characters.Species',
+                'CharactersGroups.Characters.Careers',
+                'CharactersGroups.Characters.Obligations',
+                'CharactersGroups.Characters.Specialisations',
+                'CharactersGroups.Characters.Users',
             ],
         ]);
 
@@ -92,8 +100,8 @@ class GroupsController extends AppController
         $weapons = $this->Weapons->find();
         $weapons
             ->contain(['Ranges', 'Skills', 'Skills.Stats'])
-            ->matching('CharactersWeapons.Characters', function ($q) use ($id) {
-                return $q->where(['Characters.group_id' => $id]);
+            ->matching('CharactersWeapons.Characters.CharactersGroups', function ($q) use ($id) {
+                return $q->where(['CharactersGroups.group_id' => $id]);
             })
             ->where(['CharactersWeapons.equipped' => true])
             ->order(['Characters.name']);
@@ -101,12 +109,14 @@ class GroupsController extends AppController
         $this->loadModel('Obligations');
         $obligations = $this->Obligations->find();
         $obligations
-            ->contain(['Characters'])
+            ->contain(['Characters', 'Characters.CharactersGroups'])
+            ->matching('Characters.CharactersGroups', function ($q) use ($id) {
+                return $q->where(['CharactersGroups.group_id' => $id]);
+            })
             ->select([
                 'type',
                 'value' => $obligations->func()->sum('value')
             ])
-            ->where(['Characters.group_id' => $id])
             ->group('type')
             ->order('value DESC');
 

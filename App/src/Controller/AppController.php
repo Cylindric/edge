@@ -11,13 +11,6 @@ class AppController extends Controller
 {
     use BlameTrait;
 
-    /**
-     * Initialization hook method.
-     *
-     * Use this method to add common initialization code like loading components.
-     *
-     * @return void
-     */
     public function initialize()
     {
         parent::initialize();
@@ -60,7 +53,7 @@ class AppController extends Controller
         if (is_array($cookie) && !$this->Auth->User()) {
             $this->loadModel('Users');
             if ($this->Users->checkLogin($cookie['username'], $cookie['password'])) {
-                $this->Auth->setUser($this->Users->data);
+                $this->Auth->setUser($this->Users->data->toArray());
             }
         }
 
@@ -68,4 +61,5 @@ class AppController extends Controller
         $this->set('user', $this->Auth->User());
         $this->set('version', Configure::read('rpgApp.version'));
     }
+
 }

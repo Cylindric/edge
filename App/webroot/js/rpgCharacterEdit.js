@@ -21,10 +21,6 @@ rpgApp.genericGet = function (controller, action, character_id, update) {
     });
 };
 
-rpgApp.getSkills = function (character_id) {
-    rpgApp.genericGet('characters', 'edit_skills', character_id, 'skills_list_edit');
-};
-
 rpgApp.getNotes = function (character_id) {
     rpgApp.genericGet('characters', 'edit_notes', character_id, 'notes_list_edit');
 };
@@ -197,60 +193,6 @@ rpgApp.getStats = function (character_id) {
     rpgApp.genericGet('characters', 'edit_stats', character_id, 'stats_list_edit');
 };
 
-rpgApp.changeSkill = function (character_id, skill_id, delta) {
-
-    $.post('/character_skills/change.json', {
-        character_id: character_id,
-        skill_id: skill_id,
-        delta: delta,
-    }, function (response) {
-        if (response.response.result == 'success') {
-            // response now contains the new Skill values
-            var newLevel = response.response.Level;
-            var level = $('#skill_' + skill_id).find('span.skill_level');
-            level.text(newLevel);
-
-            // Set the new value
-            $dice = $('#skill_' + skill_id).find('span.skill_dice');
-            $dice.empty();
-            var proficiencyDice = response.response.Dice["proficiency"];
-            for (i = 0; i < proficiencyDice; i++) {
-                $dice.append('<img src="/img/dice-proficiency.png" alt="Proficiency">');
-            }
-            var abilityDice = response.response.Dice["ability"];
-            for (i = 0; i < abilityDice; i++) {
-                $dice.append('<img src="/img/dice-ability.png" alt="Ability">');
-            }
-
-            // Show or hide the buttons
-            if (newLevel >= 1) {
-                $('#skill_' + skill_id).find('i.decrease').fadeIn();
-                level.fadeIn();
-            } else {
-                $('#skill_' + skill_id).find('i.decrease').fadeOut();
-                level.fadeOut();
-            }
-            rpgApp.getXp(character_id);
-
-        } else if (response.response.result == 'fail') {
-            console.log('failed to change rank in skill ' + skill_id);
-        }
-    });
-};
-
-rpgApp.changeStat = function (character_id, stat_id, delta) {
-    $.get('/characters/change_stat/' + character_id + '/' + stat_id + '/' + delta + '.json',
-        function (response) {
-            if (response.response.result == 'success') {
-                rpgApp.getSkills(character_id);
-                rpgApp.getStats(character_id);
-            } else if (response.response.result == 'fail') {
-                console.log('fail');
-            }
-        }
-    );
-};
-
 rpgApp.talentsGet = function (character_id) {
     $.ajax({
         async: false,
@@ -293,27 +235,6 @@ rpgApp.talentChangeRank = function (character_id, link_id, delta) {
         delta: delta,
     }, function () {
         rpgApp.talentsGet(character_id);
-    });
-};
-
-rpgApp.toggleCareer = function (character_id, skill_id, replace) {
-    $.post("/character_skills/toggle_career.json", {
-        character_id: character_id,
-        skill_id: skill_id,
-    }, function (response) {
-        if (response.response.result == 'success') {
-            if (response.response.data == true) {
-                $('#' + replace).addClass('btn-success');
-                $('#' + replace).removeClass('btn-default');
-                $('#' + replace).text('career');
-            } else {
-                $('#' + replace).addClass('btn-default');
-                $('#' + replace).removeClass('btn-success');
-                $('#' + replace).text('standard');
-            }
-        } else {
-            console.log('failed to toggle career for skill ' + skill_id + '!');
-        }
     });
 };
 
@@ -378,30 +299,6 @@ rpgApp.addNote = function (character_id) {
     // Get the Character ID
     var char_id = $(document).find('input[name="id"]').val();
 
-    // Stat +/- buttons
-    $(document).on('click', 'i[id*=statincrease_]', function () {
-        var id = $(this).attr('id').replace('statincrease_', '');
-        rpgApp.changeStat(char_id, id, 1);
-    });
-    $(document).on('click', 'i[id*=statdecrease_]', function () {
-        var id = $(this).attr('id').replace('statdecrease_', '');
-        rpgApp.changeStat(char_id, id, -1);
-    });
-
-    // Skill +/- buttons
-    $(document).on('click', 'i[id*=skillincrease_]', function () {
-        var id = $(this).attr('id').replace('skillincrease_', '');
-        rpgApp.changeSkill(char_id, id, 1);
-    });
-    $(document).on('click', 'i[id*=skilldecrease_]', function () {
-        var id = $(this).attr('id').replace('skilldecrease_', '');
-        rpgApp.changeSkill(char_id, id, -1);
-    });
-    $(document).on('click', 'i[id*=toggle_career_]', function () {
-        var id = $(this).attr('id').replace('toggle_career_', '');
-        rpgApp.toggleCareer(char_id, id, $(this).attr('id'));
-    });
-
     // Talent buttons
     $(document).on('click', 'span[id*=remove_talent_]', function () {
         var id = $(this).attr('id').replace('remove_talent_', '');
@@ -415,7 +312,6 @@ rpgApp.addNote = function (character_id) {
         var id = $(this).attr('id').replace('decrease_talent_', '');
         rpgApp.talentChangeRank(char_id, id, -1);
     });
-
 
     // Weapon buttons
     $(document).on('click', 'i[id*=toggle_weapon_]', function () {
@@ -469,7 +365,6 @@ rpgApp.addNote = function (character_id) {
     });
 
     rpgApp.getStats(char_id);
-    rpgApp.getSkills(char_id);
     rpgApp.talentsGet(char_id);
     rpgApp.getNotes(char_id);
     rpgApp.weaponsGet(char_id);

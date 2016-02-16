@@ -3,106 +3,44 @@ $editing = $this->request->params['action'] == 'edit';
 ?>
 <div class="row">
 
-    <?php echo $this->element('status_block_1', [
+<?php
+    
+    echo $this->element('status_block_1', [
         "name" => "soak",
         "editing" => $editing,
         "title" => "Soak",
-        "value" => $character->totalSoak,
+        "value" => $character->total_soak,
         "class" => 'cursor-help',
+        "popover" => 'soak_breakdown',
     ]);
-    $this->Html->scriptBlock("
-    $('#soak_0_value').popover
-        (
-        {
-            html: true,
-            trigger: 'hover',
-            title: 'Soak',
-            content: function()
-            {
-                return $.ajax({url: '/characters/get_soak/" . $character->id . "',
-                     dataType: 'html',
-                     async: false}).responseText;
-            }
-        }
-    );
-    $(document).on('click', 'i[id=soak_0_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'soak', -1, 'soak_0_value');});
-    $(document).on('click', 'i[id=soak_0_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'soak',  1, 'soak_0_value');});
-    ", ['block' => true]);
-    ?>
-
-    <?php echo $this->element('status_block_2', [
-        "name" => "strain",
+    
+    echo $this->element('status_block_2', [
+        "names" => ["strain_threshold", "strain"],
         "editing" => $editing,
         "title" => "Strain",
         "subtitles" => ['Threshold', 'Current'],
         "values" => [$character->total_strain_threshold, $character->strain],
         "class" => ['cursor-help', ''],
+        "popover" => 'strain_threshold_breakdown',
     ]);
-    $this->Html->scriptBlock("
-         $('#strain_0_value').popover
-            (
-            {
-                html: true,
-                trigger: 'hover',
-                title: 'Strain Threshold',
-                content: function()
-                {
-                    return $.ajax({url: '/characters/get_strain_threshold/" . $character->id . "',
-                         dataType: 'html',
-                         async: false}).responseText;
-                }
-            }
-        );
-        $(document).on('click', 'i[id=strain_0_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'strain_threshold', -1, 'strain_0_value');});
-        $(document).on('click', 'i[id=strain_0_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'strain_threshold',  1, 'strain_0_value');});
-        $(document).on('click', 'i[id=strain_1_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'strain', -1, 'strain_1_value');});
-        $(document).on('click', 'i[id=strain_1_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'strain',  1, 'strain_1_value');});
-    ", ['block' => true]);
-    ?>
-
-    <?php echo $this->element('status_block_2', [
-        "name" => "wounds",
+    
+    echo $this->element('status_block_2', [
+        "names" => ["wound_threshold", "wounds"],
         "editing" => $editing,
         "title" => "Wounds",
         "subtitles" => ['Threshold', 'Current'],
         "values" => [$character->total_wound_threshold, $character->wounds],
         "class" => ['cursor-help', ''],
+        "popover" => 'wound_threshold_breakdown',
     ]);
-    $this->Html->scriptBlock("
-         $('#wounds_0_value').popover
-            (
-            {
-                html: true,
-                trigger: 'hover',
-                title: 'Wound Threshold',
-                content: function()
-                {
-                    return $.ajax({url: '/characters/get_wound_threshold/" . $character->id . "',
-                         dataType: 'html',
-                         async: false}).responseText;
-                }
-            }
-        );
-        $(document).on('click', 'i[id=wounds_0_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'wound_threshold', -1, 'wounds_0_value');});
-        $(document).on('click', 'i[id=wounds_0_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'wound_threshold',  1, 'wounds_0_value');});
-        $(document).on('click', 'i[id=wounds_1_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'wounds', -1, 'wounds_1_value');});
-        $(document).on('click', 'i[id=wounds_1_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'wounds',  1, 'wounds_1_value');});
-    ", ['block' => true]);
-    ?>
-
-    <?php echo $this->element('status_block_2', [
-        "name" => "defence",
+    
+    echo $this->element('status_block_2', [
+        "names" => ["defence_melee", "defence_ranged"],
         "editing" => $editing,
         "title" => "Defence",
         "subtitles" => ['Melee', 'Ranged'],
-        "values" => [$character->totalDefence['melee'], $character->totalDefence['ranged']],
+        "values" => [$character->total_defence['melee'], $character->total_defence['ranged']],
     ]);
-    $this->Html->scriptBlock("
-        $(document).on('click', 'i[id=defence_0_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'defence_melee', -1, 'defence_0_value');});
-        $(document).on('click', 'i[id=defence_0_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'defence_melee',  1, 'defence_0_value');});
-        $(document).on('click', 'i[id=defence_1_decrease]', function () {rpgApp.changeAttribute(" . $character->id . ", 'defence_ranged', -1, 'defence_1_value');});
-        $(document).on('click', 'i[id=defence_1_increase]', function () {rpgApp.changeAttribute(" . $character->id . ", 'defence_ranged',  1, 'defence_1_value');});
-    ", ['block' => true]);
-    ?>
+?>
 
 </div>

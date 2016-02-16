@@ -1,0 +1,56 @@
+{
+  "armour": [
+    {
+      "name": "Enviro-suit",
+      "defence": 0,
+      "soak": 2,
+      "value": 750,
+      "encumbrance": 2,
+      "hp": 1,
+      "rarity": 1,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Shockrider Crash Suit",
+      "defence": 0,
+      "soak": 2,
+      "value": 3000,
+      "encumbrance": 2,
+      "hp": 1,
+      "rarity": 3,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Tracker Utility Vest",
+      "defence": 0,
+      "soak": 0,
+      "value": 100,
+      "encumbrance": 0,
+      "hp": 1,
+      "rarity": 2,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Mountaineer Armor",
+      "defence": 1,
+      "soak": 1,
+      "value": 1800,
+      "encumbrance": 3,
+      "hp": 2,
+      "rarity": 6,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    }
+  ]
+}

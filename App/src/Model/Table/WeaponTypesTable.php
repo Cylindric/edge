@@ -2,40 +2,18 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\WeaponType;
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-/**
- * WeaponTypes Model
- *
- */
-class WeaponTypesTable extends Table
+class WeaponTypesTable extends AppTable
 {
-
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->table('weapon_types');
         $this->displayField('name');
-        $this->primaryKey('id');
         $this->addBehavior('Timestamp');
     }
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
     public function validationDefault(Validator $validator)
     {
         $validator

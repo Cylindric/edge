@@ -40,4 +40,10 @@ class ItemsController extends AppController
         $this->set('_serialize', 'items');
     }
 
+    public function export()
+    {
+        $this->set('data', ['items' => $this->Items->export()]);
+        $this->set('_serialize', 'data');
+    }
+
 }

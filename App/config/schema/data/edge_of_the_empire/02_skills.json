@@ -1,0 +1,354 @@
+{
+  "skills": [
+    {
+      "name": "Athletics",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Brawn"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Resilience",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Brawn"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Brawl",
+      "skilltype_id": 2,
+      "stat": {
+        "name": "Brawn"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Melee",
+      "skilltype_id": 2,
+      "stat": {
+        "name": "Brawn"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Lightsaber",
+      "skilltype_id": 2,
+      "stat": {
+        "name": "Brawn"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Coordination",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Agility"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Piloting - Planetary",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Agility"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Piloting - Space",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Agility"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Stealth",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Agility"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Gunnery",
+      "skilltype_id": 2,
+      "stat": {
+        "name": "Agility"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Ranged - Light",
+      "skilltype_id": 2,
+      "stat": {
+        "name": "Agility"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Ranged - Heavy",
+      "skilltype_id": 2,
+      "stat": {
+        "name": "Agility"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Astrogation",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Computers",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Mechanics",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Medicine",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Core Worlds",
+      "skilltype_id": 3,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Education",
+      "skilltype_id": 3,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Lore",
+      "skilltype_id": 3,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Outer Rim",
+      "skilltype_id": 3,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Underworld",
+      "skilltype_id": 3,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Warfare",
+      "skilltype_id": 3,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Xenology",
+      "skilltype_id": 3,
+      "stat": {
+        "name": "Intellect"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Deception",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Cunning"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Perception",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Cunning"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Skulduggery",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Cunning"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Streetwise",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Cunning"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Survival",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Cunning"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Coercion",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Willpower"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Discipline",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Willpower"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Vigilance",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Willpower"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Charm",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Presence"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Cool",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Presence"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Leadership",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Presence"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    },
+    {
+      "name": "Negotiation",
+      "skilltype_id": 1,
+      "stat": {
+        "name": "Presence"
+      },
+      "source": {
+        "name": "Edge of the Empire"
+      }
+    }
+  ]
+}

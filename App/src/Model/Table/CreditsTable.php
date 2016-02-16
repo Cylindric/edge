@@ -1,15 +1,14 @@
 <?php
+
 namespace App\Model\Table;
 
 use App\Model\Entity\Credits;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class CreditsTable extends Table
-{
-    public function initialize(array $config)
-    {
+class CreditsTable extends AppTable {
+
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->addBehavior('Timestamp');
@@ -26,38 +25,36 @@ class CreditsTable extends Table
         ]);
     }
 
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->add('value', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('value', 'create')
-            ->notEmpty('value');
+                ->add('value', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('value', 'create')
+                ->notEmpty('value');
 
         return $validator;
     }
 
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['character_id'], 'Characters'));
         return $rules;
     }
 
-    public function totalForCharacter($character_id)
-    {
+    public function totalForCharacter($character_id) {
         $query = $this->find();
         $query
-            ->where(['character_id' => $character_id])
-            ->select(['total' => $query->func()->sum('value')])
-            ->hydrate(false);
+                ->where(['character_id' => $character_id])
+                ->select(['total' => $query->func()->sum('value')])
+                ->hydrate(false);
         $query = $query->first();
 
-        if($query['total'] === null) {
+        if ($query['total'] === null) {
             $query['total'] = 0;
         }
         return $query['total'];
     }
+
 }

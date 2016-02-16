@@ -1,10 +1,15 @@
 <?php
-$this->Html->addCrumb('Characters', '/characters');
+$this->Html->addCrumb('Characters', ['action' => '']);
 $this->Html->addCrumb($character->name);
+$this->assign('title', $character->name);
+$this->Html->script('rpgCharacterEdit', ['block' => true]);
 ?>
+<?= $this->Form->create($character); ?>
+<?= $this->Form->hidden('id'); ?>
+<?= $this->Form->end() ?>
 
 <?php $this->assign('title', $character->name); ?>
-<div class="row">
+<div class="row" ng-controller="CharacterCtrl">
     <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
 
         <div class="row">

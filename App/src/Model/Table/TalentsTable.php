@@ -1,57 +1,35 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-/**
- * Talents Model
- *
- * @property \Cake\ORM\Association\BelongsToMany $Characters
- */
-class TalentsTable extends Table
+class TalentsTable extends AppTable
 {
+	public function initialize(array $config)
+	{
+		parent::initialize($config);
 
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
-    public function initialize(array $config)
-    {
-        parent::initialize($config);
+		$this->displayField('name');
+		$this->addBehavior('Timestamp');
+		$this->BelongsTo('Sources');
+		$this->BelongsToMany('Characters', [
+			'through' => 'CharactersTalents'
+		]);
+	}
 
-        $this->table('talents');
-        $this->displayField('name');
-        $this->primaryKey('id');
-        $this->addBehavior('Timestamp');
-        $this->BelongsToMany('Characters', [
-            'through' => 'CharactersTalents'
-        ]);
-    }
+	public function validationDefault(Validator $validator)
+	{
+		$validator
+			->add('id', 'valid', ['rule' => 'numeric'])
+			->allowEmpty('id', 'create');
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationDefault(Validator $validator)
-    {
-        $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+		$validator
+			->requirePresence('name', 'create')
+			->notEmpty('name');
 
-        $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+		$validator
+			->add('ranked', 'valid', ['rule' => 'boolean']);
 
-        $validator
-            ->add('ranked', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('ranked', 'create')
-            ->notEmpty('ranked');
-
-        return $validator;
-    }
+		return $validator;
+	}
 }

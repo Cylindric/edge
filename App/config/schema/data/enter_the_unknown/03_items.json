@@ -1,0 +1,160 @@
+{
+  "items": [
+    {
+      "name": "Long-Range Terrain Scanner",
+      "value": 850,
+      "encumbrance": 6,
+      "rarity": 6,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Detection Devices"
+      }
+    },
+    {
+      "name": "Ground-Penetrating Sensor Pack",
+      "value": 950,
+      "encumbrance": 5,
+      "rarity": 7,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Detection Devices"
+      }
+    },
+    {
+      "name": "Life Form Scanner",
+      "value": 900,
+      "encumbrance": 4,
+      "rarity": 5,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Detection Devices"
+      }
+    },
+    {
+      "name": "Hunting Goggles",
+      "value": 600,
+      "encumbrance": 0,
+      "rarity": 5,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Detection Devices"
+      }
+    },
+    {
+      "name": "Medical Backpack",
+      "value": 450,
+      "encumbrance": 2,
+      "rarity": 4,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Medical"
+      }
+    },
+    {
+      "name": "Syntherope (20m)",
+      "value": 5,
+      "encumbrance": 1,
+      "rarity": 1,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Electro-Snare",
+      "value": 50,
+      "encumbrance": 1,
+      "rarity": 5,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Portable Survival Shelter",
+      "value": 200,
+      "encumbrance": 2,
+      "rarity": 4,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Electric Perimeter Fence",
+      "value": 800,
+      "encumbrance": 6,
+      "rarity": 5,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Personal Distress Beacon",
+      "value": 50,
+      "encumbrance": 0,
+      "rarity": 1,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Field Kitchen",
+      "value": 500,
+      "encumbrance": 5,
+      "rarity": 4,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    },
+    {
+      "name": "Field Dressing Kit",
+      "value": 300,
+      "encumbrance": 3,
+      "rarity": 5,
+      "restricted": false,
+      "source": {
+        "name": "Enter the Unknown"
+      },
+      "item_type": {
+        "name": "Survival"
+      }
+    }
+  ]
+}

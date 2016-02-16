@@ -1,19 +1,18 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class SpecialisationsTable extends Table
+class SpecialisationsTable extends AppTable
 {
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->table('specialisations');
         $this->displayField('name');
-        $this->primaryKey('id');
         $this->hasMany('Characters');
+        $this->BelongsTo('Careers');
+        $this->BelongsTo('Sources');
     }
 
     public function validationDefault(Validator $validator)
@@ -27,5 +26,13 @@ class SpecialisationsTable extends Table
             ->notEmpty('name');
 
         return $validator;
+    }
+
+    public function export()
+    {
+        return $this
+            ->find()
+            ->contain(['Careers', 'Sources'])
+            ->select(['name', 'Careers.name', 'Sources.name']);
     }
 }

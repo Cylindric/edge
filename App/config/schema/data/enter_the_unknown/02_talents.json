@@ -1,0 +1,89 @@
+{
+  "sources": [
+    {
+      "name": "Enter the Unknown"
+    }
+  ],
+  "talents": [
+    {
+      "name": "All-Terrain Driver",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Bring it Down",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Full Stop",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Hunter's Quarry",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Hunter's Quarry (Improved)",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Infravision",
+      "description": "Chiss have adapted to be able to see in both the infrared and normal visual spectra. This enables Chiss characters to remove up to {dice.setback} added to checks by lighting conditions.",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Intuitive Navigation",
+      "description": "Duros may add {symbol.advantage} to all Astrogation checks they make.",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Master Driver",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Museum Worthy",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Natural Driver",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Pin",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Sudden Discovery (Signature)",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    },
+    {
+      "name": "Unmatched Mobility (Signature)",
+      "source": {
+        "name": "Enter the Unknown"
+      }
+    }
+  ]
+}

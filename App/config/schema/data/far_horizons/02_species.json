@@ -1,0 +1,44 @@
+{
+  "sources": [{ "name": "Far Horizons" }],
+  "species": [
+    {
+      "name": "Arcona",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 1,
+      "stat_ag": 2,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 3,
+      "stat_pr": 2,
+      "source": { "name": "Far Horizons" }
+    },
+    {
+      "name": "Chevin",
+      "base_wound": 11,
+      "base_strain": 11,
+      "base_xp": 80,
+      "stat_br": 3,
+      "stat_ag": 1,
+      "stat_int": 2,
+      "stat_cun": 3,
+      "stat_will": 2,
+      "stat_pr": 1,
+      "source": { "name": "Far Horizons" }
+    },
+    {
+      "name": "Gran",
+      "base_wound": 10,
+      "base_strain": 9,
+      "base_xp": 100,
+      "stat_br": 2,
+      "stat_ag": 2,
+      "stat_int": 2,
+      "stat_cun": 1,
+      "stat_will": 2,
+      "stat_pr": 3,
+      "source": { "name": "Far Horizons" }
+    }
+  ]
+}

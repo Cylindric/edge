@@ -1,0 +1,45 @@
+{
+  "sources": [{ "name": "Enter the Unknown" }],
+  "species": [
+    {
+      "name": "Chiss",
+      "base_wound": 10,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 2,
+      "stat_ag": 2,
+      "stat_int": 3,
+      "stat_cun": 2,
+      "stat_will": 2,
+      "stat_pr": 1,
+      "source": { "name": "Enter the Unknown" }
+    },
+    {
+      "name": "Duros",
+      "base_wound": 11,
+      "base_strain": 10,
+      "base_xp": 100,
+      "stat_br": 1,
+      "stat_ag": 2,
+      "stat_int": 3,
+      "stat_cun": 2,
+      "stat_will": 2,
+      "stat_pr": 2,
+      "source": { "name": "Enter the Unknown" }
+
+    },
+    {
+      "name": "Toydarian",
+      "base_wound": 9,
+      "base_strain": 12,
+      "base_xp": 90,
+      "stat_br": 1,
+      "stat_ag": 1,
+      "stat_int": 2,
+      "stat_cun": 2,
+      "stat_will": 3,
+      "stat_pr": 3,
+      "source": { "name": "Enter the Unknown" }
+    }
+  ]
+}

@@ -1,18 +1,14 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class RangesTable extends Table
+class RangesTable extends AppTable
 {
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->table('ranges');
-        $this->displayField('name');
-        $this->primaryKey('id');
         $this->addBehavior('Timestamp');
         $this->hasMany('Weapons');
     }

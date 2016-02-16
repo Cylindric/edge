@@ -2,39 +2,40 @@
 namespace App\Model\Table;
 
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
-class CharactersTable extends Table
+class CharactersTable extends AppTable
 {
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->displayField('name');
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Species');
-        $this->belongsTo('Groups');
-        $this->belongsTo('Specialisations');
-        $this->belongsTo('Careers');
         $this->belongsTo('Users');
 
         $this->hasMany('CharactersArmour');
+        $this->hasMany('CharactersGroups');
+        $this->hasMany('CharactersItems');
+        $this->hasMany('CharactersSkills');
+        $this->hasMany('CharactersSpecialisations');
+        $this->hasMany('CharactersCareers');
         $this->hasMany('CharactersTalents');
         $this->hasMany('CharactersWeapons');
-        $this->hasMany('CharactersSkills');
-        $this->hasMany('CharactersItems');
         $this->hasMany('Obligations');
         $this->hasMany('Xp');
 
         $this->belongsToMany('Armour', ['through' => 'CharactersArmour']); // Specify the join-table name because by convention it should be called ArmourCharacters
+        $this->belongsToMany('Careers', ['through' => 'CharactersCareers']); // Specify the join-table name because by convention it should be called CareersCharacters
+        $this->belongsToMany('Groups');
         $this->belongsToMany('Items');
         $this->belongsToMany('Skills');
         $this->belongsToMany('Talents');
         $this->belongsToMany('Notes');
         $this->belongsToMany('Weapons');
+        $this->belongsToMany('Specialisations');
     }
 
     public function validationDefault(Validator $validator)

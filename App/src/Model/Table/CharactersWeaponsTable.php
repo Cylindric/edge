@@ -2,10 +2,9 @@
 namespace App\Model\Table;
 
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class CharactersWeaponsTable extends Table
+class CharactersWeaponsTable extends AppTable
 {
 
     public function initialize(array $config)

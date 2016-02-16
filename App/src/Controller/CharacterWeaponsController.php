@@ -1,30 +1,29 @@
 <?php
+
 namespace App\Controller;
 
-class CharacterWeaponsController extends AppController
-{
-    public function initialize()
-    {
+class CharacterWeaponsController extends AppController {
+
+    public function initialize() {
         parent::initialize();
         $this->loadModel('CharactersWeapons');
         $this->loadModel('Characters');
         $this->loadModel('Weapons');
     }
 
-    public function isAuthorized($user)
-    {
+    public function isAuthorized($user) {
         // These require a valid Character Id that the user owns
         if (in_array($this->request->action, [
-            'add',
-            'edit',
-            'change_qty',
-            'toggle',
-            'delete',
-        ])) {
+                    'add',
+                    'edit',
+                    'change_qty',
+                    'toggle',
+                    'delete',
+                ])) {
             if ($this->request->is('post')) {
                 $character_id = $this->request->data['character_id'];
             } else {
-                $character_id = (int)$this->request->params['pass'][0];
+                $character_id = (int) $this->request->params['pass'][0];
             }
             if ($this->Characters->isOwnedBy($character_id, $user['id'])) {
                 return true;
@@ -34,8 +33,7 @@ class CharacterWeaponsController extends AppController
         return parent::isAuthorized($user);
     }
 
-    public function add()
-    {
+    public function add() {
         $response = ['result' => 'fail', 'data' => null];
 
         if ($this->request->is('post')) {
@@ -57,33 +55,35 @@ class CharacterWeaponsController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function edit($character_id)
-    {
-        $character = $this->Characters->get($character_id, [
-            'contain' => [
-                'CharactersWeapons',
-                'CharactersWeapons.Weapons',
-                'CharactersWeapons.Weapons.Skills',
-                'CharactersWeapons.Weapons.Ranges',
-            ]]);
+    public function edit($character_id) {
+        $data = $this->CharactersWeapons
+                ->find('all')
+                ->contain(
+                        [
+                            'Characters',
+                            'Weapons',
+                            'Weapons.Skills',
+                            'Weapons.Ranges',]
+                )
+                ->where(['character_id' => $character_id]);
 
-        $this->set('character', $character);
+        $this->set('character_weapons', $data);
+        $this->set('_serialize', 'character_weapons');
     }
 
-    public function change_qty()
-    {
+    public function change_qty() {
         $response = ['result' => 'fail', 'data' => null];
 
         if ($this->request->is('post')) {
-            $delta = (int)$this->request->data['delta'];
-            $character_id = (int)$this->request->data['character_id'];
-            $id = (int)$this->request->data['link_id'];
+            $delta = (int) $this->request->data['delta'];
+            $character_id = (int) $this->request->data['character_id'];
+            $id = (int) $this->request->data['link_id'];
 
             $link = $this->CharactersWeapons->find()
-                ->contain(['Characters', 'Weapons'])
-                ->where(['CharactersWeapons.character_id' => $character_id])
-                ->andWhere(['CharactersWeapons.id' => $id])
-                ->first();
+                    ->contain(['Characters', 'Weapons'])
+                    ->where(['CharactersWeapons.character_id' => $character_id])
+                    ->andWhere(['CharactersWeapons.id' => $id])
+                    ->first();
 
             $link->quantity += $delta;
             if ($link->quantity < 1) {
@@ -101,33 +101,31 @@ class CharacterWeaponsController extends AppController
         $this->set('_serialize', ['response']);
     }
 
-    public function toggle()
-    {
-        $response = ['result' => 'fail', 'data' => null];
+    public function set_equipped() {
+        $response = null;
 
         if ($this->request->is('post')) {
-            $character_id = (int)$this->request->data['character_id'];
-            $id = (int)$this->request->data['link_id'];
+            $id = (int) $this->request->data['id'];
+            $equipped = (bool) $this->request->data['equipped'];
 
             $link = $this->CharactersWeapons->find()
-                ->contain(['Characters', 'Weapons'])
-                ->where(['CharactersWeapons.character_id' => $character_id])
-                ->andWhere(['CharactersWeapons.id' => $id])
-                ->first();
+                    ->where(['id' => $id])
+                    ->first();
 
-            $link->equipped = !$link->equipped;
+            $link->equipped = $equipped;
 
             if ($this->CharactersWeapons->save($link)) {
-                $response = ['result' => 'success', 'data' => $link->equipped];
+                $response = $link;
+            } else {
+                $this->response->statusCode(400);
             }
         }
 
         $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
-    public function delete()
-    {
+    public function delete() {
         $response = ['result' => 'fail', 'data' => null];
 
         if ($this->request->is('post')) {

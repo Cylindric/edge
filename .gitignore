@@ -1,10 +1,9 @@
+nbproject/private
+*.php~
 /App/vendor/*
 /App/config/app.php
 /App/tmp/*
 /App/logs/*
-App/webroot/coverage/
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/*.iws
-App/webroot/reports/coverage/
-App/webroot/reports/testdox.html
+/App/webroot/coverage/
+/App/webroot/reports/coverage/
+/App/webroot/reports/testdox.html

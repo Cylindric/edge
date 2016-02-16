@@ -3,49 +3,27 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-/**
- * Species Controller
- *
- * @property \App\Model\Table\SpeciesTable $Species
- */
 class SpeciesController extends AppController
 {
 
-    /**
-     * Index method
-     *
-     * @return void
-     */
     public function index()
     {
         $this->set('species', $this->paginate($this->Species));
         $this->set('_serialize', ['species']);
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Species id.
-     * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function view($id = null)
     {
         $species = $this->Species->get($id, [
-            'contain' => []
+            'contain' => ['Sources']
         ]);
         $this->set('species', $species);
         $this->set('_serialize', ['species']);
     }
 
-    /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
-     */
     public function add()
     {
-        $species = $this->Species->newEntity();
+        $species = $this->Species->newEntity(['source_id' => 1]);
         if ($this->request->is('post')) {
             $species = $this->Species->patchEntity($species, $this->request->data);
             if ($this->Species->save($species)) {
@@ -55,21 +33,15 @@ class SpeciesController extends AppController
                 $this->Flash->error(__('The species could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('species'));
+        $sources = $this->Species->Sources->find('list')->toArray();
+        $this->set(compact('species', 'sources'));
         $this->set('_serialize', ['species']);
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Species id.
-     * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function edit($id = null)
     {
         $species = $this->Species->get($id, [
-            'contain' => []
+            'contain' => ['Sources']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $species = $this->Species->patchEntity($species, $this->request->data);
@@ -80,17 +52,12 @@ class SpeciesController extends AppController
                 $this->Flash->error(__('The species could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('species'));
+
+        $sources = $this->Species->Sources->find('list')->toArray();
+        $this->set(compact('species', 'sources'));
         $this->set('_serialize', ['species']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Species id.
-     * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);

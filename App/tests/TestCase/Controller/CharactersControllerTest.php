@@ -19,6 +19,9 @@ class CharactersControllerTest extends ControllerTestBase
     public $fixtures = [
         'app.characters_talents',
         'app.characters',
+        'app.characters_groups',
+        'app.characters_careers',
+        'app.characters_specialisations',
         'app.credits',
         'app.species',
         'app.groups',
