@@ -1,9 +1,10 @@
 rpgAppNg.factory('creditService', function ($http) {
 
-    var addCredits = function (value, character_id, callbackFn) {
+    var addCredits = function (record, callbackFn) {
         $http.post("/credits/add.json", {
-            character_id: character_id,
-            value: value
+            character_id: record.character_id,
+            value: record.value,
+            note: record.note
         }).then(function (response) {
             if (response.status === 200) {
                 callbackFn(response.data);

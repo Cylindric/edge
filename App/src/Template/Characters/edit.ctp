@@ -1,5 +1,4 @@
 <?php
-
 $this->Html->addCrumb('Characters', ['action' => 'index']);
 $this->Html->addCrumb($character->name);
 $this->assign('title', $character->name);
@@ -15,7 +14,7 @@ echo $this->Form->end();
             <h2 id="character_name">{{character.name}}</h2>
             <ul class="list-inline">
                 <li ng-repeat='cg in character.characters_groups'>{{cg.group.name}}</li>
-                <li class="hidden-print" ng-show='character.characters_groups.length === 0'><a href="<?=$this->Url->build(['controller'=>'Characters', 'action' => 'join_group' , $character->id]);?>">Join a group</a></li>
+                <li class="hidden-print" ng-show='character.characters_groups.length === 0'><a href="<?= $this->Url->build(['controller' => 'Characters', 'action' => 'join_group', $character->id]); ?>">Join a group</a></li>
             </ul>
         </div>
 
@@ -23,7 +22,7 @@ echo $this->Form->end();
 
         <h3>Characteristics</h3>
 
-        <div class="row pagebreak hidden">
+        <div class="row pagebreak">
             <div class="row">
                 <div class="col-md-2 col-sm-4 col-xs-4 text-center stat" ng-repeat="(id,stat) in stats">
                     <div class="row value">
@@ -45,8 +44,8 @@ echo $this->Form->end();
             </div>
         </div>
 
-        <div class="row hidden">
-            <div ng-repeat="category in skill_categories" class="col-lg-4 col-md-6">
+        <div class="row">
+            <div ng-repeat="category in skill_categories" class="col-md-4">
                 <h3>{{category.name}}</h3>
                 <table class="table table-condensed">
                     <tr ng-repeat="skill in category.skills">
@@ -72,63 +71,52 @@ echo $this->Form->end();
             </div>
         </div>
 
-        <div class="row">
-            <!-- Navigation tabs -->
-            <ul class="nav nav-pills hidden-print" role="tablist">
-                <li role="presentation" class="btn-lg"><a href="#talents" aria-controls="talents" role="tab" data-toggle="tab">Talents</a></li>
-                <li role="presentation" class="btn-lg"><a href="#weapons" aria-controls="weapons" role="tab" data-toggle="tab">Weapons</a></li>
-                <li role="presentation" class="btn-lg"><a href="#armour" aria-controls="armour" role="tab" data-toggle="tab">Armour</a></li>
-                <li role="presentation" class="btn-lg active"><a href="#items" aria-controls="items" role="tab" data-toggle="tab">Items</a></li>
-                <li role="presentation" class="btn-lg"><a href="#credits" aria-controls="credits" role="tab" data-toggle="tab">Credits (<span ng-bind="totalCredits | number"></span>)</a></li>
-                <li role="presentation" class="btn-lg"><a href="#xp" aria-controls="xp" role="tab" data-toggle="tab">Experience (<span ng-bind="totalXp | number"></span>)</a></li>
-                <li role="presentation" class="btn-lg"><a href="#obligation" aria-controls="obligation" role="tab" data-toggle="tab">Obligation (<span ng-bind="totalObligation | number"></span>)</a></li>
-                <li role="presentation" class="btn-lg"><a href="#bio" aria-controls="bio" role="tab" data-toggle="tab">Bio</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade" id="talents">
-                    <div class="col-md-12">
-                        <?= $this->element('character_edit/talents') ?>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="weapons">
-                    <div class="col-md-12">
-                        <?= $this->element('character_edit/weapons') ?>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="armour">
-                    <div class="col-md-12">
-                        <?= $this->element('character_edit/armour') ?>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade in active" id="items">
-                    <div class="col-md-12">
-                        <?= $this->element('character_edit/items') ?>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="credits">
-                    <div class="col-md-12">
-			<?= $this->element('character_edit/credits') ?>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="xp">
-                    <div class="col-md-12">
-			<?= $this->element('character_edit/xp') ?>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="obligation">
-                    <div class="col-md-12">
-			<?= $this->element('character_edit/obligation') ?>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="bio">
-                    <div class="col-md-12" id="bio_edit">
-                        <h3>Bio</h3>
-			<?= $this->Text->autoParagraph($character->biography) ?>
-                    </div>
-                </div>
-            </div>
+        <div ng-cloak>
+            <md-content>
+                <md-tabs md-dynamic-height md-border-bottom md-swipe-content="true">
+                    <md-tab label="Talents">
+                        <md-content>
+                            <?= $this->element('character_edit/talents') ?>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Weapons">
+                        <md-content>
+                            <?= $this->element('character_edit/weapons') ?>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Armour">
+                        <md-content>
+                            <?= $this->element('character_edit/armour') ?>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Items">
+                        <md-content>
+                            <?= $this->element('character_edit/items') ?>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Credits ({{totalCredits| number}})">
+                        <md-content>
+                            <?= $this->element('character_edit/credits') ?>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Experience ({{totalXp| number}})">
+                        <md-content>
+                            <?= $this->element('character_edit/xp') ?>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Obligation ({{totalObligation| number}})">
+                        <md-content>
+                            <?= $this->element('character_edit/obligation') ?>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Bio">
+                        <md-content>
+                            <h3>Bio</h3>
+                            <?= $this->Text->autoParagraph($character->biography) ?>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
         </div>
 
         <div class="row" id="notes_list_edit">

@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="credit in credits| orderBy:'-created'  ">
+        <tr ng-repeat="credit in credits | orderBy:'-created'">
             <td class="col-md-1 text-nowrap hidden-print actions">
                 <span class="btn btn-xs btn-danger" ng-click="removeCredits(credit)">delete</span>
                 <span ng-if="credit.created_by_gm" class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM {{ credit.created_user.username}}</span>
@@ -21,7 +21,6 @@
         </tr>
     </tbody>
 </table>
-
 
 <div class="col-md-12 hidden-print">
     <form class="form-inline">

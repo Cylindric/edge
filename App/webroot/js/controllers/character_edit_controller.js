@@ -73,6 +73,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         ////////////////////////////////////////////////////////////////////////
         // ARMOUR MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
         function updateArmour() {
             $http
                     .get("/character_armour/edit/" + character_id + ".json")
@@ -92,10 +93,12 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                 link.equipped = result.equipped;
             });
         };
+        // </editor-fold>
 
         ////////////////////////////////////////////////////////////////////////
         // CREDIT MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
         function updateCredits() {
             $http
                     .get("/credits/edit/" + character_id + ".json")
@@ -106,26 +109,26 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         }
 
         $scope.addCredits = function () {
-            $http.post("/credits/add.json", {
-                character_id: character_id,
-                value: $scope.new_credit.value,
-                note: $scope.new_credit.note
-            }).then(function successCallback(response) {
-                $scope.credits.push(response.data.data);
-                $scope.totalCredits = response.data.total;
+            $scope.new_credit.character_id = character_id;
+            creditService.addCredits($scope.new_credit, function (result) {
+                $scope.credits.push(result.data);
+                $scope.totalCredits = result.total;
             });
         };
 
         $scope.removeCredits = function (record) {
             creditService.deleteCredits(record, function (record, result) {
-                $scope.credits.splice(record, 1);
+                var index = $scope.credits.indexOf(record);
+                $scope.credits.splice(index, 1);
                 $scope.totalCredits = result.total;
             });
         };
+        // </editor-fold>
 
         ////////////////////////////////////////////////////////////////////////
         // ITEM MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
         function updateItems() {
             $http
                     .get("/character_items/edit/" + character_id + ".json")
@@ -136,7 +139,8 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
 
         $scope.dropItem = function (link) {
             itemService.deleteItem(link, function (link, result) {
-                $scope.character_item.splice(link, 1);
+                var index = $scope.character_item.indexOf(link);
+                $scope.character_item.splice(index, 1);
             });
         };
 
@@ -145,11 +149,12 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                 link.equipped = result.equipped;
             });
         };
-
+        // </editor-fold>
 
         ////////////////////////////////////////////////////////////////////////
         // OBLIGATION MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
         function updateObligations() {
             $http
                     .get("/obligations/edit/" + character_id + ".json")
@@ -172,16 +177,18 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         };
 
         $scope.removeObligation = function (item) {
-            var index = $scope.obligations.indexOf(item);
             obligationService.deleteObligation(item, function (item, result) {
-                $scope.obligations.splice(item, 1);
+                var index = $scope.obligations.indexOf(item);
+                $scope.obligations.splice(index, 1);
                 $scope.totalObligation = result.total;
             });
         };
+        // </editor-fold>
 
         ////////////////////////////////////////////////////////////////////////
         // TALENT MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
         function updateTalents() {
             $http
                     .get("/character_talents/edit/" + character_id + ".json")
@@ -189,10 +196,12 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                         $scope.character_talents = response.talents;
                     });
         }
+        // </editor-fold>
 
         ////////////////////////////////////////////////////////////////////////
         // WEAPON MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
         function updateWeapons() {
             $http
                     .get("/character_weapons/edit/" + character_id + ".json")
@@ -212,10 +221,12 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                 link.equipped = result.equipped;
             });
         };
+        // </editor-fold>
 
         ////////////////////////////////////////////////////////////////////////
         // XP MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
         function updateXp() {
             $http
                     .get("/xp/edit/" + character_id + ".json")
@@ -226,23 +237,21 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         }
 
         $scope.addXp = function () {
-            $http.post("/xp/add.json", {
-                character_id: character_id,
-                value: $scope.new_xp.value,
-                note: $scope.new_xp.note
-            }).then(function successCallback(response) {
-                $scope.xp.push(response.data.data);
-                $scope.totalXp = response.data.total;
+            $scope.new_xp.character_id = character_id;
+            xpService.addXp($scope.new_xp, function (result) {
+                $scope.xp.push(result.data);
+                $scope.totalXp = result.total;
             });
         };
 
         $scope.removeXp = function (record) {
-            var index = $scope.xp.indexOf(record);
-            xpService.deleteXp(record, function (link, result) {
-                $scope.xp.splice(link, 1);
+            xpService.deleteXp(record, function (record, result) {
+                var index = $scope.xp.indexOf(record);
+                $scope.xp.splice(index, 1);
                 $scope.totalXp = result.total;
             });
         };
+        // </editor-fold>
 
 
 
