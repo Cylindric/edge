@@ -8,7 +8,7 @@ echo $this->Form->hidden('id', ['id' => 'character_id']);
 echo $this->Form->end();
 ?>
 
-<div class="row" ng-cloak ng-controller="CharacterEditCtrl">
+<div class="row" ng-cloak ng-controller="CharacterEditCtrl as ctrl">
     <div class="col-md-12 col-lg-10 col-lg-offset-1">
         <div class="row">
             <h2 id="character_name">{{character.name}}</h2>

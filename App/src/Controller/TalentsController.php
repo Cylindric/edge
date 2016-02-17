@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -8,16 +9,14 @@ use App\Controller\AppController;
  *
  * @property \App\Model\Table\TalentsTable $Talents
  */
-class TalentsController extends AppController
-{
-    public function initialize()
-    {
+class TalentsController extends AppController {
+
+    public function initialize() {
         parent::initialize();
         $this->loadComponent('RequestHandler');
     }
 
-    public function isAuthorized($user)
-    {
+    public function isAuthorized($user) {
         if ($this->request->action === 'index') {
             return true;
         }
@@ -30,15 +29,14 @@ class TalentsController extends AppController
      *
      * @return void
      */
-    public function index()
-    {
-        if($this->request->is('ajax')) {
+    public function index() {
+        if ($this->request->is('ajax')) {
             $term = trim($this->request->query('term'));
             if (!empty($term)) {
                 $talents = $this->Talents
-                    ->find('all')
-                    ->select(['value' => 'id', 'label' => 'name'])
-                    ->where(['name LIKE' => $term . '%']);
+                        ->find('all')
+                        ->select(['value' => 'id', 'label' => 'name'])
+                        ->where(['name LIKE' => $term . '%']);
             } else {
                 $talents = array();
             }
@@ -48,7 +46,7 @@ class TalentsController extends AppController
             $talents = $this->paginate($this->Talents->find()->contain('Sources'));
         }
         $this->set('talents', $talents);
-        $this->set('_serialize', ['talents']);
+        $this->set('_serialize', 'talents');
     }
 
     /**
@@ -58,8 +56,7 @@ class TalentsController extends AppController
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $talent = $this->Talents->get($id, [
             'contain' => ['Sources']
         ]);
@@ -72,8 +69,7 @@ class TalentsController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $talent = $this->Talents->newEntity();
         if ($this->request->is('post')) {
             $talent = $this->Talents->patchEntity($talent, $this->request->data);
@@ -96,8 +92,7 @@ class TalentsController extends AppController
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $talent = $this->Talents->get($id, [
             'contain' => ['Characters']
         ]);
@@ -122,8 +117,7 @@ class TalentsController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $talent = $this->Talents->get($id);
         if ($this->Talents->delete($talent)) {
@@ -133,4 +127,5 @@ class TalentsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
 }

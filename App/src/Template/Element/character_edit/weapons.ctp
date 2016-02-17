@@ -36,16 +36,20 @@
 </table>
 
 <div class="col-md-12 hidden-print">
-    <form class="form-inline">
-        <input type="hidden" id="new_weapon_id"/>
-
-        <div class="form-group">
-
-            <div class="input-group">
-                <div class="input-group-addon">New Weapon:</div>
-                <input type="text" id="new_weapon_autocomplete" placeholder="enter weapon name" class="form-control"/>
-            </div>
-
-        </div>
-    </form>
+    <md-autocomplete 
+        md-selected-item="selectedWeapon"
+        md-search-text="weaponSearchText" 
+        md-selected-item-change="ctrl.selectedWeaponChange(item)"
+        md-items="item in ctrl.weaponSearch(weaponSearchText)" 
+        md-item-text="item.name" 
+        md-min-length="0" 
+        placeholder="Enter a new weapon">
+        <md-item-template>
+            <span md-highlight-text="weaponSearchText" md-highlight-flags="^i">{{item.name}}</span>
+        </md-item-template>
+        <md-not-found>
+            No weapon matching "{{weaponSearchText}}" were found.
+        </md-not-found>
+    </md-autocomplete>
+    <md-button class="md-raised md-primary" ng-click="addWeapon()" ng-disabled="selectedWeaponId === 0">Add</md-button>
 </div>

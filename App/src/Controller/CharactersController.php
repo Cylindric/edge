@@ -29,7 +29,7 @@ class CharactersController extends AppController {
                     'delete',
                     'edit',
                     'edit_notes',
-                    'edit_skills',
+                    'get_skills',
                     'edit_stats',
                     'join_group',
                 ])) {
