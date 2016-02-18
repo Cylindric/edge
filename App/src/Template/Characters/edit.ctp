@@ -48,26 +48,34 @@ echo $this->Form->end();
             <div ng-repeat="category in skill_categories" class="col-md-4 col-sm-6">
                 <h3>{{category.name}}</h3>
 
-                <div class="row skill_row {{skill.highlight}}" ng-repeat="skill in category.skills">
-                    <div class="col-xs-6 no-right-padding">{{skill.name}} ({{skill.stat.code}})</div>
-                    <div class="col-xs-1 no-padding">
-                        <i ng-hide="!skill.career" class="btn btn-success btn-xs" ng-click="toggleCareer(skill.id)">C</i>
-                        <i ng-hide="skill.career" class="btn btn-default btn-xs" ng-click="toggleCareer(skill.id)">S</i>
+                <div class="hidden-print row skill_row {{skill.highlight}}" ng-repeat="skill in category.skills">
+                    <div class="col-xs-7 col-md-6 no-right-padding">{{skill.name}} ({{skill.stat.code}})</div>
+                    <div class="col-xs-1 col-md-2 no-padding hidden-print">
+                        <i ng-hide="!skill.career" class="btn btn-success btn-xs" ng-click="toggleCareer(skill.id)">c<span class="hidden-xs hidden-sm">areer</span></i>
+                        <i ng-hide="skill.career" class="btn btn-default btn-xs" ng-click="toggleCareer(skill.id)">c<span class="hidden-xs hidden-sm">areer</span></i>
                     </div>
-                    <div class="col-xs-2 no-padding">
+                    <div class="col-xs-2 no-padding hidden-print">
                         <i ng-hide="skill.level === '0'" class="decrease glyphicon glyphicon-minus" ng-click="changeSkill(skill.id, -1)"></i>
                         <i ng-show="skill.level === '0'" class="glyphicon glyphicon-minus"></i>
                         <span class="skill_level">{{skill.level}}</span>
                         <i class="increase glyphicon glyphicon-plus" ng-click="changeSkill(skill.id, 1)"></i>
                     </div>
-                    <div class="col-xs-3 no-left-padding">
-                    <?= $this->Html->image('dice-proficiency.png', ['alt' => 'Proficiency Dice', 'ng-repeat' => 'n in range(skill.dice_details.proficiency)']) ?><?= $this->Html->image('dice-ability.png', ['alt' => 'Ability Dice', 'ng-repeat' => 'n in range(skill.dice_details.ability)']) ?>
+                    <div class="col-xs-2 no-left-padding text-nowrap">
+                        <?= $this->Html->image('dice-proficiency.png', ['alt' => 'Proficiency Dice', 'ng-repeat' => 'n in range(skill.dice_details.proficiency)']) ?><?= $this->Html->image('dice-ability.png', ['alt' => 'Ability Dice', 'ng-repeat' => 'n in range(skill.dice_details.ability)']) ?>
                     </div>
+                </div>
+
+                <div class="visible-print" ng-repeat="skill in category.skills">
+                    <div class="col-xs-8 no-right-padding"><span ng-class="{'text-uppercase': skill.career}">{{skill.name}}</span> ({{skill.stat.code}})</div>
+                    <div class="col-xs-4 no-left-padding text-nowrap">
+                        <?= $this->Html->image('dice-proficiency.png', ['alt' => 'Proficiency Dice', 'ng-repeat' => 'n in range(skill.dice_details.proficiency)']) ?><?= $this->Html->image('dice-ability.png', ['alt' => 'Ability Dice', 'ng-repeat' => 'n in range(skill.dice_details.ability)']) ?>
+                    </div>
+
                 </div>
             </div>
         </div>
 
-        <div ng-cloak>
+        <div ng-cloak class="hidden-print">
             <md-content>
                 <md-tabs md-dynamic-height md-border-bottom md-swipe-content="true">
                     <md-tab label="Talents">
@@ -115,7 +123,16 @@ echo $this->Form->end();
             </md-content>
         </div>
 
-        <div class="row" id="notes_list_edit">
+        <div ng-cloak class="visible-print">
+            <?= $this->element('character_print/talents') ?>
+            <?= $this->element('character_print/weapons') ?>
+            <?= $this->element('character_print/armour') ?>
+            <?= $this->element('character_print/items') ?>
+            <?= $this->element('character_print/credits') ?>
+            <?= $this->element('character_print/xp') ?>
+            <?= $this->element('character_print/obligation') ?>
+            <?= $this->Text->autoParagraph($character->biography) ?>
         </div>
+
     </div>
 </div>
