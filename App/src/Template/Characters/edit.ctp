@@ -24,7 +24,7 @@ echo $this->Form->end();
 
         <div class="row pagebreak">
             <div class="row">
-                <div class="col-md-2 col-sm-4 col-xs-4 text-center stat" ng-repeat="(id,stat) in stats">
+                <div class="col-sm-2 col-xs-4 text-center stat" ng-repeat="(id,stat) in stats" ng-mouseenter="highlightSkills(id)" ng-mouseleave="highlightSkills()">
                     <div class="row value">
                         <div class="col-md-12">
 
@@ -45,29 +45,25 @@ echo $this->Form->end();
         </div>
 
         <div class="row">
-            <div ng-repeat="category in skill_categories" class="col-md-4">
+            <div ng-repeat="category in skill_categories" class="col-md-4 col-sm-6">
                 <h3>{{category.name}}</h3>
-                <table class="table table-condensed">
-                    <tr ng-repeat="skill in category.skills">
-                        <td>
-                            <span class="skill_name">{{skill.name}} ({{skill.stat.code}})</span>
-                        </td>
-                        <td>
-                            <i ng-hide="!skill.career" class="btn btn-success btn-xs" ng-click="toggleCareer(skill.id)">career</i>
-                            <i ng-hide="skill.career" class="btn btn-default btn-xs" ng-click="toggleCareer(skill.id)">standard</i>
-                        </td>
-                        <td class="col-md-2 text-center">
-                            <i ng-hide="skill.level === 0" class="decrease glyphicon glyphicon-minus" ng-click="changeSkill(skill.id, -1)"></i>
-                            <span class="skill_level">{{skill.level}}</span>
-                            <i class="increase glyphicon glyphicon-plus" ng-click="changeSkill(skill.id, 1)"></i>
-                        </td>
-                        <td class="col-md-3">
-                            <span class="skill_dice">
-                                <?= $this->Html->image('dice-proficiency.png', ['alt' => 'Proficiency Dice', 'ng-repeat' => 'n in range(skill.dice_details.proficiency)']) ?><?= $this->Html->image('dice-ability.png', ['alt' => 'Ability Dice', 'ng-repeat' => 'n in range(skill.dice_details.ability)']) ?>
-                            </span>
-                        </td>
-                    </tr>
-                </table>
+
+                <div class="row skill_row {{skill.highlight}}" ng-repeat="skill in category.skills">
+                    <div class="col-xs-6 no-right-padding">{{skill.name}} ({{skill.stat.code}})</div>
+                    <div class="col-xs-1 no-padding">
+                        <i ng-hide="!skill.career" class="btn btn-success btn-xs" ng-click="toggleCareer(skill.id)">C</i>
+                        <i ng-hide="skill.career" class="btn btn-default btn-xs" ng-click="toggleCareer(skill.id)">S</i>
+                    </div>
+                    <div class="col-xs-2 no-padding">
+                        <i ng-hide="skill.level === '0'" class="decrease glyphicon glyphicon-minus" ng-click="changeSkill(skill.id, -1)"></i>
+                        <i ng-show="skill.level === '0'" class="glyphicon glyphicon-minus"></i>
+                        <span class="skill_level">{{skill.level}}</span>
+                        <i class="increase glyphicon glyphicon-plus" ng-click="changeSkill(skill.id, 1)"></i>
+                    </div>
+                    <div class="col-xs-3 no-left-padding">
+                    <?= $this->Html->image('dice-proficiency.png', ['alt' => 'Proficiency Dice', 'ng-repeat' => 'n in range(skill.dice_details.proficiency)']) ?><?= $this->Html->image('dice-ability.png', ['alt' => 'Ability Dice', 'ng-repeat' => 'n in range(skill.dice_details.ability)']) ?>
+                    </div>
+                </div>
             </div>
         </div>
 

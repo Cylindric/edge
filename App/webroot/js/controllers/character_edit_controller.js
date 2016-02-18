@@ -40,6 +40,19 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             }
         }
 
+        // Highlight skills
+        $scope.highlightSkills = function (id) {
+            $scope.skill_categories.forEach(function (skill_category) {
+
+                skill_category.skills.forEach(function (skill) {
+                    if (skill.stat.code === id) {
+                        skill.highlight = 'skill_row_highlight';
+                    } else {
+                        skill.highlight = '';
+                    }
+                });
+            });
+        };
 
         function updateCharacter() {
             $http
@@ -73,6 +86,11 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                     .get("/characters/get_skills/" + character_id + ".json")
                     .success(function (response) {
                         var list = [];
+
+                        response.skills.forEach(function (skill) {
+                            skill.highlight = '';
+                        });
+
                         list.push({'name': "General Skills", 'skills': response.skills.filter(function (value) {
                                 return value.skilltype_id === 1;
                             })});
