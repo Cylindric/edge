@@ -33,27 +33,27 @@ class CharacterItemsController extends AppController {
         return parent::isAuthorized($user);
     }
 
-    public function add($char_id, $item_id) {
+    public function add() {
         $response = ['result' => 'fail', 'data' => null];
 
-        if (!is_null($char_id) && !is_null($item_id)) {
+        if ($this->request->is('post')) {
 
-            $Char = $this->Characters->get($char_id, [
-                'contain' => ['Items']
-            ]);
+            $character_id = $this->request->data['character_id'];
+            $item_id = $this->request->data['item_id'];
 
-            $this->loadModel('Items');
-            $W = $this->Items->get($item_id);
+            $link = $this->CharactersItems->newEntity();
+            $link->character_id = $character_id;
+            $link->item_id = $item_id;
+            $link->quantity = 1;
 
-            if ($this->Characters->Items->link($Char, [$W])) {
-                // Announce
-                $this->Slack->announceCharacterEdit($Char);
-                $response = ['result' => 'success', 'data' => $Char->item];
+            if ($this->CharactersItems->save($link)) {
+                $data = $this->CharactersItems->findById($link->id)->contain(['Items'])->first();
+                $response = ['result' => 'success', 'data' => $data];
             }
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function delete() {

@@ -115,8 +115,7 @@ echo $this->Form->end();
                     </md-tab>
                     <md-tab label="Bio">
                         <md-content>
-                            <h3>Bio</h3>
-                            <?= $this->Text->autoParagraph($character->biography) ?>
+                            <?= $this->element('character_edit/bio') ?>
                         </md-content>
                     </md-tab>
                 </md-tabs>

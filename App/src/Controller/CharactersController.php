@@ -355,6 +355,27 @@ class CharactersController extends AppController {
                 $this->set('_serialize', 'response');
             }
 
+            public function update_bio() {
+                $response = null;
+
+                if ($this->request->is('post')) {
+                    $id = (int) $this->request->data['character_id'];
+                    $biography = $this->request->data['biography'];
+
+                    $character = $this->Characters->get($id);
+                    $character->biography = $biography;
+
+                    if ($this->Characters->save($character)) {
+                        $response = $character;
+                    } else {
+                        $this->response->statusCode(400);
+                    }
+                }
+
+                $this->set(compact('response'));
+                $this->set('_serialize', 'response');
+            }
+
             public function join_group($char_id) {
                 $Char = $this->Characters->get($char_id, ['contain' => 'CharactersGroups']);
 

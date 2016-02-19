@@ -22,16 +22,20 @@
 </table>
 
 <div class="col-md-12 hidden-print">
-    <form class="form-inline">
-        <input type="hidden" id="new_item_id"/>
-
-        <div class="form-group">
-
-            <div class="input-group">
-                <div class="input-group-addon">New Item:</div>
-                <input type="text" id="new_item_autocomplete" placeholder="enter item name" class="form-control"/>
-            </div>
-
-        </div>
-    </form>
+    <md-autocomplete 
+        md-selected-item="selecteditem"
+        md-search-text="itemSearchText" 
+        md-selected-item-change="ctrl.selectedItemChange(item)"
+        md-items="item in ctrl.itemSearch(itemSearchText)" 
+        md-item-text="item.name" 
+        md-min-length="0" 
+        placeholder="Enter a new item">
+        <md-item-template>
+            <span md-highlight-text="itemSearchText" md-highlight-flags="^i">{{item.name}}</span>
+        </md-item-template>
+        <md-not-found>
+            No items matching "{{itemSearchText}}" were found.
+        </md-not-found>
+    </md-autocomplete>
+    <md-button class="md-raised md-primary" ng-click="addItem()" ng-disabled="selectedItemId === 0">Add</md-button>
 </div>

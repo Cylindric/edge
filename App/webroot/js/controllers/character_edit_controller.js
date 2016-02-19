@@ -4,6 +4,30 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         // Get the Character ID
         var character_id = angular.element('#character_id')[0].value;
 
+        // Armour auto-complete
+        armourService.getArmour(function () {});
+        this.armourSearch = armourService.armourSearch;
+        this.selectedArmourChange = selectedArmourChange;
+        $scope.selectedArmourId = 0;
+
+        function selectedArmourChange(item) {
+            if (item) {
+                $scope.selectedArmourId = item.id;
+            }
+        }
+
+        // Item auto-complete
+        itemService.getItems(function () {});
+        this.itemSearch = itemService.itemSearch;
+        this.selectedItemChange = selectedItemChange;
+        $scope.selectedItemId = 0;
+
+        function selectedItemChange(item) {
+            if (item) {
+                $scope.selectedItemId = item.id;
+            }
+        }
+
         // Talent auto-complete
         talentService.getTalents(function () {});
         this.talentSearch = talentService.talentSearch;
@@ -25,18 +49,6 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         function selectedWeaponChange(item) {
             if (item) {
                 $scope.selectedWeaponId = item.id;
-            }
-        }
-
-        // Armour auto-complete
-        armourService.getArmour(function () {});
-        this.armourSearch = armourService.armourSearch;
-        this.selectedArmourChange = selectedArmourChange;
-        $scope.selectedArmourId = 0;
-
-        function selectedArmourChange(item) {
-            if (item) {
-                $scope.selectedArmourId = item.id;
             }
         }
 
@@ -139,6 +151,26 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         // </editor-fold>
 
         ////////////////////////////////////////////////////////////////////////
+        // BIOGRAPHY MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
+        $scope.bio_saving = false;
+
+        $scope.updateBio = function () {
+            $scope.bio_saving = true;
+            $http.post("/characters/update_bio.json", {
+                character_id: character_id,
+                biography: $scope.character.biography
+            }).then(function (response) {
+                if (response.status === 200) {
+                    $scope.character.biography = response.data.biography;
+                    $scope.bio_saving = false;
+                }
+            });
+        };
+        // </editor-fold>
+
+        ////////////////////////////////////////////////////////////////////////
         // CREDIT MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
         // <editor-fold>
@@ -156,6 +188,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             creditService.addCredits($scope.new_credit, function (result) {
                 $scope.credits.push(result.data);
                 $scope.totalCredits = result.total;
+                $scope.new_credit = null;
             });
         };
 
@@ -179,6 +212,15 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                         $scope.character_items = response;
                     });
         }
+
+        $scope.addItem = function () {
+            if ($scope.selectedItemId > 0) {
+                itemService.addItem($scope.selectedItemId, character_id, function (result) {
+                    $scope.character_items.push(result);
+                    $scope.itemSearchText = '';
+                });
+            }
+        };
 
         $scope.dropItem = function (link) {
             itemService.deleteItem(link, function (link, result) {
@@ -216,6 +258,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             }).then(function successCallback(response) {
                 $scope.obligations.push(response.data.data);
                 $scope.totalObligation = response.data.total;
+                $scope.new_obligation = null;
             });
         };
 
@@ -302,6 +345,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             xpService.addXp($scope.new_xp, function (result) {
                 $scope.xp.push(result.data);
                 $scope.totalXp = result.total;
+                $scope.new_xp = null;
             });
         };
 

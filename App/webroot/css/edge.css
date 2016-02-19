@@ -132,3 +132,9 @@ i {
 .skill_row:hover, .skill_row_highlight {
     background: #FFFFCC;
 }
+
+
+.invisible {
+    display: block!important;
+    visibility: hidden; 
+}
