@@ -24,16 +24,20 @@
 </table>
 
 <div class="col-md-12 hidden-print">
-    <form class="form-inline">
-        <input type="hidden" id="new_armour_id"/>
-
-        <div class="form-group">
-
-            <div class="input-group">
-                <div class="input-group-addon">New Armour:</div>
-                <input type="text" id="new_armour_autocomplete" placeholder="enter armour name" class="form-control"/>
-            </div>
-
-        </div>
-    </form>
+    <md-autocomplete 
+        md-selected-item="selectedArmour"
+        md-search-text="armourSearchText" 
+        md-selected-item-change="ctrl.selectedArmourChange(item)"
+        md-items="item in ctrl.armourSearch(armourSearchText)" 
+        md-item-text="item.name" 
+        md-min-length="0" 
+        placeholder="Enter a new armour">
+        <md-item-template>
+            <span md-highlight-text="armourSearchText" md-highlight-flags="^i">{{item.name}}</span>
+        </md-item-template>
+        <md-not-found>
+            No armour matching "{{armourSearchText}}" were found.
+        </md-not-found>
+    </md-autocomplete>
+    <md-button class="md-raised md-primary" ng-click="addArmour()" ng-disabled="selectedArmourId === 0">Add</md-button>
 </div>

@@ -47,12 +47,16 @@ class CharacterWeaponsController extends AppController {
             $link->quantity = 1;
 
             if ($this->CharactersWeapons->save($link)) {
-                $response = ['result' => 'success', 'data' => $link];
+                $data = $this->CharactersWeapons
+                        ->findById($link->id)
+                        ->contain(['Weapons', 'Weapons.Skills', 'Weapons.Ranges'])
+                        ->first();
+                $response = ['result' => 'success', 'data' => $data];
             }
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function edit($character_id) {

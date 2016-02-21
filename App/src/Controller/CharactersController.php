@@ -29,7 +29,7 @@ class CharactersController extends AppController {
                     'delete',
                     'edit',
                     'edit_notes',
-                    'edit_skills',
+                    'get_skills',
                     'edit_stats',
                     'join_group',
                 ])) {
@@ -348,6 +348,27 @@ class CharactersController extends AppController {
                     if ($this->Characters->save($Char)) {
                         $this->Slack->announceCharacterEdit($Char);
                         $response['result'] = 'success';
+                    }
+                }
+
+                $this->set(compact('response'));
+                $this->set('_serialize', 'response');
+            }
+
+            public function update_bio() {
+                $response = null;
+
+                if ($this->request->is('post')) {
+                    $id = (int) $this->request->data['character_id'];
+                    $biography = $this->request->data['biography'];
+
+                    $character = $this->Characters->get($id);
+                    $character->biography = $biography;
+
+                    if ($this->Characters->save($character)) {
+                        $response = $character;
+                    } else {
+                        $this->response->statusCode(400);
                     }
                 }
 

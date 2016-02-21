@@ -32,27 +32,27 @@ class CharacterArmourController extends AppController {
         return parent::isAuthorized($user);
     }
 
-    public function add($char_id, $armour_id) {
+    public function add() {
         $response = ['result' => 'fail', 'data' => null];
 
-        if (!is_null($char_id) && !is_null($armour_id)) {
+        if ($this->request->is('post')) {
 
-            $Char = $this->Characters->get($char_id, [
-                'contain' => ['Armour']
-            ]);
+            $character_id = $this->request->data['character_id'];
+            $armour_id = $this->request->data['armour_id'];
 
-            $this->loadModel('Armour');
-            $W = $this->Armour->get($armour_id);
+            $link = $this->CharactersArmour->newEntity();
+            $link->character_id = $character_id;
+            $link->armour_id = $armour_id;
+            $link->quantity = 1;
 
-            if ($this->Characters->Armour->link($Char, [$W])) {
-                // Announce
-                $this->Slack->announceCharacterEdit($Char);
-                $response = ['result' => 'success', 'data' => $Char->armour];
+            if ($this->CharactersArmour->save($link)) {
+                $data = $this->CharactersArmour->findById($link->id)->contain(['Armour'])->first();
+                $response = ['result' => 'success', 'data' => $data];
             }
         }
 
         $this->set('response', $response);
-        $this->set('_serialize', ['response']);
+        $this->set('_serialize', 'response');
     }
 
     public function delete() {

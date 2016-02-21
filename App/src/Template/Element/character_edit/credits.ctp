@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="credit in credits | orderBy:'-created'">
+        <tr ng-repeat="credit in credits| orderBy:'-created'">
             <td class="col-md-1 text-nowrap hidden-print actions">
                 <span class="btn btn-xs btn-danger" ng-click="removeCredits(credit)">delete</span>
                 <span ng-if="credit.created_by_gm" class="label label-xs label-warning hidden-print" data-toggle="tooltip" data-placement="right" title="This entry was created by the GM, and can only be deleted by the GM.">GM {{ credit.created_user.username}}</span>
@@ -23,23 +23,17 @@
 </table>
 
 <div class="col-md-12 hidden-print">
-    <form class="form-inline">
-        <div class="form-group">
-
-            <div class="input-group">
-                <div class="input-group-addon">Credits:</div>
-                <input type="number" ng-model="new_credit.value" placeholder="0" class="form-control text-right"/>
-            </div>
-
-            <div class="input-group">
-                <div class="input-group-addon">Notes</div>
-                <input type="text" ng-model="new_credit.note" placeholder="enter any notes" class="form-control"/>
-            </div>
-
-            <div class="input-group">
-                <a class="btn btn-primary" ng-click="addCredits()">Add</a>
-            </div>
-
-        </div>
+    <form ng-submit="addCredits()">
+        <md-input-container>
+            <label>Credits</label>
+            <input ng-model="new_credit.value" type="number">
+        </md-input-container>
+        <md-input-container>
+            <label>Note</label>
+            <input ng-model="new_credit.note">
+        </md-input-container>
+        <md-input-container>
+            <md-button type="submit" class="md-raised md-primary">Add</md-button>
+        </md-input-container>
     </form>
 </div>

@@ -1,5 +1,5 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+    display: none !important;
 }
 
 body {
@@ -60,26 +60,9 @@ i {
     cursor: help;
 }
 
-/*.group_view > div {*/
-    /*font-size: 20px;*/
-    /*vertical-align: middle;*/
-    /*border: 0;*/
-    /*padding: 0;*/
-/*}*/
-/**/
 .group_view .buttons {
     padding-left: 0;
 }
-
-.group_view .adjust > div {
-    /*padding: 0;*/
-    /*line-height: 0.5em;*/
-}
-
-/*.group_view .btn-skill-adjust {*/
-    /*font-size: 0.4em;*/
-    /*vertical-align: middle;*/
-/*}*/
 
 .increase {
     color: green;
@@ -105,11 +88,6 @@ i {
     color: white;
     font-size: 13px;
     font-family: 'Nunito', sans-serif;
-    /*text-align: left;*/
-}
-
-.status_block .subtitle div:nth-child(1) {
-    /*text-align: right;*/
 }
 
 .group_view .name,
@@ -136,4 +114,27 @@ i {
 
 .skillcheck {
     font-weight: bold;
+}
+
+.no-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.no-left-padding {
+    padding-left: 0 !important;
+}
+
+.no-right-padding {
+    padding-right: 0 !important;
+}
+
+.skill_row:hover, .skill_row_highlight {
+    background: #FFFFCC;
+}
+
+
+.invisible {
+    display: block!important;
+    visibility: hidden; 
 }

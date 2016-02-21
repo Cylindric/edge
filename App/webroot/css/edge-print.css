@@ -166,7 +166,9 @@
     margin-left: 0;
 }
 
-.tab-content > .tab-pane {display: block !important; opacity: 1 !important; visibility: visible !important}
+body {
+    font-size: 10px;
+}
 
 .stat {
     background-image: url("/img/stat-bg.png") !important;
@@ -192,6 +194,9 @@
     page-break-inside: avoid;
 }
 
+.no-pagebreak {
+    page-break-inside: avoid;
+}
 
 .breakbefore {
     page-break-before: always;
@@ -201,3 +206,4 @@
 .buttons {
     display: none;
 }
+

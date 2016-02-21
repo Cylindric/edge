@@ -23,23 +23,17 @@
 </table>
 
 <div class="col-md-12 hidden-print">
-    <form class="form-inline">
-        <div class="form-group">
-
-            <div class="input-group">
-                <div class="input-group-addon">New XP:</div>
-                <input type="number" ng-model="new_xp.value" placeholder="0" class="form-control text-right"/>
-            </div>
-
-            <div class="input-group">
-                <div class="input-group-addon">Notes</div>
-                <input type="text" ng-model="new_xp.note" placeholder="enter any notes" class="form-control"/>
-            </div>
-
-            <div class="input-group">
-                <a class="btn btn-primary" ng-click="addXp()">Add</a>
-            </div>
-
-        </div>
+    <form ng-submit="addXp()">
+        <md-input-container>
+            <label>Experience</label>
+            <input ng-model="new_xp.value" type="number">
+        </md-input-container>
+        <md-input-container>
+            <label>Note</label>
+            <input ng-model="new_xp.note">
+        </md-input-container>
+        <md-input-container>
+            <md-button type="submit" class="md-raised md-primary">Add</md-button>
+        </md-input-container>
     </form>
 </div>

@@ -1,29 +1,70 @@
-rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditService', 'itemService', 'obligationService', 'talentService', 'weaponService', 'xpService', '$http', '$filter',
-    function ($scope, armourService, creditService, itemService, obligationService, talentService, weaponService, xpService, $http, $filter) {
+rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditService', 'itemService', 'obligationService', 'talentService', 'weaponService', 'xpService', '$http',
+    function ($scope, armourService, creditService, itemService, obligationService, talentService, weaponService, xpService, $http) {
 
         // Get the Character ID
         var character_id = angular.element('#character_id')[0].value;
 
-        // Talent auto-complete
-        talentService.getTalents(function (talents) {
-            this.talentList = talents.data.talents;
-        });
+        // Armour auto-complete
+        armourService.getArmour(function () {});
+        this.armourSearch = armourService.armourSearch;
+        this.selectedArmourChange = selectedArmourChange;
+        $scope.selectedArmourId = 0;
 
-        this.talentSearch = talentSearch;
+        function selectedArmourChange(item) {
+            if (item) {
+                $scope.selectedArmourId = item.id;
+            }
+        }
+
+        // Item auto-complete
+        itemService.getItems(function () {});
+        this.itemSearch = itemService.itemSearch;
+        this.selectedItemChange = selectedItemChange;
+        $scope.selectedItemId = 0;
+
+        function selectedItemChange(item) {
+            if (item) {
+                $scope.selectedItemId = item.id;
+            }
+        }
+
+        // Talent auto-complete
+        talentService.getTalents(function () {});
+        this.talentSearch = talentService.talentSearch;
         this.selectedTalentChange = selectedTalentChange;
         $scope.selectedTalentId = 0;
-
-        function talentSearch(query) {
-            var results = query ? $filter('filter')(talentList, {name: query}) : talentList,
-                    deferred;
-            return results;
-        }
 
         function selectedTalentChange(item) {
             if (item) {
                 $scope.selectedTalentId = item.id;
             }
         }
+
+        // Weapon auto-complete
+        weaponService.getWeapons(function () {});
+        this.weaponSearch = weaponService.weaponSearch;
+        this.selectedWeaponChange = selectedWeaponChange;
+        $scope.selectedWeaponId = 0;
+
+        function selectedWeaponChange(item) {
+            if (item) {
+                $scope.selectedWeaponId = item.id;
+            }
+        }
+
+        // Highlight skills
+        $scope.highlightSkills = function (id) {
+            $scope.skill_categories.forEach(function (skill_category) {
+
+                skill_category.skills.forEach(function (skill) {
+                    if (skill.stat.code === id) {
+                        skill.highlight = 'skill_row_highlight';
+                    } else {
+                        skill.highlight = '';
+                    }
+                });
+            });
+        };
 
         function updateCharacter() {
             $http
@@ -57,6 +98,11 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                     .get("/characters/get_skills/" + character_id + ".json")
                     .success(function (response) {
                         var list = [];
+
+                        response.skills.forEach(function (skill) {
+                            skill.highlight = '';
+                        });
+
                         list.push({'name': "General Skills", 'skills': response.skills.filter(function (value) {
                                 return value.skilltype_id === 1;
                             })});
@@ -82,6 +128,15 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                     });
         }
 
+        $scope.addArmour = function () {
+            if ($scope.selectedArmourId > 0) {
+                armourService.addArmour($scope.selectedArmourId, character_id, function (result) {
+                    $scope.character_armour.push(result);
+                    $scope.armourSearchText = '';
+                });
+            }
+        };
+
         $scope.dropArmour = function (link) {
             armourService.deleteArmour(link, function (link, result) {
                 $scope.character_armour.splice(link, 1);
@@ -91,6 +146,26 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         $scope.changeArmourEquip = function (link, equipped) {
             armourService.setEquipped(link, equipped, function (link, result) {
                 link.equipped = result.equipped;
+            });
+        };
+        // </editor-fold>
+
+        ////////////////////////////////////////////////////////////////////////
+        // BIOGRAPHY MANAGEMENT
+        ////////////////////////////////////////////////////////////////////////
+        // <editor-fold>
+        $scope.bio_saving = false;
+
+        $scope.updateBio = function () {
+            $scope.bio_saving = true;
+            $http.post("/characters/update_bio.json", {
+                character_id: character_id,
+                biography: $scope.character.biography
+            }).then(function (response) {
+                if (response.status === 200) {
+                    $scope.character.biography = response.data.biography;
+                    $scope.bio_saving = false;
+                }
             });
         };
         // </editor-fold>
@@ -113,6 +188,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             creditService.addCredits($scope.new_credit, function (result) {
                 $scope.credits.push(result.data);
                 $scope.totalCredits = result.total;
+                $scope.new_credit = null;
             });
         };
 
@@ -136,6 +212,15 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                         $scope.character_items = response;
                     });
         }
+
+        $scope.addItem = function () {
+            if ($scope.selectedItemId > 0) {
+                itemService.addItem($scope.selectedItemId, character_id, function (result) {
+                    $scope.character_items.push(result);
+                    $scope.itemSearchText = '';
+                });
+            }
+        };
 
         $scope.dropItem = function (link) {
             itemService.deleteItem(link, function (link, result) {
@@ -173,6 +258,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             }).then(function successCallback(response) {
                 $scope.obligations.push(response.data.data);
                 $scope.totalObligation = response.data.total;
+                $scope.new_obligation = null;
             });
         };
 
@@ -196,6 +282,15 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                         $scope.character_talents = response.talents;
                     });
         }
+
+        $scope.addTalent = function () {
+            if ($scope.selectedTalentId > 0) {
+                talentService.addTalent($scope.selectedTalentId, character_id, function (result) {
+                    updateTalents();
+                    $scope.talentSearchText = '';
+                });
+            }
+        };
         // </editor-fold>
 
         ////////////////////////////////////////////////////////////////////////
@@ -210,9 +305,18 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                     });
         }
 
+        $scope.addWeapon = function () {
+            if ($scope.selectedWeaponId > 0) {
+                weaponService.addWeapon($scope.selectedWeaponId, character_id, function (result) {
+                    $scope.character_weapons.push(result);
+                    $scope.weaponSearchText = '';
+                });
+            }
+        };
+
         $scope.dropWeapon = function (link) {
             weaponService.deleteWeapon(link, function (link, result) {
-                $scope.character_weapon.splice(link, 1);
+                $scope.character_weapons.splice(link, 1);
             });
         };
 
@@ -241,6 +345,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             xpService.addXp($scope.new_xp, function (result) {
                 $scope.xp.push(result.data);
                 $scope.totalXp = result.total;
+                $scope.new_xp = null;
             });
         };
 
@@ -260,15 +365,6 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             talentService.changeRank(talent_id, character_id, delta, function (result) {
                 updateTalents();
             });
-        };
-
-        $scope.addTalent = function () {
-            if ($scope.selectedTalentId > 0) {
-                talentService.addTalent($scope.selectedTalentId, character_id, function (result) {
-                    updateTalents();
-                    $scope.talentSearchText = '';
-                });
-            }
         };
 
         $scope.deleteTalent = function (talent_id, delta) {
