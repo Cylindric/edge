@@ -203,3 +203,4 @@ DispatcherFactory::add('ControllerFactory');
 Type::build('datetime')->useLocaleParser();
 
 \Cake\Core\Plugin::load('Ceeram/Blame');
+\Cake\Core\Plugin::load('Tanuck/Markdown');

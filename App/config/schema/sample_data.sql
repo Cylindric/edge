@@ -19,6 +19,7 @@ INSERT INTO groups (`name`, `created`, `modified`) VALUES ('Test Group', NOW(), 
 SET @group_id:=LAST_INSERTED_ID();
 
 INSERT INTO characters_groups (`character_id`, `group_id`) VALUES (@character_id, @group_id);
+INSERT INTO groups_users (`group_id`, `user_id`) VALUES (@group_id, @admin_id);
 
 SELECT * FROM characters WHERE id=@character_id;
 SELECT * FROM characters_talents WHERE character_id=@character_id;

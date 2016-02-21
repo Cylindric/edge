@@ -126,6 +126,8 @@
         echo $this->Html->script('/node_modules/angular-aria/angular-aria.min.js');
         echo $this->Html->script('/node_modules/angular-messages/angular-messages.min.js');
         echo $this->Html->script('/node_modules/angular-material/angular-material.min.js');
+        echo $this->Html->script('/node_modules/angular-marked/node_modules/marked/lib/marked.js');
+        echo $this->Html->script('/node_modules/angular-marked/dist/angular-marked.min.js');
         echo $this->Html->script('ui-bootstrap-tpls-1.1.2.min.js');
 
         $scripts = [
@@ -139,6 +141,7 @@
             'services/xp_service.js',
             'controllers/character_edit_controller.js',
             'controllers/character_index_controller.js',
+            'controllers/group_edit_controller.js',
         ];
 
         if ($debug > 0) {
