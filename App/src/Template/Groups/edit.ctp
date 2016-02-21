@@ -34,7 +34,7 @@ $editing = false;
                     <div class="col-sm-2 col-md-2 value"><?= $character->totalSoak ?></div>
                     <div class="col-sm-3 col-md-3">
                         <div class="col-sm-8 value">
-                            <?= $character->totalStrainThreshold ?>/<span id="strain_<?= $character->id ?>_value"><?= $character->strain ?></span>
+                            <?= $character->strain ?>/<span id="strain_<?= $character->id ?>_value"><?= $character->total_strain_threshold ?></span>
                         </div>
                         <div class="col-sm-2 buttons">
                             <i class="btn btn-md btn-danger btn-skill-adjust" id="updateattribute_strain_<?= $character->id ?>_increase">increase</i>
@@ -45,7 +45,7 @@ $editing = false;
 
                     <div class="col-sm-3 col-md-3">
                         <div class="col-sm-8 value">
-                            <?= $character->totalWoundThreshold ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->wounds ?></span>
+                            <?= $character->wounds ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->total_wound_threshold ?></span>
                         </div>
                         <div class="col-sm-4 buttons">
                             <div><i class="btn btn-md btn-success btn-skill-adjust" id="updateattribute_wounds_<?= $character->id ?>_increase">increase</i></div>
