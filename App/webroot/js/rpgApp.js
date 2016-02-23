@@ -6,4 +6,7 @@ var rpgAppNg = angular.module('rpgAppNg', [
     'hc.marked'
 ]);
 
-var rpgControllers = angular.module('rpgControllers', []);
+
+
+var rpgControllers = angular.module('rpgControllers', [], function ($locationProvider) {
+    $locationProvider.html5Mode(true);});

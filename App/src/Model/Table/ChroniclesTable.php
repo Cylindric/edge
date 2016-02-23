@@ -31,14 +31,10 @@ class ChroniclesTable extends AppTable {
                 ->add('id', 'valid', ['rule' => 'numeric'])
                 ->allowEmpty('id', 'create');
 
-        $validator
-                ->add('user_id', 'valid', ['rule' => 'numeric']);
-
         return $validator;
     }
 
     public function buildRules(RulesChecker $rules) {
-        $rules->add($rules->existsIn(['character_id'], 'Characters'));
         $rules->add($rules->existsIn(['group_id'], 'Groups'));
         return $rules;
     }

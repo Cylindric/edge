@@ -1,0 +1,6 @@
+source:
+    - ./src
+
+destination: ./webroot/reports/api
+
+templateTheme: bootstrap
