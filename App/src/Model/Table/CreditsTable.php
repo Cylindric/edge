@@ -2,12 +2,15 @@
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Credits;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 
 class CreditsTable extends AppTable {
 
+    /**
+     * @internal
+     * @param array $config
+     */
     public function initialize(array $config) {
         parent::initialize($config);
 
@@ -25,6 +28,11 @@ class CreditsTable extends AppTable {
         ]);
     }
 
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
     public function validationDefault(Validator $validator) {
         $validator
                 ->add('id', 'valid', ['rule' => 'numeric'])
@@ -38,11 +46,21 @@ class CreditsTable extends AppTable {
         return $validator;
     }
 
+    /**
+     * @internal
+     * @param RulesChecker $rules
+     * @return RulesChecker
+     */
     public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['character_id'], 'Characters'));
         return $rules;
     }
 
+    /**
+     * Get the total Credits for the specified Character
+     * @param int $character_id
+     * @return int
+     */
     public function totalForCharacter($character_id) {
         $query = $this->find();
         $query

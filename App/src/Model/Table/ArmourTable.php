@@ -1,13 +1,17 @@
 <?php
+
 namespace App\Model\Table;
 
 use App\Model\Entity\Weapon;
 use Cake\Validation\Validator;
 
-class ArmourTable extends AppTable
-{
-    public function initialize(array $config)
-    {
+class ArmourTable extends AppTable {
+
+    /**
+     * @internal
+     * @param array $config
+     */
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->table('armour');
@@ -17,24 +21,32 @@ class ArmourTable extends AppTable
         $this->belongsTo('Sources');
     }
 
-    public function validationDefault(Validator $validator)
-    {
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationDefault(Validator $validator) {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+                ->requirePresence('name', 'create')
+                ->notEmpty('name');
 
         return $validator;
     }
 
-    public function export()
-    {
+    /**
+     * Get the list of fields used for the export functionality.
+     * @return Query
+     */
+    public function export() {
         return $this
-            ->find()
-            ->contain('Sources')
-            ->select(['name', 'defence', 'soak', 'encumbrance', 'rarity', 'hp', 'value', 'restricted', 'Sources.name']);
+                        ->find()
+                        ->contain('Sources')
+                        ->select(['name', 'defence', 'soak', 'encumbrance', 'rarity', 'hp', 'value', 'restricted', 'Sources.name']);
     }
+
 }

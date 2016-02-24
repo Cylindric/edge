@@ -1,32 +1,40 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\Validation\Validator;
 
-class NotesTable extends AppTable
-{
+class NotesTable extends AppTable {
 
-	public function initialize(array $config)
-	{
-		parent::initialize($config);
+    /**
+     * @internal
+     * @param array $config
+     */
+    public function initialize(array $config) {
+        parent::initialize($config);
 
-		$this->displayField('note');
-		$this->addBehavior('Timestamp');
-		$this->BelongsToMany('Characters', [
-			'through' => 'CharactersNotes'
-		]);
-	}
+        $this->displayField('note');
+        $this->addBehavior('Timestamp');
+        $this->BelongsToMany('Characters', [
+            'through' => 'CharactersNotes'
+        ]);
+    }
 
-	public function validationDefault(Validator $validator)
-	{
-		$validator
-			->add('id', 'valid', ['rule' => 'numeric'])
-			->allowEmpty('id', 'create');
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationDefault(Validator $validator) {
+        $validator
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
-		$validator
-			->requirePresence('note', 'create')
-			->notEmpty('note');
+        $validator
+                ->requirePresence('note', 'create')
+                ->notEmpty('note');
 
-		return $validator;
-	}
+        return $validator;
+    }
+
 }

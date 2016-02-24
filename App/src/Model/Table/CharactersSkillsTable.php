@@ -1,15 +1,17 @@
 <?php
+
 namespace App\Model\Table;
 
-use App\Model\Entity\CharactersSkill;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 
-class CharactersSkillsTable extends AppTable
-{
+class CharactersSkillsTable extends AppTable {
 
-    public function initialize(array $config)
-    {
+    /**
+     * @internal
+     * @param array $config
+     */
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->addBehavior('Timestamp');
@@ -17,24 +19,33 @@ class CharactersSkillsTable extends AppTable
         $this->belongsTo('Skills');
     }
 
-    public function validationDefault(Validator $validator)
-    {
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationDefault(Validator $validator) {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->add('level', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('level', 'create')
-            ->notEmpty('level');
+                ->add('level', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('level', 'create')
+                ->notEmpty('level');
 
         return $validator;
     }
 
-    public function buildRules(RulesChecker $rules)
-    {
+    /**
+     * @internal
+     * @param RulesChecker $rules
+     * @return RulesChecker
+     */
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['character_id'], 'Characters'));
         $rules->add($rules->existsIn(['skill_id'], 'Skills'));
         return $rules;
     }
+
 }

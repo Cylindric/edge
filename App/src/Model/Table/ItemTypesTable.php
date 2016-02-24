@@ -1,33 +1,40 @@
 <?php
+
 namespace App\Model\Table;
 
-use App\Model\Entity\ItemType;
 use Cake\Validation\Validator;
 
-class ItemTypesTable extends AppTable
-{
+class ItemTypesTable extends AppTable {
 
-	public function initialize(array $config)
-	{
-		parent::initialize($config);
+    /**
+     * @internal
+     * @param array $config
+     */
+    public function initialize(array $config) {
+        parent::initialize($config);
 
-		$this->addBehavior('Timestamp');
-		$this->belongsTo('Sources');
-		$this->hasMany('Items', [
-			'foreignKey' => 'item_type_id'
-		]);
-	}
+        $this->addBehavior('Timestamp');
+        $this->belongsTo('Sources');
+        $this->hasMany('Items', [
+            'foreignKey' => 'item_type_id'
+        ]);
+    }
 
-	public function validationDefault(Validator $validator)
-	{
-		$validator
-			->add('id', 'valid', ['rule' => 'numeric'])
-			->allowEmpty('id', 'create');
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationDefault(Validator $validator) {
+        $validator
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
-		$validator
-			->requirePresence('name', 'create')
-			->notEmpty('name');
+        $validator
+                ->requirePresence('name', 'create')
+                ->notEmpty('name');
 
-		return $validator;
-	}
+        return $validator;
+    }
+
 }

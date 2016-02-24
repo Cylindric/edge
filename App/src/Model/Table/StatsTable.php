@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Model\Table;
 
-use App\Model\Entity\Stat;
 use Cake\Validation\Validator;
 
-class StatsTable extends AppTable
-{
-    public function initialize(array $config)
-    {
+class StatsTable extends AppTable {
+
+    /**
+     * @internal
+     * @param array $config
+     */
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->displayField('name');
@@ -16,15 +19,20 @@ class StatsTable extends AppTable
         ]);
     }
 
-    public function validationDefault(Validator $validator)
-    {
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationDefault(Validator $validator) {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('name');
+                ->allowEmpty('name');
 
         return $validator;
     }
+
 }
