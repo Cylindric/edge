@@ -1,7 +1,8 @@
 rpgAppNg.controller('ChronicleIndexCtrl', ['$scope', '$http', '$mdDialog', '$location', '$window', 'chronicleService',
     function ($scope, $http, $mdDialog, $location, $window, chronicleService) {
 
-        $scope.group_id = $location.path().split(/[\s/]+/).pop();
+        $scope.group_id = angular.element('#group_id')[0].value;
+
         chronicleService.groupIndex($scope.group_id, function (data) {
             $scope.chronicles = data;
         });
@@ -27,10 +28,9 @@ rpgAppNg.controller('ChronicleIndexCtrl', ['$scope', '$http', '$mdDialog', '$loc
                     .cancel('No! Go back...');
 
             $mdDialog.show(confirm).then(function () {
-                console.log("test");
-//                chronicleService.deleteChronicle(item, function (item, data) {
-//                    $scope.chronicles.splice(item, 1);
-//                });
+                chronicleService.deleteChronicle(item, function (item, data) {
+                    $scope.chronicles.splice($scope.chronicles.indexOf(item), 1);
+                });
             }, function () {
                 // don't delete
             });

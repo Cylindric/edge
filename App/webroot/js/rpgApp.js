@@ -9,4 +9,5 @@ var rpgAppNg = angular.module('rpgAppNg', [
 
 
 var rpgControllers = angular.module('rpgControllers', [], function ($locationProvider) {
-    $locationProvider.html5Mode(true);});
+    //$locationProvider.html5Mode(true);
+});

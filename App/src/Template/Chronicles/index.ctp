@@ -1,6 +1,10 @@
+<?php
+echo $this->Form->create($group);
+echo $this->Form->hidden('id', ['id' => 'group_id']);
+echo $this->Form->end();
+?>
 <div class="row" ng-cloak ng-controller="ChronicleIndexCtrl as ctrl">
     <div class="col-md-12">
-
         <h3>Chronicles</h3>
         <div class="row">
             <div class="col-md-12 story" ng-repeat="c in chronicles">

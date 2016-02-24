@@ -136,8 +136,6 @@ class GroupsController extends AppController {
             $weapon->dice_details = $weapon->skill->dice($weapon->characters_weapons[0]->character);
         }
 
-
-
         $this->set(compact('group', 'obligations', 'weapons'));
         $this->set('_serialize', ['group', 'obligations', 'weapons']);
     }

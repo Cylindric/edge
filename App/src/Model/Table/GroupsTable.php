@@ -7,6 +7,10 @@ use Cake\Validation\Validator;
 
 class GroupsTable extends AppTable {
 
+    /**
+     * @internal
+     * @param array $config
+     */
     public function initialize(array $config) {
         parent::initialize($config);
 
@@ -18,6 +22,11 @@ class GroupsTable extends AppTable {
         $this->belongsToMany('Characters');
     }
 
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
     public function validationDefault(Validator $validator) {
         $validator
                 ->add('id', 'valid', ['rule' => 'numeric'])
@@ -30,7 +39,12 @@ class GroupsTable extends AppTable {
         return $validator;
     }
 
-    /*
+    /**
+     * Returns true if the supplied user owns the specified group.
+     * 
+     * @param int $groupId
+     * @param int $userId
+     * @return boolean
      * 
      */
     public function isOwnedBy($groupId, $userId) {
@@ -38,7 +52,20 @@ class GroupsTable extends AppTable {
         return $gt->exists(['group_id' => $groupId, 'user_id' => $userId, 'gm' => true]);
     }
 
-    public function getGm() {
-        
+    /**
+     * Get the User that is the GM for the specified Group.
+     * @param int $groupId
+     * @return App\Model\Entity\User
+     */
+    public function getGm($groupId) {
+        $gm = $this
+                ->GroupsUsers
+                ->find()
+                ->contain(['Users'])
+                ->where(['group_id' => $groupId, 'gm' => true])
+                ->first();
+
+        return $gm->user;
     }
+
 }

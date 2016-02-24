@@ -1,4 +1,4 @@
-rpgAppNg.factory('chronicleService', ['$http', '$filter', function ($http, $filter) {
+rpgAppNg.factory('chronicleService', ['$http', function ($http) {
 
         var groupIndex = function (group_id, callbackFn) {
             $http.post("/chronicles.json", {

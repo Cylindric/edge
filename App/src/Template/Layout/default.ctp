@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="rpgAppNg">
     <head>
-        <base href="/">
+        <!--<base href="/">-->
         <?= $this->Html->charset() ?>
         <title>Edge: <?= $this->fetch('title') ?></title>
         <?= $this->Html->meta('icon') ?>
