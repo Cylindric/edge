@@ -1,9 +1,9 @@
 <?php $this->Html->addCrumb('Characters'); ?>
 <div class="row" ng-controller="CharacterIndexCtrl">
-    <div class="col-md-12 col-lg-10 col-lg-offset-1">
+    <div class="col-md-12 col-lg-10 col-lg-offset-1" ng-cloak>
         <div class="row" ng-show="characters.length === 0">
             <div class="col-md-12">
-                <p>You don't have any characters yet. Why not <?= $this->Html->link('create one', ['action' => 'add']) ?>?</p>
+                <p>You don't have any characters yet. Why not <?= $this->Html->link('create one', ['action' => 'create']) ?>?</p>
             </div>
         </div>
 
