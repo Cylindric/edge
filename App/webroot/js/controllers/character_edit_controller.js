@@ -364,6 +364,8 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
         $scope.changeTalentRank = function (talent_id, delta) {
             talentService.changeRank(talent_id, character_id, delta, function (result) {
                 updateTalents();
+                updateXp();
+
             });
         };
 
@@ -381,6 +383,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
             }).then(function successCallback(response) {
                 updateStats();
                 updateSkills();
+                updateXp();
             });
         };
 
@@ -402,6 +405,7 @@ rpgAppNg.controller('CharacterEditCtrl', ['$scope', 'armourService', 'creditServ
                 delta: change
             }).then(function successCallback(response) {
                 updateSkills();
+                updateXp();
             });
         };
 
