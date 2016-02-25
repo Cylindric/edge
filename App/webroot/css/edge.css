@@ -133,6 +133,17 @@ i {
     background: #FFFFCC;
 }
 
+.story .title {
+    margin: 0px;
+}
+
+.story .story {
+    text-align: justify;
+}
+
+.story .not_published {
+    color: gray;
+}
 
 .invisible {
     display: block!important;

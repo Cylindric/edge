@@ -27,8 +27,8 @@
                         </div>
                     </div>
                     <div class="col-sm-2 col-md-2 value"><?= $character->soak ?></div>
-                    <div class="col-sm-3 col-md-3 value"><?= $character->strain_threshold ?>/<span><?= $character->strain ?></span></div>
-                    <div class="col-sm-3 col-md-3 value"><?= $character->wound_threshold ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->wounds ?></span></div>
+                    <div class="col-sm-3 col-md-3 value"><?= $character->strain ?>/<span><?= $character->total_strain_threshold ?></span></div>
+                    <div class="col-sm-3 col-md-3 value"><?= $character->wounds ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->total_wound_threshold ?></span></div>
                 </div>
             <?php endforeach; ?>
             <div class="row subtitle text-uppercase">

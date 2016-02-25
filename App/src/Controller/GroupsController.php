@@ -1,20 +1,19 @@
 <?php
+
 namespace App\Controller;
 
-class GroupsController extends AppController
-{
+class GroupsController extends AppController {
 
-    public function isAuthorized($user)
-    {
+    public function isAuthorized($user) {
         if (in_array($this->request->action, ['index'])) {
             return true;
         }
 
         // Groups are editable by the GM only
         if (in_array($this->request->action, [
-            'edit',
-        ])) {
-            $groupId = (int)$this->request->params['pass'][0];
+                    'edit',
+                ])) {
+            $groupId = (int) $this->request->params['pass'][0];
             if ($this->Groups->isOwnedBy($groupId, $user['id'])) {
                 return true;
             }
@@ -23,28 +22,26 @@ class GroupsController extends AppController
         return parent::isAuthorized($user);
     }
 
-    public function index()
-    {
+    public function index() {
         $user_id = $this->Auth->User('id');
 
         $groups = $this->Groups->find();
         $groups->select(['Groups.id', 'Groups.name']);
-        if($this->Auth->user('role') == 'admin') {
+        if ($this->Auth->user('role') == 'admin') {
             $groups
-                ->matching('GroupsUsers');
+                    ->matching('GroupsUsers');
         } else {
             $groups
-                ->matching('GroupsUsers', function ($q) use ($user_id) {
-                    return $q->where(['GroupsUsers.user_id' => $user_id]);
-                });
+                    ->matching('GroupsUsers', function ($q) use ($user_id) {
+                        return $q->where(['GroupsUsers.user_id' => $user_id]);
+                    });
         }
         $groups->distinct();
         $this->set('groups', $this->paginate($groups));
         $this->set('_serialize', ['groups']);
     }
 
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $group = $this->Groups->get($id, [
             'contain' => [
                 'Characters',
@@ -58,8 +55,7 @@ class GroupsController extends AppController
         $this->set('_serialize', ['group']);
     }
 
-    public function add()
-    {
+    public function add() {
         $group = $this->Groups->newEntity();
 
         if ($this->request->is('post')) {
@@ -82,8 +78,7 @@ class GroupsController extends AppController
         $this->set('_serialize', ['group']);
     }
 
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $group = $this->Groups->get($id, [
             'contain' => [
                 'CharactersGroups',
@@ -99,26 +94,26 @@ class GroupsController extends AppController
         $this->loadModel('Weapons');
         $weapons = $this->Weapons->find();
         $weapons
-            ->contain(['Ranges', 'Skills', 'Skills.Stats'])
-            ->matching('CharactersWeapons.Characters.CharactersGroups', function ($q) use ($id) {
-                return $q->where(['CharactersGroups.group_id' => $id]);
-            })
-            ->where(['CharactersWeapons.equipped' => true])
-            ->order(['Characters.name']);
+                ->contain(['Ranges', 'Skills', 'Skills.Stats', 'CharactersWeapons.Characters'])
+                ->matching('CharactersWeapons.Characters.CharactersGroups', function ($q) use ($id) {
+                    return $q->where(['CharactersGroups.group_id' => $id]);
+                })
+                ->where(['CharactersWeapons.equipped' => true])
+                ->order(['Characters.name']);
 
         $this->loadModel('Obligations');
         $obligations = $this->Obligations->find();
         $obligations
-            ->contain(['Characters', 'Characters.CharactersGroups'])
-            ->matching('Characters.CharactersGroups', function ($q) use ($id) {
-                return $q->where(['CharactersGroups.group_id' => $id]);
-            })
-            ->select([
-                'type',
-                'value' => $obligations->func()->sum('value')
-            ])
-            ->group('type')
-            ->order('value DESC');
+                ->contain(['Characters', 'Characters.CharactersGroups'])
+                ->matching('Characters.CharactersGroups', function ($q) use ($id) {
+                    return $q->where(['CharactersGroups.group_id' => $id]);
+                })
+                ->select([
+                    'type',
+                    'value' => $obligations->func()->sum('value')
+                ])
+                ->group('type')
+                ->order('value DESC');
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $group = $this->Groups->patchEntity($group, $this->request->data);
@@ -130,12 +125,22 @@ class GroupsController extends AppController
             }
         }
 
+        // For ajax requests, populate some data
+        // Set some character details
+        foreach ($group->characters_groups as $cg) {
+            $cg->character->total_xp = $cg->character->total_xp;
+        }
+
+        // Set some dice details
+        foreach ($weapons as $weapon) {
+            $weapon->dice_details = $weapon->skill->dice($weapon->characters_weapons[0]->character);
+        }
+
         $this->set(compact('group', 'obligations', 'weapons'));
-        $this->set('_serialize', ['group']);
+        $this->set('_serialize', ['group', 'obligations', 'weapons']);
     }
 
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $group = $this->Groups->get($id);
         if ($this->Groups->delete($group)) {
@@ -145,4 +150,5 @@ class GroupsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
 }

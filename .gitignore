@@ -1,9 +1,10 @@
 nbproject/private
-*.php~
+*~
 /App/vendor/*
 /App/config/app.php
 /App/tmp/*
 /App/logs/*
 /App/webroot/coverage/
 /App/webroot/reports/coverage/
+/App/webroot/reports/api/
 /App/webroot/reports/testdox.html

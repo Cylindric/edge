@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -7,8 +8,7 @@ use Cake\ORM\TableRegistry;
 /**
  * Skill Entity.
  */
-class Skill extends Entity
-{
+class Skill extends Entity {
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -20,18 +20,20 @@ class Skill extends Entity
         'id' => false,
     ];
 
-
-    public function dice($character)
-    {
+    public function dice($character) {
         $stat_name = 'stat_' . strtolower($this->stat->code);
 
         // Work out the current skill level
         $query = TableRegistry::get('CharactersSkills')->find();
         $query
-            ->where(['character_id' => $character->id, 'skill_id' => $this->id])
-            ->select(['level' => $query->func()->sum('level')])
-            ->hydrate(false);
+                ->where(['character_id' => $character->id, 'skill_id' => $this->id])
+                ->select(['level' => $query->func()->sum('level')])
+                ->hydrate(false);
         $level = $query->toArray()[0]['level'];
+
+        if ($level === null) {
+            $level = 0;
+        }
 
         $stat = $character->$stat_name;
 
@@ -45,20 +47,20 @@ class Skill extends Entity
         $ability_dice = $total_dice - $proficiency_dice;
 
         /* This is the logic to calculate additional dice from upgrades, not yet implemented.
-        // Green dice
-        if ($this->level > $stat) {
-            $ability = ($this->level - $stat) % 2;
-        } else {
-            $ability = $stat - $this->level;
-        }
+          // Green dice
+          if ($this->level > $stat) {
+          $ability = ($this->level - $stat) % 2;
+          } else {
+          $ability = $stat - $this->level;
+          }
 
-        // Yellow dice
-        if ($this->level > $stat) {
-            $proficiency = (int)((float)($this->level - $stat) / 2) + $stat;
-        } else {
-            $proficiency = $this->level;
-        }
-        */
+          // Yellow dice
+          if ($this->level > $stat) {
+          $proficiency = (int)((float)($this->level - $stat) / 2) + $stat;
+          } else {
+          $proficiency = $this->level;
+          }
+         */
 
         return array(
             $proficiency_dice,
@@ -67,4 +69,5 @@ class Skill extends Entity
             'ability' => $ability_dice
         );
     }
+
 }

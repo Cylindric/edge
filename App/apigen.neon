@@ -1,0 +1,10 @@
+source:
+    - './src'
+
+exclude:
+    - './src/Console'
+    - './src/Shell'
+
+destination: ./webroot/reports/api
+
+templateTheme: bootstrap

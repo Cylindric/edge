@@ -1,29 +1,37 @@
 <?php
+
 namespace App\Model\Table;
 
-use App\Model\Entity\Species;
 use Cake\Validation\Validator;
 
-class SpeciesTable extends AppTable
-{
-    public function initialize(array $config)
-    {
+class SpeciesTable extends AppTable {
+
+    /**
+     * @internal
+     * @param array $config
+     */
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->displayField('name');
         $this->BelongsTo('Sources');
     }
 
-    public function validationDefault(Validator $validator)
-    {
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationDefault(Validator $validator) {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+                ->requirePresence('name', 'create')
+                ->notEmpty('name');
 
         return $validator;
     }
+
 }

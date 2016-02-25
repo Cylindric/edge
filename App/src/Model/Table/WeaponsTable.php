@@ -1,14 +1,17 @@
 <?php
+
 namespace App\Model\Table;
 
-use App\Model\Entity\Weapon;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 
-class WeaponsTable extends AppTable
-{
-    public function initialize(array $config)
-    {
+class WeaponsTable extends AppTable {
+
+    /**
+     * @internal
+     * @param array $config
+     */
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->displayField('name');
@@ -30,68 +33,80 @@ class WeaponsTable extends AppTable
         $this->belongsToMany('Characters');
     }
 
-    public function validationDefault(Validator $validator)
-    {
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationDefault(Validator $validator) {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+                ->requirePresence('name', 'create')
+                ->notEmpty('name');
 
         $validator
-            ->add('encumbrance', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('encumbrance', 'create')
-            ->notEmpty('encumbrance');
+                ->add('encumbrance', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('encumbrance', 'create')
+                ->notEmpty('encumbrance');
 
         $validator
-            ->add('rarity', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('rarity', 'create')
-            ->notEmpty('rarity');
+                ->add('rarity', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('rarity', 'create')
+                ->notEmpty('rarity');
 
         $validator
-            ->add('damage', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('damage', 'create')
-            ->notEmpty('damage');
+                ->add('damage', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('damage', 'create')
+                ->notEmpty('damage');
 
         $validator
-            ->add('crit', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('crit', 'create')
-            ->notEmpty('crit');
+                ->add('crit', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('crit', 'create')
+                ->notEmpty('crit');
 
         $validator
-            ->add('hp', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('hp', 'create')
-            ->notEmpty('hp');
+                ->add('hp', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('hp', 'create')
+                ->notEmpty('hp');
 
         $validator
-            ->add('value', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('value', 'create')
-            ->notEmpty('value');
+                ->add('value', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('value', 'create')
+                ->notEmpty('value');
 
         $validator
-            ->add('restricted', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('restricted', 'create')
-            ->notEmpty('restricted');
+                ->add('restricted', 'valid', ['rule' => 'boolean'])
+                ->requirePresence('restricted', 'create')
+                ->notEmpty('restricted');
 
 
         return $validator;
     }
 
-    public function buildRules(RulesChecker $rules)
-    {
+    /**
+     * @internal
+     * @param RulesChecker $rules
+     * @return RulesChecker
+     */
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['weapon_type_id'], 'WeaponTypes'));
         $rules->add($rules->existsIn(['skill_id'], 'Skills'));
         $rules->add($rules->existsIn(['range_id'], 'Ranges'));
         return $rules;
     }
 
-    public function export()
-    {
+    /**
+     * Get the list of fields used for the export functionality.
+     * @return Query
+     */
+    public function export() {
         return $this
-            ->find()
-            ->contain(['WeaponTypes', 'Skills', 'Ranges', 'Sources'])
-            ->select(['name', 'encumbrance', 'rarity', 'damage', 'crit', 'hp', 'value', 'restricted', 'special', 'Skills.name', 'Ranges.name', 'WeaponTypes.name', 'Sources.name']);
+                        ->find()
+                        ->contain(['WeaponTypes', 'Skills', 'Ranges', 'Sources'])
+                        ->select(['name', 'encumbrance', 'rarity', 'damage', 'crit', 'hp', 'value', 'restricted', 'special', 'Skills.name', 'Ranges.name', 'WeaponTypes.name', 'Sources.name']);
     }
+
 }

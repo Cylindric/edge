@@ -383,8 +383,13 @@ class CharactersController extends AppController {
                 $Groups = $this->Characters->CharactersGroups->Groups->find('list')->toArray();
 
                 if ($this->request->is(['patch', 'post', 'put'])) {
-                    $character = $this->Characters->patchEntity($Char, $this->request->data);
-                    if ($this->Characters->save($character)) {
+                    $cg = $this->Characters->CharactersGroups->newEntity();
+                    $cg->character_id = $Char->id;
+                    $cg->group_id = (int) $this->request->data['group_id'];
+                    $Char->characters_groups[] = $cg;
+                    $Char->dirty('characters_groups', true);
+
+                    if ($this->Characters->save($Char)) {
                         $this->Flash->success(__('The character has been added to the group.'));
                         return $this->redirect(['action' => 'edit', $char_id]);
                     } else {

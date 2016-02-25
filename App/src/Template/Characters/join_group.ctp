@@ -3,7 +3,6 @@ $this->Html->addCrumb('Characters', '/characters');
 $this->Html->addCrumb($character->name);
 ?>
 
-
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
 

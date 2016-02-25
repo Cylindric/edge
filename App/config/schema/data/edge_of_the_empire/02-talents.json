@@ -162,6 +162,7 @@
     {
       "name": "Dedication",
       "ranked": true,
+      "description": "Gain +1 to a single characteristic. Cannot bring characteristic above 6.",
       "source": {
         "name": "Edge of the Empire"
       }
@@ -569,6 +570,7 @@
     },
     {
       "name": "Natural Negotiator",
+      "description": "Once per game, re-roll any one Cool or Negotiation check.",
       "source": {
         "name": "Edge of the Empire"
       }
@@ -587,6 +589,7 @@
     },
     {
       "name": "Natural Programmer",
+      "description": "Once per game, re-roll any one Computers or Astrogation check.",
       "source": {
         "name": "Edge of the Empire"
       }

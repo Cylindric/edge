@@ -13,7 +13,7 @@ echo $this->Form->end();
         <div class="row">
             <h2 id="character_name">{{character.name}}</h2>
             <ul class="list-inline">
-                <li ng-repeat='cg in character.characters_groups'>{{cg.group.name}}</li>
+                <li ng-repeat='cg in character.characters_groups'><a href="/groups/view/{{cg.group.id}}">{{cg.group.name}}</a></li>
                 <li class="hidden-print" ng-show='character.characters_groups.length === 0'><a href="<?= $this->Url->build(['controller' => 'Characters', 'action' => 'join_group', $character->id]); ?>">Join a group</a></li>
             </ul>
         </div>

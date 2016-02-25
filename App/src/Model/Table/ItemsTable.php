@@ -1,15 +1,17 @@
 <?php
+
 namespace App\Model\Table;
 
-use App\Model\Entity\Item;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 
-class ItemsTable extends AppTable
-{
+class ItemsTable extends AppTable {
 
-    public function initialize(array $config)
-    {
+    /**
+     * @internal
+     * @param array $config
+     */
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->addBehavior('Timestamp');
@@ -20,50 +22,62 @@ class ItemsTable extends AppTable
         $this->belongsTo('Sources');
     }
 
-    public function validationDefault(Validator $validator)
-    {
+    /**
+     * @internal
+     * @param Validator $validator
+     * @return Validator
+     */
+    public function validationDefault(Validator $validator) {
         $validator
-            ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+                ->add('id', 'valid', ['rule' => 'numeric'])
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+                ->requirePresence('name', 'create')
+                ->notEmpty('name');
 
         $validator
-            ->add('encumbrance', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('encumbrance', 'create')
-            ->notEmpty('encumbrance');
+                ->add('encumbrance', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('encumbrance', 'create')
+                ->notEmpty('encumbrance');
 
         $validator
-            ->add('rarity', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('rarity', 'create')
-            ->notEmpty('rarity');
+                ->add('rarity', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('rarity', 'create')
+                ->notEmpty('rarity');
 
         $validator
-            ->add('value', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('value', 'create')
-            ->notEmpty('value');
+                ->add('value', 'valid', ['rule' => 'numeric'])
+                ->requirePresence('value', 'create')
+                ->notEmpty('value');
 
         $validator
-            ->add('restricted', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('restricted', 'create')
-            ->notEmpty('restricted');
+                ->add('restricted', 'valid', ['rule' => 'boolean'])
+                ->requirePresence('restricted', 'create')
+                ->notEmpty('restricted');
 
         return $validator;
     }
 
-    public function buildRules(RulesChecker $rules)
-    {
+    /**
+     * @internal
+     * @param RulesChecker $rules
+     * @return RulesChecker
+     */
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['item_type_id'], 'ItemTypes'));
         return $rules;
     }
 
-    public function export()
-    {
+    /**
+     * Get the list of fields used for the export functionality.
+     * @return Query
+     */
+    public function export() {
         return $this
-            ->find()
-            ->contain(['ItemTypes', 'Sources'])
-            ->select(['name', 'encumbrance', 'rarity', 'value', 'restricted', 'ItemTypes.name', 'Sources.name']);
+                        ->find()
+                        ->contain(['ItemTypes', 'Sources'])
+                        ->select(['name', 'encumbrance', 'rarity', 'value', 'restricted', 'ItemTypes.name', 'Sources.name']);
     }
+
 }
