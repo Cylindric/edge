@@ -4,13 +4,7 @@ SELECT @dodge_id:=`id` FROM talents WHERE name='Dodge';
 SELECT @blaster_id:=`id` FROM weapons WHERE name='Blaster Carbine';
 SELECT @laminate_id:=`id` FROM armour WHERE name='Laminate';
 
--- DELETE FROM characters WHERE `name` = 'Default Test User' AND `user_id` = @admin_id;
-
-<<<<<<< HEAD
 INSERT INTO characters (`name`, `user_id`, `species_id`, `created`, `modified`) VALUES ('Test Character', @admin_id, @human_id, NOW(), NOW());
-=======
-INSERT INTO characters (`name`, `user_id`, `species_id`, `created`, `modified`) VALUES ('Default Test Character', @admin_id, @human_id, NOW(), NOW());
->>>>>>> feature/legends
 SET @character_id:=LAST_INSERT_ID();
 
 INSERT INTO characters_talents (`character_id`, `talent_id`, `created`, `modified`) VALUES (@character_id, @dodge_id, NOW(), NOW());

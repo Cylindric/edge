@@ -1,6 +1,3 @@
-USE edge;
-DELETE FROM phinxlog where version > '20150901212000';
-
 SELECT * FROM armour;
 SELECT * FROM careers;
 SELECT * FROM characters;
@@ -13,6 +10,7 @@ SELECT * FROM characters_notes;
 SELECT * FROM characters_skills ORDER BY character_id, skill_id;
 SELECT * FROM characters_talents ORDER BY character_id;
 SELECT * FROM characters_weapons;
+SELECT * FROM chronicles;
 SELECT * FROM credits;
 SELECT * FROM groups;
 SELECT * FROM groups_users;
@@ -36,14 +34,6 @@ SELECT * FROM weapon_types;
 SELECT * FROM edge.weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
--- v0.7 to v0.8
--- THESE STILL NEED TRANSFERRING INTO A MIGRATION!
-UPDATE characters c
-INNER JOIN species s ON (c.species_id = s.id)
-SET c.wound_threshold = c.wound_threshold - s.base_wound - c.stat_br,
-c.strain_threshold = c.strain_threshold - s.base_strain - c.stat_will;
-
-
 
 -- The order of these is important due to inheritance - don't just re-sort the list!
 DROP TABLE IF EXISTS characters_armour;
@@ -55,6 +45,7 @@ DROP TABLE IF EXISTS characters_weapons;
 DROP TABLE IF EXISTS characters_careers;
 DROP TABLE IF EXISTS characters_specialisations;
 DROP TABLE IF EXISTS characters_groups;
+DROP TABLE IF EXISTS chronicles;
 DROP TABLE IF EXISTS ranks;
 DROP TABLE IF EXISTS credits;
 DROP TABLE IF EXISTS obligations;
