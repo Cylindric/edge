@@ -146,6 +146,6 @@ i {
 }
 
 .invisible {
-    display: block!important;
+    /*display: block!important;*/
     visibility: hidden; 
 }

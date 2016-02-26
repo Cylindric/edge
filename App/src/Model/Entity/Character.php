@@ -3,7 +3,6 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use App\Rpg;
 
 
 /**
@@ -21,6 +20,13 @@ class Character extends Entity
         'id' => false,
     ];
 
+    protected $_virtual = [
+        'agility', 'brawn', 'cunning', 'intellect', 'presence', 'willpower',
+        'total_credits', 'total_defence', 'total_defense', 'total_defence', 'total_obligation', 'total_soak', 
+        'total_soak_breakdown', 'total_strain_threshold', 'total_strain_threshold_breakdown', 'total_wound_threshold',
+        'total_wound_threshold_breakdown', 'total_xp',
+    ];
+            
     public function _getTotalCredits()
     {
         $Credits = TableRegistry::get('Credits');

@@ -9,9 +9,9 @@ echo $this->Form->create($group);
 echo $this->Form->hidden('id', ['id' => 'group_id']);
 echo $this->Form->end();
 ?>
-
 <div class="row" ng-controller="GroupEditCtrl as ctrl">
     <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
+
         <h1>{{group.name}}</h1>
 
         <div class="col-sm-12 text-center group_view">
@@ -21,54 +21,40 @@ echo $this->Form->end();
                 <div class="col-sm-3 col-md-3">Strain</div>
                 <div class="col-sm-3 col-md-3">Wounds</div>
             </div>
-            <?php foreach ($group->characters_groups as $character_group): ?>
-                <?php $character = $character_group->character; ?>
-                <div class="row">
-                    <div class="col-sm-4 col-md-4">
-                        <div class="row name">
-                            <span class="hidden-print"><?= $this->Html->link($character->name, ['controller' => 'characters', 'action' => 'edit', $character->id]) ?></span>
-                            <span class="visible-print"><?= $character->name ?></span>
-                        </div>
-                        <div class="row species">
-                            <?= $character->species->name ?>
-                            <?php if (!empty($character->career)): ?><?= $character->career->name ?><?php endif; ?><?php if (!empty($character->specialisation)): ?>, <?= $character->specialisation->name ?><?php endif; ?>
-                            (<?= $character->user->username ?>)
-                        </div>
-                    </div>
-                    <div class="col-sm-2 col-md-2 value"><?= $character->total_soak ?></div>
-                    <div class="col-sm-3 col-md-3">
-                        <div class="col-sm-8 value">
-                            <?= $character->strain ?>/<span id="strain_<?= $character->id ?>_value"><?= $character->total_strain_threshold ?></span>
-                        </div>
-                        <div class="col-sm-2 buttons">
-                            <i class="btn btn-md btn-danger btn-skill-adjust" id="updateattribute_strain_<?= $character->id ?>_increase">increase</i>
-                            <i class="btn btn-md btn-success btn-skill-adjust" id="updateattribute_strain_<?= $character->id ?>_decrease">decrease</i>
-                        </div>
-                    </div>
 
-
-                    <div class="col-sm-3 col-md-3">
-                        <div class="col-sm-8 value">
-                            <?= $character->wounds ?>/<span id="wounds_<?= $character->id ?>_value"><?= $character->total_wound_threshold ?></span>
-                        </div>
-                        <div class="col-sm-4 buttons">
-                            <div><i class="btn btn-md btn-success btn-skill-adjust" id="updateattribute_wounds_<?= $character->id ?>_increase">increase</i></div>
-                            <div><i class="btn btn-md btn-danger btn-skill-adjust" id="updateattribute_wounds_<?= $character->id ?>_decrease">decrease</i></div>
-                        </div>
+            <div class="row" ng-repeat="cg in group.characters_groups">
+                <div class="col-sm-4 col-md-4">
+                    <div class="row name">
+                        <span class="hidden-print"><a href="">{{cg.character.name}}</a></span>
+                        <span class="visible-print">{{cg.character.name}}</span>
+                    </div>
+                    <div class="row species">
+                        {{character.species.name}}
+                        <span class="career">{{cg.character.career.name}}</span>
+                        <span class="specialisation">{{cg.character.specialisation.name}}</span>
+                        <span class="owner">({{cg.character.user.username}})</span>
                     </div>
                 </div>
-            <?php endforeach; ?>
-            <?php echo $this->Html->scriptBlock("
-    $(document).on('click', 'i[id*=updateattribute_]', function () {
-        var parts = $(this).attr('id').split('_');
-        var status = parts[1];
-        var char_id = parts[2];
-        var action = parts[3];
-        var delta = (action == 'increase' ? 1 : -1);
-        var update = status + '_' + char_id + '_value';
-        rpgApp.changeAttribute(char_id, status, delta, update);
-    });
-            ", ['block' => true]); ?>
+                <div class="col-sm-2 col-md-2 value">{{cg.character.total_soak}}</div>
+                <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-8 value">
+                        {{cg.character.strain}}/<span>{{cg.character.total_strain_threshold}}</span>
+                    </div>
+                    <div class="col-sm-2 buttons">
+                        <i class="btn btn-md btn-danger btn-skill-adjust">increase</i>
+                        <i class="btn btn-md btn-success btn-skill-adjust">decrease</i>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-8 value">
+                        {{cg.character.wounds}}/<span>{{cg.character.total_wound_threshold}}</span>
+                    </div>
+                    <div class="col-sm-4 buttons">
+                        <div><i class="btn btn-md btn-success btn-skill-adjust">increase</i></div>
+                        <div><i class="btn btn-md btn-danger btn-skill-adjust">decrease</i></div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row subtitle text-uppercase">
                 <div class="col-sm-4 col-md-4">&nbsp;</div>
@@ -166,8 +152,19 @@ echo $this->Form->end();
             <?= $this->Html->link('Add new Chronicle', ['controller' => 'chronicles', 'action' => 'add', $group->id]) ?>
             <div class="row chronicles">
                 <div class="col-md-12" ng-repeat="c in chronicles">
-                    <h2 class="title">{{c.title}}</h3>
-                        <div class="story" marked="c.story"></div>
+                    <h2 class="title">
+
+                        {{c.title}} </h2>
+                    <div class="story" marked="c.story"></div>
+                    <nav>
+                        <ul class="pagination pagination-sm">
+                            <li ng-class="{disabled: !c.has_previous}"><a ng-click="getChronicle(total_chronicles)" href='#'><span aria-hidden="true">&larr;</span> Oldest</a></li>
+                            <li ng-class="{disabled: !c.has_previous}"><a ng-click="getChronicle(current + 1)" href='#'><span aria-hidden="true">&larr;</span> Older</a></li>
+                            <li ng-repeat='page in range(total_chronicles + 1)' ng-class="{active: page === total_chronicles-current}"><a ng-click="getChronicle(total_chronicles - page)" href='#'>{{page + 1}}</a></li>
+                            <li ng-class="{disabled: !c.has_next}"><a ng-click="getChronicle(current - 1)" href='#'>Newer <span aria-hidden="true">&rarr;</span></a></li>
+                            <li ng-class="{disabled: !c.has_next}"><a ng-click="getChronicle(0)" href='#'>Newest <span aria-hidden="true">&rarr;</span></a></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

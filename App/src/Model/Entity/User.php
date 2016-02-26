@@ -7,7 +7,6 @@ use Cake\ORM\Entity;
 class User extends Entity
 {
 
-    // Make all fields mass assignable except for primary key field "id".
     protected $_accessible = [
         '*' => true,
         'id' => false
@@ -18,4 +17,8 @@ class User extends Entity
         return (new DefaultPasswordHasher)->hash($password);
     }
 
+    public function IsAdmin()
+    {
+        return $this->role == 'admin';
+    }
 }

@@ -1,5 +1,5 @@
 <?php
-$this->Html->addCrumb('Chronicles', ['action' => 'index']);
+$this->Html->addCrumb('Chronicles', ['action' => 'index', $chronicle->group_id]);
 ?>
 
 <div class="row">

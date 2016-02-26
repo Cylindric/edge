@@ -28,13 +28,22 @@ rpgAppNg.controller('GroupEditCtrl', ['$scope', '$http',
         // CHRONICLES MANAGEMENT
         ////////////////////////////////////////////////////////////////////////
         // <editor-fold>
+        $scope.current = 0;
+        
+        $scope.getChronicle = function (c) {
+            $scope.current = c;
+            updateChronicles();
+        };
+        
         function updateChronicles() {
             $http
-                    .post("/chronicles/edit_for_group.json", {
-                        group_id: group_id
+                    .post("/chronicles/index.json", {
+                        group_id: group_id,
+                        offset: $scope.current
                     })
                     .then(function (response) {
                         $scope.chronicles = response.data.chronicles;
+                        $scope.total_chronicles = response.data.total_chronicles - 1;
                     });
         }
         // </editor-fold>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
@@ -7,12 +8,13 @@ use Cake\I18n\Time;
 use Cake\Core\Configure;
 use \Ceeram\Blame\Controller\BlameTrait;
 
-class AppController extends Controller
-{
+class AppController extends Controller {
+
     use BlameTrait;
 
-    public function initialize()
-    {
+    var $CurrentUser = null;
+
+    public function initialize() {
         parent::initialize();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
@@ -33,11 +35,9 @@ class AppController extends Controller
             'enabled' => Configure::read('Slack.enabled')
         ]);
         Time::$defaultLocale = 'en-GB';
-
     }
 
-    public function isAuthorized($user)
-    {
+    public function isAuthorized($user) {
         if (isset($user['role']) && $user['role'] === 'admin') {
             return true;
         }
@@ -45,20 +45,26 @@ class AppController extends Controller
         return false;
     }
 
-    public function beforeFilter(Event $event)
-    {
+    public function beforeFilter(Event $event) {
         $this->Auth->allow(['view', 'display']);
+        $this->loadModel('Users');
 
         $cookie = $this->Cookie->read('rememberMe');
         if (is_array($cookie) && !$this->Auth->User()) {
-            $this->loadModel('Users');
+
             if ($this->Users->checkLogin($cookie['username'], $cookie['password'])) {
                 $this->Auth->setUser($this->Users->data->toArray());
             }
         }
 
+        if ($this->Auth->user()) {
+            $this->CurrentUser = $this->Users->get($this->Auth->User('id'));
+        } else {
+            $this->CurrentUser = null;
+        }
+        
         $this->set('debug', Configure::read('debug'));
-        $this->set('user', $this->Auth->User());
+        $this->set('user', $this->CurrentUser);
         $this->set('version', Configure::read('rpgApp.version'));
     }
 
