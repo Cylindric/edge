@@ -10,7 +10,7 @@ rpgAppNg.controller('GroupEditCtrl', ['$scope', '$http',
         // <editor-fold>
         function updateGroup() {
             $http
-                    .get("/groups/edit/" + group_id + ".json")
+                    .get("/groups/view/" + group_id + ".json")
                     .success(function (response) {
                         $scope.group = response.group;
                         $scope.weapons = response.weapons;
@@ -29,12 +29,12 @@ rpgAppNg.controller('GroupEditCtrl', ['$scope', '$http',
         ////////////////////////////////////////////////////////////////////////
         // <editor-fold>
         $scope.current = 0;
-        
+
         $scope.getChronicle = function (c) {
             $scope.current = c;
             updateChronicles();
         };
-        
+
         function updateChronicles() {
             $http
                     .post("/chronicles/index.json", {

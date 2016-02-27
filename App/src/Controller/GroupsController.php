@@ -41,20 +41,6 @@ class GroupsController extends AppController {
         $this->set('_serialize', ['groups']);
     }
 
-    public function view($id = null) {
-        $group = $this->Groups->get($id, [
-            'contain' => [
-                'Characters',
-                'Characters.Users',
-                'Characters.Species',
-                'Characters.Careers',
-                'Characters.Specialisations',
-            ]
-        ]);
-        $this->set('group', $group);
-        $this->set('_serialize', ['group']);
-    }
-
     public function add() {
         $group = $this->Groups->newEntity();
 
@@ -78,7 +64,7 @@ class GroupsController extends AppController {
         $this->set('_serialize', ['group']);
     }
 
-    public function edit($id = null) {
+    public function view($id = null) {
         $group = $this->Groups->get($id, [
             'contain' => [
                 'CharactersGroups',
@@ -123,12 +109,6 @@ class GroupsController extends AppController {
             } else {
                 $this->Flash->error(__('The group could not be saved. Please, try again.'));
             }
-        }
-
-        // For ajax requests, populate some data
-        // Set some character details
-        foreach ($group->characters_groups as $cg) {
-            $cg->character->total_xp = $cg->character->total_xp;
         }
 
         // Set some dice details
