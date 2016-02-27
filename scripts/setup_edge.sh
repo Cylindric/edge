@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd /var/www/edge/htdocs
-~/composer.phar -n install
+~/composer.phar -n install --no-dev
 
 chmod u+x /var/www/edge/htdocs/bin/cake
 
@@ -13,6 +13,7 @@ sed -i "s/'username' => '.*'/'username' => 'edge'/g" /var/www/edge/htdocs/config
 sed -i "s/'password' => '.*'/'password' => '$edgepass'/g" /var/www/edge/htdocs/config/app.php
 sed -i "s/'webhook_url' => '.*'/'webhook_url' => '$slackurl'/g" /var/www/edge/htdocs/config/app.php
 sed -i "s/'version' => '.*'/'version' => '$version'/g" /var/www/edge/htdocs/config/app.php
+sed -i "s/'debug' => true,/'debug' => false,/g" /var/www/edge/htdocs/config/app.php
 
 bin/cake migrations migrate
 

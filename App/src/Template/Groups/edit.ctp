@@ -25,7 +25,7 @@ echo $this->Form->end();
             <div class="row" ng-repeat="cg in group.characters_groups">
                 <div class="col-sm-4 col-md-4">
                     <div class="row name">
-                        <span class="hidden-print"><a href="">{{cg.character.name}}</a></span>
+                        <span class="hidden-print"><a href="#" ng-href="/characters/edit/{{cg.character.id}}">{{cg.character.name}}</a></span>
                         <span class="visible-print">{{cg.character.name}}</span>
                     </div>
                     <div class="row species">
