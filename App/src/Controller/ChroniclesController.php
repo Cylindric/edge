@@ -2,18 +2,21 @@
 
 namespace App\Controller;
 
-use \Cake\Network\Exception\ForbiddenExceptionException;
-use \Cake\Datasource\Exception\NotFoundException;
-
 class ChroniclesController extends AppController {
 
     public $helpers = ['Tanuck/Markdown.Markdown'];
 
+    /**
+     * @internal
+     */
     public function initialize() {
         parent::initialize();
         $this->loadModel('Groups');
     }
 
+    /**
+     * @internal
+     */
     public function isAuthorized($user) {
         // Public actions
         if ($this->request->action === 'index') {
