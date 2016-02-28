@@ -137,23 +137,33 @@ class ChroniclesController extends AppController {
     }
 
     /**
-     * Delete the Chronicle.
-     * @param int chronicle_id POST data
+     * POST only.
+     * Delete a Chronicle.
+     * 
+     * @param int chronicle_id POST. The Chronicle ID to delete.
      */
     public function delete($chronicle_id = null) {
         $this->request->allowMethod(['post']);
         $id = (int) $this->request->data['chronicle_id'];
+
         $chronicle = $this->Chronicles->get($id);
         if ($this->Chronicles->delete($chronicle)) {
-            
+            $this->response->statusCode(200);
         } else {
-            
+            $this->response->statusCode(501);
         }
         $this->set(compact('chronicle'));
         $this->set('_serialize', 'chronicle');
     }
 
-    public function publish() {
+    /**
+     * POST only. 
+     * Publish or unpublish a Chronicle.
+     * 
+     * @param int chronicle_id POST. The Chronicle ID to [un]publish.
+     * @param bool published POST. Boolean to indicate desired publish status.
+     */
+    public function publish($chronicle_id = null, $published = null) {
         $this->request->allowMethod(['post']);
         $id = (int) $this->request->data['chronicle_id'];
         $published = (bool) $this->request->data['published'];
