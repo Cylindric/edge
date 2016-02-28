@@ -62,7 +62,7 @@ class ChroniclesController extends AppController {
     }
 
     /**
-     * Get the Chronicles for the Group ID passed in the POST data.
+     * Get the Chronicles for the Group ID passed in the POST data. If offset is provided, only one record is returned.
      * @param int group_id The ID of the Group to fetch stories for.
      * @param int offset The record to get, where 0 is the latest, 1 is the previous and so forth backwards in time. If omitted, all stories are returned.
      */
@@ -81,7 +81,7 @@ class ChroniclesController extends AppController {
             $this->set(compact('group'));
             return;
         }
-        
+
         $query = $this->Chronicles
                 ->getVisibleForGroup($group_id, $this->CurrentUser)
                 ->order('created DESC');
@@ -113,6 +113,10 @@ class ChroniclesController extends AppController {
         $this->set('_serialize', ['chronicles', 'total_chronicles']);
     }
 
+    /**
+     * Show and process the Add form.
+     * @param int $group_id
+     */
     public function add($group_id) {
         $chronicle = $this->Chronicles->newEntity();
         $chronicle->group_id = (int) $group_id;
@@ -132,7 +136,11 @@ class ChroniclesController extends AppController {
         $this->set('_serialize', ['chronicle']);
     }
 
-    public function delete() {
+    /**
+     * Delete the Chronicle.
+     * @param int chronicle_id POST data
+     */
+    public function delete($chronicle_id = null) {
         $this->request->allowMethod(['post']);
         $id = (int) $this->request->data['chronicle_id'];
         $chronicle = $this->Chronicles->get($id);

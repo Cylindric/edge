@@ -37,7 +37,7 @@ class Group extends Entity {
      * @return boolean true if allowed; else false.
      */
     public function UserCanAddChronicle($user) {
-        if ($this->IsEditableByUser($user->id)) {
+        if ($this->IsEditableByUser($user)) {
             return true;
         }
 
