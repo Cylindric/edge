@@ -165,10 +165,10 @@ class ChroniclesController extends AppController {
      */
     public function publish($chronicle_id = null, $published = null) {
         $this->request->allowMethod(['post']);
-        $id = (int) $this->request->data['chronicle_id'];
+        $chronicle_id = (int) $this->request->data['chronicle_id'];
         $published = (bool) $this->request->data['published'];
 
-        $chronicle = $this->Chronicles->get($id);
+        $chronicle = $this->Chronicles->get($chronicle_id);
         $chronicle->published = $published;
         if ($this->Chronicles->save($chronicle)) {
             $this->response->statusCode(200);
@@ -180,13 +180,14 @@ class ChroniclesController extends AppController {
     }
 
     /**
+     * POST only. 
      * Get the Chronicles for the Group ID passed in the POST data.
-     * @param int group_id The ID of the Group to fetch stories for.
-     * @param int offset The record to get, where 0 is the latest, 1 is the previous and so forth backwards in time.
+     * 
+     * @param int group_id POST. The ID of the Group to fetch stories for.
+     * @param int offset POST. The record to get, where 0 is the latest, 1 is the previous and so forth backwards in time.
      */
-    public function edit_for_group() {
-        //$this->request->allowMethod(['post']);
-
+    public function edit_for_group($group_id = null, $offset = null) {
+        $this->request->allowMethod(['post']);
         $group_id = (int) $this->request->data['group_id'];
         $offset = (int) $this->request->data['offset'];
 
@@ -195,7 +196,6 @@ class ChroniclesController extends AppController {
                 ->where(['group_id' => $group_id])
                 ->order(['created'])
         ;
-        dump($chronicles);
         $this->set('chronicles', $chronicles);
         $this->set('_serialize', ['chronicles']);
     }
