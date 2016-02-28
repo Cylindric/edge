@@ -44,7 +44,7 @@
                                    aria-expanded="false">Characters <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><?= $this->Html->link('List', '/characters/') ?></li>
-                                    <li><?= $this->Html->link('New', '/characters/add') ?></li>
+                                    <li><?= $this->Html->link('New', '/characters/create') ?></li>
                                 </ul>
                             </li>
                             <?php if ($user['role'] == 'admin'): ?>
@@ -144,7 +144,7 @@
             'controllers/character_edit_controller.js',
             'controllers/character_index_controller.js',
             'controllers/chronicle_index_controller.js',
-            'controllers/group_edit_controller.js',
+            'controllers/group_view_controller.js',
         ];
 
         if ($debug > 0) {

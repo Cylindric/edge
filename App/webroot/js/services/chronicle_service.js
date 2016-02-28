@@ -24,7 +24,7 @@ rpgAppNg.factory('chronicleService', ['$http', function ($http) {
                 published: published
             }).then(function (response) {
                 if (response.status === 200) {
-                    callbackFn(item, response.data);
+                    callbackFn(response.data);
                 }
             });
         };

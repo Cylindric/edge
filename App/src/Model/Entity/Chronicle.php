@@ -10,15 +10,15 @@ class Chronicle extends Entity
         'id' => false,
     ];
 
-    public function canEdit($user_id, $gm_id = 0)
+    public function canEdit($user, $gm_id = 0)
     {
         // Can be edited by the creator
-        if ($user_id == $this->created_by) {
+        if ($user->id == $this->created_by) {
             return true;
         }
 
         // Can be edited by the GM
-        if (($gm_id != 0) && ($gm_id == $user_id)) {
+        if (($gm_id != 0) && ($gm_id == $user->id)) {
             return true;
         }
 

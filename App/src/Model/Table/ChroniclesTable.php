@@ -56,16 +56,20 @@ class ChroniclesTable extends AppTable {
     /**
      * Get the list of Chronicles visible to the specified user for the specified group.
      * @param int $groupId
-     * @param int $userId
+     * @param User $user
      * @return Query The results Query
      */
-    public function getVisibleForGroup($groupId, $userId) {
-        $chronicles = $this
-                ->findByGroupId((int) $groupId)
-                ->where(['OR' => [
-                ['published' => true],
-                ['created_by' => (int) $userId]],
-        ]);
+    public function getVisibleForGroup($groupId, $user) {
+
+        $chronicles = $this->findByGroupId((int) $groupId);
+
+        if (!$user->IsAdmin()) {
+            $chronicles->where(['OR' => [
+                    ['published' => true],
+                    ['created_by' => (int) $user->id]],
+            ]);
+        }
+
         return $chronicles;
     }
 

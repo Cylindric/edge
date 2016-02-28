@@ -1,11 +1,24 @@
 SELECT @admin_id:=`id` FROM users WHERE `username`='admin';
 SELECT @human_id:=`id` FROM species WHERE `name` = 'Human';
+SELECT @wookiee_id:=`id` FROM species WHERE `name` = 'Wookiee';
+SELECT @droid_id:=`id` FROM species WHERE `name` = 'Droid';
 SELECT @dodge_id:=`id` FROM talents WHERE name='Dodge';
 SELECT @blaster_id:=`id` FROM weapons WHERE name='Blaster Carbine';
 SELECT @laminate_id:=`id` FROM armour WHERE name='Laminate';
 
 INSERT INTO characters (`name`, `user_id`, `species_id`, `created`, `modified`) VALUES ('Test Character', @admin_id, @human_id, NOW(), NOW());
 SET @character_id:=LAST_INSERT_ID();
+
+-- Create a Group and some Characters in it.
+INSERT INTO groups (`name`, `created`, `modified`) VALUES ('Test Group'); SET @test_group := LAST_INSERT_ID();
+INSERT INTO characters (`name`, `user_id`, `species_id`, `created`, `modified`) VALUES ('Luke Skywalker', @admin_id, @human_id, NOW(), NOW()); SET @group_char1 := LAST_INSERT_ID();
+INSERT INTO characters (`name`, `user_id`, `species_id`, `created`, `modified`) VALUES ('Han Solo', @admin_id, @human_id, NOW(), NOW()); SET @group_char2 := LAST_INSERT_ID();
+INSERT INTO characters (`name`, `user_id`, `species_id`, `created`, `modified`) VALUES ('Chewbacca', @admin_id, @wookiee_id, NOW(), NOW()); SET @group_char3 := LAST_INSERT_ID();
+INSERT INTO characters (`name`, `user_id`, `species_id`, `created`, `modified`) VALUES ('R2-D2', @admin_id, @droid_id, NOW(), NOW()); SET @group_char4 := LAST_INSERT_ID();
+INSERT INTO characters_groups (`character_id`, `group_id`) VALUES (@group_char1, @test_group);
+INSERT INTO characters_groups (`character_id`, `group_id`) VALUES (@group_char2, @test_group);
+INSERT INTO characters_groups (`character_id`, `group_id`) VALUES (@group_char3, @test_group);
+INSERT INTO characters_groups (`character_id`, `group_id`) VALUES (@group_char4, @test_group);
 
 INSERT INTO characters_talents (`character_id`, `talent_id`, `created`, `modified`) VALUES (@character_id, @dodge_id, NOW(), NOW());
 INSERT INTO characters_weapons (`character_id`, `weapon_id`, `created`, `modified`) VALUES (@character_id, @blaster_id, NOW(), NOW());

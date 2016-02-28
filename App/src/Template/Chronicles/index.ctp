@@ -13,8 +13,8 @@ echo $this->Form->end();
                         <h2 class="title">{{c.title}}</h2>
                     </div>
                     <div class="col-md-2 text-right">
-                        <button type="button" class="btn btn-success" aria-label="Un-Publish" ng-show="c.editable && c.published" ng-click="publish(c, false)"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-warning" aria-label="Publish" ng-show="c.editable && !c.published" ng-click="publish(c, true)"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-warning" aria-label="Un-Publish" ng-show="c.editable && c.published" ng-click="publish(c, false)"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-success" aria-label="Publish" ng-show="c.editable && !c.published" ng-click="publish(c, true)"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>
                         <button type="button" class="btn btn-primary" aria-label="Edit" ng-show="c.editable" ng-click="edit(c)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
                         <button type="button" class="btn btn-danger" aria-label="Delete" ng-show="c.editable" ng-click="delete(c, $event)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                     </div>

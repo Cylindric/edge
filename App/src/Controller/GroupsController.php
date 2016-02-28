@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Cake\ORM\TableRegistry;
+
 class GroupsController extends AppController {
 
     public function isAuthorized($user) {
@@ -25,20 +27,46 @@ class GroupsController extends AppController {
     public function index() {
         $user_id = $this->Auth->User('id');
 
-        $groups = $this->Groups->find();
-        $groups->select(['Groups.id', 'Groups.name']);
-        if ($this->Auth->user('role') == 'admin') {
-            $groups
-                    ->matching('GroupsUsers');
-        } else {
-            $groups
-                    ->matching('GroupsUsers', function ($q) use ($user_id) {
-                        return $q->where(['GroupsUsers.user_id' => $user_id]);
-                    });
+        // Get the Groups the current User has a Character in
+        $chars = $this->Groups
+                ->CharactersGroups
+                ->find()
+                ->contain('Characters')
+                ->where(['Characters.user_id' => $user_id])
+                ->select(['group_id']);
+
+        // Get the groups the current User is a GM for
+        $gms = $this->Groups
+                ->GroupsUsers
+                ->find()
+                ->where(['user_id' => $user_id])
+                ->select(['group_id']);
+
+        // Get the Groups the current User should see
+        $groups = $this->Groups
+                ->find()
+                ->select(['Groups.id', 'Groups.name']);
+
+        // Non-admins can only see their own groups, so apply the above filters
+        if ($this->Auth->user('role') !== 'admin') {
+            $groups->where(['Groups.id IN' => $chars])
+                    ->orWhere(['Groups.id IN' => $gms])
+            ;
         }
+
         $groups->distinct();
-        $this->set('groups', $this->paginate($groups));
-        $this->set('_serialize', ['groups']);
+
+        if ($this->request->is('json')) {
+            $data = $groups->toArray();
+            foreach ($data as $group) {
+                $group->PreSerialise($user_id);
+            }
+            $this->set('groups', $data);
+            $this->set('_serialize', ['groups']);
+        } else {
+            $this->set('groups', $this->paginate($groups));
+            $this->set('_serialize', ['groups']);
+        }
     }
 
     public function add() {
@@ -65,6 +93,13 @@ class GroupsController extends AppController {
     }
 
     public function view($id = null) {
+
+        if (!$this->request->is('json')) {
+            $group = $this->Groups->get($id);
+            $this->set(compact('group'));
+            return;
+        }
+
         $group = $this->Groups->get($id, [
             'contain' => [
                 'CharactersGroups',
@@ -111,9 +146,17 @@ class GroupsController extends AppController {
             }
         }
 
-        // Set some dice details
-        foreach ($weapons as $weapon) {
-            $weapon->dice_details = $weapon->skill->dice($weapon->characters_weapons[0]->character);
+        // Save some data to the object that would get lost on serialisation
+        if ($this->request->is('json')) {
+            $group->PreSerialise($this->CurrentUser);
+
+            foreach ($group->characters_groups as $cg) {
+                $cg->character->is_editable = $cg->character->IsEditableByUser($this->CurrentUser);
+            }
+
+            foreach ($weapons as $weapon) {
+                $weapon->dice_details = $weapon->skill->dice($weapon->characters_weapons[0]->character);
+            }
         }
 
         $this->set(compact('group', 'obligations', 'weapons'));

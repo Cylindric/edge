@@ -1,17 +1,15 @@
 <?php
 $this->Html->script('rpgGroupEdit', ['block' => true]);
 $this->Html->addCrumb('Groups', '/Groups');
-$this->Html->addCrumb('Edit');
+$this->Html->addCrumb($group->name);
 $this->assign('title', $group->name);
-$editing = false;
 
 echo $this->Form->create($group);
 echo $this->Form->hidden('id', ['id' => 'group_id']);
 echo $this->Form->end();
 ?>
-<div class="row" ng-controller="GroupEditCtrl as ctrl">
+<div class="row" ng-controller="GroupViewCtrl as ctrl" ng-cloak>
     <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
-
         <h1>{{group.name}}</h1>
 
         <div class="col-sm-12 text-center group_view">
@@ -25,8 +23,8 @@ echo $this->Form->end();
             <div class="row" ng-repeat="cg in group.characters_groups">
                 <div class="col-sm-4 col-md-4">
                     <div class="row name">
-                        <span class="hidden-print"><a href="#" ng-href="/characters/edit/{{cg.character.id}}">{{cg.character.name}}</a></span>
-                        <span class="visible-print">{{cg.character.name}}</span>
+                        <span class="hidden-print"><a href="#" ng-href="/characters/edit/{{cg.character.id}}">{{cg.character.short_name}}</a></span>
+                        <span class="visible-print">{{cg.character.name| limitTo : 10}}</span>
                     </div>
                     <div class="row species">
                         {{character.species.name}}
@@ -40,7 +38,7 @@ echo $this->Form->end();
                     <div class="col-sm-8 value">
                         {{cg.character.strain}}/<span>{{cg.character.total_strain_threshold}}</span>
                     </div>
-                    <div class="col-sm-2 buttons">
+                    <div class="col-sm-2 buttons" ng-show='cg.character.is_editable'>
                         <i class="btn btn-md btn-danger btn-skill-adjust">increase</i>
                         <i class="btn btn-md btn-success btn-skill-adjust">decrease</i>
                     </div>
@@ -49,7 +47,7 @@ echo $this->Form->end();
                     <div class="col-sm-8 value">
                         {{cg.character.wounds}}/<span>{{cg.character.total_wound_threshold}}</span>
                     </div>
-                    <div class="col-sm-4 buttons">
+                    <div class="col-sm-4 buttons" ng-show='cg.character.is_editable'>
                         <div><i class="btn btn-md btn-success btn-skill-adjust">increase</i></div>
                         <div><i class="btn btn-md btn-danger btn-skill-adjust">decrease</i></div>
                     </div>
@@ -113,16 +111,13 @@ echo $this->Form->end();
             <div class="col-sm-3 col-md-3">
                 <h2>Obligation</h2>
                 <table class="table table-condensed">
-                    <?php $total = 0; ?>
-                    <?php foreach ($obligations as $obligation): $total += $obligation->value; ?>
-                        <tr>
-                            <td class="text-capitalize"><?= $obligation->type ?></td>
-                            <td class="text-right"><?= $obligation->value ?></td>
-                        </tr>
-                    <?php endforeach; ?>
+                   <tr ng-repeat="cg in group.characters_groups">
+                        <td class="text-capitalize">{{cg.character.name}}</td>
+                        <td class="text-right">{{cg.character.total_obligation}}</td>
+                    </tr>
                     <tr class="success">
                         <td class="text-capitalize">Total</td>
-                        <td class="text-right"><?= $total ?></td>
+                        <td class="text-right">{{total_obligation}}</td>
                     </tr>
                 </table>
             </div>
@@ -130,16 +125,13 @@ echo $this->Form->end();
             <div class="col-sm-3 col-md-3">
                 <h2>Credits</h2>
                 <table class="table table-condensed">
-                    <?php $total = 0; ?>
-                    <?php foreach ($group->characters_groups as $character_group): $total += $character_group->character->totalCredits; ?>
-                        <tr>
-                            <td class="text-capitalize"><?= $character_group->character->name ?></td>
-                            <td class="text-right"><?= $this->Number->format($character_group->character->totalCredits) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
+                   <tr ng-repeat="cg in group.characters_groups">
+                        <td class="text-capitalize">{{cg.character.name}}</td>
+                        <td class="text-right">{{cg.character.total_credits}}</td>
+                    </tr>
                     <tr class="success">
                         <td class="text-capitalize">Total</td>
-                        <td class="text-right"><?= $this->Number->format($total) ?></td>
+                        <td class="text-right">{{total_credits}}</td>
                     </tr>
                 </table>
             </div>
@@ -149,18 +141,16 @@ echo $this->Form->end();
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <h2>Chronicles</h2>
-            <?= $this->Html->link('Add new Chronicle', ['controller' => 'chronicles', 'action' => 'add', $group->id]) ?>
+            <button class='btn btn-sm btn-default' ng-click="addChronicle()">Add New Story</button>
             <div class="row chronicles">
                 <div class="col-md-12" ng-repeat="c in chronicles">
-                    <h2 class="title">
-
-                        {{c.title}} </h2>
+                    <h2 class="title">{{c.title}} </h2>
                     <div class="story" marked="c.story"></div>
                     <nav>
                         <ul class="pagination pagination-sm">
                             <li ng-class="{disabled: !c.has_previous}"><a ng-click="getChronicle(total_chronicles)" href='#'><span aria-hidden="true">&larr;</span> Oldest</a></li>
                             <li ng-class="{disabled: !c.has_previous}"><a ng-click="getChronicle(current + 1)" href='#'><span aria-hidden="true">&larr;</span> Older</a></li>
-                            <li ng-repeat='page in range(total_chronicles + 1)' ng-class="{active: page === total_chronicles-current}"><a ng-click="getChronicle(total_chronicles - page)" href='#'>{{page + 1}}</a></li>
+                            <li ng-repeat='page in range(total_chronicles + 1)' ng-class="{active: page === total_chronicles - current}"><a ng-click="getChronicle(total_chronicles - page)" href='#'>{{page + 1}}</a></li>
                             <li ng-class="{disabled: !c.has_next}"><a ng-click="getChronicle(current - 1)" href='#'>Newer <span aria-hidden="true">&rarr;</span></a></li>
                             <li ng-class="{disabled: !c.has_next}"><a ng-click="getChronicle(0)" href='#'>Newest <span aria-hidden="true">&rarr;</span></a></li>
                         </ul>
@@ -169,4 +159,5 @@ echo $this->Form->end();
             </div>
         </div>
     </div>
+    
 </div>

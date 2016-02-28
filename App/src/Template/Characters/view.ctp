@@ -11,7 +11,6 @@ $this->Html->script('rpgCharacterEdit', ['block' => true]);
 <?php $this->assign('title', $character->name); ?>
 <div class="row" ng-controller="CharacterCtrl">
     <div class="col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
-
         <div class="row">
             <div class="col-md-12">
                 <h2><?= h($character->name) ?>

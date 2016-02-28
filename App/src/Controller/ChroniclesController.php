@@ -23,9 +23,24 @@ class ChroniclesController extends AppController {
             return true;
         }
 
+        $u = $this->Users->get($user['id']);
+
+        if ($this->request->action == 'add') {
+            $group = $this->Groups->get($this->request->params['pass'][0]);
+            if ($group->UserCanAddChronicle($u)) {
+                return true;
+            }
+        }
+
+        if ($this->request->action == 'publish') {
+            $chronicle = $this->Chronicles->get($this->request->data['chronicle_id']);
+            if ($chronicle->CanEdit($u)) {
+                return true;
+            }
+        }
+
         // These actions require a valid Group Id that the user owns
         if (in_array($this->request->action, [
-                    'add',
                     'edit',
                 ])) {
             if ($this->request->is('post')) {
@@ -37,7 +52,8 @@ class ChroniclesController extends AppController {
             } else {
                 $group_id = (int) $this->request->params['pass'][0];
             }
-            if ($this->Groups->isOwnedBy($group_id, $user['id'])) {
+
+            if ($this->Groups->isOwnedBy($group_id, $u->id)) {
                 return true;
             }
         }
@@ -60,8 +76,14 @@ class ChroniclesController extends AppController {
         $group = $this->Groups->get($group_id);
         $gm = $this->Groups->getGm($group_id);
 
+        // We only need the basic info if this isn't a full-on JSON query.
+        if (!$this->request->is('json')) {
+            $this->set(compact('group'));
+            return;
+        }
+        
         $query = $this->Chronicles
-                ->getVisibleForGroup($group_id, $this->Auth->user('id'))
+                ->getVisibleForGroup($group_id, $this->CurrentUser)
                 ->order('created DESC');
 
         $total_chronicles = $query->count();
@@ -82,7 +104,7 @@ class ChroniclesController extends AppController {
                     $c->has_next = ($offset > 0);
                     $c->has_previous = ($offset < $total_chronicles - 1);
                 }
-                $c->editable = $c->canEdit($this->Auth->user('id'), $gm->id);
+                $c->editable = $c->canEdit($this->CurrentUser, $gm->id);
                 $n++;
             }
         }

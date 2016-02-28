@@ -4,7 +4,7 @@ rpgAppNg.controller('ChronicleIndexCtrl', ['$scope', '$http', '$mdDialog', '$loc
         $scope.group_id = angular.element('#group_id')[0].value;
 
         chronicleService.groupIndex($scope.group_id, function (data) {
-            $scope.chronicles = data;
+            $scope.chronicles = data.chronicles;
         });
 
         $scope.add = function () {
@@ -12,8 +12,8 @@ rpgAppNg.controller('ChronicleIndexCtrl', ['$scope', '$http', '$mdDialog', '$loc
         };
 
         $scope.publish = function (item, published) {
-            chronicleService.publishStory(item, published, function (data) {
-
+            chronicleService.publishChronicle(item, published, function (data) {
+                item.published = data.published;
             });
         };
 
