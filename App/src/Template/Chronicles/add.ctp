@@ -15,8 +15,11 @@ $this->Html->addCrumb('Chronicles', ['action' => 'index', $chronicle->group_id])
             <div class="form-group">
                 <label for="story">Story</label>
                 <textarea class="form-control" rows="10" name="story"><<?= $chronicle->story; ?>/textarea>
+                <span id="helpBlock" class="help-block">You can use any standard <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">MarkDown syntax</a> to format your story.
+                For example, *emphasis*, **bold**</span>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
 
     </div>
