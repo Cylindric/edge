@@ -181,7 +181,7 @@ class ChroniclesController extends AppController {
 
     /**
      * POST only. 
-     * Get the Chronicles for the Group ID passed in the POST data.
+     * Get the Chronicles for a Group.
      * 
      * @param int group_id POST. The ID of the Group to fetch stories for.
      * @param int offset POST. The record to get, where 0 is the latest, 1 is the previous and so forth backwards in time.

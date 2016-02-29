@@ -20,16 +20,10 @@ class WeaponsController extends AppController {
     }
 
     public function index() {
-        if ($this->request->is('ajax')) {
-            $term = trim($this->request->query('term'));
-            if (!empty($term)) {
-                $weapons = $this->Weapons
-                        ->find('all')
-                        ->select(['value' => 'id', 'label' => 'name'])
-                        ->where(['name LIKE' => '%' . $term . '%']);
-            } else {
-                $weapons = array();
-            }
+        if ($this->request->is('json')) {
+            $weapons = $this->Weapons
+                    ->find('all')
+                    ->select(['id', 'name']);
         } else {
             $weapons = $this->paginate($this->Weapons);
         }

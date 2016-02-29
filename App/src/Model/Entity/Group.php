@@ -27,7 +27,8 @@ class Group extends Entity {
      * @return boolean true if allowed; else false.
      */
     public function IsEditableByUser($user) {
-        return TableRegistry::get('GroupsUsers')->exists(['group_id' => $this->id, 'user_id' => $user->id, 'gm' => true]);
+        return TableRegistry::get('GroupsUsers')
+                        ->exists(['group_id' => $this->id, 'user_id' => $user->id, 'gm' => true]);
     }
 
     /**
@@ -55,9 +56,9 @@ class Group extends Entity {
 
         return false;
     }
-    
+
     public function PreSerialise($user) {
-        $this->is_editable = $this->IsEditableByUser($user->id);
+        $this->is_editable = $this->IsEditableByUser($user);
     }
 
 }

@@ -229,16 +229,16 @@ class Character extends Entity {
      * 
      * @return boolean
      */
-    public function IsEditableByUser($userId) {
-        if ($this->user_id === $userId) {
+    public function IsEditableByUser($user) {
+        if ($this->user_id === $user->id) {
             return true;
         }
 
         $groups = TableRegistry::get('Groups')
                 ->find()
                 ->select(['GroupsUsers.id'])
-                ->matching('GroupsUsers', function ($q) use ($userId) {
-                    return $q->where(['GroupsUsers.user_id' => $userId]);
+                ->matching('GroupsUsers', function ($q) use ($user) {
+                    return $q->where(['GroupsUsers.user_id' => $user->id]);
                 })
                 ->hydrate(false)
                 ->count();

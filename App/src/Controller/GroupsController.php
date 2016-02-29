@@ -112,6 +112,7 @@ class GroupsController extends AppController {
             ],
         ]);
 
+        // Get the weapons used by characters in the group
         $this->loadModel('Weapons');
         $weapons = $this->Weapons->find();
         $weapons
@@ -121,7 +122,8 @@ class GroupsController extends AppController {
                 })
                 ->where(['CharactersWeapons.equipped' => true])
                 ->order(['Characters.name']);
-
+//dump($weapons);
+        // Get the obligation of characters in the group
         $this->loadModel('Obligations');
         $obligations = $this->Obligations->find();
         $obligations
@@ -136,15 +138,15 @@ class GroupsController extends AppController {
                 ->group('type')
                 ->order('value DESC');
 
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $group = $this->Groups->patchEntity($group, $this->request->data);
-            if ($this->Groups->save($group)) {
-                $this->Flash->success(__('The group has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The group could not be saved. Please, try again.'));
-            }
-        }
+//        if ($this->request->is(['patch', 'post', 'put'])) {
+//            $group = $this->Groups->patchEntity($group, $this->request->data);
+//            if ($this->Groups->save($group)) {
+//                $this->Flash->success(__('The group has been saved.'));
+//                return $this->redirect(['action' => 'index']);
+//            } else {
+//                $this->Flash->error(__('The group could not be saved. Please, try again.'));
+//            }
+//        }
 
         // Save some data to the object that would get lost on serialisation
         if ($this->request->is('json')) {
@@ -155,7 +157,7 @@ class GroupsController extends AppController {
             }
 
             foreach ($weapons as $weapon) {
-                $weapon->dice_details = $weapon->skill->dice($weapon->characters_weapons[0]->character);
+               $weapon->dice_details = $weapon->skill->dice($weapon->characters_weapons[0]->character);
             }
         }
 

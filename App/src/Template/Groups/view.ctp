@@ -65,29 +65,27 @@ echo $this->Form->end();
 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="col-sm-6">
-                <h2>Weaponry</h2>
-                <table class="table table-condensed">
-                    <tr>
-                        <th>Character</th>
-                        <th>Weapon</th>
-                        <th>Range</th>
-                        <th class="text-right">Damage</th>
-                        <th class="text-right">Crit</th>
-                        <th>Dice Pool</th>
-                        <th>Special</th>
-                    </tr>
-                    <tr ng-repeat="w in weapons">
-                        <td class="text-capitalize">{{w._matchingData.Characters.name}}</td>
-                        <td class="text-capitalize">{{w.name}}</td>
-                        <td class="text-capitalize">{{w.range.name}}</td>
-                        <td class="text-right">{{w.damage}}</td>
-                        <td class="text-right">{{w.crit}}</td>
-                        <td><?= $this->Html->image('dice-proficiency.png', ['alt' => 'Proficiency Dice', 'ng-repeat' => 'n in range(w.dice_details.proficiency)']) ?><?= $this->Html->image('dice-ability.png', ['alt' => 'Ability Dice', 'ng-repeat' => 'n in range(w.dice_details.ability)']) ?></td>
-                        <td>{{w.special}}</td>
-                    </tr>
-                </table>
-            </div>
+            <h2>Weapons</h2>
+            <table class="table table-condensed">
+                <tr>
+                    <th>Character</th>
+                    <th>Weapon</th>
+                    <th>Range</th>
+                    <th class="text-right">Damage</th>
+                    <th class="text-right">Crit</th>
+                    <th>Dice Pool</th>
+                    <th>Special</th>
+                </tr>
+                <tr ng-repeat="w in weapons">
+                    <td class="text-capitalize">{{w._matchingData.Characters.name}}</td>
+                    <td class="text-capitalize">{{w.name}}</td>
+                    <td class="text-capitalize">{{w.range.name}}</td>
+                    <td class="text-right">{{w.damage}}</td>
+                    <td class="text-right">{{w.crit}}</td>
+                    <td><?= $this->Html->image('dice-proficiency.png', ['alt' => 'Proficiency Dice', 'ng-repeat' => 'n in range(w.dice_details.proficiency)']) ?><?= $this->Html->image('dice-ability.png', ['alt' => 'Ability Dice', 'ng-repeat' => 'n in range(w.dice_details.ability)']) ?></td>
+                    <td>{{w.special}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 
@@ -111,7 +109,7 @@ echo $this->Form->end();
             <div class="col-sm-3 col-md-3">
                 <h2>Obligation</h2>
                 <table class="table table-condensed">
-                   <tr ng-repeat="cg in group.characters_groups">
+                    <tr ng-repeat="cg in group.characters_groups">
                         <td class="text-capitalize">{{cg.character.name}}</td>
                         <td class="text-right">{{cg.character.total_obligation}}</td>
                     </tr>
@@ -125,7 +123,7 @@ echo $this->Form->end();
             <div class="col-sm-3 col-md-3">
                 <h2>Credits</h2>
                 <table class="table table-condensed">
-                   <tr ng-repeat="cg in group.characters_groups">
+                    <tr ng-repeat="cg in group.characters_groups">
                         <td class="text-capitalize">{{cg.character.name}}</td>
                         <td class="text-right">{{cg.character.total_credits}}</td>
                     </tr>
@@ -159,5 +157,5 @@ echo $this->Form->end();
             </div>
         </div>
     </div>
-    
+
 </div>

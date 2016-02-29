@@ -18,7 +18,6 @@ rpgAppNg.controller('ChronicleIndexCtrl', ['$scope', '$http', '$mdDialog', '$loc
         };
 
         $scope.delete = function (item, ev) {
-
             var confirm = $mdDialog.confirm()
                     .title('Are you sure you want to delete this story?')
                     .textContent(item.title)

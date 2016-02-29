@@ -1,0 +1,27 @@
+{
+  "weapons": [
+    {
+      "name": "CDEF Pistol",
+      "encumbrance": 1,
+      "rarity": 4,
+      "damage": 5,
+      "crit": 4,
+      "hp": 0,
+      "value": 150,
+      "restricted": false,
+      "special": "Inferior, Stun setting",
+      "source": {
+        "name": "Sons of Fortune"
+      },
+      "range": {
+        "name": "Medium"
+      },
+      "skill": {
+        "name": "Ranged Light"
+      },
+      "weapon_type": {
+        "name": "Energy Weapons"
+      }
+    }
+  ]
+}
