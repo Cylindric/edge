@@ -31,7 +31,7 @@ SELECT * FROM stats;
 SELECT * FROM talents;
 SELECT * FROM users;
 SELECT * FROM weapon_types;
-SELECT * FROM edge.weapons ORDER BY name;
+SELECT * FROM weapons ORDER BY name;
 SELECT * FROM xp ORDER BY modified DESC;
 
 
@@ -74,4 +74,3 @@ DROP TABLE IF EXISTS species;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS sources;
 DROP TABLE IF EXISTS phinxlog;
-
