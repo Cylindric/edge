@@ -96,15 +96,17 @@ class TalentsController extends AppController {
         $talent = $this->Talents->get($id, [
             'contain' => ['Characters']
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $talent = $this->Talents->patchEntity($talent, $this->request->data);
             if ($this->Talents->save($talent)) {
                 $this->Flash->success(__('The talent has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $talent->id]);
             } else {
                 $this->Flash->error(__('The talent could not be saved. Please, try again.'));
             }
         }
+
         $characters = $this->Talents->Characters->find('list', ['limit' => 200]);
         $this->set(compact('talent', 'characters'));
         $this->set('_serialize', ['talent']);
