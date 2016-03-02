@@ -1,9 +1,11 @@
 <?php
 return [
 	'button' => '<button class="btn btn-default {{class}}" {{attrs}}>{{text}}</button>',
-//	'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
-//	'checkboxFormGroup' => '{{label}}',
-//	'checkboxWrapper' => '<div class="checkbox">{{label}}</div>',
+
+    	'checkbox' => '<input type="checkbox" cb name="{{name}}" value="{{value}}"{{attrs}}>',
+	'checkboxFormGroup' => '<div class="col-sm-offset-2 col-sm-10"><div class="checkbox">{{label}}</div></div>',
+	'checkboxWrapper' => '<div cbw class="checkbox">{{label}}</div>',
+
 //	'dateWidget' => '{{year}}{{month}}{{day}}{{hour}}{{minute}}{{second}}{{meridian}}',
 	'error' => '<span class="label label-danger">{{content}}</span>',
 //	'errorList' => '<ul>{{content}}</ul>',

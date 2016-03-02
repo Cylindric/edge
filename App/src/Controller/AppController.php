@@ -60,9 +60,9 @@ class AppController extends Controller {
         if ($this->Auth->user()) {
             $this->CurrentUser = $this->Users->get($this->Auth->User('id'));
         } else {
-            $this->CurrentUser = null;
+            $this->CurrentUser = new \App\Model\Entity\User();
         }
-        
+
         $this->set('debug', Configure::read('debug'));
         $this->set('user', $this->CurrentUser);
         $this->set('version', Configure::read('rpgApp.version'));

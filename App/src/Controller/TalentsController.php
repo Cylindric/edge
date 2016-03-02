@@ -25,7 +25,7 @@ class TalentsController extends AppController {
     }
 
     /**
-     * Index method
+     * Index Action
      *
      * @return void
      */
@@ -50,7 +50,7 @@ class TalentsController extends AppController {
     }
 
     /**
-     * View method
+     * View Action
      *
      * @param string|null $id Talent id.
      * @return void
@@ -65,7 +65,7 @@ class TalentsController extends AppController {
     }
 
     /**
-     * Add method
+     * Add Action
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
@@ -86,7 +86,7 @@ class TalentsController extends AppController {
     }
 
     /**
-     * Edit method
+     * Edit Action
      *
      * @param string|null $id Talent id.
      * @return void Redirects on successful edit, renders view otherwise.
@@ -108,18 +108,19 @@ class TalentsController extends AppController {
         }
 
         $characters = $this->Talents->Characters->find('list', ['limit' => 200]);
-        $this->set(compact('talent', 'characters'));
+        $sources = $this->Talents->Sources->find('list')->toArray();
+        $this->set(compact('talent', 'sources', 'characters'));
         $this->set('_serialize', ['talent']);
     }
 
     /**
-     * Delete method
+     * Delete Action
      *
-     * @param string|null $id Talent id.
-     * @return \Cake\Network\Response|null Redirects to index.
+     * @param int $id Talent id.
+     * @return void Redirects to index.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function delete($id = null) {
+    public function delete($id) {
         $this->request->allowMethod(['post', 'delete']);
         $talent = $this->Talents->get($id);
         if ($this->Talents->delete($talent)) {

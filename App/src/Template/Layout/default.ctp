@@ -69,10 +69,10 @@
                                 </ul>
                             </li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <?php if ($user['role'] == 'admin'): ?>
+                            <?php if ($user->can_add_data): ?>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
                                         <li><?= $this->Html->link('Armour', '/armour') ?></li>
                                         <li><?= $this->Html->link('Careers', '/careers') ?></li>
                                         <li><?= $this->Html->link('Items', '/items') ?></li>
@@ -87,9 +87,9 @@
                                         <li><?= $this->Html->link('Weapon Types', '/weapon_types') ?></li>
                                         <li role="separator" class="divider"></li>
                                         <li><?= $this->Html->link('Sources', '/sources') ?></li>
-                                    <?php endif; ?>
-                                </ul>
-                            </li>
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
@@ -110,7 +110,6 @@
                 </div>
             </div>
             <?= $this->Html->getCrumbList(['class' => 'breadcrumb hidden-print', 'lastclass' => 'active'], 'Home'); ?>
-
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
             <div class="footer">Version: <?= $version; ?></div>
